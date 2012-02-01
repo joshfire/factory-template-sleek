@@ -11,8 +11,9 @@ define([
   'ui/map',
   'joshlib!utils/onready',
   'joshlib!collection',
+  'joshlib!utils/dollar',
   'joshlib!vendor/backbone'],
-function(FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardPanel, SlidePanel, Text, Map, onReady, Collection,_) {
+function(FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardPanel, SlidePanel, Text, Map, onReady, Collection,$,_) {
 
   document.title = Joshfire.factory.config.app.name;
 

@@ -1,4 +1,4 @@
-define(["joshlib!uielement","joshlib!vendor/jquery","joshlib!vendor/underscore"], function(UIElement,$,_) {
+define(["joshlib!uielement","joshlib!utils/dollar","joshlib!vendor/underscore"], function(UIElement,$,_) {
 
   var UIText = UIElement.extend({
 
