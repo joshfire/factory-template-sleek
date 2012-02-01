@@ -1,0 +1,98 @@
+{
+  "name": "spot",
+  "fullName": "Spot Tourism",
+  "version": "0.0.1",
+  "description": "Spot Tourism template.",
+  "joshfire": {
+    "devOnly": true,
+    "images": {
+      "small": "marketing/image-small.png",
+      "big": "marketing/image-big.png"
+    },
+    "datasources": {
+      "photos": {
+        "title": "Photos",
+        "description": "Add photos to your application, such as a Flickr feed"
+      },
+      "videos": {
+        "title": "Videos",
+        "description": "Add videos to your application, such as a Youtube feed"
+      },
+      "events": {
+        "title": "Events",
+        "description": "Add events to your application, such as a Google Calendar feed"
+      },
+      "news": {
+        "title": "News",
+        "description": "Add news articles to your application, such as an RSS feed"
+      },
+      "statuses": {
+        "title": "Statuses",
+        "description": "Add statuses to your application, such as a Twitter feed"
+      }
+    },
+    "devices": [
+      {
+        "devices": "phone",
+        "startfile": "app/index.phone.html",
+        "images": "marketing/preview-phone.png",
+        "screenshots" : ["marketing/screenshot-phone.png"]
+      }/*,
+      {
+        "devices": "tv",
+        "startfile": "app/index.tv.html",
+        "images": "marketing/preview-tv.png",
+        "screenshots" : ["marketing/screenshot-tv.png"]
+      }*/
+    ],
+    "options": {
+      "schema": {
+        "color": {
+          "title": "Color",
+          "type": "string",
+          "enum": [
+            "blue",
+            "spicy",
+            "gray",
+            "earth",
+            "vegetal"
+           ]
+        },
+        "contacthtml": {
+          "title": "Contact HTML (link to #map to display map)",
+          "type": "string"
+        },
+        "address": {
+          "title": "Address",
+          "type": "string"
+        },
+        "latitude": {
+          "title": "Latitude (for map)",
+          "type": "string"
+        },
+        "longitude": {
+          "title": "Longitude (for map)",
+          "type": "string"
+        }
+      },
+      "form": [
+        "color",
+        "datasources.photos",
+        "datasources.videos",
+        "datasources.events",
+        "datasources.news",
+        "datasources.statuses",
+        {
+          "key": "contacthtml",
+          "type": "textarea"
+        },
+        {
+          "key": "address",
+          "type": "textarea"
+        },
+        "latitude",
+        "longitude"
+      ]
+    }
+  }
+}

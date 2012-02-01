@@ -1,0 +1,200 @@
+<h1>Writing your first application: part 3</h1>
+
+<h2><strong>Extending the UI</strong></h2>
+
+<p>At this point, our application is able to fetch data from a RSS feed and display it in browsers.</p>
+<p>But the UI is still pretty basic, so we are going to extend it and add a few interactions.</p>
+
+
+<h2><code>tree.data.js</code></h2>
+
+<p>No changes are required: the data we use will be the same and it is already fetched in a portable way. Enjoy!</p>
+
+<ul><li><code><a data-ajax="false" href="/examples/rss3/src/tree.data.js">src/tree.data.js</a></code></li></ul>
+
+<h2><code>tree.ui.js</code></h2>
+
+<p>We are going to improve the UI by adding a new component. This will also show you how UI Elements can easily be bound and interact together.</p>
+
+<pre><code class="javascript">
+<span class="focus">Joshfire.define(['joshfire/class', 'joshfire/tree.ui', 'joshfire/uielements/list', 'joshfire/uielements/panel'],
+function(Class, UITree, List, Panel) {</span>
+
+  return Class(UITree, {
+
+    buildTree: function() {
+      // Declare UI Elements
+      return [
+        // The List UI Element we already used 
+        {
+          id: 'newsList',
+          type: List,
+          orientation: 'left',
+          dataPath: '/news/',
+<span class="focus">          noMouseAutoFocus: true,     // deactivate focus on mouse hover
+          moveOnFocus: true,          // keep focused element on display</span>
+          itemInnerTemplate:
+            '&lt;div class="clearfix"&gt;'+
+            '    &lt;h1 class="title"&gt;&lt;%= item.title %&gt;&lt;/h1&gt;'+
+            '    &lt;img src="&lt;%= item.image %&gt;" /&gt;'+
+            '    &lt;div class="description"&gt;&lt;%= item.description %&gt;&lt;/div&gt;'+
+            '&lt;/div&gt;',
+<span class="focus">          loadingTemplate: null       // override default template used during data loading</span>
+        },
+<span class="focus">        // We create a Panel UI Element : this is a simple block which aims to display content
+        {
+          id: 'newsInfo',             // internal id
+          type: Panel,                // type of UI widget : a Panel
+          uiDataMaster: '/newsList',  // bind this element to listen change on its master (parent)
+          autoShow: false,            // hide the element (UI Element are displayed by default)
+          showOnFocus: false,         // disable auto-show on focus as it is not always the desired behaviour
+          forceDataPathRefresh: true, // fire a refresh event event if dataPath was not changed
+          innerTemplate:              // override default template for the element 
+            '&lt;div class="info"&gt;'+
+            '  &lt;p class="title"&gt;&lt;%= data.title %&gt;&lt;/p&gt;'+
+            '  &lt;div class="clearfix"&gt;'+
+            '    &lt;img src="&lt;%= data.image %&gt;" /&gt;'+
+            '    &lt;p class="description"&gt;&lt;%= data.description %&gt;&lt;/p&gt;'+
+            '    &lt;p class="author"&gt;&lt;%= data.creator %&gt;&lt;/p&gt;'+
+            '    &lt;p class="date"&gt;&lt;%= data.pubDate %&gt;&lt;/p&gt;'+
+            '    &lt;p class="comments"&gt;&lt;%= data.commentsCount %&gt; comments&lt;/p&gt;'+
+            '  &lt;/div&gt;'+
+            '  &lt;div class="clearfix"&gt;'+
+            '  &lt;ul class="category clearfix"&gt;'+
+            '    &lt;% for (name in data.category) { %&gt; &lt;li&gt;&lt;%= data.category[name] %&gt;&lt;/li&gt; &lt;% }; %&gt;'+
+            '  &lt;/ul&gt;'+
+            '  &lt;/div&gt;'+
+            '&lt;/div&gt;',
+          loadingTemplate: null       // override default template used during data loading
+        }</span>
+      ];
+    }
+
+  });
+
+});
+
+</code></pre>
+
+<ul><li><code><a data-ajax="false" href="/examples/rss3/src/tree.ui.js">src/tree.ui.js</a></code></li></ul>
+
+<p>The important new thing in the code above is the <code>uiDataMaster</code> property: it binds a UI element to a master one.</p>
+<p>When an item is selected in the master UI Element, the <code>dataPath</code> of the slave Element is updated. When this happens, its content is reloaded accordingly to the new <code>dataPath</code>.</p>
+
+
+<h2><code>app.js</code></h2>
+
+<p>We are going to add some interactions to the UI.</p>
+
+<pre><code class="javascript">
+<span class="focus">Joshfire.define(['joshfire/app', 'joshfire/class', './tree.data', './tree.ui',
+'joshfire/utils/splashscreen', 'joshfire/vendor/jquery'],
+function(BaseApp, Class, Data, UI, SC, $) {</span>
+  Joshfire.debug = true;
+
+  return Class(BaseApp, {
+
+    id: 'exampleRss',
+
+    uiClass: UI,
+    dataClass: Data,
+
+    setup: function(callback) {
+      var self = this;
+
+<span class="focus">      // Basic util allowing us to display / hide a splashcreen
+      var splashscreen = new SC();
+      // We subscribe to 'data' event to remove the slpashscreen when data is loaded
+      self.ui.element('/newsList').subscribe('data', function(ev) {
+        splashscreen.remove();
+      });</span>
+
+      // When data is loaded, give focus to '/newsList/'
+      self.ui.element('/newsList').subscribe('data', function(ev) {
+        self.ui.moveTo('focus', '/newsList');
+      });
+
+<span class="focus">      // Load a jQuery plugin which displays boxes
+      Joshfire.require(['public/js/jquery.colorbox-min'], function() {
+
+        // When '/newsInfo' dataRoot is changed (it does when selections occurs on '/newsList') ...
+        self.ui.element('/newsInfo').subscribe('afterRefresh', function(ev, id) {
+          // ... give focus to '/newsInfo' ...
+          self.ui.moveTo('focus', '/newsInfo');
+          // ... display '/newsInfo' inside a styled box thanks to colorbox plugin !
+          $.colorbox({width:'800px', inline:true, href:'#'+ self.ui.element('/newsInfo').htmlId +' .info',
+            // When user close the box ...
+            onCleanup: function() {
+              // ... give focus back to '/newsList' !
+              self.ui.moveTo('focus', '/newsList');
+            }
+          });
+        });
+
+      });</span>
+
+      callback(null, true);
+    }
+
+  });
+});
+
+</code></pre>
+
+<ul><li><code><a data-ajax="false" href="/examples/rss3/src/app.js">src/app.js</a></code></li></ul>
+
+
+<h2><code>index.html</code></h2>
+
+<p>This is where we move the content of the previous <code>index.html</code> file.</p>
+<p>We only added a stylesheet from jQuery <a href="http://colorpowered.com/colorbox/" target="_blank">Colorbox</a> plugin and added a <code>splashscreen</code> div.</p>
+
+<pre><code class="html">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;RSS Feed App&lt;/title&gt;
+    &lt;link rel="stylesheet" href="css/app.css" /&gt;
+<span class="focus">    &lt;link rel="stylesheet" href="css/colorbox.css" /&gt;</span>
+    &lt;script data-main="../" src="../joshfire/adapters/browser/bootstrap.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script&gt;
+      Joshfire.debug = true;
+      Joshfire.require(['src/app'], function(App) {
+        console.log('Code is loaded!');
+        new App();
+      });
+    &lt;/script&gt;
+<span class="focus">    &lt;div id="splashscreen"&gt;RSS Feed Example&lt;/div&gt;</span>
+  &lt;/body&gt;
+&lt;/html&gt;
+
+</code></pre>
+
+<ul><li><code><a data-ajax="false" href="/examples/rss3/public/index.html">public/index.html</a></code></li></ul>
+
+
+<h2>Layout files</h2>
+
+<ul><li><code><a data-ajax="false" href="/examples/rss3/public/css/app.css">public/css/app.css</a></code></li></ul>
+
+<p>Colorbox dependencies:
+<ul>
+<li><code><a data-ajax="false" href="/examples/rss3/public/js/jquery.colorbox-min.js">public/js/jquery.colorbox-min.js</a></code></li>
+<li><code><a data-ajax="false" href="/examples/rss3/public/css/colorbox.css">public/css/colorbox.css</a></code></li>
+<li><code><a data-ajax="false" href="/examples/rss3/public/img/controls.png">public/img/controls.png</a></code></li>
+<li><code><a data-ajax="false" href="/examples/rss3/public/img/loading.gif">public/img/loading.gif</a></code></li>
+</ul>
+</p>
+
+
+<h2><code>Run it!</code></h2>
+
+<p>You can now launch the application in your browser, and when you click on an item in the list, it should look like this:</p>
+
+<img src="sc03.png" />
+
+
+<p><strong><a href="/doc/gettingstarted/firstapp4">You are ready for part 4 !</a></strong></p>
+
