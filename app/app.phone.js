@@ -1,4 +1,5 @@
 define([
+  'spot.phone',
   'joshlib!factorycollection',
   'joshlib!ui/list',
   'ui/imagegallery',
@@ -13,140 +14,13 @@ define([
   'joshlib!collection',
   'joshlib!utils/dollar',
   'joshlib!vendor/backbone'],
-function(FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardPanel, SlidePanel, Text, Map, onReady, Collection,$,_) {
+function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardPanel, SlidePanel, Text, Map, onReady, Collection,$,_) {
 
   document.title = Joshfire.factory.config.app.name;
 
   onReady(function() {
 
-    var contactHTML = Joshfire.factory.config.template.options.contacthtml;
-    var latitude = parseFloat(Joshfire.factory.config.template.options.latitude);
-    var longitude = parseFloat(Joshfire.factory.config.template.options.longitude);
-    var address = Joshfire.factory.config.template.options.address;
-
-    //
-    // Sets theme color.
-    //
-    var setColor = function(color) {
-      $('#color').remove();
-      $('head').append('<link id="color" rel="stylesheet" href="css/phone.' + color + '.css" type="text/css">');
-    };
-
-    //
-    // Returns a thumbnail URL form an image object
-    //
-    var getThumbnail = function(item, offset) {
-      var width = document.body.clientWidth;
-
-      if(offset < collections.photos.length - 1) {
-        width *= .5;
-      }
-
-      if(item.thumbnails) {
-        var thumbnails = item.thumbnails;
-
-        for (var i=0; i < thumbnails.length; i++) {
-          var thumbnail = thumbnails[i];
-
-          if(thumbnail.width >= width) return thumbnail.contentURL;
-        };
-      }
-
-      return item.contentURL || null;
-    }
-
-    //
-    // Returns a thumbnail URL form a video object
-    //
-    var getVideoThumbnail = function(item) {
-      if(item.thumbnails) {
-        var thumbnails = item.thumbnail;
-        var best = thumbnails[0];
-
-        for (var i=1; i < thumbnails.length; i++) {
-          var thumbnail = thumbnails[i];
-
-          if(thumbnail.width > best.width) best = thumbnail;
-        };
-
-        return best.contentURL;
-      }
-
-      return item.image.contentURL;
-    }
-
-    //
-    // Creates a list item view based on the type of the item.
-    //
-    var itemFactory = function(model, offset) {
-      var item = model.toJSON();
-
-      console.log(item);
-
-      switch(item.itemType) {
-        case 'ImageObject':
-        return new ImageLoader({
-          model: model,
-          offset: offset,
-          templateEl: '#template-image-item',
-          getImageUrl: function() { console.log(getThumbnail(item, offset)); return getThumbnail(item, offset); }
-        });
-        break;
-
-        case 'Article/Status':
-        return new Item({
-          model: model,
-          offset: offset,
-          templateEl: '#template-status-item'
-        });
-        break;
-
-        case 'VideoObject':
-        return new Item({
-          model: model,
-          offset: offset,
-          templateEl: '#template-video-item'
-        });
-        break;
-
-        case 'Event':
-        return new Item({
-          model: model,
-          offset: offset,
-          templateEl: '#template-event-item'
-        });
-        break;
-
-        case 'BlogPosting':
-        return new Item({
-          model: model,
-          offset: offset,
-          templateEl: '#template-news-item'
-        });
-        break;
-
-        default:
-        return new Item({
-          model: model,
-          offset: offset,
-          templateEl: '#template-unknown-item'
-        });
-      }
-    };
-
-    // set template color from user set option
-    setColor(Joshfire.factory.config.template.options.color);
-
-    var dataSourceNames = ['photos', 'videos', 'events', 'news', 'statuses'];
-
-    var collections = {};
-
-    for(var s in dataSourceNames) {
-      var name = dataSourceNames[s];
-      if(Joshfire.factory.config.datasources[name]) {
-        collections[name] = FactoryCollection(name);
-      }
-    }
+    Spot.initialize();
 
     //
     // Toolbar
@@ -159,7 +33,7 @@ function(FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardP
     for(var i = 0; i < sectionNames.length; i++) {
       name = sectionNames[i];
 
-      if(collections[name] || name == 'contact') {
+      if(Spot.collections[name] || name == 'contact') {
         sections.add({name: name, linkURL: '#' + name});
       }
 
@@ -216,8 +90,8 @@ function(FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardP
       el: '#photos-content',
       templateEl: '#item-list',
       scroller: true,
-      itemFactory: itemFactory,
-      collection: collections.photos
+      itemFactory: Spot.itemFactory,
+      collection: Spot.collections.photos
     });
 
     // Statuses
@@ -228,8 +102,8 @@ function(FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardP
       templateEl: '#item-list',
       contentSelector: '> div:first-child',
       scroller: true,
-      itemFactory: itemFactory,
-      collection: collections.statuses
+      itemFactory: Spot.itemFactory,
+      collection: Spot.collections.statuses
     });
 
     statusesViews.detail = new Item({
@@ -253,8 +127,8 @@ function(FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardP
       templateEl: '#item-list',
       contentSelector: '> div:first-child',
       scroller: true,
-      itemFactory: itemFactory,
-      collection: collections.events
+      itemFactory: Spot.itemFactory,
+      collection: Spot.collections.events
     });
 
     eventsViews.detail = new Item({
@@ -278,15 +152,17 @@ function(FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardP
       templateEl: '#item-list',
       contentSelector: '> div:first-child',
       scroller: true,
-      itemFactory: itemFactory,
-      collection: collections.videos
+      itemFactory: Spot.itemFactory,
+      collection: Spot.collections.videos
     });
 
     videosViews.detail = new ImageLoader({
       el: '#video-detail',
       templateEl: '#template-video',
       scroller: true,
-      getImageUrl: function() { return getVideoThumbnail(this.model.toJSON()); }
+      getImageUrl: function() {
+        return Spot.getVideoThumbnail(this.model.toJSON());
+      }
     });
 
     var videosCards = new SlidePanel({
@@ -304,8 +180,8 @@ function(FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardP
       templateEl: '#item-list',
       contentSelector: '> div:first-child',
       scroller: true,
-      itemFactory: itemFactory,
-      collection: collections.news
+      itemFactory: Spot.itemFactory,
+      collection: Spot.collections.news
     });
 
     newsViews.detail = new Item({
@@ -327,18 +203,18 @@ function(FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardP
     contactViews.index = new Text({
       el: '#contact-index',
       templateEl: '#template-contact-index',
-      textContent: contactHTML,
+      textContent: Spot.contactHTML,
       scroller: true
     });
 
     contactViews.map = new Map({
       el: '#contact-map',
       templateEl: '#template-contact-map',
-      latitude: latitude,
-      longitude: longitude,
+      latitude: Spot.latitude,
+      longitude: Spot.longitude,
       icon: 'images/phone-location.png',
       overlayTemplateEl: '#template-map-overlay',
-      overlayOptions: { address: address }
+      overlayOptions: { address: Spot.address }
     });
 
     var contactCards = new SlidePanel({
@@ -376,12 +252,12 @@ function(FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardP
         document.body.id = name;
         $back.hide();
         $refresh.show().unbind('click').click(function() {
-          collections[name].fetch();
+          Spot.collections[name].fetch();
           return false;
         });
 
-        if(collections[name].length === 0) {
-          collections[name].fetch();
+        if(Spot.collections[name].length === 0) {
+          Spot.collections[name].fetch();
         }
       };
     };
@@ -400,13 +276,13 @@ function(FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardP
         $back.attr('href', '#' + plural + '').show();
         $refresh.hide();
 
-        if(collections[plural].length === 0) {
-          collections[plural].fetch({success: function() {
-            var model = collections[plural].at(parseInt(offset));
+        if(Spot.collections[plural].length === 0) {
+          Spot.collections[plural].fetch({success: function() {
+            var model = Spot.collections[plural].at(parseInt(offset));
             sectionCards.children.detail.setModel(model, true);
           }});
         } else {
-          var model = collections[plural].at(parseInt(offset));
+          var model = Spot.collections[plural].at(parseInt(offset));
           sectionCards.children.detail.setModel(model, true);
          }
       }
