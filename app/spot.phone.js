@@ -51,7 +51,7 @@ define(['spot', 'joshlib!utils/dollar'], function(Spot, $) {
       }
 
       return item.contentURL;
-    }
+    },
   });
 
   return Spot;

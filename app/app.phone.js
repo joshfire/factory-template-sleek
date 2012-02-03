@@ -10,11 +10,12 @@ define([
   'joshlib!ui/slidepanel',
   'ui/text',
   'ui/map',
+  'ui/toolbar',
   'joshlib!utils/onready',
   'joshlib!collection',
   'joshlib!utils/dollar',
   'joshlib!vendor/backbone'],
-function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardPanel, SlidePanel, Text, Map, onReady, Collection,$,_) {
+function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardPanel, SlidePanel, Text, Map, Toolbar, onReady, Collection,$,_) {
 
   document.title = Joshfire.factory.config.app.name;
 
@@ -42,7 +43,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       //}
     }
 
-    var toolbar = new List({
+    var toolbar = new Toolbar({
       el: 'footer',
       templateEl: '#toolbar',
       itemTemplateEl: '#toolbar-item',
@@ -54,29 +55,6 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
         bounce: false
       }
     });
-
-    toolbar.enhance = function() {
-      List.prototype.enhance.call(toolbar);
-
-      var resize = function() {
-        if(!this.collection) return;
-
-        var width = window.innerWidth;
-        var n = Math.min(5, this.collection.length);
-        var itemWidth = (width - 5) / n;
-
-        this.$('> ul').width(itemWidth * this.collection.length + 5);
-
-        this.$('li').css({
-          width: itemWidth - 5,
-          paddingLeft: 5
-        });
-      }
-
-      resize.call(this);
-
-      window.addEventListener('resize', function() {resize.call(toolbar);});
-    };
 
     toolbar.setCollection(sections, true);
 
