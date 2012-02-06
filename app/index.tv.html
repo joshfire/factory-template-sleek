@@ -13,7 +13,7 @@
     <script type="text/javascript" src="vendor/moment.js"></script>
     <script type="text/javascript" src="prettystatus.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <script data-joshfire-bootstrap src="http://factory-joshfire.herokuapp.com/bootstrap/4f20482584806b01000001c5/4f269bc0d77bc90100003fb3/tv/"></script>
+    <script data-joshfire-bootstrap src="http://factory-joshfire.herokuapp.com/bootstrap/4f20482584806b01000001c5/4f269bc0d77bc90100003fb3/phone/"></script>
 
     <style type="text/css" media="screen">
       body, html {
@@ -35,8 +35,6 @@
   <body class="device-tv" ontouchmove="event.preventDefault()">
     <div id="container">
 
-      <section id="toolbar"><div>&nbsp;</div></section>
-
       <div id="cards">
         <section id="photos-content" class="content">
           <div></div>
@@ -44,64 +42,65 @@
         </section>
 
         <div id="statuses-cards" class="slide-panel">
-          <section id="statuses-content" class="slide-content">
+          <section id="statuses-content" class="content">
             <div></div>
             <div class="spinner">&nbsp;</div>
           </section>
 
-          <section id="status-detail" class="slide-content">
+          <section id="status-detail" class="content">
             <div></div>
             <div class="spinner">&nbsp;</div>
           </section>
         </div>
 
         <div id="news-cards" class="slide-panel">
-          <section id="news-content" class="slide-content">
+          <section id="news-content" class="content">
             <div></div>
             <div class="spinner">&nbsp;</div>
           </section>
 
-          <section id="news-detail" class="slide-content">
+          <section id="news-detail" class="content">
             <div></div>
             <div class="spinner">&nbsp;</div>
           </section>
         </div>
 
         <div id="videos-cards" class="slide-panel">
-          <section id="videos-content" class="slide-content">
+          <section id="videos-content" class="content">
             <div></div>
             <div class="spinner">&nbsp;</div>
           </section>
 
-          <section id="video-detail" class="slide-content">
+          <section id="video-detail" class="content">
             <div></div>
             <div class="spinner">&nbsp;</div>
           </section>
         </div>
 
         <div id="events-cards" class="slide-panel">
-          <section id="events-content" class="slide-content">
+          <section id="events-content" class="content">
             <div></div>
             <div class="spinner">&nbsp;</div>
           </section>
 
-          <section id="event-detail" class="slide-content">
+          <section id="event-detail" class="content">
             <div></div>
             <div class="spinner">&nbsp;</div>
           </section>
         </div>
 
         <div id="contact-cards" class="slide-panel">
-          <section id="contact-index" class="slide-content">
+          <section id="contact-index" class="content">
             <div></div>
           </section>
-          <section id="contact-map" class="slide-content">
+          <section id="contact-map" class="content">
             <div></div>
           </section>
         </div>
 
       </div>
 
+      <div id="toolbar"></div>
     </div>
 
     <!-- TEMPLATES -->
@@ -112,9 +111,10 @@
       </ul>
     </script>
 
-    <script type="text/template" id="template-toolbar-item">
+    <script type="text/template" id="toolbar-item">
       <li>
         <a href="<%= item.linkURL %>" class="<%= item.name %>">
+          <div class="indicator"><span>&nbsp;</span></div>
           <%= item.name %><span>&nbsp;</span>
         </a>
       </li>
@@ -132,7 +132,7 @@
 
     <script type="text/template" id="template-image-item">
       <li class="photo-item">
-        <div class="image" style="background-image: url(<%= imageURL %>)">
+        <div class="image" style="background-image: url(<%= imageUrl %>)">
           <a class="image-link" href="<%= item.contentURL %>" title="<%= item.name %>">&nbsp;</a>
           <div class="spinner">&nbsp;</div>
         </div>
@@ -234,7 +234,7 @@
     <script type="text/template" id="template-video">
       <div>
         <a href="<%= item.contentURL %>" target="_blank">
-          <img src="<%= imageURL %>" class="image">
+          <img src="<%= imageUrl %>" class="image">
           <div class="spinner">&nbsp;</div>
           <div class="play"><span>&nbsp;</span></div>
         </a>
@@ -269,6 +269,6 @@
     </script>
 
     <script>Joshfire.debug=true;</script>
-    <script data-main="app.tv" src="joshfire-framework-backbone/lib/adapters/samsungtv/bootstrap.js"></script>
+    <script data-main="app.tv" src="joshfire-framework-backbone/lib/adapters/googletv/bootstrap.js"></script>
   </body>
 </html>
