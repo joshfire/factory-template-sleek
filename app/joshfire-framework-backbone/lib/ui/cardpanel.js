@@ -1,8 +1,10 @@
 define(["joshlib!uielement","joshlib!vendor/underscore"], function(UIElement,_) {
-  
+
   var UICardPanel = UIElement.extend({
 
     initialize:function(options) {
+
+      UIElement.prototype.initialize.call(this, options);
 
       //TODO support for just passing a model
       //If a collection is given we'll only display the first item.

@@ -20,11 +20,13 @@ define(["joshlib!ui/cardpanel","joshlib!utils/dollar"], function(UICardPanel,$) 
     setChildren: function(children) {
 
       this.childrenOffsets = {};
+      this.childrenByOffset = [];
 
       var offset = 0;
 
       for(var s in children) {
         this.childrenOffsets[s] = offset;
+        this.childrenByOffset.push[s];
         ++offset;
       }
 
@@ -34,8 +36,6 @@ define(["joshlib!ui/cardpanel","joshlib!utils/dollar"], function(UICardPanel,$) 
     },
 
     showChildren:function(childrenId) {
-      var prev = this.active;
-      var next = this.children[childrenId];
       var offset = this.childrenOffsets[childrenId];
       var translateX = offset / (this.numChildren) * -100 + '%';
       var translate = 'translate(' + translateX + ',0)';
@@ -48,7 +48,7 @@ define(["joshlib!ui/cardpanel","joshlib!utils/dollar"], function(UICardPanel,$) 
         'transform': translate
       });
 
-      this.active = next;
+      this.active = childrenId;
     }
 
   });

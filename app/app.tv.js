@@ -1,21 +1,22 @@
 define([
   'spot.tv',
   'joshlib!factorycollection',
-  'joshlib!ui/list',
+  'joshlib!adapters/googletv/ui/verticallist',
   'ui/imagegallery',
   'joshlib!ui/item',
   'joshlib!ui/imageloader',
   'joshlib!router',
-  'joshlib!ui/cardpanel',
-  'joshlib!ui/slidepanel',
+  'joshlib!adapters/googletv/ui/cardpanel',
+  'joshlib!adapters/googletv/ui/slidepanel',
   'ui/text',
   'ui/map',
-  'joshlib!ui/list',
+  'joshlib!ui/toolbar',
+  'joshlib!adapters/googletv/ui/horizontallayout',
   'joshlib!utils/onready',
   'joshlib!collection',
   'joshlib!utils/dollar',
   'joshlib!vendor/backbone'],
-function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardPanel, SlidePanel, Text, Map, Toolbar, onReady, Collection,$,_) {
+function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardPanel, SlidePanel, Text, Map, Toolbar, HorizontalLayout, onReady, Collection,$,_) {
 
   document.title = Joshfire.factory.config.app.name;
 
@@ -27,7 +28,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     // Toolbar
     //
 
-    var sectionNames = ['photos', 'videos', 'contact', 'events', 'news', 'statuses'];
+    var sectionNames = [/*'photos', */'videos', 'contact', 'events', 'news', 'statuses'];
 
     var sections = new Backbone.Collection();
 
@@ -43,7 +44,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       //}
     }
 
-    var toolbar = new List({
+    var toolbar = new Toolbar({
       el: '#toolbar',
       templateEl: '#template-toolbar',
       itemTemplateEl: '#toolbar-item'
@@ -196,11 +197,25 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     views.contact = contactCards;
 
 
-    // Main panel
+    // Card panel
     var cards = new CardPanel({
       el: '#cards',
       children: views
     });
+
+    // Horizontal layout
+    var horizontalLayout = new HorizontalLayout({
+      el: '#container',
+      views: [
+        toolbar,
+        cards
+      ]
+    });
+
+    horizontalLayout.navUp = function() {};
+    horizontalLayout.navDown = function() {};
+
+    horizontalLayout.navFocus();
 
     //
     // Router

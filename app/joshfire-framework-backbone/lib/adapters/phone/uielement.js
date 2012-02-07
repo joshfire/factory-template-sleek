@@ -2,11 +2,11 @@ define(["joshlib!adapters/none/uielement","joshlib!vendor/iscroll","joshlib!vend
 
   var UIElementPhone = UIElement.extend({
 
-    initialize:function() {
+    initialize:function(options) {
       if (this.options.scroller) {
         $(this.el).css({overflow:"hidden"});
       }
-      UIElement.prototype.initialize.call(this);
+      UIElement.prototype.initialize.call(this, options);
     },
 
     enhance:function() {

@@ -28,8 +28,8 @@ define(["joshlib!uielement","joshlib!utils/dollar","joshlib!vendor/underscore"],
       UIElement.prototype.initialize.call(this, options);
     },
 
-    generate: function(cb, context) {
-      cb(null, this.template(context));
+    generate: function(cb) {
+      cb(null, this.template({data: this.data}));
     },
 
     enhance: function() {

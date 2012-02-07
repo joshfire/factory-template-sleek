@@ -10,7 +10,7 @@ define([
   'joshlib!ui/slidepanel',
   'ui/text',
   'ui/map',
-  'ui/toolbar',
+  'joshlib!adapters/phone/ui/toolbar',
   'joshlib!utils/onready',
   'joshlib!collection',
   'joshlib!utils/dollar',

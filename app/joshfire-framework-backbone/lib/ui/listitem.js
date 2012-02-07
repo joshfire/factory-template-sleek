@@ -16,20 +16,17 @@ define(["joshlib!uielement","joshlib!vendor/underscore"], function(UIElement,_) 
     initialize: function(options) {
       this.view = options.view;
       this.offset  = options.offset;
+
+      UIElement.prototype.initialize.call(this, options);
     },
 
     setElement: function(el) {
       this.view.el = el;
     },
 
-    generate: function(cb, context) {
-      var params = {
-        offset: this.offset
-      };
-
-      if(context) _.extend(params, context);
-
-      this.view.generate(cb, params);
+    generate: function(cb) {
+      this.view.data.offset = this.offset;
+      this.view.generate(cb);
     },
 
     render: function() {

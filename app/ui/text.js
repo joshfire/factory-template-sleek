@@ -18,14 +18,14 @@ define(["joshlib!uielement","joshlib!utils/dollar","joshlib!vendor/underscore"],
       if(render) this.render();
     },
 
-    generate: function(cb, context) {
-      var params = {
+    generate: function(cb) {
+      var context = {
         textContent:  this.textContent
       }
 
-      if(context) _.extend(params, context);
+      _.extend(context, this.data);
 
-      cb(null, this.template(params));
+      cb(null, this.template(context));
     },
 
     setContent: function(html) {

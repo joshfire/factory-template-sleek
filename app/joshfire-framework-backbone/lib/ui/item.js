@@ -28,16 +28,18 @@ define(["joshlib!uielement","joshlib!utils/dollar","joshlib!vendor/underscore"],
       if(render) this.render();
     },
 
-    generate: function(cb, context) {
-      var params = {
+    generate: function(cb) {
+      var context = {
         model:  this.model,
-        obj:    this.model,
-        item:   this.model ? this.model.toJSON() : {}
-      }
+        obj: this.model,
+        item: this.model ? this.model.toJSON() : {}
+      };
 
-      if(context) _.extend(params, context);
+      //console.log(this.data)
 
-      cb(null, this.template(params));
+      _.extend(context, this.data);
+
+      cb(null, this.template(context));
     }
   });
 

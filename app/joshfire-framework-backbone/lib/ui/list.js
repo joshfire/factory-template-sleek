@@ -14,6 +14,8 @@ define(["joshlib!uielement","joshlib!ui/listitem","joshlib!ui/item","joshlib!uti
   var UIList = UIElement.extend({
 
     initialize:function(options) {
+      UIElement.prototype.initialize.call(this);
+
       if (options.templateEl) {
         this.template = this.compileTemplate($(options.templateEl).html());
       } else {
@@ -38,8 +40,6 @@ define(["joshlib!uielement","joshlib!ui/listitem","joshlib!ui/item","joshlib!uti
 
         return new UIItem(params);
       }
-
-      UIElement.prototype.initialize.call(this);
 
       if (options.collection) this.setCollection(options.collection);
     },
@@ -88,7 +88,7 @@ define(["joshlib!uielement","joshlib!ui/listitem","joshlib!ui/item","joshlib!uti
       if(render) this.render();
     },
 
-    generate: function(cb, context) {
+    generate: function(cb) {
       var items = this.items;
       var contents = new Array(items.length);
       var processed = 0;
@@ -105,13 +105,13 @@ define(["joshlib!uielement","joshlib!ui/listitem","joshlib!ui/item","joshlib!uti
               var str = template({children: contents.join('')});
               cb(null, str);
             }
-          }, context, item, num);
+          }, item);
         }).call(this, items[i], i);
       }
     },
 
-    generateItem: function(cb, context, item, offset) {
-      item.generate(cb, context);
+    generateItem: function(cb, item) {
+      item.generate(cb);
     },
 
     enhance: function() {
