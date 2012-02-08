@@ -8,10 +8,10 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
       this.active = -1;
     },
 
-    navFocus: function(origin) {
-      UIList.prototype.navFocus.call(this, origin);
+    navFocus: function(origin, event) {
+      UIList.prototype.navFocus.call(this, origin, event);
 
-      if(this.active === -1 && this.collection.length) {
+      if(!event && this.active === -1 && this.collection.length) {
         this.activate(0);
       }
     },

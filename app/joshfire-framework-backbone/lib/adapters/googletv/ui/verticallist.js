@@ -8,10 +8,10 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
       this.active = -1;
     },
 
-    navFocus: function(origin) {
-      UIList.prototype.navFocus.call(this, origin);
+    navFocus: function(origin, event) {
+      UIList.prototype.navFocus.call(this, origin, event);
 
-      if(this.collection.length) {
+      if(!event && this.collection.length) {
         if(this.active === -1) {
           this.activate(0);
         } else {
@@ -23,7 +23,7 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
     navBlur: function() {
       UIList.prototype.navBlur.call(this);
 
-      this.$('.nav-active').removeClass('nav-active');
+      //this.$('.nav-active').removeClass('nav-active');
     },
 
     navDown: function() {
@@ -39,11 +39,13 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
     },
 
     navAction: function() {
-      var $item = $(this.items[this.active].view.el);
-      var $link = $item.find('a');
+      if(this.items.length) {
+        var $item = $(this.items[this.active].view.el);
+        var $link = $item.find('a');
 
-      if($link.length) {
-        window.location = $link.attr('href');
+        if($link.length) {
+          window.location = $link.attr('href');
+        }
       }
     },
 
@@ -58,9 +60,16 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
 
       $item.addClass('nav-active');
 
+      var height = $(this.el).height();
+      var parentHeight = $(this.el).parent().height();
       var $lastChild = $(this.items[this.items.length - 1].view.el);
-      var translateY = -num * ($(this.el).height() - $(this.el).parent().height()
-                     + $lastChild.height()) / this.items.length;
+
+      if(height > parentHeight) {
+        var translateY = -num * (height - parentHeight + $lastChild.height()) / this.items.length;
+      } else {
+        translateY = 0;
+      }
+
       var translate  = 'translate3d(0,' + translateY + 'px,0)';
 
       $(this.el).css({

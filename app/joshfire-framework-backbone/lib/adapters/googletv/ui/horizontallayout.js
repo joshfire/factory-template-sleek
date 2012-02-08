@@ -23,45 +23,36 @@ define(["joshlib!uielement","joshlib!vendor/underscore"], function(UIElement,_) 
     },
 
     navFocus: function(origin) {
-      UIElement.prototype.navFocus.call(this, origin);
+      UIElement.prototype.navFocus.call(this, origin, event);
 
       if(this.views.length) {
-        if(this.active !== -1) {
-          this.activate(this.active);
-        } else {
-          this.activate(0);
-        }
+        this.activate(this.checkActive());
       }
-    },
-
-    navBlur: function() {
-      if(this.views.length && this.active !== -1) {
-        this.views[this.active].navBlur();
-      }
-
-      UIElement.prototype.navBlur.call(this);
     },
 
     navRight: function() {
-      if(this.views.length && this.active < this.views.length - 1) {
-        this.activate(this.active + 1);
-      }
+      this.activate(Math.min(this.checkActive() + 1, this.views.length - 1));
     },
 
     navLeft: function() {
-      if(this.views.length && this.active > 0) {
-        this.activate(this.active - 1);
-      }
+      this.activate(Math.max(this.checkActive() - 1, 0));
     },
 
     activate: function(num) {
-      if(this.active !== -1) {
-        this.views[this.active].navBlur();
+      if(this.active != num) {
+        this.views[num].navFocus(this);
+        this.active = num;
+      }
+    },
+
+    checkActive: function() {
+      for (var i = this.views.length - 1; i >= 0; i--) {
+        if($(this.views[i].el).hasClass('nav-focused') || this.views[i].$('.nav-focused')) {
+          return i;
+        }
       }
 
-      this.navBlur();
-      this.views[num].navFocus(this);
-      this.active = num;
+      return 0;
     }
 
   });

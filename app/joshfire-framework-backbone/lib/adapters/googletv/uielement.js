@@ -5,75 +5,87 @@ define(["joshlib!adapters/none/uielement","joshlib!vendor/underscore","joshlib!u
     initialize:function(options) {
       UIElement.prototype.initialize.call(this, options);
 
-      _.bindAll(this, 'navFocus', 'navBlur', 'onKeyDown');
+      _.bindAll(this, 'navFocus', 'navBlur', 'processKey');
 
       this.focused = false;
+
+      if(options) {
+        if(options.navUp) this.navUp = options.navUp;
+        if(options.navRight) this.navRight = options.navRight;
+        if(options.navBottom) this.navBottom = options.navBottom;
+        if(options.navLeft) this.navLeft = options.navLeft;
+        if(options.navAction) this.navAction = options.navAction;
+      }
     },
 
+    /**
+     * Gives focus to the element.
+     */
     navFocus: function(origin) {
       $(this.el).addClass('nav-focused');
-      $(document).keydown(this.onKeyDown);
+      $(document).keydown(this.processKey);
       this.origin = origin;
       this.focused = true;
+
+      if(UIElementTV.focusedElement) {
+        UIElementTV.focusedElement.navBlur();
+      }
+
+      UIElementTV.focusedElement = this;
     },
 
+    /**
+     * Removes focus from the element.
+     */
     navBlur: function() {
       $(this.el).removeClass('nav-focused');
-      $(document).unbind('keydown');
+      $(document).unbind('keydown', this.processKey);
       this.focused = false;
     },
 
-    onKeyDown: function(event) {
+    /**
+     * Returns true if the key was not processed.
+     */
+    processKey: function(event) {
       console.log(this.focused)
 
       switch(event.keyCode) {
         case 38:
         if(this.navUp) {
-          this.navUp();
-          return;
+          return this.navUp(event);
         }
         break;
         case 39:
         if(this.navRight) {
-          this.navRight();
-          return;
+          return this.navRight(event);
         }
         break;
         case 40:
         if(this.navDown) {
-          this.navDown();
-          return;
+          return this.navDown(event);
         }
         break;
         case 37:
         if(this.navLeft) {
-          this.navLeft();
-          return;
+          return this.navLeft(event);
         }
         break;
-        case 13:
-        case 32:
+        case 13: case 32:
         if(this.navAction) {
-          this.navAction();
-          return;
+          return this.navAction(event);
         }
         break;
       }
 
       if(this.origin) {
         switch(event.keyCode) {
-          case 38:
-          case 39:
-          case 40:
-          case 37:
-          case 13:
-          case 32:
-          this.navBlur();
-          this.origin.navFocus();
-          this.origin.onKeyDown(event);
+          case 38: case 39: case 40: case 37: case 13: case 32:
+          return this.origin.processKey(event);
           break;
         }
       }
+
+      return true;
     }
   });
 

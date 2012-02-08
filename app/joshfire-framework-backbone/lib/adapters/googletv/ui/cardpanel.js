@@ -9,15 +9,9 @@ define(["joshlib!adapters/none/ui/cardpanel","joshlib!vendor/underscore"], funct
     },
 
     navFocus: function(origin) {
-      UICardPanel.prototype.navFocus.call(this, origin);
+      UICardPanel.prototype.navFocus.call(this, origin, event);
 
-      this.children[this.activeId].navFocus(origin);
-    },
-
-    navBlur: function() {
-      this.children[this.activeId].navBlur();
-
-      UICardPanel.prototype.navBlur.call(this);
+      this.children[this.activeId].navFocus(this);
     }
 
   });

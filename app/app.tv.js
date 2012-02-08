@@ -28,7 +28,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     // Toolbar
     //
 
-    var sectionNames = [/*'photos', */'videos', 'contact', 'events', 'news', 'statuses'];
+    var sectionNames = [/*'photos', */'videos', /*'contact',*/ 'events', 'news', 'statuses'];
 
     var sections = new Backbone.Collection();
 
@@ -81,7 +81,9 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     statusesViews.detail = new Item({
       el: '#status-detail',
       templateEl: '#template-status',
-      scroller: true
+      navLeft: function() {
+        window.location = '#statuses';
+      }
     });
 
     var statusesCards = new SlidePanel({
@@ -106,7 +108,9 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     eventsViews.detail = new Item({
       el: '#event-detail',
       templateEl: '#template-event',
-      scroller: true
+      navLeft: function() {
+        window.location = '#events';
+      }
     });
 
     var eventsCards = new SlidePanel({
@@ -131,9 +135,11 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     videosViews.detail = new ImageLoader({
       el: '#video-detail',
       templateEl: '#template-video',
-      scroller: true,
       getImageUrl: function() {
         return Spot.getVideoThumbnail(this.model.toJSON());
+      },
+      navLeft: function() {
+        window.location = '#videos';
       }
     });
 
@@ -159,7 +165,9 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     newsViews.detail = new Item({
       el: '#news-detail',
       templateEl: '#template-news',
-      scroller: true
+      navLeft: function() {
+        window.location = '#news';
+      }
     });
 
     var newsCards = new SlidePanel({
@@ -212,38 +220,27 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       ]
     });
 
-    horizontalLayout.navUp = function() {};
-    horizontalLayout.navDown = function() {};
-
-    horizontalLayout.navFocus();
-
     //
     // Router
     //
-    var $title = $('#title');
-    var $back = $('#back');
-    var $refresh = $('#refresh');
-    var $toolbar = $('#toolbar');
 
     // Create a view for a list
     var makeRouteForList = function(name, sectionCards) {
       return function() {
-        $title.text(Joshfire.factory.getDataSource(name).name);
-        $toolbar.find('.active').removeClass('active');
-        $toolbar.find('.' + name).addClass('active');
         cards.showChildren(name);
 
-        if(sectionCards) sectionCards.showChildren('list');
+        if(sectionCards) {
+          sectionCards.showChildren('list');
+        }
 
         document.body.id = name;
-        $back.hide();
-        $refresh.show().unbind('click').click(function() {
-          Spot.collections[name].fetch();
-          return false;
-        });
 
         if(Spot.collections[name].length === 0) {
-          Spot.collections[name].fetch();
+          Spot.collections[name].fetch({success: function() {
+            if(!toolbar.focused) cards.children[name].navFocus(horizontalLayout);
+          }});
+        } else {
+          if(!toolbar.focused) cards.children[name].navFocus(horizontalLayout);
         }
       };
     };
@@ -253,23 +250,20 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       plural = plural || name + 's';
 
       return function(offset) {
-        $title.text(Joshfire.factory.getDataSource(plural).name);
-        $toolbar.find('.active').removeClass('active');
-        $toolbar.find('.' + plural).addClass('active');
         cards.showChildren(plural);
         sectionCards.showChildren('detail');
         document.body.id = name;
-        $back.attr('href', '#' + plural + '').show();
-        $refresh.hide();
 
         if(Spot.collections[plural].length === 0) {
           Spot.collections[plural].fetch({success: function() {
             var model = Spot.collections[plural].at(parseInt(offset));
             sectionCards.children.detail.setModel(model, true);
+            sectionCards.children['detail'].navFocus(sectionCards);
           }});
         } else {
           var model = Spot.collections[plural].at(parseInt(offset));
           sectionCards.children.detail.setModel(model, true);
+          sectionCards.children['detail'].navFocus(sectionCards);
          }
       }
     };
@@ -306,32 +300,24 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
 
       // Contact
       contact: function() {
-        $title.text('Contact');
         document.body.id = 'contact';
-        $toolbar.find('.active').removeClass('active');
-        $toolbar.find('.contact').addClass('active');
         cards.showChildren('contact');
         contactCards.showChildren('index');
-        $back.hide();
-        $refresh.hide();
         contactViews.index.render();
       },
 
       // Map
       map: function() {
-        $title.text('Map');
         document.body.id = 'map';
-        $toolbar.find('.active').removeClass('active');
-        $toolbar.find('.contact').addClass('active');
         cards.showChildren('contact');
         contactCards.showChildren('map');
-        $back.attr('href', '#contact' + '').show();
-        $refresh.hide();
         contactViews.map.render();
       }
 
     });
 
+    window.location = '#';
     router.historyStart();
+    toolbar.navFocus(horizontalLayout);
   });
 });
