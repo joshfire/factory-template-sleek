@@ -28,6 +28,12 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
       }
     },
 
+    navAction: function() {
+      if(this.origin && this.origin.navRight) {
+        this.origin.navRight();
+      }
+    },
+
     activate: function(num) {
       if(num !== this.active) {
         this.$('.nav-active').removeClass('nav-active');

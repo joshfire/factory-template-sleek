@@ -5,8 +5,7 @@
 @import 'global';
 
 @font-size: 15;
-@toolbar-width: 20%;
-@content-width: 100 - @toolbar-width;
+@toolbar-width: 275px;
 
 body {
   font-size: @font-size px;
@@ -17,7 +16,71 @@ ul {
 }
 
 #toolbar {
-  width: @toolbar-width;
+  height: 100%;
+  background: transparent url(../images/tv-shadow.png) no-repeat @toolbar-width center;
+  background-size: auto 100%;
+
+  ul {
+    .vertical-gradient(@background-color, darken(@background-color, 13%));
+    width: @toolbar-width;
+    height: 100%;
+    padding-top: 200px;
+  }
+
+  a {
+    width: 120px;
+    height: 60px;
+    display: block;
+    text-indent: -30000px;
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    &.photos {
+      background-image: url(../images/phone-photos.png);
+    }
+
+    &.statuses {
+      background-image: url(../images/phone-statuses.png);
+    }
+
+    &.videos {
+      background-image: url(../images/phone-videos.png);
+    }
+
+    &.events {
+      background-image: url(../images/phone-events.png);
+    }
+
+    &.news {
+      background-image: url(../images/phone-news.png);
+    }
+
+    &.contact {
+      background-image: url(../images/phone-contact.png);
+    }
+  }
+
+  li {
+    width: 120px;
+    height: 60px;
+    margin: 0 auto 10px;
+    background: lighten(@background-color, 2%);
+    .border-radius(4px);
+
+    &.nav-active {
+      background: transparent url(../images/phone-glow.png) no-repeat center center;
+    }
+  }
+
+  .highlight {
+    position: absolute;
+    left: @toolbar-width / 2;
+    top: 0;
+    height: 100%;
+    width: @toolbar-width / 2;
+    pointer-events: none;
+    .horizontal-gradient(rgba(255,255,255,.02), rgba(255,255,255,.01));
+  }
 }
 
 #cards {
@@ -30,7 +93,7 @@ ul {
 }
 
 .content {
-  .transition(0.1s ease-in-out all);
+  position: relative;
 }
 
 .slide-panel {
@@ -44,10 +107,72 @@ ul {
   }
 }
 
-.nav-active {
+/*.nav-active {
   color: red;
 }
 
 .nav-focused {
   color: yellow;
+}*/
+
+.spinner {
+  position: absolute;
 }
+
+.list-indicator {
+  position: absolute;
+  left: 120px;
+  top: -200;
+  right: 0;
+  height: 170px;
+  background-color: @light-background-color;
+  .transition(0.1s ease-in-out all);
+  .box-shadow(-5px 5px 3px rgba(0,0,0,.2));
+}
+
+.list {
+  .transition(0.1s ease-in-out all);
+  margin-left: 200px;
+
+  li {
+    .vertical-gradient(rgba(255,255,255,.15), rgba(255,255,255,.05));
+    .transition(none);
+  }
+
+  li:nth-child(2n) {
+    .vertical-gradient(rgba(255,255,255,.1), rgba(255,255,255,.01));
+  }
+
+  .image {
+    float: left;
+    width: 130px;
+    height: 130px;
+    background-size: cover;
+  }
+
+  .right {
+    margin-left: 150px;
+  }
+
+  a {
+    display: block;
+    height: 170px;
+    overflow: hidden;
+    -webkit-box-sizing: border-box;
+    padding: 20px 20px;
+    text-overflow: ellipsis-word;
+    font-weight: normal;
+    font-size: 1.2em;
+    position: relative;
+  }
+
+  .nav-active {
+    color: @dark-text-color;
+    background: none;
+    position: relative;
+    left: -80px;
+    .transition(0.1s ease-in-out left .07s);
+  }
+}
+
+

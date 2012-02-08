@@ -22,9 +22,23 @@ a{color:inherit;text-decoration:none;}
 #container{display:block;position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden;}
 body{font-size:15 px;}
 ul{list-style:none;}
-#toolbar{width:20%;}
-#cards{position:absolute;top:0;right:0;bottom:0;left:20%;overflow:hidden;}
-.content{-webkit-transition:0.1s ease-in-out all;-moz-transition:0.1s ease-in-out all;-ms-transition:0.1s ease-in-out all;transition:0.1s ease-in-out all;}
+#toolbar{height:100%;background:transparent url(../images/tv-shadow.png) no-repeat 275px center;background-size:auto 100%;}#toolbar ul{background-image:-webkit-gradient(linear, left top, left bottom, from(#454f0f), to(#141704));background-image:-webkit-linear-gradient(#454f0f, #141704);background-image:-moz-linear-gradient(#454f0f, #141704);width:275px;height:100%;padding-top:200px;}
+#toolbar a{width:120px;height:60px;display:block;text-indent:-30000px;background-repeat:no-repeat;background-position:center center;}#toolbar a.photos{background-image:url(../images/phone-photos.png);}
+#toolbar a.statuses{background-image:url(../images/phone-statuses.png);}
+#toolbar a.videos{background-image:url(../images/phone-videos.png);}
+#toolbar a.events{background-image:url(../images/phone-events.png);}
+#toolbar a.news{background-image:url(../images/phone-news.png);}
+#toolbar a.contact{background-image:url(../images/phone-contact.png);}
+#toolbar li{width:120px;height:60px;margin:0 auto 10px;background:#4c5811;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;}#toolbar li.nav-active{background:transparent url(../images/phone-glow.png) no-repeat center center;}
+#toolbar .highlight{position:absolute;left:137.5px;top:0;height:100%;width:137.5px;pointer-events:none;background-image:-webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0.02)), to(rgba(255, 255, 255, 0.01)));background-image:-webkit-linear-gradient(right center, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));background-image:-moz-linear-gradient(right center, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));}
+#cards{position:absolute;top:0;right:0;bottom:0;left:275px;overflow:hidden;}
+.content{position:relative;}
 .slide-panel{width:200%;height:100%;-webkit-transition:0.4s ease-in-out all;-moz-transition:0.4s ease-in-out all;-ms-transition:0.4s ease-in-out all;transition:0.4s ease-in-out all;}.slide-panel .content{float:left;width:50%;}
-.nav-active{color:red;}
-.nav-focused{color:yellow;}
+.spinner{position:absolute;}
+.list-indicator{position:absolute;left:120px;top:-200;right:0;height:170px;background-color:#ffffff;-webkit-transition:0.1s ease-in-out all;-moz-transition:0.1s ease-in-out all;-ms-transition:0.1s ease-in-out all;transition:0.1s ease-in-out all;-webkit-box-shadow:-5px 5px 3px rgba(0, 0, 0, 0.2);-moz-box-shadow:-5px 5px 3px rgba(0, 0, 0, 0.2);box-shadow:-5px 5px 3px rgba(0, 0, 0, 0.2);}
+.list{-webkit-transition:0.1s ease-in-out all;-moz-transition:0.1s ease-in-out all;-ms-transition:0.1s ease-in-out all;transition:0.1s ease-in-out all;margin-left:200px;}.list li{background-image:-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.15)), to(rgba(255, 255, 255, 0.05)));background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));-webkit-transition:none;-moz-transition:none;-ms-transition:none;transition:none;}
+.list li:nth-child(2n){background-image:-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.1)), to(rgba(255, 255, 255, 0.01)));background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.01));background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.01));}
+.list .image{float:left;width:130px;height:130px;background-size:cover;}
+.list .right{margin-left:150px;}
+.list a{display:block;height:170px;overflow:hidden;-webkit-box-sizing:border-box;padding:20px 20px;text-overflow:ellipsis-word;font-weight:normal;font-size:1.2em;position:relative;}
+.list .nav-active{color:#333333;background:none;position:relative;left:-80px;-webkit-transition:0.1s ease-in-out left 0.07s;-moz-transition:0.1s ease-in-out left 0.07s;-ms-transition:0.1s ease-in-out left 0.07s;transition:0.1s ease-in-out left 0.07s;}

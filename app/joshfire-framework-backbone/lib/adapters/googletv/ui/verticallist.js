@@ -72,12 +72,17 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
 
       var translate  = 'translate3d(0,' + translateY + 'px,0)';
 
-      $(this.el).css({
+      this.$('ul').css({
         '-webkit-transform': translate,
         '-moz-transform': translate,
         '-ms-transform': translate,
         '-o-transform': translate,
         'transform': translate
+      });
+
+      $(this.el).find('.list-indicator').css({
+        top: (parentHeight - $lastChild.height()) * num / this.items.length,
+        height: $item.height()
       });
 
       this.active = num;
