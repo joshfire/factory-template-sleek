@@ -321,6 +321,6 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
 
     window.location = '#';
     router.historyStart();
-    toolbar.navFocus(horizontalLayout);
+    horizontalLayout.activate(0);
   });
 });
