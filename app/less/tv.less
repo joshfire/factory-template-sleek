@@ -112,7 +112,9 @@ h1, h2, h3, h4, h5, h6 {
   &.nav-focused {
     .nav-active {
       .box-shadow(0 0 50px rgba(255,255,255,.3));
-      outline: solid 1px rgba(255,255,255,.2);
+      border: solid 1px rgba(255,255,255,.2);
+      width: 118px;
+      height: 58px;
     }
   }
 }
@@ -151,6 +153,30 @@ h1, h2, h3, h4, h5, h6 {
 
 .content {
   position: relative;
+  height: 100%;
+  overflow: hidden;
+
+  &.loading {
+    .spinner {
+      display: block;
+    }
+  }
+
+  .spinner {
+    background: rgba(0,0,0,.9) url(../images/spinner.gif) no-repeat center center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    top: 50%;
+    width: 5em;
+    height: 5em;
+    margin-top: -2.5em;
+    margin-left: -2.5em;
+    z-index: 50;
+    display: none;
+    .border-radius(.5em);
+  }
 }
 
 .slide-panel {
@@ -172,10 +198,6 @@ h1, h2, h3, h4, h5, h6 {
   color: yellow;
 }*/
 
-.spinner {
-  position: absolute;
-}
-
 
 .list-container {
   margin-left: 400px;
@@ -191,7 +213,7 @@ h1, h2, h3, h4, h5, h6 {
   top: -200;
   right: 0;
   height: 170px;
-  background-color: @light-background-color;
+  background: @light-background-color url(../images/tv-more-black.png) no-repeat right center;
   .box-shadow(-5px 5px 3px rgba(0,0,0,.2));
 }
 
@@ -258,6 +280,10 @@ h1, h2, h3, h4, h5, h6 {
       background: none;
       margin-left: -100px;
       .transition(0.1s ease-in-out margin-left .1s);
+
+      a {
+        background: none;
+      }
     }
   }
 }

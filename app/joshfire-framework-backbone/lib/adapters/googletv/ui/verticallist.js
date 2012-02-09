@@ -62,24 +62,23 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
       this.$('.nav-active').removeClass('nav-active');
 
       var $item = $(this.items[num].view.el);
+      var $ul = this.$('ul');
 
       $item.addClass('nav-active');
 
+      var ulHeight = $ul.height();
       var height = $(this.el).height();
-      console.log($(this.el).parent().height());
-      console.log($(this.el).parent().offset().top);
-      var parentHeight = $(this.el).parent().height();
       var $lastChild = $(this.items[this.items.length - 1].view.el);
 
-      if(height > parentHeight) {
-        var translateY = -num * (height - parentHeight + $lastChild.height()) / this.items.length;
+      if(ulHeight > height) {
+        var translateY = -num * (ulHeight - height + $lastChild.height()) / this.items.length;
       } else {
         translateY = 0;
       }
 
       var translate  = 'translate3d(0,' + translateY + 'px,0)';
 
-      this.$('ul').css({
+      $ul.css({
         '-webkit-transform': translate,
         '-moz-transform': translate,
         '-ms-transform': translate,
@@ -88,7 +87,7 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
       });
 
       $(this.el).find('.list-indicator').css({
-        top: this.offsetTop + (parentHeight - this.offsetTop - this.offsetBottom -$lastChild.height()) * num / this.items.length
+        top: this.offsetTop + (height - this.offsetTop - this.offsetBottom -$lastChild.height()) * num / this.items.length
       });
 
       this.active = num;
