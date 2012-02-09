@@ -73,7 +73,8 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       el: '#statuses-content',
       templateEl: '#item-list',
       contentSelector: '> div:first-child',
-      scroller: true,
+      offsetTop: 40,
+      offsetBottom: 40,
       itemFactory: Spot.itemFactory,
       collection: Spot.collections.statuses
     });
@@ -100,7 +101,8 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       el: '#events-content',
       templateEl: '#item-list',
       contentSelector: '> div:first-child',
-      scroller: true,
+      offsetTop: 40,
+      offsetBottom: 40,
       itemFactory: Spot.itemFactory,
       collection: Spot.collections.events
     });
@@ -127,7 +129,8 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       el: '#videos-content',
       templateEl: '#item-list',
       contentSelector: '> div:first-child',
-      scroller: true,
+      offsetTop: 40,
+      offsetBottom: 40,
       itemFactory: Spot.itemFactory,
       collection: Spot.collections.videos
     });
@@ -157,7 +160,8 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       el: '#news-content',
       templateEl: '#item-list',
       contentSelector: '> div:first-child',
-      scroller: true,
+      offsetTop: 40,
+      offsetBottom: 40,
       itemFactory: Spot.itemFactory,
       collection: Spot.collections.news
     });
@@ -183,8 +187,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     contactViews.index = new Text({
       el: '#contact-index',
       templateEl: '#template-contact-index',
-      textContent: Spot.contactHTML,
-      scroller: true
+      textContent: Spot.contactHTML
     });
 
     contactViews.map = new Map({

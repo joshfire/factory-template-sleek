@@ -4,27 +4,54 @@
 @import 'params';
 @import 'global';
 
-@font-size: 15;
+@font-size: 36;
 @toolbar-width: 275px;
 
-body {
-  font-size: @font-size px;
+body.device-tv {
+  font-size: @font-size / 1px;
+
+  background: url(http://upload.wikimedia.org/wikipedia/commons/e/e9/UC-Berkeley-campus-overview-from-hills.h.jpg) no-repeat center center;
+  background-size: cover;
+}
+
+#container {
+  .vertical-gradient(fade(@background-color, 90%), fade(darken(@background-color, 17%), 90%));
 }
 
 ul {
   list-style: none;
 }
 
+a {
+  font: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 1em;
+  font-weight: normal;
+}
+
+#logo {
+  position: absolute;
+  width: @toolbar-width;
+  text-align: center;
+  padding: 40px 0;
+}
+
 #toolbar {
-  height: 100%;
   background: transparent url(../images/tv-shadow.png) no-repeat @toolbar-width center;
   background-size: auto 100%;
+  position: relative;
+  width: 375px;
+  height: 100%;
+  z-index: 20;
 
   ul {
     .vertical-gradient(@background-color, darken(@background-color, 13%));
     width: @toolbar-width;
     height: 100%;
-    padding-top: 200px;
+    padding-top: 300px;
+    -webkit-box-sizing: border-box;
   }
 
   a {
@@ -36,27 +63,27 @@ ul {
     background-position: center center;
 
     &.photos {
-      background-image: url(../images/phone-photos.png);
+      background-image: url(../images/tv-photos.png);
     }
 
     &.statuses {
-      background-image: url(../images/phone-statuses.png);
+      background-image: url(../images/tv-statuses.png);
     }
 
     &.videos {
-      background-image: url(../images/phone-videos.png);
+      background-image: url(../images/tv-videos.png);
     }
 
     &.events {
-      background-image: url(../images/phone-events.png);
+      background-image: url(../images/tv-events.png);
     }
 
     &.news {
-      background-image: url(../images/phone-news.png);
+      background-image: url(../images/tv-news.png);
     }
 
     &.contact {
-      background-image: url(../images/phone-contact.png);
+      background-image: url(../images/tv-contact.png);
     }
   }
 
@@ -68,7 +95,7 @@ ul {
     .border-radius(4px);
 
     &.nav-active {
-      background: transparent url(../images/phone-glow.png) no-repeat center center;
+      background: transparent url(../images/tv-glow.png) no-repeat center center;
     }
   }
 
@@ -81,6 +108,35 @@ ul {
     pointer-events: none;
     .horizontal-gradient(rgba(255,255,255,.02), rgba(255,255,255,.01));
   }
+
+  &.nav-focused {
+    .nav-active {
+      .box-shadow(0 0 50px rgba(255,255,255,.3));
+      outline: solid 1px rgba(255,255,255,.2);
+    }
+  }
+}
+
+#top-gradient-overlay {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  right: 0;
+  left: @toolbar-width;
+  height: 80px;
+  pointer-events: none;
+  .vertical-gradient(lighten(@background-color, 10%), fade(lighten(@background-color, 10%), 0%));
+}
+
+#bottom-gradient-overlay {
+  position: absolute;
+  z-index: 10;
+  bottom: 0;
+  right: 0;
+  left: @toolbar-width;
+  height: 80px;
+  pointer-events: none;
+  .vertical-gradient(fade(darken(@background-color, 6%), 0%), darken(@background-color, 6%));
 }
 
 #cards {
@@ -90,6 +146,7 @@ ul {
   bottom: 0;
   left: @toolbar-width;
   overflow: hidden;
+  z-index: 5;
 }
 
 .content {
@@ -119,24 +176,39 @@ ul {
   position: absolute;
 }
 
+
+.list-container {
+  margin-left: 400px;
+  background-color: darken(@background-color, 10%);
+  .box-shadow(-5px 5px 10px rgba(0,0,0,.3));
+}
+
 .list-indicator {
+  .opacity(0);
+  .transition(0.1s ease-in-out all);
   position: absolute;
-  left: 120px;
+  left: 300px;
   top: -200;
   right: 0;
   height: 170px;
   background-color: @light-background-color;
-  .transition(0.1s ease-in-out all);
   .box-shadow(-5px 5px 3px rgba(0,0,0,.2));
 }
 
 .list {
   .transition(0.1s ease-in-out all);
-  margin-left: 200px;
 
   li {
     .vertical-gradient(rgba(255,255,255,.15), rgba(255,255,255,.05));
     .transition(none);
+  }
+
+  li:first-child {
+    padding-top: 40px;
+  }
+
+  li:last-child {
+    padding-bottom: 40px;
   }
 
   li:nth-child(2n) {
@@ -144,34 +216,49 @@ ul {
   }
 
   .image {
-    float: left;
     width: 130px;
     height: 130px;
     background-size: cover;
   }
 
+  .left {
+    float: left;
+  }
+
   .right {
-    margin-left: 150px;
+    margin-left: 160px;
+
+    .item-content {
+      height: 130px;
+      display: table-cell;
+      vertical-align: middle;
+      overflow: hidden;
+    }
   }
 
   a {
     display: block;
-    height: 170px;
-    overflow: hidden;
-    -webkit-box-sizing: border-box;
-    padding: 20px 20px;
-    text-overflow: ellipsis-word;
+    height: 130px;
+    padding: 20px 80px 20px 30px;
     font-weight: normal;
-    font-size: 1.2em;
+    font-size: 1em;
     position: relative;
+    word-wrap: break-word;
+  }
+}
+
+#cards.nav-focused-ancestor {
+  .list-indicator {
+    .opacity(1);
   }
 
-  .nav-active {
-    color: @dark-text-color;
-    background: none;
-    position: relative;
-    left: -80px;
-    .transition(0.1s ease-in-out left .07s);
+  .list {
+    .nav-active {
+      color: @dark-text-color;
+      background: none;
+      margin-left: -100px;
+      .transition(0.1s ease-in-out margin-left .1s);
+    }
   }
 }
 

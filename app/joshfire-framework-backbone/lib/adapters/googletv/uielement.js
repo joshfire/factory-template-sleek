@@ -22,10 +22,15 @@ define(["joshlib!adapters/none/uielement","joshlib!vendor/underscore","joshlib!u
      * Gives focus to the element.
      */
     navFocus: function(origin) {
-      $(this.el).addClass('nav-focused');
+      var $el = $(this.el);
+
+      $el.addClass('nav-focused');
       $(document).keydown(this.processKey);
       this.origin = origin;
       this.focused = true;
+
+      $('.nav-focused-ancestor').removeClass('nav-focused-ancestor');
+      $el.parents().addClass('nav-focused-ancestor');
 
       if(UIElementTV.focusedElement) {
         UIElementTV.focusedElement.navBlur();

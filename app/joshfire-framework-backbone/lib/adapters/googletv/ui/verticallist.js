@@ -3,9 +3,14 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
   var UIVerticalList = UIList.extend({
 
     initialize: function(options) {
+      options = options || {};
+
       UIList.prototype.initialize.call(this, options);
 
       this.active = -1;
+
+      this.offsetTop = options.offsetTop || 0;
+      this.offsetBottom = options.offsetBottom || 0;
     },
 
     navFocus: function(origin, event) {
@@ -61,6 +66,8 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
       $item.addClass('nav-active');
 
       var height = $(this.el).height();
+      console.log($(this.el).parent().height());
+      console.log($(this.el).parent().offset().top);
       var parentHeight = $(this.el).parent().height();
       var $lastChild = $(this.items[this.items.length - 1].view.el);
 
@@ -81,8 +88,7 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
       });
 
       $(this.el).find('.list-indicator').css({
-        top: (parentHeight - $lastChild.height()) * num / this.items.length,
-        height: $item.height()
+        top: this.offsetTop + (parentHeight - this.offsetTop - this.offsetBottom -$lastChild.height()) * num / this.items.length
       });
 
       this.active = num;

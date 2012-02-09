@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="gtv-autozoom" content="off">
 
     <script type="text/javascript" src="todate.js"></script>
     <script type="text/javascript" src="vendor/moment.js"></script>
@@ -43,7 +44,7 @@
 
         <div id="statuses-cards" class="slide-panel">
           <section id="statuses-content" class="content">
-            <div></div>
+            <div class="list-container"></div>
             <div class="spinner">&nbsp;</div>
           </section>
 
@@ -55,7 +56,7 @@
 
         <div id="news-cards" class="slide-panel">
           <section id="news-content" class="content">
-            <div></div>
+            <div class="list-container"></div>
             <div class="spinner">&nbsp;</div>
           </section>
 
@@ -67,7 +68,7 @@
 
         <div id="videos-cards" class="slide-panel">
           <section id="videos-content" class="content">
-            <div></div>
+            <div class="list-container"></div>
             <div class="spinner">&nbsp;</div>
           </section>
 
@@ -79,7 +80,7 @@
 
         <div id="events-cards" class="slide-panel">
           <section id="events-content" class="content">
-            <div></div>
+            <div class="list-container"></div>
             <div class="spinner">&nbsp;</div>
           </section>
 
@@ -100,12 +101,16 @@
 
       </div>
 
+      <div id="top-gradient-overlay"></div>
+      <div id="bottom-gradient-overlay"></div>
+
       <div id="toolbar"></div>
     </div>
 
     <!-- TEMPLATES -->
 
     <script type="text/template" id="template-toolbar">
+      <div id="logo"><img src="http://www.ifris.org/local/cache-vignettes/L200xH200/arton387-7e17a.png"></div>
       <ul>
         <%= children %>
       </ul>
@@ -142,12 +147,14 @@
       <li class="status-item">
         <div>
           <a href="#status/<%= offset %>">
-            <img src="<%= item.author[0].image.contentURL %>">
-            <div class="right">
-              <h3><%= item.author[0].name %></h3>
-              <p><%= item.name %></p>
-              <h4><%= moment(toDate(item.datePublished)).fromNow() %></h4>
+            <div class="left">
+              <div class="image" style="background-image: url(<%= item.author[0].image.contentURL %>)"></div>
             </div>
+            <div class="right"><div class="item-content">
+              <!--h3><%= item.author[0].name %></h3-->
+              <h3><%= item.name %></h3>
+              <!--h4><%= moment(toDate(item.datePublished)).fromNow() %></h4-->
+            </div></div>
           </a>
         </div>
       </li>
@@ -158,10 +165,12 @@
         <div>
           <a href="#video/<%= offset %>">
             <div>
-              <div class="image" style="background-image: url(<%= item.thumbnail[0].contentURL %>)"></div>
-              <div class="right">
-                <h3><%= item.name %></h3>
+              <div class="left">
+                <div class="image" style="background-image: url(<%= item.thumbnail[0].contentURL %>)"></div>
               </div>
+              <div class="right"><div class="item-content">
+                <h3><%= item.name %></h3>
+              </div></div>
             </div>
           </a>
         </div>
