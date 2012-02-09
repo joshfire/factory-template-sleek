@@ -12,9 +12,49 @@ define(["joshlib!adapters/none/uielement","joshlib!vendor/underscore","joshlib!u
       if(options) {
         if(options.navUp) this.navUp = options.navUp;
         if(options.navRight) this.navRight = options.navRight;
-        if(options.navBottom) this.navBottom = options.navBottom;
+        if(options.navDown) this.navDown = options.navDown;
         if(options.navLeft) this.navLeft = options.navLeft;
         if(options.navAction) this.navAction = options.navAction;
+
+        if(options.scroller) this.scroller = true;
+      }
+    },
+
+    enhance: function() {
+      if(this.scroller) {
+        var $el = $(this.el);
+        var $content = $el.children().first();
+        var height = $el.height();
+        var contentHeight = $content.height();
+        var translateY = 0;
+
+        this.navDown = function() {
+          translateY = Math.max(height - contentHeight, translateY - 100);
+
+          var translate  = 'translate3d(0,' + translateY + 'px,0)';
+
+          $content.css({
+            '-webkit-transform': translate,
+            '-moz-transform': translate,
+            '-ms-transform': translate,
+            '-o-transform': translate,
+            'transform': translate
+          });
+        };
+
+        this.navUp = function() {
+          translateY = Math.min(0, translateY + 100);
+
+          var translate  = 'translate3d(0,' + translateY + 'px,0)';
+
+          $content.css({
+            '-webkit-transform': translate,
+            '-moz-transform': translate,
+            '-ms-transform': translate,
+            '-o-transform': translate,
+            'transform': translate
+          });
+        };
       }
     },
 

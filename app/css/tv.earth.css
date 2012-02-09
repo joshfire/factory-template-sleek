@@ -55,3 +55,4 @@ h1,h2,h3,h4,h5,h6{font-size:1em;font-weight:normal;}
 .list a{display:block;height:130px;padding:20px 80px 20px 30px;font-weight:normal;font-size:1em;position:relative;word-wrap:break-word;}
 #cards.nav-focused-ancestor .list-indicator{filter:alpha(opacity=100);-khtml-opacity:1;-moz-opacity:1;opacity:1;}
 #cards.nav-focused-ancestor .list .nav-active{color:#333333;background:none;margin-left:-100px;-webkit-transition:0.1s ease-in-out margin-left 0.1s;-moz-transition:0.1s ease-in-out margin-left 0.1s;-ms-transition:0.1s ease-in-out margin-left 0.1s;transition:0.1s ease-in-out margin-left 0.1s;}#cards.nav-focused-ancestor .list .nav-active a{background:none;}
+.detail div{max-width:800px;margin:0 auto;padding:100px 40px;font-size:60px;-webkit-transition:0.1s ease-in-out all;-moz-transition:0.1s ease-in-out all;-ms-transition:0.1s ease-in-out all;transition:0.1s ease-in-out all;}

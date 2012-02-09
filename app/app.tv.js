@@ -61,7 +61,6 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     views.photos = new ImageGallery({
       el: '#photos-content',
       templateEl: '#item-list',
-      scroller: true,
       itemFactory: Spot.itemFactory,
       collection: Spot.collections.photos
     });
@@ -82,6 +81,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     statusesViews.detail = new Item({
       el: '#status-detail',
       templateEl: '#template-status',
+      scroller: true,
       navLeft: function() {
         window.location = '#statuses';
       }
@@ -110,6 +110,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     eventsViews.detail = new Item({
       el: '#event-detail',
       templateEl: '#template-event',
+      scroller: true,
       navLeft: function() {
         window.location = '#events';
       }
@@ -138,6 +139,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     videosViews.detail = new ImageLoader({
       el: '#video-detail',
       templateEl: '#template-video',
+      scroller: true,
       getImageUrl: function() {
         return Spot.getVideoThumbnail(this.model.toJSON());
       },
@@ -169,6 +171,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     newsViews.detail = new Item({
       el: '#news-detail',
       templateEl: '#template-news',
+      scroller: true,
       navLeft: function() {
         window.location = '#news';
       }
