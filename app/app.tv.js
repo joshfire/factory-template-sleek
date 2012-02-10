@@ -28,14 +28,14 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     // Toolbar
     //
 
-    var sectionNames = [/*'photos', 'videos',*/ 'statuses', 'events', 'news', 'contact'];
+    var sectionNames = [/*'photos', 'videos',*/ 'statuses', 'events', 'news', 'contact', 'map'];
 
     var sections = new Backbone.Collection();
 
     for(var i = 0; i < sectionNames.length; i++) {
       name = sectionNames[i];
 
-      if(Spot.collections[name] || name == 'contact') {
+      if(Spot.collections[name] || name == 'contact' || name == 'map') {
         sections.add({name: name, linkURL: '#' + name});
       }
 
@@ -193,33 +193,33 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     views.news = newsCards;
 
     // Contact
-    var contactViews = {};
 
-    contactViews.index = new Text({
-      el: '#contact-index',
-      templateEl: '#template-contact-index',
+    contactView = new Text({
+      el: '#contact-content',
+      templateEl: '#template-contact',
       textContent: Spot.contactHTML,
       scroller: true,
       offsetTop: 100,
       offsetBottom: 100,
     });
 
-    contactViews.map = new Map({
-      el: '#contact-map',
-      templateEl: '#template-contact-map',
+    views.contact = contactView;
+
+    mapView = new Map({
+      el: '#map-content',
+      templateEl: '#template-map',
       latitude: Spot.latitude,
       longitude: Spot.longitude,
       icon: 'images/phone-location.png',
       overlayTemplateEl: '#template-map-overlay',
-      overlayOptions: { address: Spot.address }
+      overlayOptions: { address: Spot.address },
+      openOverlay: true,
+      mapOptions: {
+        disableDefaultUI: true
+      }
     });
 
-    var contactCards = new SlidePanel({
-      el: '#contact-cards',
-      children: contactViews
-    });
-
-    views.contact = contactCards;
+    views.map = mapView;
 
 
     // Card panel
@@ -319,16 +319,14 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       contact: function() {
         document.body.id = 'contact';
         cards.showChildren('contact');
-        contactCards.showChildren('index');
-        contactViews.index.render();
+        contactView.render();
       },
 
       // Map
       map: function() {
         document.body.id = 'map';
-        cards.showChildren('contact');
-        contactCards.showChildren('map');
-        contactViews.map.render();
+        cards.showChildren('map');
+        mapView.render();
       }
 
     });

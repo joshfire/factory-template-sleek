@@ -20,6 +20,7 @@ define(["joshlib!uielement","joshlib!utils/dollar","joshlib!vendor/underscore"],
       this.mapOptions = options.mapOptions || {};
       this.markerOptions = options.markerOptions || {};
       this.overlayOptions = options.overlayOptions || {};
+      this.openOverlay = options.openOverlay;
 
       this.latitude = options.latitude;
       this.longitude = options.longitude;
@@ -65,6 +66,10 @@ define(["joshlib!uielement","joshlib!utils/dollar","joshlib!vendor/underscore"],
           google.maps.event.addListener(marker, 'click', function() {
             infoWindow.open(map, marker);
           });
+
+          if(this.openOverlay) {
+            infoWindow.open(map, marker);
+          }
         }
       }
 
