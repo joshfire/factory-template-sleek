@@ -31,7 +31,11 @@ define(["joshlib!adapters/none/uielement","joshlib!vendor/underscore","joshlib!u
         var translateY = 0;
 
         this.navDown = function() {
-          translateY = Math.max(height - contentHeight - this.offsetTop, translateY - 100);
+          if(contentHeight + this.offsetBottom + this.offsetTop < height) {
+            return;
+          }
+
+          translateY = Math.max(height - contentHeight - this.offsetBottom - this.offsetTop, translateY - 100);
 
           var translate  = 'translate3d(0,' + translateY + 'px,0)';
 
@@ -45,6 +49,10 @@ define(["joshlib!adapters/none/uielement","joshlib!vendor/underscore","joshlib!u
         };
 
         this.navUp = function() {
+          if(contentHeight < height + this.offsetBottom + this.offsetTop) {
+            return;
+          }
+
           translateY = Math.min(0 + this.offsetBottom, translateY + 100);
 
           var translate  = 'translate3d(0,' + translateY + 'px,0)';

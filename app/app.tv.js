@@ -28,7 +28,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     // Toolbar
     //
 
-    var sectionNames = [/*'photos', */'videos', /*'contact',*/ 'events', 'news', 'statuses'];
+    var sectionNames = [/*'photos', 'videos', 'contact',*/ 'events', 'news', 'statuses'];
 
     var sections = new Backbone.Collection();
 
