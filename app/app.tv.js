@@ -82,6 +82,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       el: '#status-detail',
       templateEl: '#template-status',
       scroller: true,
+      offsetTop: 100,
       navLeft: function() {
         window.location = '#statuses';
       }
@@ -111,6 +112,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       el: '#event-detail',
       templateEl: '#template-event',
       scroller: true,
+      offsetTop: 100,
       navLeft: function() {
         window.location = '#events';
       }
@@ -140,6 +142,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       el: '#video-detail',
       templateEl: '#template-video',
       scroller: true,
+      offsetTop: 100,
       getImageUrl: function() {
         return Spot.getVideoThumbnail(this.model.toJSON());
       },
@@ -172,6 +175,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       el: '#news-detail',
       templateEl: '#template-news',
       scroller: true,
+      offsetTop: 100,
       navLeft: function() {
         window.location = '#news';
       }

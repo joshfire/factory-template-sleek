@@ -16,7 +16,9 @@ define(["joshlib!adapters/none/uielement","joshlib!vendor/underscore","joshlib!u
         if(options.navLeft) this.navLeft = options.navLeft;
         if(options.navAction) this.navAction = options.navAction;
 
-        if(options.scroller) this.scroller = true;
+        this.scroller = options.scroller || false;
+        this.offsetTop = options.offsetTop || 0;
+        this.offsetBottom = options.offsetBottom || 0;
       }
     },
 
@@ -29,7 +31,7 @@ define(["joshlib!adapters/none/uielement","joshlib!vendor/underscore","joshlib!u
         var translateY = 0;
 
         this.navDown = function() {
-          translateY = Math.max(height - contentHeight, translateY - 100);
+          translateY = Math.max(height - contentHeight - this.offsetTop, translateY - 100);
 
           var translate  = 'translate3d(0,' + translateY + 'px,0)';
 
@@ -43,7 +45,7 @@ define(["joshlib!adapters/none/uielement","joshlib!vendor/underscore","joshlib!u
         };
 
         this.navUp = function() {
-          translateY = Math.min(0, translateY + 100);
+          translateY = Math.min(0 + this.offsetBottom, translateY + 100);
 
           var translate  = 'translate3d(0,' + translateY + 'px,0)';
 
