@@ -394,3 +394,43 @@ h1, h2, h3, h4, h5, h6 {
   font-size: .8em;
 }
 
+.mosaic {
+  padding: 1%;
+  background: darken(@background-color, 30%);
+  .clear-fix;
+
+  .photo-item {
+    float: left;
+    width: 31%;
+    margin: 1%;
+
+    &.loading {
+      .spinner {
+        display: block !important;
+      }
+    }
+
+  }
+
+  .image {
+    background-position: center center;
+    background-size: cover;
+    width: 100%;
+    height: 0;
+    padding-top: 100%;
+    position: relative;
+
+    .spinner {
+      background: transparent url(../images/image-spinner.gif) no-repeat center center;
+      margin: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      display: none;
+    }
+  }
+}
+

@@ -28,7 +28,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     // Toolbar
     //
 
-    var sectionNames = [/*'photos', 'videos',*/ 'statuses', 'events', 'news', 'contact', 'map'];
+    var sectionNames = [/* 'videos',*/ 'statuses', 'events', 'news', 'contact', 'map', 'photos'];
 
     var sections = new Backbone.Collection();
 
@@ -58,11 +58,12 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     var views = {};
 
     // Photos
-    views.photos = new ImageGallery({
+    views.photos = new List({
       el: '#photos-content',
-      templateEl: '#item-list',
+      templateEl: '#template-mosaic',
       itemFactory: Spot.itemFactory,
-      collection: Spot.collections.photos
+      collection: Spot.collections.photos,
+      scroller: true
     });
 
     // Statuses

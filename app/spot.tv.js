@@ -17,7 +17,7 @@ define(['spot', 'joshlib!utils/dollar'], function(Spot, $) {
     // Returns a thumbnail URL form a video object
     //
     getVideoThumbnail: function(item) {
-      if(item.thumbnails) {
+      if(item.thumbnail) {
         var thumbnails = item.thumbnail;
         var best = thumbnails[0];
 
@@ -34,24 +34,25 @@ define(['spot', 'joshlib!utils/dollar'], function(Spot, $) {
     },
 
     getThumbnail: function(item, offset) {
-      var width = document.body.clientWidth;
+      var width = document.body.clientWidth * .3;
 
-      if(offset < this.collections.photos.length - 1) {
-        width *= .5;
-      }
-
-      if(item.thumbnails) {
-        var thumbnails = item.thumbnails;
+      if(item.thumbnail) {
+        var thumbnails = item.thumbnail;
+        var best = thumbnails[0];
 
         for (var i=0; i < thumbnails.length; i++) {
           var thumbnail = thumbnails[i];
 
-          if(thumbnail.width >= width) return thumbnail.contentURL;
+          if(thumbnail.width >= width && (thumbnail.width < best.width || best.width < width)) {
+            best = thumbnails[i];
+          }
         }
+
+        return best.contentURL;
       }
 
       return item.contentURL;
-    },
+    }
   });
 
   return Spot;

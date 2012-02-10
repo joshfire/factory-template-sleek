@@ -69,3 +69,6 @@ h1,h2,h3,h4,h5,h6{font-size:1em;font-weight:normal;}
 #contact-index>div{font-size:40px;}
 .map{height:100%;}
 .map-overlay{color:#333333;font-size:.8em;}
+.mosaic{padding:1%;background:#000000;}.mosaic:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
+.mosaic .photo-item{float:left;width:31%;margin:1%;}.mosaic .photo-item.loading .spinner{display:block !important;}
+.mosaic .image{background-position:center center;background-size:cover;width:100%;height:0;padding-top:100%;position:relative;}.mosaic .image .spinner{background:transparent url(../images/image-spinner.gif) no-repeat center center;margin:0;position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;display:none;}
