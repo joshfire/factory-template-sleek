@@ -206,25 +206,28 @@
 
     <script type="text/template" id="template-status">
       <div>
-        <div class="message">
-          <p><%= prettyStatus(item.name) %></p>
-          <div class="status-footer">
-            <div class="image" style="background-image: url(<%= item.author[0].image.contentURL %>)"></div>
-            <p><%= item.author[0].name %> - <%= moment(toDate(item.datePublished)).fromNow() %></p>
-          </div>
+        <div class="head">
+          <div class="image" style="background-image: url(<%= item.author[0].image.contentURL %>)"></div>
+          <div class="title"><p><%= item.author[0].name %><br><%= moment(toDate(item.datePublished)).fromNow() %></p></div>
+        </div>
+        <p><%= prettyStatus(item.name) %></p>
       </div>
     </script>
 
     <script type="text/template" id="template-event">
       <div>
-        <h3><%= item.name %></h3>
-        <% if(item.description) { %>
-          <p class="description"><%= item.description %></p>
-        <% } %>
-        <% if(item.location && item.location.name) { %>
-          <p class="location"><%= item.location.name %></p>
-        <% } %>
-        <h4>From <%= moment(toDate(item.startDate)).format('LLLL') %> to <%= moment(toDate(item.endDate)).format('LLLL') %></h4>
+        <div class="head">
+          From <%= moment(toDate(item.startDate)).format('LLLL') %> to <%= moment(toDate(item.endDate)).format('LLLL') %>
+        </div>
+        <div class="body">
+          <h4><%= item.name %></h4>
+          <% if(item.description) { %>
+            <p class="description"><%= item.description %></p>
+          <% } %>
+          <% if(item.location && item.location.name) { %>
+            <p class="location"><%= item.location.name %></p>
+          <% } %>
+        </div>
       </div>
     </script>
 
@@ -245,9 +248,11 @@
 
     <script type="text/template" id="template-news">
       <div>
-        <h3><%= item.name %></h3>
-        <h4><%= moment(toDate(item.datePublished)).format('LLLL') %></h4>
+        <div class="head">
+          <%= item.name %>
+        </div>
         <div class="body">
+          <h4><%= moment(toDate(item.datePublished)).format('LLLL') %></h4>
           <%= item.articleBody %>
         </div>
       </div>

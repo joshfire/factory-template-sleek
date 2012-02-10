@@ -318,7 +318,7 @@ h1, h2, h3, h4, h5, h6 {
 .detail > div, #contact-index > div {
   max-width: 800px;
   margin: 0 auto;
-  padding: 100px 40px;
+  padding: 100px 180px;
   font-size: 60px;
   .transition(0.1s ease-in-out all);
   text-shadow: 0 0 1px rgba(0,0,0,.9), 0 0 10px rgba(0,0,0,.8);
@@ -346,16 +346,28 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-.status-footer {
-  font-size: .8em;
-  padding: 0 40px;
+.head {
+  font-size: @font-size / 1px;
+  padding: 20px 30px 20px 100px;
+  margin-bottom: 40px;
+  margin-left: -100px;
+  text-shadow: none;
+  background: @light-background-color url(../images/tv-back.png) no-repeat 20px center;
+  color: @dark-text-color;
+  display: inline-block;
+  .box-shadow(-5px 5px 3px rgba(0,0,0,.2));
+  .clear-fix;
 
   .image {
     width: 130px;
     height: 130px;
     background-size: cover;
-    float: left;
-    margin-right: 30px;
+    float: right;
+    margin-left: 30px;
+  }
+
+  .title {
+    margin-right: 190px;
   }
 }
 
