@@ -251,6 +251,24 @@ h1, h2, h3, h4, h5, h6 {
     margin-left: 160px;
   }
 
+  .far-left {
+    position: absolute;
+    top: 0;
+    left: -320px;
+    color: @text-color;
+  }
+
+  .far-left p {
+    padding: 20px 0;
+    width: 230px;
+    height: 130px;
+    overflow: hidden;
+    font-size: .8em;
+    display: table-cell;
+    vertical-align: middle;
+    text-shadow: 0 0 1px rgba(0,0,0,.9), 0 0 10px rgba(0,0,0,.8);
+  }
+
   .item-content {
     height: 130px;
     display: table-cell;
@@ -288,6 +306,11 @@ h1, h2, h3, h4, h5, h6 {
       a {
         background: none;
       }
+
+      .far-left {
+        .transition(0.1s ease-in-out left .1s);
+        left: -260px;
+      }
     }
   }
 }
@@ -298,6 +321,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: 100px 40px;
   font-size: 60px;
   .transition(0.1s ease-in-out all);
+  text-shadow: 0 0 1px rgba(0,0,0,.9), 0 0 10px rgba(0,0,0,.8);
 
   h3 {
     margin-bottom: .3em;

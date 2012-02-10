@@ -147,10 +147,11 @@
               <div class="image" style="background-image: url(<%= item.author[0].image.contentURL %>)"></div>
             </div>
             <div class="right"><div class="item-content">
-              <!--h3><%= item.author[0].name %></h3-->
               <h3><%= item.name %></h3>
-              <!--h4><%= moment(toDate(item.datePublished)).fromNow() %></h4-->
             </div></div>
+            <div class="far-left">
+              <p><%= item.author[0].name %><br><%= moment(toDate(item.datePublished)).fromNow() %></p>
+            </div>
           </a>
         </div>
       </li>
@@ -178,10 +179,10 @@
         <div>
           <a href="#event/<%= offset %>">
             <div class="item-content">
-              <h3>
-                <span><%= moment(toDate(item.startDate)).calendar() %></span>
-              </h3>
-              <h4><%= item.name %></h4>
+              <h3><%= item.name %></h3>
+            </div>
+            <div class="far-left">
+              <p><%= moment(toDate(item.startDate)).calendar() %></p>
             </div>
           </a>
         </div>
@@ -193,11 +194,10 @@
         <div>
           <a href="#article/<%= offset %>">
             <div class="item-content">
-              <h3>
-                <span><%= moment(toDate(item.datePublished)).fromNow() %></span>
-              </h3>
-              <h4><%= item.name %></h4>
-              <!--p><%= item.description %></p-->
+              <h3><%= item.name %></h3>
+            </div>
+            <div class="far-left">
+              <p><%= moment(toDate(item.datePublished)).fromNow() %></p>
             </div>
           </a>
         </div>
