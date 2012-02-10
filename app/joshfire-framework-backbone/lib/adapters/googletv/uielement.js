@@ -26,14 +26,15 @@ define(["joshlib!adapters/none/uielement","joshlib!vendor/underscore","joshlib!u
       if(this.scroller) {
         var $el = $(this.el);
         var $content = $el.children().first();
-        var height = $el.height();
-        var contentHeight = $content.height();
         var translateY = 0;
 
         this.navDown = function() {
           if(contentHeight + this.offsetBottom + this.offsetTop < height) {
             return;
           }
+          
+          var height = $el.height();
+          var contentHeight = $content.height();
 
           translateY = Math.max(height - contentHeight - this.offsetBottom - this.offsetTop, translateY - 100);
 
@@ -52,6 +53,9 @@ define(["joshlib!adapters/none/uielement","joshlib!vendor/underscore","joshlib!u
           if(contentHeight < height + this.offsetBottom + this.offsetTop) {
             return;
           }
+          
+          var height = $el.height();
+          var contentHeight = $content.height();
 
           translateY = Math.min(0 + this.offsetBottom, translateY + 100);
 

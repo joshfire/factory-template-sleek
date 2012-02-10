@@ -28,7 +28,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     // Toolbar
     //
 
-    var sectionNames = [/*'photos', 'videos', 'contact',*/ 'events', 'news', 'statuses'];
+    var sectionNames = [/*'photos', 'videos',*/ 'contact', 'events', 'news', 'statuses'];
 
     var sections = new Backbone.Collection();
 
@@ -83,6 +83,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       templateEl: '#template-status',
       scroller: true,
       offsetTop: 100,
+      offsetBottom: 100,
       navLeft: function() {
         window.location = '#statuses';
       }
@@ -113,6 +114,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       templateEl: '#template-event',
       scroller: true,
       offsetTop: 100,
+      offsetBottom: 100,
       navLeft: function() {
         window.location = '#events';
       }
@@ -143,6 +145,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       templateEl: '#template-video',
       scroller: true,
       offsetTop: 100,
+      offsetBottom: 100,
       getImageUrl: function() {
         return Spot.getVideoThumbnail(this.model.toJSON());
       },
@@ -176,6 +179,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       templateEl: '#template-news',
       scroller: true,
       offsetTop: 100,
+      offsetBottom: 100,
       navLeft: function() {
         window.location = '#news';
       }
@@ -194,7 +198,10 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     contactViews.index = new Text({
       el: '#contact-index',
       templateEl: '#template-contact-index',
-      textContent: Spot.contactHTML
+      textContent: Spot.contactHTML,
+      scroller: true,
+      offsetTop: 100,
+      offsetBottom: 100,
     });
 
     contactViews.map = new Map({
