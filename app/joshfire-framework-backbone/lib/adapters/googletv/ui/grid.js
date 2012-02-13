@@ -70,7 +70,7 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
       var height = $(this.el).height();
 
       if(bottom + this.translateY > this.el.getBoundingClientRect().bottom) {
-        this.translateY = height - bottom;
+        this.translateY = height - bottom - 100;
       } else if(top + this.translateY < this.el.getBoundingClientRect().top) {
         this.translateY = -top;
       }
@@ -100,19 +100,21 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
       }
     },
 
-    navRight: function() {
+    navBlur: function() {
+      UIList.prototype.navBlur.call(this);
+
+      this.$('.nav-active').removeClass('nav-active');
+    },
+
+    navRight: function(event) {
       var activeRight = this.rightBounds[this.active];
       var activeCenter = this.centers[this.active];
 
       var min = 30000;
       var best = -1;
 
-      this.$('.test').removeClass('test');
-
       for (var i = this.leftBounds.length - 1; i >= 0; i--) {
         if(this.isRight(i)) {
-
-          $(this.$lis[i]).addClass('test');
 
           var center = this.centers[i];
           var dist = Math.sqrt(Math.pow(activeRight - this.leftBounds[i], 2) + Math.pow(activeCenter.y - center.y, 2));
@@ -126,24 +128,20 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
 
       if(best !== -1) {
         this.activate(best);
-      } else {
-        // No good match found
+      } else if(this.origin) {
+        this.origin.processKey(event);
       }
     },
 
-    navLeft: function() {
+    navLeft: function(event) {
       var activeLeft = this.leftBounds[this.active];
       var activeCenter = this.centers[this.active];
 
       var min = 30000;
       var best = -1;
 
-      this.$('.test').removeClass('test');
-
       for (var i = this.rightBounds.length - 1; i >= 0; i--) {
         if(this.isLeft(i)) {
-
-          $(this.$lis[i]).addClass('test');
 
           var center = this.centers[i];
           var dist = Math.sqrt(Math.pow(activeLeft - this.rightBounds[i], 2) + Math.pow(activeCenter.y - center.y, 2));
@@ -157,24 +155,20 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
 
       if(best !== -1) {
         this.activate(best);
-      } else {
-        // No good match found
+      } else if(this.origin) {
+        this.origin.processKey(event);
       }
     },
 
-    navDown: function() {
+    navDown: function(event) {
       var activeBottom = this.bottomBounds[this.active];
       var activeCenter = this.centers[this.active];
 
       var min = 30000;
       var best = -1;
 
-      this.$('.test').removeClass('test');
-
       for (var i = this.topBounds.length - 1; i >= 0; i--) {
         if(this.isDown(i)) {
-
-          $(this.$lis[i]).addClass('test');
 
           var center = this.centers[i];
           var dist = Math.sqrt(Math.pow(activeCenter.x - center.x, 2) + Math.pow(activeBottom - this.topBounds[i], 2));
@@ -188,24 +182,20 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
 
       if(best !== -1) {
         this.activate(best);
-      } else {
-        // No good match found
+      } else if(this.origin) {
+        this.origin.processKey(event);
       }
     },
 
-    navUp: function() {
+    navUp: function(event) {
       var activeTop = this.topBounds[this.active];
       var activeCenter = this.centers[this.active];
 
       var min = 30000;
       var best = -1;
 
-      this.$('.test').removeClass('test');
-
       for (var i = this.bottomBounds.length - 1; i >= 0; i--) {
         if(this.isUp(i)) {
-
-          $(this.$lis[i]).addClass('test');
 
           var center = this.centers[i];
           var dist = Math.sqrt(Math.pow(activeCenter.x - center.x, 2) + Math.pow(activeTop - this.bottomBounds[i], 2));
@@ -219,112 +209,32 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
 
       if(best !== -1) {
         this.activate(best);
-      } else {
-        // No good match found
+      } else if(this.origin) {
+        this.origin.processKey(event);
       }
     },
 
     isLeft: function(i) {
       return (
         this.rightBounds[i] <= this.leftBounds[this.active] + this.tolerance
-        &&
-        (
-          (
-            this.topBounds[i] >= this.topBounds[this.active] - this.tolerance
-            &&
-            this.topBounds[i] < this.bottomBounds[this.active] + this.tolerance
-          )
-          ||
-          (
-            this.bottomBounds[i] > this.topBounds[this.active] - this.tolerance
-            &&
-            this.bottomBounds[i] <= this.bottomBounds[this.active] + this.tolerance
-          )
-          ||
-          (
-            this.bottomBounds[i] >= this.bottomBounds[this.active] - this.tolerance
-            &&
-            this.topBounds[i] <= this.topBounds[this.active] + this.tolerance
-          )
-        )
       );
     },
 
     isRight: function(i) {
       return (
         this.leftBounds[i] >= this.rightBounds[this.active] - this.tolerance
-        &&
-        (
-          (
-            this.topBounds[i] >= this.topBounds[this.active] - this.tolerance
-            &&
-            this.topBounds[i] < this.bottomBounds[this.active] + this.tolerance
-          )
-          ||
-          (
-            this.bottomBounds[i] > this.topBounds[this.active] - this.tolerance
-            &&
-            this.bottomBounds[i] <= this.bottomBounds[this.active] + this.tolerance
-          )
-          ||
-          (
-            this.bottomBounds[i] >= this.bottomBounds[this.active] - this.tolerance
-            &&
-            this.topBounds[i] <= this.topBounds[this.active] + this.tolerance
-          )
-        )
       );
     },
 
     isUp: function(i) {
       return (
         this.bottomBounds[i] <= this.topBounds[this.active] + this.tolerance
-        &&
-        (
-          (
-            this.leftBounds[i] >= this.leftBounds[this.active] - this.tolerance
-            &&
-            this.leftBounds[i] < this.rightBounds[this.active] + this.tolerance
-          )
-          ||
-          (
-            this.rightBounds[i] > this.leftBounds[this.active] - this.tolerance
-            &&
-            this.rightBounds[i] <= this.rightBounds[this.active] + this.tolerance
-          )
-          ||
-          (
-            this.leftBounds[i] >= this.leftBounds[this.active] - this.tolerance
-            &&
-            this.rightBounds[i] <= this.rightBounds[this.active] + this.tolerance
-          )
-        )
       );
     },
 
     isDown: function(i) {
       return (
         this.topBounds[i] >= this.bottomBounds[this.active] - this.tolerance
-        &&
-        (
-          (
-            this.leftBounds[i] >= this.leftBounds[this.active] - this.tolerance
-            &&
-            this.leftBounds[i] < this.rightBounds[this.active] + this.tolerance
-          )
-          ||
-          (
-            this.rightBounds[i] > this.leftBounds[this.active] - this.tolerance
-            &&
-            this.rightBounds[i] <= this.rightBounds[this.active] + this.tolerance
-          )
-          ||
-          (
-            this.leftBounds[i] >= this.leftBounds[this.active] - this.tolerance
-            &&
-            this.rightBounds[i] <= this.rightBounds[this.active] + this.tolerance
-          )
-        )
       );
     }
 
