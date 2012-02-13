@@ -137,8 +137,10 @@
 
     <script type="text/template" id="template-image-item">
       <li class="photo-item">
-        <div class="image" style="background-image: url(<%= imageUrl %>)">
-          <a class="image-link" href="<%= item.contentURL %>" title="<%= item.name %>">&nbsp;</a>
+        <div class="container">
+          <div class="image" style="background-image: url(<%= imageUrl %>)">
+            <a class="image-link" href="<%= item.contentURL %>" title="<%= item.name %>">&nbsp;</a>
+          </div>
           <div class="spinner">&nbsp;</div>
         </div>
       </li>

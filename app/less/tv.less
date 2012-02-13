@@ -396,7 +396,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .mosaic {
   padding: 1%;
-  background: darken(@background-color, 30%);
+  background: darken(@background-color, 20%);
   .clear-fix;
 
   .photo-item {
@@ -470,13 +470,21 @@ h1, h2, h3, h4, h5, h6 {
 
   }
 
-  .image {
-    background-position: center center;
-    background-size: cover;
+  .container {
     width: 100%;
     height: 0;
     padding-top: 100%;
     position: relative;
+  }
+
+  .image {
+    background-position: center center;
+    background-size: cover;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
 
     .spinner {
       background: transparent url(../images/image-spinner.gif) no-repeat center center;
