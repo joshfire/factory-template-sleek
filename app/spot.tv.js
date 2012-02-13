@@ -38,17 +38,19 @@ define(['spot', 'joshlib!utils/dollar'], function(Spot, $) {
 
       if(item.thumbnail) {
         var thumbnails = item.thumbnail;
-        var best = thumbnails[0];
+        var best = null;
 
         for (var i=0; i < thumbnails.length; i++) {
           var thumbnail = thumbnails[i];
 
-          if(thumbnail.width >= width && (thumbnail.width < best.width || best.width < width)) {
+          if(thumbnail.width >= width && (!best || thumbnail.width < best.width)) {
             best = thumbnails[i];
           }
         }
 
-        return best.contentURL;
+        if(best) {
+          return best.contentURL;
+        }
       }
 
       return item.contentURL;
