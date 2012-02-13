@@ -13,7 +13,7 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
       this.offsetBottom = options.offsetBottom || 0;
     },
 
-    navFocus: function(origin, event) {
+    navFocus: function(origin) {
       UIList.prototype.navFocus.call(this, origin, event);
 
       if(!event && this.collection.length) {

@@ -34,7 +34,7 @@ define(['spot', 'joshlib!utils/dollar'], function(Spot, $) {
     },
 
     getThumbnail: function(item, offset) {
-      var width = document.body.clientWidth * .3;
+      var width = document.body.clientWidth * .1;
 
       if(item.thumbnail) {
         var thumbnails = item.thumbnail;

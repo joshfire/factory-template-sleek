@@ -8,6 +8,7 @@ define([
   'joshlib!router',
   'joshlib!adapters/googletv/ui/cardpanel',
   'joshlib!adapters/googletv/ui/slidepanel',
+  'joshlib!adapters/googletv/ui/grid',
   'ui/text',
   'ui/map',
   'joshlib!ui/toolbar',
@@ -16,7 +17,7 @@ define([
   'joshlib!collection',
   'joshlib!utils/dollar',
   'joshlib!vendor/backbone'],
-function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardPanel, SlidePanel, Text, Map, Toolbar, HorizontalLayout, onReady, Collection,$,_) {
+function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardPanel, SlidePanel, Grid, Text, Map, Toolbar, HorizontalLayout, onReady, Collection,$,_) {
 
   document.title = Joshfire.factory.config.app.name;
 
@@ -58,12 +59,11 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     var views = {};
 
     // Photos
-    views.photos = new List({
+    views.photos = new Grid({
       el: '#photos-content',
       templateEl: '#template-mosaic',
       itemFactory: Spot.itemFactory,
-      collection: Spot.collections.photos,
-      scroller: true
+      collection: Spot.collections.photos
     });
 
     // Statuses
