@@ -62,6 +62,7 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
 
       var $item = $(this.items[num].view.el);
       $item.addClass('nav-active');
+      var $ul = this.$('ul');
 
       this.active = num;
 
@@ -70,15 +71,15 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
       var height = $(this.el).height();
 
       if(bottom + this.translateY > this.el.getBoundingClientRect().bottom) {
-        this.translateY = height - bottom - 100;
-      } else if(top + this.translateY < this.el.getBoundingClientRect().top) {
+        this.translateY = Math.max(height - bottom - 100, -$ul.height() + height);
+      } else if(top + this.translateY <= this.el.getBoundingClientRect().top) {
         this.translateY = -top;
       }
 
       if(this.translateY) {
         var translate  = 'translate3d(0,' + this.translateY + 'px,0)';
 
-        this.$('ul').css({
+        $ul.css({
           '-webkit-transform': translate,
           '-moz-transform': translate,
           '-ms-transform': translate,

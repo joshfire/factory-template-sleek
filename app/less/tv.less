@@ -413,10 +413,31 @@ h1, h2, h3, h4, h5, h6 {
       bottom: 10px;
       background-color: fade(@background-color, 85%);
       font-size: 36px;
+      overflow : hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .image-link {
+      display: block;
+      position: absolute;
+      width: 84px;
+      height: 84px;
+      top: 50%;
+      left: 50%;
+      margin-left: -42px;
+      margin-top: -42px;
+      background: @background-color url(../images/tv-zoom.png) no-repeat center center;
+      .border-radius(42px);
+      display: none;
     }
 
     &.nav-active {
       .caption {
+        display: block;
+      }
+
+      .image-link {
         display: block;
       }
     }
@@ -429,7 +450,7 @@ h1, h2, h3, h4, h5, h6 {
 
     // 1
     &:nth-child(11n - 10) {
-
+      clear: both;
     }
 
     // 2
@@ -450,6 +471,7 @@ h1, h2, h3, h4, h5, h6 {
     // 5
     &:nth-child(11n - 6) {
       width: 20%;
+      clear: both;
     }
 
     // 6
@@ -483,6 +505,7 @@ h1, h2, h3, h4, h5, h6 {
       width: 20%;
       float: right;
       margin-top: -20%;
+      clear: both;
     }
 
   }
