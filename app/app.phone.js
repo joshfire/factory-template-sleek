@@ -34,7 +34,9 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     for(var i = 0; i < sectionNames.length; i++) {
       name = sectionNames[i];
 
-      if(Spot.collections[name] || name == 'contact') {
+      if(Spot.collections[name]
+          || (name === 'contact' && Spot.contactHTML)
+          || (name == 'map' && Spot.latitude && Spot.longitude)) {
         sections.add({name: name, linkURL: '#' + name});
       }
 
@@ -314,7 +316,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
         $title.text('Map');
         document.body.id = 'map';
         $footer.find('.active').removeClass('active');
-        $footer.find('.contact').addClass('active');
+        $footer.find('.map').addClass('active');
         cards.showChildren('contact');
         contactCards.showChildren('map');
         $back.attr('href', '#contact' + '').show();

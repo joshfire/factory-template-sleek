@@ -44,7 +44,9 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     for(var i = 0; i < sectionNames.length; i++) {
       name = sectionNames[i];
 
-      if(Spot.collections[name] || name == 'contact' || name == 'map') {
+      if(Spot.collections[name]
+          || (name === 'contact' && Spot.contactHTML)
+          || (name == 'map' && Spot.latitude && Spot.longitude)) {
         sections.add({name: name, linkURL: '#' + name});
       }
     }

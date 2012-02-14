@@ -65,7 +65,7 @@
            ]
         },
         "contacthtml": {
-          "title": "Contact HTML (link to #map to display map)",
+          "title": "Contact HTML",
           "type": "string"
         },
         "address": {
