@@ -1,8 +1,8 @@
 {
   "name": "spot",
-  "fullName": "Spot Tourism",
+  "fullName": "Spot",
   "version": "0.0.1",
-  "description": "Spot Tourism template.",
+  "description": "Spot template.",
   "joshfire": {
     "devOnly": true,
     "images": {
@@ -73,6 +73,14 @@
         "longitude": {
           "title": "Longitude (for map)",
           "type": "string"
+        },
+        "logourl": {
+          "title": "Logo URL (for TV version)",
+          "type": "string"
+        },
+        "backgroundurl": {
+          "title": "Background URL (for TV version)",
+          "type": "string"
         }
       },
       "form": [
@@ -91,7 +99,9 @@
           "type": "textarea"
         },
         "latitude",
-        "longitude"
+        "longitude",
+        "logourl",
+        "backgroundurl"
       ]
     }
   }

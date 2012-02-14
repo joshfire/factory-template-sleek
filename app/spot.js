@@ -27,6 +27,10 @@ function(FactoryCollection, Item, ImageLoader, _) {
 
     address: Joshfire.factory.config.template.options.address,
 
+    logoURL: Joshfire.factory.config.template.options.logourl,
+
+    backgroundURL: Joshfire.factory.config.template.options.backgroundurl,
+
     initialize: function() {
       // set template color from user set option
       this.setColor(Joshfire.factory.config.template.options.color);

@@ -20,7 +20,7 @@ html{height:100%;}
 body{background-image:-webkit-gradient(linear, left top, left bottom, from(#7c0000), to(#250000));background-image:-webkit-linear-gradient(#7c0000, #250000);background-image:-moz-linear-gradient(#7c0000, #250000);background-attachment:fixed;background-repeat:no-repeat;color:#ffffff;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;height:100%;}
 a{color:inherit;text-decoration:none;}
 #container{display:block;position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden;}
-body.device-tv{font-size:36px;background:url(http://upload.wikimedia.org/wikipedia/commons/7/7f/UCBerkeleyCampus.jpg) no-repeat center center;background-size:cover;}
+body.device-tv{font-size:36px;background-repeat:no-repeat;background-position:center center;background-size:cover;}
 #container{background-image:-webkit-gradient(linear, left top, left bottom, from(rgba(124, 0, 0, 0.9)), to(rgba(37, 0, 0, 0.9)));background-image:-webkit-linear-gradient(rgba(124, 0, 0, 0.9), rgba(37, 0, 0, 0.9));background-image:-moz-linear-gradient(rgba(124, 0, 0, 0.9), rgba(37, 0, 0, 0.9));}
 ul{list-style:none;}
 a{font:inherit;}

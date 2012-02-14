@@ -51,7 +51,6 @@ define(["joshlib!adapters/none/uielement","joshlib!vendor/underscore","joshlib!u
         };
 
         this.navUp = function() {
-          
           var height = $el.height();
           var contentHeight = $content.height();
 

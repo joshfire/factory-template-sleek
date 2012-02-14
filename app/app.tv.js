@@ -25,6 +25,19 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
 
     Spot.initialize();
 
+    //Spot.logoURL = 'http://upload.wikimedia.org/wikipedia/en/thumb/c/ce/University_of_California_Seal.svg/200px-University_of_California_Seal.svg.png';
+    //Spot.backgroundURL = 'http://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/UCBerkeleyCampus.jpg/800px-UCBerkeleyCampus.jpg';
+
+    $(function() {
+      if(Spot.logoURL) {
+        Spot.setLogo(Spot.logoURL);
+      }
+
+      if(Spot.backgroundURL) {
+        Spot.setBackground(Spot.backgroundURL);
+      }
+    });
+
     //
     // Toolbar
     //

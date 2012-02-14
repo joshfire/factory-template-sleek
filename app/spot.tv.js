@@ -13,6 +13,16 @@ define(['spot', 'joshlib!utils/dollar'], function(Spot, $) {
       $('head').append('<link id="color" rel="stylesheet" href="css/tv.' + color + '.css" type="text/css">');
     },
 
+    setLogo: function(url) {
+      $('#logo').html('<img src="' + url + '" >');
+    },
+
+    setBackground: function(url) {
+      $('body').css({
+        backgroundImage: 'url(' + url + ')'
+      });
+    },
+
     //
     // Returns a thumbnail URL form a video object
     //
