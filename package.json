@@ -80,10 +80,6 @@
           "title": "Longitude (for map)",
           "type": "string"
         },
-        "logourl": {
-          "title": "Logo URL (for TV version)",
-          "type": "string"
-        },
         "backgroundurl": {
           "title": "Background URL (for TV version)",
           "type": "string"
@@ -106,7 +102,6 @@
         },
         "latitude",
         "longitude",
-        "logourl",
         "backgroundurl"
       ]
     }

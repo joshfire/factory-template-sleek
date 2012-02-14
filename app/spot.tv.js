@@ -16,6 +16,10 @@ define(['spot', 'joshlib!utils/dollar'], function(Spot, $) {
     setLogo: function(url) {
       $('#logo').html('<img src="' + url + '" >');
     },
+    
+    setTitle: function(value) {
+      $('#logo').html(value);
+    },
 
     setBackground: function(url) {
       $('body').css({

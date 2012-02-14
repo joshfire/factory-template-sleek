@@ -19,6 +19,8 @@ function(FactoryCollection, Item, ImageLoader, _) {
 
     collections: {},
 
+    title: Joshfire.factory.config.app.name,
+
     contactHTML: Joshfire.factory.config.template.options.contacthtml,
 
     latitude: parseFloat(Joshfire.factory.config.template.options.latitude),
@@ -27,7 +29,8 @@ function(FactoryCollection, Item, ImageLoader, _) {
 
     address: Joshfire.factory.config.template.options.address,
 
-    logoURL: Joshfire.factory.config.template.options.logourl,
+    logoURL: Joshfire.factory.config.app.logo ?
+                Joshfire.factory.config.app.logo.contentURL : null,
 
     backgroundURL: Joshfire.factory.config.template.options.backgroundurl,
 
