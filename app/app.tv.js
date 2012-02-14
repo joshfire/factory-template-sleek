@@ -28,15 +28,9 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     //Spot.logoURL = 'http://upload.wikimedia.org/wikipedia/en/thumb/c/ce/University_of_California_Seal.svg/200px-University_of_California_Seal.svg.png';
     //Spot.backgroundURL = 'http://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/UCBerkeleyCampus.jpg/800px-UCBerkeleyCampus.jpg';
 
-    $(function() {
-      if(Spot.logoURL) {
-        Spot.setLogo(Spot.logoURL);
-      }
-
-      if(Spot.backgroundURL) {
-        Spot.setBackground(Spot.backgroundURL);
-      }
-    });
+    if(Spot.backgroundURL) {
+      Spot.setBackground(Spot.backgroundURL);
+    }
 
     //
     // Toolbar
@@ -52,10 +46,6 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       if(Spot.collections[name] || name == 'contact' || name == 'map') {
         sections.add({name: name, linkURL: '#' + name});
       }
-
-      //if(i % 5 === 3 && i + 2 < sectionNames.length) {
-      //  sections.add({name: 'more', linkURL: 'javascript:function() {return false;}' + name});
-      //}
     }
 
     var toolbar = new Toolbar({
@@ -65,6 +55,10 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     });
 
     toolbar.setCollection(sections, true);
+
+    if(Spot.logoURL) {
+      Spot.setLogo(Spot.logoURL);
+    }
 
     //
     // Views

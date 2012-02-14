@@ -2,7 +2,7 @@
   "name": "spot",
   "fullName": "Spot",
   "version": "0.0.1",
-  "description": "Spot template.",
+  "description": "The ideal template to promote a location. Supports photos, videos, events, RSS feeds, status updates, contact info, and a map. Available in 5 different colors.",
   "joshfire": {
     "devOnly": true,
     "images": {
@@ -35,12 +35,20 @@
       {
         "devices": "phone",
         "startfile": "app/index.phone.html",
-        "images": "marketing/spot_marketing_mobile1.png"
+        "images": "marketing/spot_marketing_mobile1.png",
+        "screenshots": [
+          "marketing/spot_marketing_mobile_ss1.png",
+          "marketing/spot_marketing_mobile_ss2.png"
+        ]
       },
       {
         "devices": "tv",
         "startfile": "app/index.tv.html",
-        "images": "marketing/spot_marketing_TV1.png"
+        "images": "marketing/spot_marketing_TV1.png",
+        "screenshots": [
+          "marketing/spot_marketing_TV_ss1.png",
+          "marketing/spot_marketing_TV_ss2.png"
+        ]
       }
     ],
     "options": {
