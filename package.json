@@ -6,8 +6,8 @@
   "joshfire": {
     "devOnly": true,
     "images": {
-      "small": "marketing/image-small.png",
-      "big": "marketing/image-big.png"
+      "small": "marketing/spot_marketing.png",
+      "big": "marketing/spot_marketing_big.png"
     },
     "datasources": {
       "photos": {
@@ -35,15 +35,13 @@
       {
         "devices": "phone",
         "startfile": "app/index.phone.html",
-        "images": "marketing/preview-phone.png",
-        "screenshots" : ["marketing/screenshot-phone.png"]
-      }/*,
+        "images": "marketing/spot_marketing_mobile1.png"
+      },
       {
         "devices": "tv",
         "startfile": "app/index.tv.html",
-        "images": "marketing/preview-tv.png",
-        "screenshots" : ["marketing/screenshot-tv.png"]
-      }*/
+        "images": "marketing/spot_marketing_TV1.png"
+      }
     ],
     "options": {
       "schema": {
