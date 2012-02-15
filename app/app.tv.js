@@ -1,3 +1,4 @@
+
 define([
   'spot.tv',
   'joshlib!factorycollection',
@@ -19,9 +20,19 @@ define([
   'joshlib!vendor/backbone'],
 function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardPanel, SlidePanel, Grid, Text, Map, Toolbar, HorizontalLayout, onReady, Collection,$,_) {
 
-  document.title = Joshfire.factory.config.app.name;
-
   onReady(function() {
+
+    $win = $(window);
+
+    var resize = function() {
+      $('body').css({
+        zoom: Math.max(50, $win.height() / 10.80) + '%'
+      });
+    }
+
+    $win.resize(resize);
+
+    resize();
 
     Spot.initialize();
 

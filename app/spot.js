@@ -17,24 +17,17 @@ function(FactoryCollection, Item, ImageLoader, _) {
       _.extend(this, obj);
     },
 
-    collections: {},
-
-    title: Joshfire.factory.config.app.name,
-
-    contactHTML: Joshfire.factory.config.template.options.contacthtml,
-
-    latitude: parseFloat(Joshfire.factory.config.template.options.latitude),
-
-    longitude: parseFloat(Joshfire.factory.config.template.options.longitude),
-
-    address: Joshfire.factory.config.template.options.address,
-
-    logoURL: Joshfire.factory.config.app.logo ?
-                Joshfire.factory.config.app.logo.contentURL : null,
-
-    backgroundURL: Joshfire.factory.config.template.options.backgroundurl,
-
     initialize: function() {
+      this.collections = {};
+      this.title = Joshfire.factory.config.app.name;
+      this.contactHTML = Joshfire.factory.config.template.options.contacthtml;
+      this.latitude = parseFloat(Joshfire.factory.config.template.options.latitude);
+      this.longitude = parseFloat(Joshfire.factory.config.template.options.longitude);
+      this.address = Joshfire.factory.config.template.options.address;
+      this.logoURL = Joshfire.factory.config.app.logo ?
+                  Joshfire.factory.config.app.logo.contentURL : null;
+      this.backgroundURL = Joshfire.factory.config.template.options.backgroundurl;
+
       // set template color from user set option
       this.setColor(Joshfire.factory.config.template.options.color);
 
@@ -47,6 +40,8 @@ function(FactoryCollection, Item, ImageLoader, _) {
           this.collections[name] = FactoryCollection(name);
         }
       }
+
+      document.title = this.title;
     },
 
     //

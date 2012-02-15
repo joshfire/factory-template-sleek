@@ -1,6 +1,7 @@
 var fs   = require('fs');
 var path = require('path');
 var less = require('less');
+var colors = require('colors');
 var parser = new less.Parser({paths: [path.join(__dirname, '/../app/less')]});
 var src  = path.join(__dirname, '/../app/less/');
 var dest = path.join(__dirname, '/../app/css/');
@@ -14,7 +15,7 @@ var files = [
 var colors = {
     blue:     '#1c3953'
   , spicy:    '#7c0000'
-  , gray:     '#484848'
+  , gray:     '#222222'
   , earth:    '#873612'
   , vegetal:  '#454f0f'
 };
@@ -36,18 +37,23 @@ var destPath = function(file, colorName) {
 var compileColor = function(str, file, colorName, cb) {
   var color = colors[colorName];
   parser.parse('@background-color: ' + color + ';\n' + str, function (e, tree) {
-    var css = tree.toCSS({compress: compress});
-    var dest = destPath(file, colorName);
-    fs.writeFileSync(dest, css, 'utf8');
+    try {
+      var css = tree.toCSS({compress: compress});
+      var dest = destPath(file, colorName);
+      fs.writeFileSync(dest, css, 'utf8');
 
-    console.log(' - compiled ' + file + '.' + colorName);
+      console.log((' - compiled ' + file + '.' + colorName).green);
+    } catch(err) {
+      console.error(err.message.red);
+    }
+    
 
     if(cb) cb();
   });
 };
 
 var compileFile = function(file, cb) {
-  console.log('+ compiling ' + file);
+  console.log(('+ compiling ' + file).cyan);
 
   var src = srcPath(file);
   var str = fs.readFileSync(src, 'utf8');
@@ -80,5 +86,3 @@ var compile = function(cb) {
 };
 
 exports.compile = compile;
-
-//compile();

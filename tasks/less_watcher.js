@@ -1,7 +1,7 @@
 var colors = require('colors');
 var fs = require('fs');
 var path = require('path');
-var compile = require('./compile').compile;
+var compile = require('./compile_less').compile;
 var watch = path.join(__dirname, '/../app/less/');
 var watched = {};
 var compiling = false;
@@ -13,9 +13,11 @@ var recompile = function(curr, prev) {
   try {
     compile(function() {
       console.log('Done.'.green);
+      process.exit(0);
     });
   } catch(e) {
     console.log(('Failed: ' + e.message).red);
+    process.exit(1);
   }
 }
 
@@ -24,7 +26,7 @@ var watchFiles = function() {
     if(!watched[file]) {
       fs.watchFile(watch + file, recompile);
       watched[file] = true;
-      console.log(('Watching ' + watch + file + ' ...'));
+      //console.log(('Watching ' + watch + file + ' ...'));
     }
   });
 };

@@ -17,8 +17,6 @@ define([
   'joshlib!vendor/backbone'],
 function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardPanel, SlidePanel, Text, Map, Toolbar, onReady, Collection,$,_) {
 
-  document.title = Joshfire.factory.config.app.name;
-
   onReady(function() {
 
     Spot.initialize();

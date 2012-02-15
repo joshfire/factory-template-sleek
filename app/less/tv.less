@@ -220,7 +220,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .list-indicator {
   .opacity(0);
-  //.transition(0.1s ease-in-out all);
+  .transition(0.1s ease-in-out all);
   position: absolute;
   left: 300px;
   top: -200;
@@ -231,12 +231,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .list {
-  //.transition(0.1s ease-in-out all);
+  .transition(0.2s ease-in-out all);
   .translate3d(0,0,0);
 
   li {
     .vertical-gradient(rgba(255,255,255,.15), rgba(255,255,255,.05));
-    //.transition(none);
+    .transition(none);
   }
 
   li:first-child {
@@ -255,6 +255,7 @@ h1, h2, h3, h4, h5, h6 {
     width: 130px;
     height: 130px;
     background-size: cover;
+    background-repeat: no-repeat;
   }
 
   .left {
@@ -317,14 +318,15 @@ h1, h2, h3, h4, h5, h6 {
       color: @dark-text-color;
       background: none;
       margin-left: -100px;
-      //.transition(0.1s ease-in-out margin-left .1s);
+      .transition(0.1s ease-in-out margin-left 0.2s);
+      //.transition(0s ease-in-out color 0.15s);
 
       a {
         background: none;
       }
 
       .far-left {
-        //.transition(0.1s ease-in-out left .1s);
+        .transition(0.1s ease-in-out left 0.2s);
         left: -260px;
       }
     }
@@ -378,6 +380,7 @@ h1, h2, h3, h4, h5, h6 {
     width: 130px;
     height: 130px;
     background-size: cover;
+    background-repeat: no-repeat;
     float: right;
     margin-left: 30px;
   }
@@ -526,6 +529,7 @@ h1, h2, h3, h4, h5, h6 {
   .image {
     background-position: center center;
     background-size: cover;
+    background-repeat: no-repeat;
     background-color: #000;
     position: absolute;
     top: 10px;
