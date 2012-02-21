@@ -247,11 +247,7 @@
 
     <script type="text/template" id="template-video">
       <div>
-        <a href="<%= item.contentURL %>" target="_blank">
-          <img src="<%= imageUrl %>" class="image">
-          <div class="spinner">&nbsp;</div>
-          <div class="play"><span>&nbsp;</span></div>
-        </a>
+        <iframe src="<%= videoUrl %>" width="100%" height="300" frameborder="0" allowfullscreen>Loading...</iframe>
         <div class="body">
           <h3><%= moment(toDate(item.uploadDate)).format('LLLL') %></h3>
           <h4><%= item.name %></h4>

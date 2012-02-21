@@ -5,6 +5,7 @@ define([
   'ui/imagegallery',
   'joshlib!ui/item',
   'joshlib!ui/imageloader',
+  'joshlib!ui/video',
   'joshlib!router',
   'joshlib!ui/cardpanel',
   'joshlib!ui/slidepanel',
@@ -15,7 +16,7 @@ define([
   'joshlib!collection',
   'joshlib!utils/dollar',
   'joshlib!vendor/backbone'],
-function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardPanel, SlidePanel, Text, Map, Toolbar, onReady, Collection,$,_) {
+function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Video, Router, CardPanel, SlidePanel, Text, Map, Toolbar, onReady, Collection,$,_) {
 
   onReady(function() {
 
@@ -34,13 +35,10 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
 
       if(Spot.collections[name]
           || (name === 'contact' && Spot.contactHTML)
-          || (name == 'map' && Spot.latitude && Spot.longitude)) {
+          || (name === 'map' && Spot.latitude && Spot.longitude)) {
         sections.add({name: name, linkURL: '#' + name});
       }
 
-      //if(i % 5 === 3 && i + 2 < sectionNames.length) {
-      //  sections.add({name: 'more', linkURL: 'javascript:function() {return false;}' + name});
-      //}
     }
 
     var toolbar = new Toolbar({
@@ -134,12 +132,13 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       collection: Spot.collections.videos
     });
 
-    videosViews.detail = new ImageLoader({
+    videosViews.detail = new Video({
       el: '#video-detail',
       templateEl: '#template-video',
       scroller: true,
-      getImageUrl: function() {
-        return Spot.getVideoThumbnail(this.model.toJSON());
+      getVideoUrl: function() {
+        var id = this.model.get('url').replace('http://www.youtube.com/watch?v=', '');
+        return 'http://www.youtube-nocookie.com/embed/' + id + '?rel=0';
       }
     });
 
