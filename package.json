@@ -4,7 +4,6 @@
   "version": "0.0.1",
   "description": "The ideal template to promote a location. Supports photos, videos, events, RSS feeds, status updates, contact info, and a map. Available in 5 different colors.",
   "joshfire": {
-    "devOnly": true,
     "images": {
       "small": "marketing/spot_marketing.png",
       "big": "marketing/spot_marketing_big.png"
