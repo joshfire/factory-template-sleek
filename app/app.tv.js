@@ -6,6 +6,7 @@ define([
   'ui/imagegallery',
   'joshlib!ui/item',
   'joshlib!ui/imageloader',
+  'joshlib!ui/video',
   'joshlib!router',
   'joshlib!adapters/googletv/ui/cardpanel',
   'joshlib!adapters/googletv/ui/slidepanel',
@@ -18,7 +19,7 @@ define([
   'joshlib!collection',
   'joshlib!utils/dollar',
   'joshlib!vendor/backbone'],
-function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router, CardPanel, SlidePanel, Grid, Text, Map, Toolbar, HorizontalLayout, onReady, Collection,$,_) {
+function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Video, Router, CardPanel, SlidePanel, Grid, Text, Map, Toolbar, HorizontalLayout, onReady, Collection,$,_) {
 
   onReady(function() {
 
@@ -48,7 +49,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     // Toolbar
     //
 
-    var sectionNames = [/* 'videos',*/ 'statuses', 'events', 'news', 'contact', 'map', 'photos'];
+    var sectionNames = ['statuses', 'events', 'news', 'contact', 'map', 'photos', 'videos'];
 
     var sections = new Backbone.Collection();
 
@@ -152,38 +153,12 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     views.events = eventsCards;
 
     // Videos
-    var videosViews = {};
-
-    videosViews.list = new List({
+    views.videos = new Grid({
       el: '#videos-content',
-      templateEl: '#item-list',
-      contentSelector: '> div:first-child',
-      offsetTop: 40,
-      offsetBottom: 40,
+      templateEl: '#template-mosaic',
       itemFactory: Spot.itemFactory,
       collection: Spot.collections.videos
     });
-
-    videosViews.detail = new ImageLoader({
-      el: '#video-detail',
-      templateEl: '#template-video',
-      scroller: true,
-      offsetTop: 100,
-      offsetBottom: 100,
-      getImageUrl: function() {
-        return Spot.getVideoThumbnail(this.model.toJSON());
-      },
-      navLeft: function() {
-        window.location = '#videos';
-      }
-    });
-
-    var videosCards = new SlidePanel({
-      el: '#videos-cards',
-      children: videosViews
-    });
-
-    views.videos = videosCards;
 
     // News
     var newsViews = {};
@@ -261,7 +236,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       ]
     });
 
-    // Photo overflay
+    // Photo overlay
 
     var PhotoOverlay = ImageLoader.extend({
       initialize: function(options) {
@@ -306,6 +281,33 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
     });
 
     photoDetail.hide();
+
+    // Video overlay
+
+    var VideoOverlay = Video.extend({
+      initialize: function(options) {
+        Video.prototype.initialize.call(this, options);
+
+        this.navUp = this.navDown = this.navLeft = this.navRight = this.navAction = this.exit;
+      },
+
+      exit: function() {
+        this.$('iframe').remove();
+        this.hide();
+        window.location = '#videos';
+      }
+    });
+
+    var videoDetail = new VideoOverlay({
+      el: '#videos-detail',
+      templateEl: '#template-video',
+      getVideoUrl: function() {
+        var id = this.model.get('url').replace('http://www.youtube.com/watch?v=', '');
+        return 'http://www.youtube-nocookie.com/embed/' + id + '?rel=0&autoplay=1';
+      }
+    });
+
+    videoDetail.hide();
 
     //
     // Router
@@ -376,13 +378,12 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       // List routes
       photos:   makeRouteForList('photos'),
       statuses: makeRouteForList('statuses', statusesCards),
-      videos:   makeRouteForList('videos', videosCards),
+      videos:   makeRouteForList('videos'),
       events:   makeRouteForList('events', eventsCards),
       news:     makeRouteForList('news', newsCards),
 
       // Detail routes
       status:   makeRouteForItemDetail('status', statusesCards, 'statuses'),
-      video:    makeRouteForItemDetail('video', videosCards),
       event:    makeRouteForItemDetail('event', eventsCards),
       article:  makeRouteForItemDetail('article', newsCards, 'news'),
 
@@ -415,6 +416,22 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
           var model = Spot.collections.photos.at(parseInt(offset));
           photoDetail.setModel(model, true);
           photoDetail.offset = parseInt(offset);
+        }
+      },
+
+      // Video
+      video: function(offset) {
+        videoDetail.show();
+        videoDetail.navFocus();
+
+        if(Spot.collections.videos.length === 0) {
+          Spot.collections.videos.fetch({success: function() {
+            var model = Spot.collections.videos.at(parseInt(offset));
+            videoDetail.setModel(model, true);
+          }});
+        } else {
+          var model = Spot.collections.videos.at(parseInt(offset));
+          videoDetail.setModel(model, true);
         }
       }
 
