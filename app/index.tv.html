@@ -100,6 +100,10 @@
       <div id="bottom-gradient-overlay"></div>
 
       <div id="toolbar"></div>
+
+      <div id="photos-detail">
+        Test
+      </div>
     </div>
 
     <!-- TEMPLATES -->
@@ -139,7 +143,7 @@
       <li class="photo-item">
         <div class="container">
           <div class="image" style="background-image: url(<%= imageUrl %>)">
-            <a class="image-link" href="<%= item.contentURL %>" title="<%= item.name %>">&nbsp;</a>
+            <a class="image-link" href="#photo/<%= offset %>" title="<%= item.name %>">&nbsp;</a>
           </div>
           <div class="caption"><%= item.name %></div>
           <div class="spinner">&nbsp;</div>
@@ -210,6 +214,11 @@
           </a>
         </div>
       </li>
+    </script>
+
+    <script type="text/template" id="template-photo">
+      <div class="image" style="background-image: url(<%= imageUrl %>)"></div>
+      <div class="spinner"></div>
     </script>
 
     <script type="text/template" id="template-status">

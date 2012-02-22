@@ -215,6 +215,17 @@ define(["joshlib!ui/list","joshlib!utils/dollar","joshlib!vendor/underscore"], f
       }
     },
 
+    navAction: function() {
+      if(this.items.length) {
+        var $item = $(this.items[this.active].view.el);
+        var $link = $item.find('a');
+
+        if($link.length) {
+          window.location = $link.attr('href');
+        }
+      }
+    },
+
     isLeft: function(i) {
       return (
         this.rightBounds[i] <= this.leftBounds[this.active] + this.tolerance

@@ -78,6 +78,10 @@ define(["joshlib!adapters/none/uielement","joshlib!vendor/underscore","joshlib!u
      * Gives focus to the element.
      */
     navFocus: function(origin) {
+      if(this === UIElementTV.focusedElement) {
+        return;
+      }
+      
       var $el = $(this.el);
 
       $el.addClass('nav-focused');
@@ -105,7 +109,7 @@ define(["joshlib!adapters/none/uielement","joshlib!vendor/underscore","joshlib!u
     },
 
     /**
-     * Returns true if the key was not processed.
+     * Processes a key event.
      */
     processKey: function(event) {
       console.log(this.focused)

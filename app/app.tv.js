@@ -261,6 +261,52 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
       ]
     });
 
+    // Photo overflay
+
+    var PhotoOverlay = ImageLoader.extend({
+      initialize: function(options) {
+        ImageLoader.prototype.initialize.call(this, options);
+
+        this.navUp = this.navDown = this.navAction = this.exit;
+        this.offset = options.offset;
+      },
+
+      exit: function() {
+        this.hide();
+        window.location = '#photos';
+      },
+
+      navLeft: function() {
+        var newOffset = this.offset - 1;
+
+        if(newOffset < 0) {
+          newOffset = Spot.collections.photos.length - 1;
+        }
+
+        window.location = '#photo/' + newOffset;
+      },
+
+      navRight: function() {
+        var newOffset = this.offset + 1;
+
+        if(newOffset >= Spot.collections.photos.length) {
+          newOffset = 0;
+        }
+
+        window.location = '#photo/' + newOffset;
+      }
+    });
+
+    var photoDetail = new PhotoOverlay({
+      el: '#photos-detail',
+      templateEl: '#template-photo',
+      getImageUrl: function() {
+        return this.model.get('contentURL');
+      }
+    });
+
+    photoDetail.hide();
+
     //
     // Router
     //
@@ -305,7 +351,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
           var model = Spot.collections[plural].at(parseInt(offset));
           sectionCards.children.detail.setModel(model, true);
           sectionCards.children['detail'].navFocus(sectionCards);
-         }
+        }
       }
     };
 
@@ -320,6 +366,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
         'contact':            'contact',
         'map':                'map',
 
+        'photo/:offset':      'photo',
         'status/:offset':     'status',
         'video/:offset':      'video',
         'event/:offset':      'event',
@@ -351,6 +398,24 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Router,
         document.body.id = 'map';
         cards.showChildren('map');
         mapView.render();
+      },
+
+      // Photo
+      photo: function(offset) {
+        photoDetail.show();
+        photoDetail.navFocus();
+
+        if(Spot.collections.photos.length === 0) {
+          Spot.collections.photos.fetch({success: function() {
+            var model = Spot.collections.photos.at(parseInt(offset));
+            photoDetail.setModel(model, true);
+            photoDetail.offset = parseInt(offset);
+          }});
+        } else {
+          var model = Spot.collections.photos.at(parseInt(offset));
+          photoDetail.setModel(model, true);
+          photoDetail.offset = parseInt(offset);
+        }
       }
 
     });
