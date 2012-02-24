@@ -3,6 +3,11 @@
   "fullName": "Sleek",
   "version": "0.0.2",
   "description": "Generic-purpose nicely polished template that supports photos, videos, events, RSS feeds, status updates, contact info, and a map. Available in 5 different colors.",
+  "keywords": [
+    "generic",
+    "polished",
+    "smooth"
+  ],
   "joshfire": {
     "images": {
       "small": "marketing/sleek-small.png",
