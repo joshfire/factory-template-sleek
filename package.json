@@ -1,7 +1,7 @@
 {
   "name": "spot",
   "fullName": "Spot",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The ideal template to promote a location. Supports photos, videos, events, RSS feeds, status updates, contact info, and a map. Available in 5 different colors.",
   "joshfire": {
     "images": {
@@ -11,7 +11,7 @@
     "premium": true,
     "price": {
       "eur": 899,
-      "usd": 1099
+      "usd": 1199
     },
     "datasources": {
       "photos": {
@@ -46,7 +46,7 @@
         ],
         "price": {
           "eur": 499,
-          "usd": 599
+          "usd": 669
         }
       },
       {
@@ -59,7 +59,7 @@
         ],
         "price": {
           "eur": 399,
-          "usd": 499
+          "usd": 669
         }
       }
     ],
