@@ -1,12 +1,12 @@
 {
-  "name": "spot",
-  "fullName": "Spot",
+  "name": "sleek",
+  "fullName": "Sleek",
   "version": "0.0.2",
-  "description": "The ideal template to promote a location. Supports photos, videos, events, RSS feeds, status updates, contact info, and a map. Available in 5 different colors.",
+  "description": "Generic-purpose nicely polished template that supports photos, videos, events, RSS feeds, status updates, contact info, and a map. Available in 5 different colors.",
   "joshfire": {
     "images": {
-      "small": "marketing/spot_marketing.png",
-      "big": "marketing/spot_marketing_big.png"
+      "small": "marketing/sleek-small.png",
+      "big": "marketing/sleek-big.png"
     },
     "premium": true,
     "price": {
@@ -16,34 +16,29 @@
     "datasources": {
       "photos": {
         "title": "Photos",
-        "description": "Add photos to your application, such as a Flickr feed"
+        "description": "e.g. a Flickr feed"
       },
       "videos": {
         "title": "Videos",
-        "description": "Add videos to your application, such as a Youtube feed"
+        "description": "e.g. a Youtube feed"
       },
       "events": {
         "title": "Events",
-        "description": "Add events to your application, such as a Google Calendar feed"
+        "description": "e.g. a Google Calendar feed"
       },
       "news": {
         "title": "News",
-        "description": "Add news articles to your application, such as an RSS feed"
+        "description": "e.g. an RSS feed"
       },
       "statuses": {
         "title": "Statuses",
-        "description": "Add statuses to your application, such as a Twitter feed"
+        "description": "e.g. a Twitter feed"
       }
     },
     "devices": [
       {
         "devices": "phone",
         "startfile": "app/index.phone.html",
-        "images": "marketing/spot_marketing_mobile1.png",
-        "screenshots": [
-          "marketing/spot_marketing_mobile_ss1.png",
-          "marketing/spot_marketing_mobile_ss2.png"
-        ],
         "price": {
           "eur": 499,
           "usd": 669
@@ -52,11 +47,6 @@
       {
         "devices": "tv",
         "startfile": "app/index.tv.html",
-        "images": "marketing/spot_marketing_TV1.png",
-        "screenshots": [
-          "marketing/spot_marketing_TV_ss1.png",
-          "marketing/spot_marketing_TV_ss2.png"
-        ],
         "price": {
           "eur": 399,
           "usd": 669
