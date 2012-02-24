@@ -1,12 +1,12 @@
 {
-  "name": "spot",
-  "fullName": "Spot",
-  "version": "0.0.2",
-  "description": "The ideal template to promote a location. Supports photos, videos, events, RSS feeds, status updates, contact info, and a map. Available in 5 different colors.",
+  "name": "sleek",
+  "fullName": "Sleek",
+  "version": "1.0.0",
+  "description": "Generic-purpose polished template. Supports photos, videos, events, RSS feeds, status updates, contact info, and a map. Available in 5 different colors.",
   "joshfire": {
     "images": {
-      "small": "marketing/spot_marketing.png",
-      "big": "marketing/spot_marketing_big.png"
+      "small": "marketing/sleek-small.png",
+      "big": "marketing/skeel-big.png"
     },
     "premium": true,
     "price": {
