@@ -43,7 +43,7 @@
     "devices": [
       {
         "devices": "phone",
-        "startfile": "app/index.phone.html",
+        "startfile": "app/index.phone.optimized.html",
         "price": {
           "eur": 499,
           "usd": 669
@@ -51,7 +51,7 @@
       },
       {
         "devices": "tv",
-        "startfile": "app/index.tv.html",
+        "startfile": "app/index.tv.optimized.html",
         "price": {
           "eur": 399,
           "usd": 669
