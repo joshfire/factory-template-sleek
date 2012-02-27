@@ -12,7 +12,7 @@ define([
   'joshlib!adapters/googletv/ui/grid',
   'ui/text',
   'joshlib!ui/map',
-  'joshlib!ui/toolbar',
+  'joshlib!adapters/googletv/ui/toolbar',
   'joshlib!adapters/googletv/ui/horizontallayout',
   'joshlib!utils/onready',
   'joshlib!collection',

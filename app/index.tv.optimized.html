@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+
+    <title>Tourism TV</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="gtv-autozoom" content="off">
+
+    <script type="text/javascript" src="todate.js"></script>
+    <script type="text/javascript" src="vendor/moment.js"></script>
+    <script type="text/javascript" src="prettystatus.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script data-joshfire-bootstrap src="http://factory-joshfire.herokuapp.com/bootstrap/4f20482584806b01000001c5/4f269bc0d77bc90100003fb3/phone/"></script>
+
+    <style type="text/css" media="screen">
+      body, html {
+        height: 100%;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      body {
+        background: #000 url(images/spinner.gif) no-repeat center center;
+      }
+
+      #container {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body class="device-tv" ontouchmove="event.preventDefault()">
+    <div id="container">
+
+      <div id="cards">
+        <section id="photos-content" class="content">
+          <div></div>
+          <div class="spinner">&nbsp;</div>
+        </section>
+
+        <section id="videos-content" class="content">
+          <div></div>
+          <div class="spinner">&nbsp;</div>
+        </section>
+
+        <div id="statuses-cards" class="slide-panel">
+          <section id="statuses-content" class="content">
+            <div class="list-container"></div>
+            <div class="spinner">&nbsp;</div>
+          </section>
+
+          <section id="status-detail" class="content detail">
+            <div></div>
+          </section>
+        </div>
+
+        <div id="news-cards" class="slide-panel">
+          <section id="news-content" class="content">
+            <div class="list-container"></div>
+            <div class="spinner">&nbsp;</div>
+          </section>
+
+          <section id="news-detail" class="content detail">
+            <div></div>
+          </section>
+        </div>
+
+        <div id="events-cards" class="slide-panel">
+          <section id="events-content" class="content">
+            <div class="list-container"></div>
+            <div class="spinner">&nbsp;</div>
+          </section>
+
+          <section id="event-detail" class="content detail">
+            <div></div>
+          </section>
+        </div>
+
+        <section id="contact-content" class="content">
+          <div></div>
+        </section>
+
+        <section id="map-content" class="content">
+          <div></div>
+        </section>
+
+      </div>
+
+      <div id="top-gradient-overlay"></div>
+      <div id="bottom-gradient-overlay"></div>
+
+      <div id="toolbar"></div>
+
+      <div id="photos-detail"></div>
+
+      <div id="videos-detail"></div>
+
+    </div>
+
+    <!-- TEMPLATES -->
+
+    <script type="text/template" id="template-toolbar">
+      <div id="logo"></div>
+      <ul>
+        <%= children %>
+      </ul>
+      <div class="highlight"></div>
+    </script>
+
+    <script type="text/template" id="toolbar-item">
+      <li>
+        <a href="<%= item.linkURL %>" class="<%= item.name %>"><%= item.name %></a>
+      </li>
+    </script>
+
+    <script type="text/template" id="item-list">
+      <div class="list-indicator"></div>
+      <ul class="list">
+        <%= children %>
+      </ul>
+    </script>
+
+    <script type="text/template" id="template-mosaic">
+      <ul class="mosaic">
+        <%= children %>
+      </ul>
+    </script>
+
+    <script type="text/template" id="template-unknown-item">
+      <li class="unknown-item"><div>Unknown item type: <%= item.itemType %></div></li>
+    </script>
+
+    <script type="text/template" id="template-image-item">
+      <li class="photo-item">
+        <div class="container">
+          <div class="image" style="background-image: url(<%= imageUrl %>)">
+            <a class="image-link" href="#photo/<%= offset %>" title="<%= item.name %>">&nbsp;</a>
+          </div>
+          <div class="caption"><%= item.name %></div>
+          <div class="spinner">&nbsp;</div>
+        </div>
+      </li>
+    </script>
+
+    <script type="text/template" id="template-video-item">
+      <li class="video-item">
+        <div class="container">
+          <div class="image" style="background-image: url(<%= item.thumbnail[1].contentURL %>)">
+            <a class="video-link" href="#video/<%= offset %>" title="<%= item.name %>">&nbsp;</a>
+          </div>
+          <div class="caption"><%= item.name %></div>
+          <div class="spinner">&nbsp;</div>
+        </div>
+      </li>
+    </script>
+
+    <script type="text/template" id="template-status-item">
+      <li class="status-item">
+        <div>
+          <a href="#status/<%= offset %>">
+            <div class="left">
+              <div class="image" style="background-image: url(<%= item.author[0].image.contentURL %>)"></div>
+            </div>
+            <div class="right"><div class="item-content">
+              <h3><%= item.name %></h3>
+            </div></div>
+            <div class="far-left">
+              <p><%= item.author[0].name %><br><%= moment(toDate(item.datePublished)).fromNow() %></p>
+            </div>
+          </a>
+        </div>
+      </li>
+    </script>
+
+    <script type="text/template" id="template-video-item">
+      <li class="video-item">
+        <div>
+          <a href="#video/<%= offset %>">
+            <div>
+              <div class="left">
+                <div class="image" style="background-image: url(<%= item.thumbnail[0].contentURL %>)"></div>
+              </div>
+              <div class="right"><div class="item-content">
+                <h3><%= item.name %></h3>
+              </div></div>
+            </div>
+          </a>
+        </div>
+      </li>
+    </script>
+
+    <script type="text/template" id="template-event-item">
+      <li class="event-item">
+        <div>
+          <a href="#event/<%= offset %>">
+            <div class="item-content">
+              <h3><%= item.name %></h3>
+            </div>
+            <div class="far-left">
+              <p><%= moment(toDate(item.startDate)).calendar() %></p>
+            </div>
+          </a>
+        </div>
+      </li>
+    </script>
+
+    <script type="text/template" id="template-news-item">
+      <li class="news-item">
+        <div>
+          <a href="#article/<%= offset %>">
+            <div class="item-content">
+              <h3><%= item.name %></h3>
+            </div>
+            <div class="far-left">
+              <p><%= moment(toDate(item.datePublished)).fromNow() %></p>
+            </div>
+          </a>
+        </div>
+      </li>
+    </script>
+
+    <script type="text/template" id="template-photo">
+      <div class="image" style="background-image: url(<%= imageUrl %>)"></div>
+      <div class="spinner"></div>
+    </script>
+
+    <script type="text/template" id="template-video">
+      <iframe src="<%= videoUrl %>" width="100%" height="100%" frameborder="0" allowfullscreen>Loading...</iframe>
+    </script>
+
+    <script type="text/template" id="template-status">
+      <div>
+        <div class="head">
+          <div class="image" style="background-image: url(<%= item.author[0].image.contentURL %>)"></div>
+          <div class="title"><p><%= item.author[0].name %><br><%= moment(toDate(item.datePublished)).fromNow() %></p></div>
+        </div>
+        <p><%= prettyStatus(item.name) %></p>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-event">
+      <div>
+        <div class="head">
+          From <%= moment(toDate(item.startDate)).format('LLLL') %> to <%= moment(toDate(item.endDate)).format('LLLL') %>
+        </div>
+        <div class="body">
+          <h4><%= item.name %></h4>
+          <% if(item.description) { %>
+            <p class="description"><%= item.description %></p>
+          <% } %>
+          <% if(item.location && item.location.name) { %>
+            <p class="location"><%= item.location.name %></p>
+          <% } %>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-video">
+      <div>
+        <a href="<%= item.contentURL %>" target="_blank">
+          <img src="<%= imageUrl %>" class="image">
+          <div class="spinner">&nbsp;</div>
+          <div class="play"><span>&nbsp;</span></div>
+        </a>
+        <div class="body">
+          <h3><%= moment(toDate(item.uploadDate)).format('LLLL') %></h3>
+          <h4><%= item.name %></h4>
+          <p><%= item.description %></p>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-news">
+      <div>
+        <div class="head">
+          <%= item.name %>
+        </div>
+        <div class="body">
+          <h4><%= moment(toDate(item.datePublished)).format('LLLL') %></h4>
+          <%= item.articleBody %>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-contact">
+      <div><%= textContent %></div>
+    </script>
+
+    <script type="text/template" id="template-map">
+      <div class="map"></div>
+    </script>
+
+    <script type="text/template" id="template-map-overlay">
+      <p class="map-overlay"><%= address %></p>
+    </script>
+
+    <script>Joshfire.debug=true;</script>
+    <script src="app.tv.optimized.js"></script>
+  </body>
+</html>
