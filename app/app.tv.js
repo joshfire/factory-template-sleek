@@ -3,7 +3,6 @@ define([
   'spot.tv',
   'joshlib!factorycollection',
   'joshlib!adapters/googletv/ui/verticallist',
-  'ui/imagegallery',
   'joshlib!ui/item',
   'joshlib!ui/imageloader',
   'joshlib!ui/video',
@@ -12,14 +11,14 @@ define([
   'joshlib!adapters/googletv/ui/slidepanel',
   'joshlib!adapters/googletv/ui/grid',
   'ui/text',
-  'ui/map',
+  'joshlib!ui/map',
   'joshlib!ui/toolbar',
   'joshlib!adapters/googletv/ui/horizontallayout',
   'joshlib!utils/onready',
   'joshlib!collection',
   'joshlib!utils/dollar',
   'joshlib!vendor/backbone'],
-function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Video, Router, CardPanel, SlidePanel, Grid, Text, Map, Toolbar, HorizontalLayout, onReady, Collection,$,_) {
+function(Spot, FactoryCollection, List, Item, ImageLoader, Video, Router, CardPanel, SlidePanel, Grid, Text, Map, Toolbar, HorizontalLayout, onReady, Collection,$,_) {
 
   onReady(function() {
 

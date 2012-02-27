@@ -54,8 +54,6 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Video, 
       }
     });
 
-    toolbar.setCollection(sections, true);
-
     //
     // Views
     //
@@ -322,6 +320,10 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Video, 
       }
 
     });
+
+    toolbar.setCollection(sections);
+
+    setTimeout(function() {toolbar.render();}, 10);
 
     router.historyStart();
   });
