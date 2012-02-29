@@ -29,7 +29,7 @@ define(["joshlib!uielement","joshlib!utils/dollar","joshlib!vendor/underscore"],
     },
 
     setContent: function(html) {
-      this.$('> div')[0].innerHTML = html;
+      this.$('.first')[0].innerHTML = html;
     }
   });
 

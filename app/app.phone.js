@@ -74,7 +74,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Video, 
     statusesViews.list = new List({
       el: '#statuses-content',
       templateEl: '#item-list',
-      contentSelector: '> div:first-child',
+      contentSelector: '.first',
       scroller: true,
       itemFactory: Spot.itemFactory,
       collection: Spot.collections.statuses
@@ -99,7 +99,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Video, 
     eventsViews.list = new List({
       el: '#events-content',
       templateEl: '#item-list',
-      contentSelector: '> div:first-child',
+      contentSelector: '.first',
       scroller: true,
       itemFactory: Spot.itemFactory,
       collection: Spot.collections.events
@@ -124,7 +124,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Video, 
     videosViews.list = new List({
       el: '#videos-content',
       templateEl: '#item-list',
-      contentSelector: '> div:first-child',
+      contentSelector: '.first',
       scroller: true,
       itemFactory: Spot.itemFactory,
       collection: Spot.collections.videos
@@ -153,7 +153,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Video, 
     newsViews.list = new List({
       el: '#news-content',
       templateEl: '#item-list',
-      contentSelector: '> div:first-child',
+      contentSelector: '.first',
       scroller: true,
       itemFactory: Spot.itemFactory,
       collection: Spot.collections.news
@@ -217,6 +217,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Video, 
     // Create a view for a list
     var makeRouteForList = function(name, sectionCards) {
       return function() {
+        $('#video-detail iframe').remove();
         $title.text(Joshfire.factory.getDataSource(name).name);
         $footer.find('.active').removeClass('active');
         $footer.find('.' + name).addClass('active');
@@ -226,7 +227,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Video, 
 
         document.body.id = name;
         $back.hide();
-        $refresh.show().unbind('click').click(function() {
+        $refresh.show().unbind('click').bind('click', function() {
           Spot.collections[name].fetch();
           return false;
         });
@@ -242,6 +243,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Video, 
       plural = plural || name + 's';
 
       return function(offset) {
+        $('#video-detail iframe').remove();
         $title.text(Joshfire.factory.getDataSource(plural).name);
         $footer.find('.active').removeClass('active');
         $footer.find('.' + plural).addClass('active');
@@ -295,6 +297,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Video, 
 
       // Contact
       contact: function() {
+        $('#video-detail iframe').remove();
         $title.text('Contact');
         document.body.id = 'contact';
         $footer.find('.active').removeClass('active');
@@ -308,6 +311,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Video, 
 
       // Map
       map: function() {
+        $('#video-detail iframe').remove();
         $title.text('Map');
         document.body.id = 'map';
         $footer.find('.active').removeClass('active');
