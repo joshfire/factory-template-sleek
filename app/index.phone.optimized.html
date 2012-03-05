@@ -30,14 +30,6 @@
     <script type="text/javascript" src="prettystatus.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script data-joshfire-bootstrap src="http://factory-joshfire.herokuapp.com/bootstrap/4f20482584806b01000001c5/4f269bc0d77bc90100003fb3/phone/"></script>
-
-    <script type="text/javascript">
-      // if app icon, set "apple-touch-icon-precomposed" for webapps installed on mobile
-      // For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: (have to be an absolute URL)
-      if(Joshfire.factory.config.app.icon) {
-        $("head").append('<link rel="apple-touch-icon-precomposed" href="'+ Joshfire.factory.config.app.icon.contentURL +'">')
-      }
-    </script>
   </head>
 
   <body class="device-phone" ontouchmove="event.preventDefault()">
@@ -280,5 +272,12 @@
 
     <script>Joshfire.debug=true;</script>
     <script src="app.phone.optimized.js"></script>
+    <script type="text/javascript">
+      // if app icon, set "apple-touch-icon-precomposed" for webapps installed on mobile
+      // For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: (have to be an absolute URL)
+      if(Joshfire.factory.config.app.icon) {
+        $("head").append('<link rel="apple-touch-icon-precomposed" href="'+ Joshfire.factory.config.app.icon.contentURL +'">')
+      }
+    </script>
   </body>
 </html>
