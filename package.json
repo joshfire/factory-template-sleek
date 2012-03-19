@@ -21,23 +21,38 @@
     "datasources": {
       "photos": {
         "title": "Photos",
-        "description": "e.g. a Flickr feed"
+        "description": "e.g. a Flickr feed",
+        "inputType": [
+          "ImageObject"
+        ]
       },
       "videos": {
         "title": "Videos",
-        "description": "e.g. a Youtube feed"
+        "description": "e.g. a Youtube feed",
+        "inputType": [
+          "VideoObject"
+        ]
       },
       "events": {
         "title": "Events",
-        "description": "e.g. a Google Calendar feed"
+        "description": "e.g. a Google Calendar feed",
+        "inputType": [
+          "Event"
+        ]
       },
       "news": {
         "title": "News",
-        "description": "e.g. an RSS feed"
+        "description": "e.g. an RSS feed",
+        "inputType": [
+          "Article"
+        ]
       },
       "statuses": {
         "title": "Statuses",
-        "description": "e.g. a Twitter feed"
+        "description": "e.g. a Twitter feed",
+        "inputType": [
+          "Article/Status"
+        ]
       }
     },
     "devices": [
