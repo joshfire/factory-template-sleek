@@ -96,7 +96,8 @@
             "gray",
             "earth",
             "vegetal"
-           ]
+           ],
+          "default":"gray"
         },
         "contacthtml": {
           "title": "Contact HTML",
