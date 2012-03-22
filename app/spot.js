@@ -56,16 +56,17 @@ function(FactoryCollection, Item, ImageLoader, _) {
     //
     itemFactory: function(model, offset) {
       var item = model.toJSON();
+      var type = item['@type'] || item.itemType;
 
-      switch(item.itemType) {
+      switch(type) {
         case 'ImageObject':
         return new ImageLoader({
           model: model,
           offset: offset,
           templateEl: '#template-image-item',
           getImageUrl: function() {
-	          return Spot.getThumbnail(item, offset);
-	       }
+            return Spot.getThumbnail(item, offset);
+          }
         });
         break;
 

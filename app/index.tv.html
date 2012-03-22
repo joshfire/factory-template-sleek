@@ -131,7 +131,7 @@
     </script>
 
     <script type="text/template" id="template-unknown-item">
-      <li class="unknown-item"><div>Unknown item type: <%= item.itemType %></div></li>
+      <li class="unknown-item"><div>Unknown item type: <%= item['@type'] || item.itemType %></div></li>
     </script>
 
     <script type="text/template" id="template-image-item">
