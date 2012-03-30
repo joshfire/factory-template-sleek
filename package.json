@@ -63,12 +63,26 @@
           "eur": 499,
           "usd": 669
         },
-	"images": "marketing/phone.jpg",
-	"screenshots": [
-	  "marketing/phone-screenshot1.jpg",
-	  "marketing/phone-screenshot2.jpg",
-	  "marketing/phone-screenshot3.jpg"
-	]
+        "images": "marketing/phone.jpg",
+        "screenshots": [
+          "marketing/phone-screenshot1.jpg",
+          "marketing/phone-screenshot2.jpg",
+          "marketing/phone-screenshot3.jpg"
+        ]
+      },
+      {
+        "devices": "tablet",
+        "startfile": "app/index.tablet.optimized.html",
+        "price": {
+          "eur": 499,
+          "usd": 669
+        },
+        "images": "marketing/phone.jpg",
+        "screenshots": [
+          "marketing/phone-screenshot1.jpg",
+          "marketing/phone-screenshot2.jpg",
+          "marketing/phone-screenshot3.jpg"
+        ]
       },
       {
         "devices": "tv",
@@ -77,11 +91,11 @@
           "eur": 399,
           "usd": 669
         },
-	"images": "marketing/tv.jpg",
-	"screenshots": [
-          "marketing/tv-screenshot1.jpg",
-          "marketing/tv-screenshot2.jpg",
-          "marketing/tv-screenshot3.jpg" 
+        "images": "marketing/tv.jpg",
+        "screenshots": [
+                "marketing/tv-screenshot1.jpg",
+                "marketing/tv-screenshot2.jpg",
+                "marketing/tv-screenshot3.jpg"
         ]
       }
     ],
