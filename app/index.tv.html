@@ -14,7 +14,7 @@
     <script type="text/javascript" src="vendor/moment.js"></script>
     <script type="text/javascript" src="prettystatus.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <script data-joshfire-bootstrap src="http://factory-joshfire.herokuapp.com/bootstrap/4f20482584806b01000001c5/4f269bc0d77bc90100003fb3/phone/"></script>
+    <script data-joshfire-bootstrap src="http://127.0.0.1:40021/bootstrap/4f20482584806b01000001c5/4f269bc0d77bc90100003fb3/phone/"></script>
 
     <style type="text/css" media="screen">
       body, html {
@@ -229,7 +229,7 @@
     </script>
 
     <script type="text/template" id="template-video">
-      <iframe src="<%= videoUrl %>" width="100%" height="100%" frameborder="0" allowfullscreen>Loading...</iframe>
+      <%= media %>
     </script>
 
     <script type="text/template" id="template-status">
@@ -300,7 +300,6 @@
       <p class="map-overlay"><%= address %></p>
     </script>
 
-    <script>Joshfire.debug=true;</script>
     <script data-main="app.tv" src="joshfire-framework/lib/adapters/googletv/bootstrap.js"></script>
   </body>
 </html>
