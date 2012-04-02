@@ -165,7 +165,7 @@
         <div>
           <a href="#video/<%= offset %>">
             <div>
-              <img src="<%= item.thumbnail[0].contentURL %>">
+              <img src="<%= (item.thumbnail && item.thumbnail[0]) ? item.thumbnail[0].contentURL : (item.image && item.image.contentURL ? item.image.contentURL : '') %>">
               <div class="right">
                 <h3><%= item.name %></h3>
               </div>
@@ -241,9 +241,13 @@
       <div>
         <iframe src="<%= videoUrl %>" width="100%" height="300" frameborder="0" allowfullscreen>Loading...</iframe>
         <div class="body">
-          <h3><%= moment(toDate(item.uploadDate)).format('LLLL') %></h3>
+          <% if (item.uploadDate || item.datePublished || item.dateCreated) { %>
+          <h3><%= moment(toDate(item.uploadDate || item.datePublished || item.dateCreated)).format('LLLL') %></h3>
+          <% } %>
           <h4><%= item.name %></h4>
+          <% if(item.description) { %>
           <p><%= item.description %></p>
+          <% } %>
         </div>
       </div>
     </script>

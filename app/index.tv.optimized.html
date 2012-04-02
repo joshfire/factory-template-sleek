@@ -149,7 +149,7 @@
     <script type="text/template" id="template-video-item">
       <li class="video-item">
         <div class="container">
-          <div class="image" style="background-image: url(<%= item.thumbnail[1].contentURL %>)">
+          <div class="image" style="background-image: url(<%= (item.thumbnail && item.thumbnail[1]) ? item.thumbnail[1].contentURL : ((item.thumbnail && item.thumbnail[0]) ? item.thumbnail[0].contentURL : (item.image ? item.image.contentURL : '')) %>)">
             <a class="video-link" href="#video/<%= offset %>" title="<%= item.name %>">&nbsp;</a>
           </div>
           <div class="caption"><%= item.name %></div>
@@ -182,7 +182,7 @@
           <a href="#video/<%= offset %>">
             <div>
               <div class="left">
-                <div class="image" style="background-image: url(<%= item.thumbnail[0].contentURL %>)"></div>
+                <div class="image" style="background-image: url(<%= (item.thumbnail && item.thumbnail[0]) ? item.thumbnail[0].contentURL : (item.image ? item.image.contentURL : '')%>)"></div>
               </div>
               <div class="right"><div class="item-content">
                 <h3><%= item.name %></h3>
@@ -269,7 +269,9 @@
         <div class="body">
           <h3><%= moment(toDate(item.uploadDate)).format('LLLL') %></h3>
           <h4><%= item.name %></h4>
+          <% if(item.description) { %>
           <p><%= item.description %></p>
+          <% } %>
         </div>
       </div>
     </script>
