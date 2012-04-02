@@ -218,6 +218,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Video, 
     var makeRouteForList = function(name, sectionCards) {
       return function() {
         $('#video-detail iframe').remove();
+        $('#video-detail object').remove();
         $title.text(Joshfire.factory.getDataSource(name).name);
         $footer.find('.active').removeClass('active');
         $footer.find('.' + name).addClass('active');
