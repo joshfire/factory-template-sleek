@@ -29,7 +29,7 @@
     <script type="text/javascript" src="vendor/moment.js"></script>
     <script type="text/javascript" src="prettystatus.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <script data-joshfire-bootstrap src="http://factory-joshfire.herokuapp.com/bootstrap/4f20482584806b01000001c5/4f269bc0d77bc90100003fb3/phone/"></script>
+    <script data-joshfire-bootstrap src="http://127.0.0.1:40021/bootstrap/4f20482584806b01000001c5/4f269bc0d77bc90100003fb3/phone/"></script>
   </head>
 
   <body class="device-phone" ontouchmove="event.preventDefault()">
@@ -165,7 +165,7 @@
         <div>
           <a href="#video/<%= offset %>">
             <div>
-              <img src="<%= item.thumbnail[0].contentURL %>">
+              <img src="<%= (item.thumbnail && item.thumbnail[0]) ? item.thumbnail[0].contentURL : (item.image && item.image.contentURL ? item.image.contentURL : '') %>">
               <div class="right">
                 <h3><%= item.name %></h3>
               </div>
@@ -239,11 +239,15 @@
 
     <script type="text/template" id="template-video">
       <div>
-        <iframe src="<%= videoUrl %>" width="100%" height="300" frameborder="0" allowfullscreen>Loading...</iframe>
+        <%= media %>
         <div class="body">
-          <h3><%= moment(toDate(item.uploadDate)).format('LLLL') %></h3>
+          <% if (item.uploadDate || item.datePublished || item.dateCreated) { %>
+          <h3><%= moment(toDate(item.uploadDate || item.datePublished || item.dateCreated)).format('LLLL') %></h3>
+          <% } %>
           <h4><%= item.name %></h4>
+          <% if(item.description) { %>
           <p><%= item.description %></p>
+          <% } %>
         </div>
       </div>
     </script>

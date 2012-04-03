@@ -2,23 +2,23 @@
 define([
   'spot.tv',
   'joshlib!factorycollection',
-  'joshlib!adapters/googletv/ui/verticallist',
+  'joshlib!ui/verticallist',
   'joshlib!ui/item',
   'joshlib!ui/imageloader',
-  'joshlib!ui/video',
+  'joshlib!ui/factorymedia',
   'joshlib!router',
-  'joshlib!adapters/googletv/ui/cardpanel',
-  'joshlib!adapters/googletv/ui/slidepanel',
-  'joshlib!adapters/googletv/ui/grid',
+  'joshlib!ui/cardpanel',
+  'joshlib!ui/slidepanel',
+  'joshlib!ui/grid',
   'ui/text',
   'joshlib!ui/map',
-  'joshlib!adapters/googletv/ui/toolbar',
-  'joshlib!adapters/googletv/ui/horizontallayout',
+  'joshlib!ui/toolbar',
+  'joshlib!ui/horizontallayout',
   'joshlib!utils/onready',
   'joshlib!collection',
   'joshlib!utils/dollar',
   'joshlib!vendor/backbone'],
-function(Spot, FactoryCollection, List, Item, ImageLoader, Video, Router, CardPanel, SlidePanel, Grid, Text, Map, Toolbar, HorizontalLayout, onReady, Collection,$,_) {
+function(Spot, FactoryCollection, List, Item, ImageLoader, FactoryMedia, Router, CardPanel, SlidePanel, Grid, Text, Map, Toolbar, HorizontalLayout, onReady, Collection,$,_) {
 
   onReady(function() {
 
@@ -283,9 +283,9 @@ function(Spot, FactoryCollection, List, Item, ImageLoader, Video, Router, CardPa
 
     // Video overlay
 
-    var VideoOverlay = Video.extend({
+    var VideoOverlay = FactoryMedia.extend({
       initialize: function(options) {
-        Video.prototype.initialize.call(this, options);
+        FactoryMedia.prototype.initialize.call(this, options);
 
         this.navUp = this.navDown = this.navLeft = this.navRight = this.navAction = this.exit;
       },
@@ -300,9 +300,11 @@ function(Spot, FactoryCollection, List, Item, ImageLoader, Video, Router, CardPa
     var videoDetail = new VideoOverlay({
       el: '#videos-detail',
       templateEl: '#template-video',
-      getVideoUrl: function() {
-        var id = this.model.get('url').replace('http://www.youtube.com/watch?v=', '');
-        return 'http://www.youtube-nocookie.com/embed/' + id + '?rel=0&autoplay=1';
+      mediaOptions: {
+        width: '100%',
+        height: '100%',
+        autoPlay: true,
+        html5: true
       }
     });
 

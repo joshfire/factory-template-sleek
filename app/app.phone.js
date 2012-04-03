@@ -5,7 +5,7 @@ define([
   'ui/imagegallery',
   'joshlib!ui/item',
   'joshlib!ui/imageloader',
-  'joshlib!ui/video',
+  'joshlib!ui/factorymedia',
   'joshlib!router',
   'joshlib!ui/cardpanel',
   'joshlib!ui/slidepanel',
@@ -16,10 +16,9 @@ define([
   'joshlib!collection',
   'joshlib!utils/dollar',
   'joshlib!vendor/backbone'],
-function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Video, Router, CardPanel, SlidePanel, Text, Map, Toolbar, onReady, Collection,$,_) {
+function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, FactoryMedia, Router, CardPanel, SlidePanel, Text, Map, Toolbar, onReady, Collection,$,_) {
 
   onReady(function() {
-
     Spot.initialize();
 
     //
@@ -130,13 +129,14 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Video, 
       collection: Spot.collections.videos
     });
 
-    videosViews.detail = new Video({
+    videosViews.detail = new FactoryMedia({
       el: '#video-detail',
       templateEl: '#template-video',
       scroller: true,
-      getVideoUrl: function() {
-        var id = this.model.get('url').replace('http://www.youtube.com/watch?v=', '');
-        return 'http://www.youtube-nocookie.com/embed/' + id + '?rel=0';
+      mediaOptions: {
+        strategy: 'html5',
+        width: '100%',
+        height: 300
       }
     });
 
@@ -218,6 +218,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Video, 
     var makeRouteForList = function(name, sectionCards) {
       return function() {
         $('#video-detail iframe').remove();
+        $('#video-detail object').remove();
         $title.text(Joshfire.factory.getDataSource(name).name);
         $footer.find('.active').removeClass('active');
         $footer.find('.' + name).addClass('active');
@@ -256,11 +257,13 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Video, 
         if(Spot.collections[plural].length === 0) {
           Spot.collections[plural].fetch({success: function() {
             var model = Spot.collections[plural].at(parseInt(offset));
-            sectionCards.children.detail.setModel(model, true);
+            sectionCards.children.detail.setModel(model);
+            sectionCards.children.detail.render();
           }});
         } else {
           var model = Spot.collections[plural].at(parseInt(offset));
-          sectionCards.children.detail.setModel(model, true);
+          sectionCards.children.detail.setModel(model);
+          sectionCards.children.detail.render();
          }
       }
     };
