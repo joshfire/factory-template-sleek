@@ -15,8 +15,9 @@ define([
   'joshlib!utils/onready',
   'joshlib!collection',
   'joshlib!utils/dollar',
+  'joshlib!vendor/underscore',
   'joshlib!vendor/backbone'],
-function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, FactoryMedia, Router, CardPanel, SlidePanel, Text, Map, Toolbar, onReady, Collection,$,_) {
+function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, FactoryMedia, Router, CardPanel, SlidePanel, Text, Map, Toolbar, onReady, Collection,$,_,Backbone) {
 
   onReady(function() {
     Spot.initialize();
@@ -61,9 +62,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
     });
 
     // Statuses
-    var statusesViews = {};
-
-    statusesViews.list = new List({
+    views.statusesList = new List({
       el: '#statuses-content',
       templateEl: '#item-list',
       contentSelector: '.first',
@@ -72,23 +71,14 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
       collection: Spot.collections.statuses
     });
 
-    statusesViews.detail = new Item({
+    views.statusesDetail = new Item({
       el: '#status-detail',
       templateEl: '#template-status',
       scroller: true
     });
 
-    var statusesCards = new SlidePanel({
-      el: '#statuses-cards',
-      children: statusesViews
-    });
-
-    views.statuses = statusesCards;
-
     // Events
-    var eventsViews = {};
-
-    eventsViews.list = new List({
+    views.eventsList = new List({
       el: '#events-content',
       templateEl: '#item-list',
       contentSelector: '.first',
@@ -97,23 +87,14 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
       collection: Spot.collections.events
     });
 
-    eventsViews.detail = new Item({
+    views.eventsDetail = new Item({
       el: '#event-detail',
       templateEl: '#template-event',
       scroller: true
     });
 
-    var eventsCards = new SlidePanel({
-      el: '#events-cards',
-      children: eventsViews
-    });
-
-    views.events = eventsCards;
-
     // Videos
-    var videosViews = {};
-
-    videosViews.list = new List({
+    views.videosList = new List({
       el: '#videos-content',
       templateEl: '#item-list',
       contentSelector: '.first',
@@ -122,7 +103,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
       collection: Spot.collections.videos
     });
 
-    videosViews.detail = new FactoryMedia({
+    views.videosDetail = new FactoryMedia({
       el: '#video-detail',
       templateEl: '#template-video',
       scroller: true,
@@ -133,17 +114,8 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
       }
     });
 
-    var videosCards = new SlidePanel({
-      el: '#videos-cards',
-      children: videosViews
-    });
-
-    views.videos = videosCards;
-
     // News
-    var newsViews = {};
-
-    newsViews.list = new List({
+    views.newsList = new List({
       el: '#news-content',
       templateEl: '#item-list',
       contentSelector: '.first',
@@ -152,18 +124,11 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
       collection: Spot.collections.news
     });
 
-    newsViews.detail = new Item({
+    views.newsDetail = new Item({
       el: '#news-detail',
       templateEl: '#template-news',
       scroller: true
     });
-
-    var newsCards = new SlidePanel({
-      el: '#news-cards',
-      children: newsViews
-    });
-
-    views.news = newsCards;
 
     // Contact
     var contactViews = {};
@@ -194,46 +159,70 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
 
 
     // Main panel
-    var cards = new CardPanel({
+    var Sections = Backbone.View.extend({
       el: '#cards',
-      children: views
+      children: views,
+
+      initialize: function() {
+        _.each(this.children, function(child) {
+          child.hide();
+        });
+      },
+
+      showSection: function(name) {
+        _.each(this.children, function(child, key) {
+          if(key !== name + 'List' && key != name + 'Detail') {
+            child.hide();
+          }
+        });
+
+        this.children[name + 'List'].show();
+        this.children[name + 'Detail'].show();
+      }
     });
+
+    var cards = new Sections();
 
     //
     // Router
     //
     var $title = $('#title');
-    var $back = $('#back');
     var $refresh = $('#refresh');
     var $toolbar = $('#toolbar');
 
     // Create a view for a list
-    var makeRouteForList = function(name, sectionCards) {
+    var makeRouteForList = function(name) {
       return function() {
         $('#video-detail iframe').remove();
         $('#video-detail object').remove();
         $title.text(Joshfire.factory.getDataSource(name).name);
         $toolbar.find('.active').removeClass('active');
         $toolbar.find('.' + name).addClass('active');
-        cards.showChildren(name);
-
-        if(sectionCards) sectionCards.showChildren('list');
+        cards.showSection(name);
 
         document.body.id = name;
-        $back.hide();
         $refresh.show().unbind('click').bind('click', function() {
           Spot.collections[name].fetch();
           return false;
         });
 
         if(Spot.collections[name].length === 0) {
-          Spot.collections[name].fetch();
+          Spot.collections[name].fetch({
+            success: function() {
+              if(Spot.collections[name].length) {
+                var model = Spot.collections[name].at(0);
+                var detail = views[name + 'Detail'];
+                detail.setModel(model);
+                detail.render();
+              }
+            }
+          });
         }
       };
     };
 
     // Create a view for an item detail
-    var makeRouteForItemDetail = function(name, sectionCards, plural) {
+    var makeRouteForItemDetail = function(name, plural) {
       plural = plural || name + 's';
 
       return function(offset) {
@@ -241,22 +230,22 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
         $title.text(Joshfire.factory.getDataSource(plural).name);
         $toolbar.find('.active').removeClass('active');
         $toolbar.find('.' + plural).addClass('active');
-        cards.showChildren(plural);
-        sectionCards.showChildren('detail');
+        cards.showSection(plural);
         document.body.id = name;
-        $back.attr('href', '#' + plural + '').show();
         $refresh.hide();
 
         if(Spot.collections[plural].length === 0) {
           Spot.collections[plural].fetch({success: function() {
             var model = Spot.collections[plural].at(parseInt(offset));
-            sectionCards.children.detail.setModel(model);
-            sectionCards.children.detail.render();
+            var detail = views[plural + 'Detail'];
+            detail.setModel(model);
+            detail.render();
           }});
         } else {
           var model = Spot.collections[plural].at(parseInt(offset));
-          sectionCards.children.detail.setModel(model);
-          sectionCards.children.detail.render();
+          var detail = views[plural + 'Detail'];
+          detail.setModel(model);
+          detail.render();
          }
       }
     };
@@ -280,16 +269,16 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
 
       // List routes
       photos:   makeRouteForList('photos'),
-      statuses: makeRouteForList('statuses', statusesCards),
-      videos:   makeRouteForList('videos', videosCards),
-      events:   makeRouteForList('events', eventsCards),
-      news:     makeRouteForList('news', newsCards),
+      statuses: makeRouteForList('statuses'),
+      videos:   makeRouteForList('videos'),
+      events:   makeRouteForList('events'),
+      news:     makeRouteForList('news'),
 
       // Detail routes
-      status:   makeRouteForItemDetail('status', statusesCards, 'statuses'),
-      video:    makeRouteForItemDetail('video', videosCards),
-      event:    makeRouteForItemDetail('event', eventsCards),
-      article:  makeRouteForItemDetail('article', newsCards, 'news'),
+      status:   makeRouteForItemDetail('status', 'statuses'),
+      video:    makeRouteForItemDetail('video'),
+      event:    makeRouteForItemDetail('event'),
+      article:  makeRouteForItemDetail('article', 'news'),
 
       // Contact
       contact: function() {
@@ -300,7 +289,6 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
         $toolbar.find('.contact').addClass('active');
         cards.showChildren('contact');
         contactCards.showChildren('index');
-        $back.hide();
         $refresh.hide();
         contactViews.index.render();
       },
@@ -314,7 +302,6 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
         $toolbar.find('.map').addClass('active');
         cards.showChildren('contact');
         contactCards.showChildren('map');
-        $back.attr('href', '#contact' + '').show();
         $refresh.hide();
         contactViews.map.render();
       }
@@ -322,7 +309,8 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
     });
 
     toolbar.setCollection(sections);
+    toolbar.render();
 
-    setTimeout(function() {toolbar.render(); router.historyStart();}, 10);
+    router.historyStart();
   });
 });
