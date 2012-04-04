@@ -266,7 +266,11 @@ header {
 // A section
 //---------------------------------------------------------------------------
 .section {
-  height: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
 }
 
 
@@ -352,7 +356,7 @@ header {
         right: 0;
         top: 0;
         bottom: 0;
-        border: solid thin #000;
+        border: solid 3px #000;
       }
     }
 
@@ -724,7 +728,7 @@ header {
   background: @light-background-color;
 }
 
-#videos-cards {
+#videos #cards {
   color: @dark-text-color;
 }
 
@@ -796,7 +800,7 @@ header {
   background: @light-background-color;
 }
 
-#news-cards {
+#news #cards, #article #cards {
   color: @dark-text-color;
 }
 
@@ -952,19 +956,19 @@ header {
 // Contact & map
 //---------------------------------------------------------------------------
 
-#contact-index > div:first-child {
+#contact-content > div:first-child {
   padding: 2em 1em;
 }
 
-#contact-index p {
+#contact-content p {
   margin-bottom: 1em;
 }
 
-#contact-index a {
+#contact-content a {
   text-decoration: underline;
 }
 
-#contact-index img {
+#contact-content img {
   max-width: 100%;
   height: auto;
   margin-bottom: 1em;

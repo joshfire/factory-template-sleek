@@ -53,7 +53,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
     var views = {};
 
     // Photos
-    views.photos = new ImageGallery({
+    views.photosList = new ImageGallery({
       el: '#photos-content',
       templateEl: '#item-list',
       scroller: true,
@@ -131,17 +131,15 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
     });
 
     // Contact
-    var contactViews = {};
-
-    contactViews.index = new Text({
-      el: '#contact-index',
+    views.contact = new Text({
+      el: '#contact-content',
       templateEl: '#template-contact-index',
       textContent: Spot.contactHTML,
       scroller: true
     });
 
-    contactViews.map = new Map({
-      el: '#contact-map',
+    views.map = new Map({
+      el: '#map-content',
       templateEl: '#template-contact-map',
       latitude: Spot.latitude,
       longitude: Spot.longitude,
@@ -149,13 +147,6 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
       overlayTemplateEl: '#template-map-overlay',
       overlayOptions: { address: Spot.address }
     });
-
-    var contactCards = new SlidePanel({
-      el: '#contact-cards',
-      children: contactViews
-    });
-
-    views.contact = contactCards;
 
 
     // Main panel
@@ -171,13 +162,14 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
 
       showSection: function(name) {
         _.each(this.children, function(child, key) {
-          if(key !== name + 'List' && key != name + 'Detail') {
+          if(key !== name && key !== name + 'List' && key != name + 'Detail') {
             child.hide();
           }
         });
 
-        this.children[name + 'List'].show();
-        this.children[name + 'Detail'].show();
+        if(this.children.hasOwnProperty(name)) this.children[name].show();
+        if(this.children.hasOwnProperty(name + 'List')) this.children[name + 'List'].show();
+        if(this.children.hasOwnProperty(name + 'Detail')) this.children[name + 'Detail'].show();
       }
     });
 
@@ -212,8 +204,11 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
               if(Spot.collections[name].length) {
                 var model = Spot.collections[name].at(0);
                 var detail = views[name + 'Detail'];
-                detail.setModel(model);
-                detail.render();
+
+                if(detail) {
+                  detail.setModel(model);
+                  detail.render();
+                }
               }
             }
           });
@@ -287,10 +282,8 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
         document.body.id = 'contact';
         $toolbar.find('.active').removeClass('active');
         $toolbar.find('.contact').addClass('active');
-        cards.showChildren('contact');
-        contactCards.showChildren('index');
-        $refresh.hide();
-        contactViews.index.render();
+        cards.showSection('contact');
+        views.contact.render();
       },
 
       // Map
@@ -300,10 +293,8 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
         document.body.id = 'map';
         $toolbar.find('.active').removeClass('active');
         $toolbar.find('.map').addClass('active');
-        cards.showChildren('contact');
-        contactCards.showChildren('map');
-        $refresh.hide();
-        contactViews.map.render();
+        cards.showSection('map');
+        views.map.render();
       }
 
     });
