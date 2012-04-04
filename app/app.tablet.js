@@ -110,7 +110,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
       mediaOptions: {
         strategy: 'html5',
         width: '100%',
-        height: 300
+        height: 400
       }
     });
 
@@ -185,8 +185,8 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
     // Create a view for a list
     var makeRouteForList = function(name) {
       return function() {
-        $('#video-detail iframe').remove();
-        $('#video-detail object').remove();
+        if(name !== 'videos') $('#video-detail iframe').remove();
+        if(name !== 'videos') $('#video-detail object').remove();
         $title.text(Joshfire.factory.getDataSource(name).name);
         $toolbar.find('.active').removeClass('active');
         $toolbar.find('.' + name).addClass('active');
@@ -208,6 +208,13 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
                 if(detail) {
                   detail.setModel(model);
                   detail.render();
+
+                  var list = views[name + 'List'];
+
+                  if(list) {
+                    list.$('li.active').removeClass('active');
+                    $(list.$('li')[0]).addClass('active');
+                  }
                 }
               }
             }
@@ -222,6 +229,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
 
       return function(offset) {
         $('#video-detail iframe').remove();
+        $('#video-detail object').remove();
         $title.text(Joshfire.factory.getDataSource(plural).name);
         $toolbar.find('.active').removeClass('active');
         $toolbar.find('.' + plural).addClass('active');
@@ -235,12 +243,26 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
             var detail = views[plural + 'Detail'];
             detail.setModel(model);
             detail.render();
+
+            var list = views[plural + 'List'];
+
+            if(list) {
+              list.$('li.active').removeClass('active');
+              $(list.$('li')[offset]).addClass('active');
+            }
           }});
         } else {
           var model = Spot.collections[plural].at(parseInt(offset));
           var detail = views[plural + 'Detail'];
           detail.setModel(model);
           detail.render();
+
+          var list = views[plural + 'List'];
+
+          if(list) {
+            list.$('li.active').removeClass('active');
+            $(list.$('li')[offset]).addClass('active');
+          }
          }
       }
     };

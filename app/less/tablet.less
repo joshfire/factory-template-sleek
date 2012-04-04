@@ -309,6 +309,10 @@ header {
       border-bottom: none;
       padding-bottom: 2em;
     }
+
+    &.active {
+      background: saturate(fade(@background-color, 20%), 20%);
+    }
   }
 }
 
@@ -319,7 +323,6 @@ header {
 
     &:nth-child(even) {
       background-color: fade(darken(@background-color, 20%), 30%);
-      //.box-shadow(inset 0 4px 4px rgba(0,0,0,.1));
     }
 
     &:first-child {
@@ -329,6 +332,10 @@ header {
     &:last-child {
       border-bottom: none;
       padding-bottom: 2em;
+    }
+
+    &.active {
+      background-color: fade(lighten(@background-color, 20%), 50%);
     }
   }
 }
@@ -728,7 +735,7 @@ header {
   background: @light-background-color;
 }
 
-#videos #cards {
+#videos #cards, #video #cards {
   color: @dark-text-color;
 }
 
