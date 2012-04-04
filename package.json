@@ -97,7 +97,8 @@
             "earth",
             "vegetal"
            ],
-          "default":"gray"
+          "default":"gray",
+           "required": true
         },
         "contacthtml": {
           "title": "Contact HTML",

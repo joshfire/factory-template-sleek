@@ -29,7 +29,7 @@ function(FactoryCollection, Item, ImageLoader, _) {
       this.backgroundURL = Joshfire.factory.config.template.options.backgroundurl;
 
       // set template color from user set option
-      this.setColor(Joshfire.factory.config.template.options.color);
+      this.setColor(Joshfire.factory.config.template.options.color || 'blue');
 
       // Initialize collections
       var dataSourceNames = ['photos', 'videos', 'events', 'news', 'statuses'];
