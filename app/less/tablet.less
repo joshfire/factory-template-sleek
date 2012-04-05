@@ -271,6 +271,28 @@ header {
   right: 0;
   bottom: 0;
   top: 0;
+
+  &.loading {
+    .spinner {
+      display: block;
+    }
+  }
+
+  .spinner {
+    background: rgba(0,0,0,.9) url(../images/spinner.gif) no-repeat center center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    top: 50%;
+    width: 5em;
+    height: 5em;
+    margin-top: -2.5em;
+    margin-left: -2.5em;
+    z-index: 2;
+    display: none;
+    .border-radius(.5em);
+  }
 }
 
 
@@ -643,12 +665,6 @@ header {
 //---------------------------------------------------------------------------
 // Tweaks
 //---------------------------------------------------------------------------
-
-#photos, #video, #photo, #map {
-  h1 {
-    .box-shadow(0 2px 2px rgba(0,0,0,.6));
-  }
-}
 
 .left-panel {
   position: absolute;
