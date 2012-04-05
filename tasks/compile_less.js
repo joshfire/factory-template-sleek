@@ -9,7 +9,8 @@ var compress = true;
 
 var files = [
     'phone',
-    'tv'
+    'tv',
+    'tablet'
 ];
 
 var colors = {
@@ -46,7 +47,7 @@ var compileColor = function(str, file, colorName, cb) {
     } catch(err) {
       console.error(err.message.red);
     }
-    
+
 
     if(cb) cb();
   });

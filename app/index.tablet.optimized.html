@@ -35,83 +35,72 @@
   <body class="device-phone" ontouchmove="event.preventDefault()">
     <div id="container">
       <header>
-        <h1><span id="title">&nbsp;</span></h1>
-        <span>&nbsp;</span>
-        <a href="#" id="back">Back</a>
-        <a href="#" id="refresh">Refresh</a>
+        <div class="container">
+          <span>&nbsp;</span>
+          <div id="toolbar">&nbsp;</div>
+          <h1><span id="title">&nbsp;</span></h1>
+        </div>
       </header>
 
       <div id="cards">
-        <section id="photos-content" class="content">
+        <section id="photos-content" class="section">
           <div class="first"></div>
           <div class="spinner">&nbsp;</div>
         </section>
 
-        <div id="statuses-cards" class="slide-panel">
-          <section id="statuses-content" class="content">
-            <div class="first"></div>
-            <div class="spinner">&nbsp;</div>
-          </section>
+        <section id="statuses-content" class="left-panel">
+          <div class="first"></div>
+          <div class="spinner">&nbsp;</div>
+        </section>
 
-          <section id="status-detail" class="content">
-            <div></div>
-            <div class="spinner">&nbsp;</div>
-          </section>
+        <section id="status-detail" class="right-panel">
+          <div></div>
+          <div class="spinner">&nbsp;</div>
+        </section>
+
+        <section id="news-content" class="left-panel">
+          <div class="first"></div>
+          <div class="spinner">&nbsp;</div>
+        </section>
+
+        <section id="news-detail" class="right-panel">
+          <div></div>
+          <div class="spinner">&nbsp;</div>
+        </section>
+
+        <section id="videos-content" class="left-panel">
+          <div class="first"></div>
+          <div class="spinner">&nbsp;</div>
+        </section>
+
+        <section id="video-detail" class="right-panel">
+          <div></div>
+          <div class="spinner">&nbsp;</div>
+        </section>
+
+        <section id="events-content" class="left-panel">
+          <div class="first"></div>
+          <div class="spinner">&nbsp;</div>
+        </section>
+
+        <section id="event-detail" class="right-panel">
+          <div></div>
+          <div class="spinner">&nbsp;</div>
+        </section>
+
+        <div id="contact-content" class="section">
+          <div class="first"></div>
         </div>
-
-        <div id="news-cards" class="slide-panel">
-          <section id="news-content" class="content">
-            <div class="first"></div>
-            <div class="spinner">&nbsp;</div>
-          </section>
-
-          <section id="news-detail" class="content">
-            <div></div>
-            <div class="spinner">&nbsp;</div>
-          </section>
-        </div>
-
-        <div id="videos-cards" class="slide-panel">
-          <section id="videos-content" class="content">
-            <div class="first"></div>
-            <div class="spinner">&nbsp;</div>
-          </section>
-
-          <section id="video-detail" class="content">
-            <div></div>
-            <div class="spinner">&nbsp;</div>
-          </section>
-        </div>
-
-        <div id="events-cards" class="slide-panel">
-          <section id="events-content" class="content">
-            <div class="first"></div>
-            <div class="spinner">&nbsp;</div>
-          </section>
-
-          <section id="event-detail" class="content">
-            <div></div>
-            <div class="spinner">&nbsp;</div>
-          </section>
-        </div>
-
-        <div id="contact-cards" class="slide-panel">
-          <section id="contact-index" class="content">
-            <div class="first"></div>
-          </section>
-          <section id="contact-map" class="content">
-            <div class="first"></div>
-          </section>
+        <div id="map-content" class="section">
+          <div class="first"></div>
         </div>
 
       </div>
-
-      <footer><div>&nbsp;</div></footer>
     </div>
 
     <!-- TEMPLATES -->
 
-    <script type="text/template" id="toolbar">
+    <script type="text/template" id="template-toolbar">
       <ul>
         <%= children %>
       </ul>
@@ -275,7 +264,7 @@
     </script>
 
     <script>Joshfire.debug=true;</script>
-    <script data-main="app.phone" src="joshfire-framework/lib/adapters/ios/bootstrap.js"></script>
+    <script src="app.tablet.optimized.js"></script>
     <script type="text/javascript">
       // if app icon, set "apple-touch-icon-precomposed" for webapps installed on mobile
       // For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: (have to be an absolute URL)
