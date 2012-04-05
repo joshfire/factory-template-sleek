@@ -79,9 +79,8 @@
         },
         "images": "marketing/phone.jpg",
         "screenshots": [
-          "marketing/phone-screenshot1.jpg",
-          "marketing/phone-screenshot2.jpg",
-          "marketing/phone-screenshot3.jpg"
+          "marketing/tablet-screenshot1.jpg",
+          "marketing/tablet-screenshot2.jpg"
         ]
       },
       {
