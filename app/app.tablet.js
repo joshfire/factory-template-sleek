@@ -26,16 +26,14 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
     // Toolbar
     //
 
-    var sectionNames = ['statuses', 'events', 'news', 'contact', 'map', 'photos', 'videos'];
+    var sectionNames = ['statuses', 'events', 'news', 'photos', 'videos'];
 
     var sections = new Backbone.Collection();
 
     for(var i = 0; i < sectionNames.length; i++) {
       name = sectionNames[i];
 
-      if(Spot.collections[name]
-          || (name === 'contact' && Spot.contactHTML)
-          || (name === 'map' && Spot.latitude && Spot.longitude)) {
+      if(Spot.collections[name]) {
         sections.add({name: name, linkURL: '#' + name});
       }
 
@@ -129,25 +127,6 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
       templateEl: '#template-news',
       scroller: true
     });
-
-    // Contact
-    views.contact = new Text({
-      el: '#contact-content',
-      templateEl: '#template-contact-index',
-      textContent: Spot.contactHTML,
-      scroller: true
-    });
-
-    views.map = new Map({
-      el: '#map-content',
-      templateEl: '#template-contact-map',
-      latitude: Spot.latitude,
-      longitude: Spot.longitude,
-      icon: 'images/phone-location.png',
-      overlayTemplateEl: '#template-map-overlay',
-      overlayOptions: { address: Spot.address }
-    });
-
 
     // Main panel
     var Sections = Backbone.View.extend({
@@ -275,8 +254,6 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
         'videos':             'videos',
         'events':             'events',
         'news':               'news',
-        'contact':            'contact',
-        'map':                'map',
 
         'status/:offset':     'status',
         'video/:offset':      'video',
@@ -295,30 +272,7 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
       status:   makeRouteForItemDetail('status', 'statuses'),
       video:    makeRouteForItemDetail('video'),
       event:    makeRouteForItemDetail('event'),
-      article:  makeRouteForItemDetail('article', 'news'),
-
-      // Contact
-      contact: function() {
-        $('#video-detail iframe').remove();
-        $title.text('Contact');
-        document.body.id = 'contact';
-        $toolbar.find('.active').removeClass('active');
-        $toolbar.find('.contact').addClass('active');
-        cards.showSection('contact');
-        views.contact.render();
-      },
-
-      // Map
-      map: function() {
-        $('#video-detail iframe').remove();
-        $title.text('Map');
-        document.body.id = 'map';
-        $toolbar.find('.active').removeClass('active');
-        $toolbar.find('.map').addClass('active');
-        cards.showSection('map');
-        views.map.render();
-      }
-
+      article:  makeRouteForItemDetail('article', 'news')
     });
 
     toolbar.setCollection(sections);
