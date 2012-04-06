@@ -720,34 +720,18 @@ header {
 }
 
 //---------------------------------------------------------------------------
-// List types
-//---------------------------------------------------------------------------
-
-#photos-content .list {
-  .mosaic-list;
-}
-
-#statuses-content .list, #events-content .list {
-  .hashed-list;
-}
-
-#videos-content .list, #news-content .list {
-  .simple-list;
-}
-
-//---------------------------------------------------------------------------
 // Videos
 //---------------------------------------------------------------------------
 
-#videos, #video {
+#videos {
   background: @light-background-color;
 }
 
-#videos #cards, #video #cards {
+#videos #cards{
   color: @dark-text-color;
 }
 
-#video-detail {
+#videos .right-panel {
 
   line-height: 1.2em;
 
@@ -811,15 +795,15 @@ header {
 // News
 //---------------------------------------------------------------------------
 
-#news, #article {
+#news {
   background: @light-background-color;
 }
 
-#news #cards, #article #cards {
+#news #cards {
   color: @dark-text-color;
 }
 
-#news-detail {
+#news .right-panel {
 
   line-height: 1.2em;
 
@@ -849,7 +833,7 @@ header {
 // Statuses
 //---------------------------------------------------------------------------
 
-#status-detail {
+#statuses .right-panel {
 
   > div {
     min-height: 100%;
@@ -937,7 +921,7 @@ header {
 // Events
 //---------------------------------------------------------------------------
 
-#event-detail {
+#events .right-panel {
 
   line-height: 1.2em;
   background: @light-background-color;

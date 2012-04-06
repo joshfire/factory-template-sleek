@@ -18,28 +18,11 @@ function(FactoryCollection, Item, ImageLoader, _) {
     },
 
     initialize: function() {
-      this.collections = {};
       this.title = Joshfire.factory.config.app.name;
-      this.contactHTML = Joshfire.factory.config.template.options.contacthtml;
-      this.latitude = parseFloat(Joshfire.factory.config.template.options.latitude);
-      this.longitude = parseFloat(Joshfire.factory.config.template.options.longitude);
-      this.address = Joshfire.factory.config.template.options.address;
-      this.logoURL = Joshfire.factory.config.app.logo ?
-                  Joshfire.factory.config.app.logo.contentURL : null;
       this.backgroundURL = Joshfire.factory.config.template.options.backgroundurl;
 
       // set template color from user set option
       this.setColor(Joshfire.factory.config.template.options.color || 'blue');
-
-      // Initialize collections
-      var dataSourceNames = ['photos', 'videos', 'events', 'news', 'statuses'];
-
-      for(var s in dataSourceNames) {
-        var name = dataSourceNames[s];
-        if(Joshfire.factory.config.datasources[name]) {
-          this.collections[name] = FactoryCollection(name);
-        }
-      }
 
       document.title = this.title;
     },
@@ -48,75 +31,90 @@ function(FactoryCollection, Item, ImageLoader, _) {
     // Sets the template color
     //
     setColor: function(color) {
-      
+
     },
 
     //
     // Creates a list item view based on the type of the item.
     //
-    itemFactory: function(model, offset) {
-      var item = model.toJSON();
-      var type = item['@type'] || item.itemType;
+    itemFactory: function(section) {
+      return function(model, offset) {
+        var item = model.toJSON();
+        var type = item['@type'] || item.itemType;
 
-      switch(type) {
-        case 'ImageObject':
-        return new ImageLoader({
-          model: model,
-          offset: offset,
-          templateEl: '#template-image-item',
-          getImageUrl: function() {
-            return Spot.getThumbnail(item, offset);
-          }
-        });
-        break;
+        switch(type) {
+          case 'ImageObject':
+          return new ImageLoader({
+            data: {section: section},
+            model: model,
+            offset: offset,
+            templateEl: '#template-image-item',
+            getImageUrl: function() {
+              return Spot.getThumbnail(item, offset);
+            }
+          });
+          break;
 
-        case 'Article/Status':
-        return new Item({
-          model: model,
-          offset: offset,
-          templateEl: '#template-status-item'
-        });
-        break;
+          case 'Article/Status':
+          return new Item({
+            data: {section: section},
+            model: model,
+            offset: offset,
+            templateEl: '#template-status-item'
+          });
+          break;
 
-        case 'VideoObject':
-        return new Item({
-          model: model,
-          offset: offset,
-          templateEl: '#template-video-item'
-        });
-        break;
+          case 'VideoObject':
+          return new Item({
+            data: {section: section},
+            model: model,
+            offset: offset,
+            templateEl: '#template-video-item'
+          });
+          break;
 
-        case 'Event':
-        return new Item({
-          model: model,
-          offset: offset,
-          templateEl: '#template-event-item'
-        });
-        break;
+          case 'Event':
+          return new Item({
+            data: {section: section},
+            model: model,
+            offset: offset,
+            templateEl: '#template-event-item'
+          });
+          break;
 
-        case 'BlogPosting':
-        return new Item({
-          model: model,
-          offset: offset,
-          templateEl: '#template-news-item'
-        });
-        break;
+          case 'BlogPosting':
+          case 'NewsArticle':
+          return new Item({
+            data: {section: section},
+            model: model,
+            offset: offset,
+            templateEl: '#template-news-item'
+          });
+          break;
 
-        default:
-        return new Item({
-          model: model,
-          offset: offset,
-          templateEl: '#template-unknown-item'
-        });
-      }
+          default:
+          return new Item({
+            data: {section: section},
+            model: model,
+            offset: offset,
+            templateEl: '#template-unknown-item'
+          });
+        }
+      };
     },
 
     //
     // Returns a thumbnail URL form an image object
     //
     getThumbnail: function() {
-      console.log('test');
       return '';
+    },
+
+    slugify: function(text) {
+      text = text.replace(/[^-a-zA-Z0-9,&\s]+/ig, '');
+      text = text.replace(/-/gi, "_");
+      text = text.replace(/\s/gi, "-");
+      return text;
     }
   };
 
