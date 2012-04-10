@@ -1,5 +1,15 @@
 define([
   'spot.phone',
+  'joshlib!utils/onready'],
+function(Spot, onReady) {
+  var spot = new Spot();
+  onReady(spot.initialize);
+});
+
+/*
+
+define([
+  'spot.phone',
   'joshlib!factorycollection',
   'joshlib!ui/list',
   'ui/imagegallery',
@@ -333,3 +343,4 @@ function(Spot, FactoryCollection, List, ImageGallery, Item, ImageLoader, Factory
     setTimeout(function() {toolbar.render(); router.historyStart(); toolbar.render();}, 10);
   });
 });
+*/

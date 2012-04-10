@@ -1,16 +1,261 @@
-/*
+define([
+  'spot',
+  'joshlib!ui/toolbar',
+  'joshlib!ui/slidepanel',
+  'joshlib!ui/list',
+  'joshlib!ui/item',
+  'joshlib!ui/factorymedia',
+  'ui/imagegallery',
+  'joshlib!utils/dollar',
+  'joshlib!vendor/underscore'
+  ],
+function(Spot, Toolbar, SlidePanel, List, Item, FactoryMedia, ImageGallery, $, _) {
 
-  Shared code
-
-*/
-
-define(['spot', 'joshlib!utils/dollar'], function(Spot, $) {
-
-  Spot.extend({
+  return Spot.extend({
 
     setColor: function(color) {
       $('#color').remove();
       $('head').append('<link id="color" rel="stylesheet" href="css/phone.' + color + '.css" type="text/css">');
+    },
+
+    //
+    // Creates views
+    //
+    createViews: function(sections) {
+      //
+      // Toolbar
+      //
+      var sectionCollection = new Backbone.Collection();
+
+      for(var i = 0; i < sections.length; i++) {
+        section = sections[i];
+        sectionCollection.add({
+          name: section.name,
+          linkURL: '#' + section.slug,
+          outputType: section.outputType,
+          slug: section.slug
+        });
+      }
+
+      var toolbar = new Toolbar({
+        el: '#toolbar',
+        templateEl: '#template-toolbar',
+        itemTemplateEl: '#toolbar-item',
+        scroller: true,
+        scrollOptions: {
+          vScroll: false,
+          hScrollbar: false,
+          snap: true,
+          bounce: false
+        }
+      });
+
+      toolbar.setCollection(sectionCollection);
+      toolbar.render();
+
+      //
+      // Views
+      //
+      var views = {};
+      var $cards = $('#cards');
+
+      _.forEach(sections, _.bind(function(section) {
+        var view;
+
+        switch(section.outputType) {
+          case 'statuses':
+          view = new SlidePanel({
+            children: {
+              list: new List({
+                templateEl: '#template-list-view',
+                scroller: true,
+                itemFactory: this.itemFactory(section),
+                collection: section.collection,
+                className: section.outputType + ' content hashed-list'
+              }),
+              detail: new Item({
+                templateEl: '#template-status',
+                scroller: true,
+                className: 'content detail'
+              })
+            },
+            className: 'slide-panel'
+          });
+          _.each(view.children, function(child) {
+            $(view.el).append(child.el);
+          });
+          /*list = new List({
+            templateEl: '#template-list-view',
+            scroller: true,
+            itemFactory: this.itemFactory(section),
+            collection: section.collection,
+            className: section.outputType + ' left-panel hashed-list'
+          });
+          detail = new Item({
+            templateEl: '#template-status',
+            scroller: true,
+            className: 'right-panel'
+          });*/
+          break;
+          /*case 'news':
+          list = new List({
+            templateEl: '#template-list-view',
+            scroller: true,
+            itemFactory: this.itemFactory(section),
+            collection: section.collection,
+            className: section.outputType + ' left-panel simple-list'
+          });
+          detail = new Item({
+            templateEl: '#template-news',
+            scroller: true,
+            className: 'right-panel'
+          });
+          break;
+          case 'events':
+          list = new List({
+            templateEl: '#template-list-view',
+            scroller: true,
+            itemFactory: this.itemFactory(section),
+            collection: section.collection,
+            className: section.outputType + ' left-panel hashed-list'
+          });
+          detail = new Item({
+            templateEl: '#template-event',
+            scroller: true,
+            className: 'right-panel'
+          });
+          break;
+          case 'videos':
+          list = new List({
+            templateEl: '#template-list-view',
+            scroller: true,
+            itemFactory: this.itemFactory(section),
+            collection: section.collection,
+            className: section.outputType + ' left-panel simple-list'
+          });
+          detail = new FactoryMedia({
+            templateEl: '#template-video',
+            scroller: true,
+            className: 'right-panel',
+            mediaOptions: {
+              strategy: 'html5',
+              width: '100%'
+            }
+          });
+          break;
+          case 'photos':
+          list = new ImageGallery({
+            templateEl: '#template-list-view',
+            scroller: true,
+            itemFactory: this.itemFactory(section),
+            collection: section.collection,
+            className: section.outputType + ' section mosaic-list'
+          });
+          break;*/
+        }
+
+        if(view) {
+          view.hide();
+          //view.render();
+          views[section.slug] = view;
+          $cards.append(view.el);
+        }
+      }, this));
+
+      return views;
+    },
+
+    //
+    // Creates routes
+    //
+    createRoutes: function(sections, views) {
+      var controllers = {
+        routes: {
+          '': 'home'
+        },
+
+        home: function() {
+          if(sections.length) {
+            controllers[sections[0].slug]();
+          }
+        }
+      };
+
+      var $title = $('#title');
+      var $toolbar = $('#toolbar');
+      var $back = $('#back');
+      var $refresh = $('#refresh');
+
+      _.forEach(sections, function(section) {
+        controllers.routes[section.slug] = section.slug;
+
+        // List route
+        controllers[section.slug] = function() {
+          var view = views[section.slug];
+          _.forEach(views, function(child) {
+            if(child !== view) {
+              child.hide();
+            }
+          });
+          view.show();
+          view.showChildren('list');
+          $('iframe').remove();
+          document.body.id = section.outputType;
+          $title.html(section.name);
+          $toolbar.find('.active').removeClass('active');
+          $toolbar.find('.section-' + section.slug).addClass('active');
+          $refresh.show().unbind('click').bind('click', function(e) {
+            section.collection.fetch();
+            e.preventDefault();
+            return false;
+          });
+          $back.hide();
+
+          section.collection.length || section.collection.fetch();
+        }
+
+        // Detail route
+        if(section.outputType !== 'photos') {
+          controllers.routes[section.slug + '/:offset'] = section.slug + 'Detail';
+
+          controllers[section.slug + 'Detail'] = function(offset) {
+            var view = views[section.slug];
+            var detail = view.children.detail;
+            _.forEach(views, function(child) {
+              if(child !== view) {
+                child.hide();
+              }
+            });
+            view.show();
+            view.showChildren('detail');
+            offset = parseInt(offset, 10);
+            $('iframe').remove();
+            document.body.id = section.outputType;
+            $title.html(section.name);
+            $toolbar.find('.active').removeClass('active');
+            $toolbar.find('.section-' + section.slug).addClass('active');
+            $refresh.hide();
+            $back.show().attr('href', '#' + section.slug);
+
+
+            if(section.collection.length === 0) {
+              section.collection.fetch({
+                success: function() {
+                  if(section.collection.length > offset) {
+                    detail.setModel(section.collection.at(offset));
+                    detail.render();
+                  }
+                }
+              });
+            } else if(section.collection.length > offset) {
+              detail.setModel(section.collection.at(offset));
+              detail.render();
+            }
+          };
+        }
+      });
+
+      return controllers;
     },
 
     //
@@ -54,6 +299,4 @@ define(['spot', 'joshlib!utils/dollar'], function(Spot, $) {
       return item.contentURL;
     }
   });
-
-  return Spot;
 });

@@ -1,13 +1,13 @@
-/*
-
-  Shared code
-
-*/
-
-define(['spot', 'joshlib!ui/list',
+define([
+  'spot',
+  'joshlib!ui/list',
   'joshlib!ui/item',
   'joshlib!ui/factorymedia',
-  'ui/imagegallery','joshlib!utils/dollar', 'joshlib!vendor/underscore'], function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
+  'ui/imagegallery',
+  'joshlib!utils/dollar',
+  'joshlib!vendor/underscore'
+  ],
+function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
 
   return Spot.extend({
 
