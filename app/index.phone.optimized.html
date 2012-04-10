@@ -29,7 +29,7 @@
     <script type="text/javascript" src="vendor/moment.js"></script>
     <script type="text/javascript" src="prettystatus.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <script data-joshfire-bootstrap src="http://preview.joshfireapps.com/bootstrap/4f20482584806b01000001c5/4f269bc0d77bc90100003fb3/phone/"></script>
+    <script data-joshfire-bootstrap src="http://preview-staging.joshfireapps.com/bootstrap/4f845035744218010000007b/4f7ae9f3db94b201000000e2/phone/"></script>
   </head>
 
   <body class="device-phone" ontouchmove="event.preventDefault()">
@@ -41,77 +41,14 @@
         <a href="#" id="refresh">Refresh</a>
       </header>
 
-      <div id="cards">
-        <section id="photos-content" class="content">
-          <div class="first"></div>
-          <div class="spinner">&nbsp;</div>
-        </section>
+      <div id="cards"></div>
 
-        <div id="statuses-cards" class="slide-panel">
-          <section id="statuses-content" class="content">
-            <div class="first"></div>
-            <div class="spinner">&nbsp;</div>
-          </section>
-
-          <section id="status-detail" class="content">
-            <div></div>
-            <div class="spinner">&nbsp;</div>
-          </section>
-        </div>
-
-        <div id="news-cards" class="slide-panel">
-          <section id="news-content" class="content">
-            <div class="first"></div>
-            <div class="spinner">&nbsp;</div>
-          </section>
-
-          <section id="news-detail" class="content">
-            <div></div>
-            <div class="spinner">&nbsp;</div>
-          </section>
-        </div>
-
-        <div id="videos-cards" class="slide-panel">
-          <section id="videos-content" class="content">
-            <div class="first"></div>
-            <div class="spinner">&nbsp;</div>
-          </section>
-
-          <section id="video-detail" class="content">
-            <div></div>
-            <div class="spinner">&nbsp;</div>
-          </section>
-        </div>
-
-        <div id="events-cards" class="slide-panel">
-          <section id="events-content" class="content">
-            <div class="first"></div>
-            <div class="spinner">&nbsp;</div>
-          </section>
-
-          <section id="event-detail" class="content">
-            <div></div>
-            <div class="spinner">&nbsp;</div>
-          </section>
-        </div>
-
-        <div id="contact-cards" class="slide-panel">
-          <section id="contact-index" class="content">
-            <div class="first"></div>
-          </section>
-          <section id="contact-map" class="content">
-            <div class="first"></div>
-          </section>
-        </div>
-
-      </div>
-
-      <footer><div>&nbsp;</div></footer>
+      <footer id="toolbar"><div>&nbsp;</div></footer>
     </div>
 
     <!-- TEMPLATES -->
 
-    <script type="text/template" id="toolbar">
+    <script type="text/template" id="template-toolbar">
       <ul>
         <%= children %>
       </ul>
@@ -119,17 +56,20 @@
 
     <script type="text/template" id="toolbar-item">
       <li>
-        <a href="<%= item.linkURL %>" class="<%= item.name %>">
+        <a href="<%= item.linkURL %>" class="<%= item.outputType %> section-<%= item.slug %>">
           <div class="indicator"><span>&nbsp;</span></div>
           <%= item.name %><span>&nbsp;</span>
         </a>
       </li>
     </script>
 
-    <script type="text/template" id="item-list">
-      <ul class="list">
-        <%= children %>
-      </ul>
+    <script type="text/template" id="template-list-view">
+      <div class="first">
+        <ul class="list">
+          <%= children %>
+        </ul>
+      </div>
+      <div class="spinner">&nbsp;</div>
     </script>
 
     <script type="text/template" id="template-unknown-item">
@@ -148,7 +88,7 @@
     <script type="text/template" id="template-status-item">
       <li class="status-item">
         <div>
-          <a href="#status/<%= offset %>">
+          <a href="#<%= section.slug %>/<%= offset %>">
             <img src="<%= item.author[0].image.contentURL %>">
             <div class="right">
               <h3><%= item.author[0].name %> @<%= item.author[0]['foaf:nick'] %></h3>
@@ -163,7 +103,7 @@
     <script type="text/template" id="template-video-item">
       <li class="video-item">
         <div>
-          <a href="#video/<%= offset %>">
+          <a href="#<%= section.slug %>/<%= offset %>">
             <div>
               <img src="<%= (item.thumbnail && item.thumbnail[0]) ? item.thumbnail[0].contentURL : (item.image && item.image.contentURL ? item.image.contentURL : '') %>">
               <div class="right">
@@ -178,7 +118,7 @@
     <script type="text/template" id="template-event-item">
       <li class="event-item">
         <div>
-          <a href="#event/<%= offset %>">
+          <a href="#<%= section.slug %>/<%= offset %>">
             <div>
               <h3>
                 <span><%= moment(toDate(item.startDate)).calendar() %></span>
@@ -193,7 +133,7 @@
     <script type="text/template" id="template-news-item">
       <li class="news-item">
         <div>
-          <a href="#article/<%= offset %>">
+          <a href="#<%= section.slug %>/<%= offset %>">
             <div>
               <h3>
                 <span><%= moment(toDate(item.datePublished)).fromNow() %></span>
@@ -284,4 +224,5 @@
       }
     </script>
   </body>
+</html>
 </html>

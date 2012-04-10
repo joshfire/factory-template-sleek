@@ -81,82 +81,89 @@ function(Spot, Toolbar, SlidePanel, List, Item, FactoryMedia, ImageGallery, $, _
             },
             className: 'slide-panel'
           });
-          _.each(view.children, function(child) {
-            $(view.el).append(child.el);
-          });
-          /*list = new List({
-            templateEl: '#template-list-view',
-            scroller: true,
-            itemFactory: this.itemFactory(section),
-            collection: section.collection,
-            className: section.outputType + ' left-panel hashed-list'
-          });
-          detail = new Item({
-            templateEl: '#template-status',
-            scroller: true,
-            className: 'right-panel'
-          });*/
           break;
-          /*case 'news':
-          list = new List({
-            templateEl: '#template-list-view',
-            scroller: true,
-            itemFactory: this.itemFactory(section),
-            collection: section.collection,
-            className: section.outputType + ' left-panel simple-list'
-          });
-          detail = new Item({
-            templateEl: '#template-news',
-            scroller: true,
-            className: 'right-panel'
+          case 'news':
+          view = new SlidePanel({
+            children: {
+              list: new List({
+                templateEl: '#template-list-view',
+                scroller: true,
+                itemFactory: this.itemFactory(section),
+                collection: section.collection,
+                className: section.outputType + ' content simple-list'
+              }),
+              detail: new Item({
+                templateEl: '#template-news',
+                scroller: true,
+                className: 'content detail'
+              })
+            },
+            className: 'slide-panel'
           });
           break;
           case 'events':
-          list = new List({
-            templateEl: '#template-list-view',
-            scroller: true,
-            itemFactory: this.itemFactory(section),
-            collection: section.collection,
-            className: section.outputType + ' left-panel hashed-list'
-          });
-          detail = new Item({
-            templateEl: '#template-event',
-            scroller: true,
-            className: 'right-panel'
+          view = new SlidePanel({
+            children: {
+              list: new List({
+                templateEl: '#template-list-view',
+                scroller: true,
+                itemFactory: this.itemFactory(section),
+                collection: section.collection,
+                className: section.outputType + ' content hashed-list'
+              }),
+              detail: new Item({
+                templateEl: '#template-event',
+                scroller: true,
+                className: 'content detail'
+              })
+            },
+            className: 'slide-panel'
           });
           break;
           case 'videos':
-          list = new List({
-            templateEl: '#template-list-view',
-            scroller: true,
-            itemFactory: this.itemFactory(section),
-            collection: section.collection,
-            className: section.outputType + ' left-panel simple-list'
-          });
-          detail = new FactoryMedia({
-            templateEl: '#template-video',
-            scroller: true,
-            className: 'right-panel',
-            mediaOptions: {
-              strategy: 'html5',
-              width: '100%'
-            }
+          view = new SlidePanel({
+            children: {
+              list: new List({
+                templateEl: '#template-list-view',
+                scroller: true,
+                itemFactory: this.itemFactory(section),
+                collection: section.collection,
+                className: section.outputType + ' content simple-list'
+              }),
+              detail: new FactoryMedia({
+                templateEl: '#template-video',
+                scroller: true,
+                className: 'content detail',
+                mediaOptions: {
+                  strategy: 'html5',
+                  width: '100%'
+                }
+              })
+            },
+            className: 'slide-panel'
           });
           break;
           case 'photos':
-          list = new ImageGallery({
-            templateEl: '#template-list-view',
-            scroller: true,
-            itemFactory: this.itemFactory(section),
-            collection: section.collection,
-            className: section.outputType + ' section mosaic-list'
+          view = new SlidePanel({
+            children: {
+              list: new ImageGallery({
+                templateEl: '#template-list-view',
+                scroller: true,
+                itemFactory: this.itemFactory(section),
+                collection: section.collection,
+                className: section.outputType + ' content mosaic-list'
+              })
+            },
+            className: 'slide-panel'
           });
-          break;*/
+          break;
         }
 
         if(view) {
+          _.each(view.children, function(child) {
+            $(view.el).append(child.el);
+          });
           view.hide();
-          //view.render();
           views[section.slug] = view;
           $cards.append(view.el);
         }
@@ -199,6 +206,7 @@ function(Spot, Toolbar, SlidePanel, List, Item, FactoryMedia, ImageGallery, $, _
           });
           view.show();
           view.showChildren('list');
+          view.render();
           $('iframe').remove();
           document.body.id = section.outputType;
           $title.html(section.name);
@@ -228,6 +236,7 @@ function(Spot, Toolbar, SlidePanel, List, Item, FactoryMedia, ImageGallery, $, _
             });
             view.show();
             view.showChildren('detail');
+            view.render();
             offset = parseInt(offset, 10);
             $('iframe').remove();
             document.body.id = section.outputType;
