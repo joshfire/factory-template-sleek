@@ -37,7 +37,8 @@ function(Spot, Collection, List, ImageGallery, Item, ImageLoader, FactoryMedia, 
         sectionCollection.add({
           name: section.name,
           linkURL: '#' + section.slug,
-          outputType: section.outputType
+          outputType: section.outputType,
+          slug: section.slug
         });
       }
 
@@ -166,6 +167,7 @@ function(Spot, Collection, List, ImageGallery, Item, ImageLoader, FactoryMedia, 
       _.forEach(sections, function(section) {
         controllers.routes[section.slug] = section.slug;
 
+        // List route
         controllers[section.slug] = function() {
           var view = views[section.slug];
           _.forEach(views, function(child) {
@@ -177,23 +179,30 @@ function(Spot, Collection, List, ImageGallery, Item, ImageLoader, FactoryMedia, 
           $('iframe').remove();
           document.body.id = section.outputType;
           $title.html(section.name);
+          $toolbar.find('.active').removeClass('active');
+          $toolbar.find('.section-' + section.slug).addClass('active');
+
+          if(section.outputType !== 'photos') {
+            var detail = views[section.slug + 'Detail'];
+            detail.show();
+          }
 
           section.collection.fetch({
             success: function() {
               view.render();
 
-              if(section.collection.length !== 0 &&
-                _.include(['statuses', 'news', 'videos', 'events'], section.outputType)) {
-                var detail = views[section.slug + 'Detail'];
+              if(section.collection.length !== 0 && section.outputType !== 'photos') {
                 detail.setModel(section.collection.at(0));
-                detail.show();
                 detail.render();
+                view.$('.active').removeClass('active');
+                $(view.$('li')[0]).addClass('active');
               }
             }
           });
         }
 
-        if(_.include(['statuses', 'news', 'videos', 'events'], section.outputType)) {
+        // Detail route
+        if(section.outputType !== 'photos') {
           controllers.routes[section.slug + '/:offset'] = section.slug + 'Detail';
 
           controllers[section.slug + 'Detail'] = function(offset) {
@@ -204,6 +213,9 @@ function(Spot, Collection, List, ImageGallery, Item, ImageLoader, FactoryMedia, 
             $('iframe').remove();
             document.body.id = section.outputType;
             $title.html(section.name);
+            $toolbar.find('.active').removeClass('active');
+            $toolbar.find('.section-' + section.slug).addClass('active');
+            detail.show();
 
             if(section.collection.length === 0) {
               section.collection.fetch({
@@ -212,15 +224,17 @@ function(Spot, Collection, List, ImageGallery, Item, ImageLoader, FactoryMedia, 
 
                   if(section.collection.length > offset) {
                     detail.setModel(section.collection.at(offset));
-                    detail.show();
                     detail.render();
+                    view.$('.active').removeClass('active');
+                    $(view.$('li')[offset]).addClass('active');
                   }
                 }
               });
             } else if(section.collection.length > offset) {
               detail.setModel(section.collection.at(offset));
-              detail.show();
               detail.render();
+              view.$('.active').removeClass('active');
+              $(view.$('li')[offset]).addClass('active');
             }
           };
         }
@@ -262,6 +276,8 @@ function(Spot, Collection, List, ImageGallery, Item, ImageLoader, FactoryMedia, 
           case 'VideoObject':
           outputType = 'videos';
           break;
+          default:
+          outputType = 'other';
         }
 
         sections[index] = {
