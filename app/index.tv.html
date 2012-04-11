@@ -13,8 +13,7 @@
     <script type="text/javascript" src="todate.js"></script>
     <script type="text/javascript" src="vendor/moment.js"></script>
     <script type="text/javascript" src="prettystatus.js"></script>
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <script data-joshfire-bootstrap src="http://preview.joshfireapps.com/bootstrap/4f20482584806b01000001c5/4f269bc0d77bc90100003fb3/phone/"></script>
+    <script data-joshfire-bootstrap src="http://127.0.0.1:40021/bootstrap/4f7ee34fcb31d63e47000002/4f688d8d3c7ecd00000001c0/phone/"></script>
 
     <style type="text/css" media="screen">
       body, html {
@@ -36,68 +35,16 @@
   <body class="device-tv" ontouchmove="event.preventDefault()">
     <div id="container">
 
-      <div id="cards">
-        <section id="photos-content" class="content">
-          <div></div>
-          <div class="spinner">&nbsp;</div>
-        </section>
-
-        <section id="videos-content" class="content">
-          <div></div>
-          <div class="spinner">&nbsp;</div>
-        </section>
-
-        <div id="statuses-cards" class="slide-panel">
-          <section id="statuses-content" class="content">
-            <div class="list-container"></div>
-            <div class="spinner">&nbsp;</div>
-          </section>
-
-          <section id="status-detail" class="content detail">
-            <div></div>
-          </section>
-        </div>
-
-        <div id="news-cards" class="slide-panel">
-          <section id="news-content" class="content">
-            <div class="list-container"></div>
-            <div class="spinner">&nbsp;</div>
-          </section>
-
-          <section id="news-detail" class="content detail">
-            <div></div>
-          </section>
-        </div>
-
-        <div id="events-cards" class="slide-panel">
-          <section id="events-content" class="content">
-            <div class="list-container"></div>
-            <div class="spinner">&nbsp;</div>
-          </section>
-
-          <section id="event-detail" class="content detail">
-            <div></div>
-          </section>
-        </div>
-
-        <section id="contact-content" class="content">
-          <div></div>
-        </section>
-
-        <section id="map-content" class="content">
-          <div></div>
-        </section>
-
-      </div>
+      <div id="cards"></div>
 
       <div id="top-gradient-overlay"></div>
       <div id="bottom-gradient-overlay"></div>
 
       <div id="toolbar"></div>
 
-      <div id="photos-detail"></div>
+      <!--div id="photos-detail"></div>
 
-      <div id="videos-detail"></div>
+      <div id="videos-detail"></div-->
 
     </div>
 
@@ -113,15 +60,20 @@
 
     <script type="text/template" id="toolbar-item">
       <li>
-        <a href="<%= item.linkURL %>" class="<%= item.name %>"><%= item.name %></a>
+        <a href="<%= item.linkURL %>" class="<%= item.outputType %> section-<%= item.slug %>">
+          <%= item.name %>
+        </a>
       </li>
     </script>
 
-    <script type="text/template" id="item-list">
-      <div class="list-indicator"></div>
-      <ul class="list">
-        <%= children %>
-      </ul>
+    <script type="text/template" id="template-list-view">
+      <div class="list-container">
+        <div class="list-indicator"></div>
+        <ul class="list">
+          <%= children %>
+        </ul>
+      </div>
+      <div class="spinner">&nbsp;</div>
     </script>
 
     <script type="text/template" id="template-mosaic">
@@ -138,7 +90,7 @@
       <li class="photo-item">
         <div class="container">
           <div class="image" style="background-image: url(<%= imageUrl %>)">
-            <a class="image-link" href="#photo/<%= offset %>" title="<%= item.name %>">&nbsp;</a>
+            <a class="image-link" href="#<%= section.slug %>/<%= offset %>" title="<%= item.name %>">&nbsp;</a>
           </div>
           <div class="caption"><%= item.name %></div>
           <div class="spinner">&nbsp;</div>
@@ -150,7 +102,7 @@
       <li class="video-item">
         <div class="container">
           <div class="image" style="background-image: url(<%= (item.thumbnail && item.thumbnail[1]) ? item.thumbnail[1].contentURL : ((item.thumbnail && item.thumbnail[0]) ? item.thumbnail[0].contentURL : (item.image ? item.image.contentURL : '')) %>)">
-            <a class="video-link" href="#video/<%= offset %>" title="<%= item.name %>">&nbsp;</a>
+            <a class="video-link" href="#<%= section.slug %>/<%= offset %>" title="<%= item.name %>">&nbsp;</a>
           </div>
           <div class="caption"><%= item.name %></div>
           <div class="spinner">&nbsp;</div>
@@ -161,7 +113,7 @@
     <script type="text/template" id="template-status-item">
       <li class="status-item">
         <div>
-          <a href="#status/<%= offset %>">
+          <a href="#<%= section.slug %>/<%= offset %>">
             <div class="left">
               <div class="image" style="background-image: url(<%= item.author[0].image.contentURL %>)"></div>
             </div>
@@ -179,7 +131,7 @@
     <script type="text/template" id="template-video-item">
       <li class="video-item">
         <div>
-          <a href="#video/<%= offset %>">
+          <a href="#<%= section.slug %>/<%= offset %>">
             <div>
               <div class="left">
                 <div class="image" style="background-image: url(<%= (item.thumbnail && item.thumbnail[0]) ? item.thumbnail[0].contentURL : (item.image ? item.image.contentURL : '')%>)"></div>
@@ -196,7 +148,7 @@
     <script type="text/template" id="template-event-item">
       <li class="event-item">
         <div>
-          <a href="#event/<%= offset %>">
+          <a href="#<%= section.slug %>/<%= offset %>">
             <div class="item-content">
               <h3><%= item.name %></h3>
             </div>
@@ -211,7 +163,7 @@
     <script type="text/template" id="template-news-item">
       <li class="news-item">
         <div>
-          <a href="#article/<%= offset %>">
+          <a href="#<%= section.slug %>/<%= offset %>">
             <div class="item-content">
               <h3><%= item.name %></h3>
             </div>
@@ -300,6 +252,6 @@
       <p class="map-overlay"><%= address %></p>
     </script>
 
-    <script data-main="app.tv" src="joshfire-framework/lib/adapters/googletv/bootstrap.js"></script>
+    <script data-main="app.tv" src="joshfire-framework/lib/adapters/tv/bootstrap.js"></script>
   </body>
 </html>

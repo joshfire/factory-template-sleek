@@ -1,4 +1,29 @@
+define([
+  'spot.tv',
+  'joshlib!utils/onready',
+  'joshlib!utils/dollar'],
+function(Spot, onReady, $) {
+  var spot = new Spot();
+  onReady(spot.initialize);
 
+  $win = $(window);
+
+  var resize = function() {
+    $('body').css({
+      zoom: Math.max(50, $win.height() / 10.80) + '%'
+    });
+  }
+
+  $win.resize(resize);
+
+  resize();
+
+  if(spot.backgroundURL) {
+    spot.setBackground(spot.backgroundURL);
+  }
+});
+
+/*
 define([
   'spot.tv',
   'joshlib!factorycollection',
@@ -443,3 +468,5 @@ function(Spot, FactoryCollection, List, Item, ImageLoader, FactoryMedia, Router,
     horizontalLayout.activate(0);
   });
 });
+
+*/
