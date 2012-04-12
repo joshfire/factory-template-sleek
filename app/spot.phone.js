@@ -47,7 +47,8 @@ function(Spot, Toolbar, SlidePanel, List, Item, FactoryMedia, ImageGallery, $, _
           hScrollbar: false,
           snap: true,
           bounce: false
-        }
+        },
+        useWindowWidth: true
       });
 
       toolbar.setCollection(sectionCollection);
