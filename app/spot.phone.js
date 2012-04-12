@@ -245,7 +245,8 @@ function(Spot, Toolbar, SlidePanel, List, Item, FactoryMedia, ImageGallery, $, _
             $toolbar.find('.active').removeClass('active');
             $toolbar.find('.section-' + section.slug).addClass('active');
             $refresh.hide();
-            $back.show().attr('href', '#' + section.slug);
+            $back.attr('href', '#' + section.slug);
+            $back.css({display: 'block'});
 
 
             if(section.collection.length === 0) {

@@ -157,9 +157,10 @@
 		@midColor @midStop,
 		@endColor @lastStop);
 	background-image: -moz-linear-gradient(
-		@startColor @firstStop,
-		@midColor @midStop,
-		@endColor @lastStop);
+		to right,
+		@startColor @firstStop*100%,
+		@midColor @midStop*100%,
+		@endColor @lastStop*100%);
 }
 
 //
@@ -178,10 +179,11 @@
 		@midColor @midStop,
 		@endColor @lastStop);
 	background-image: -moz-linear-gradient(
-		@startColor @firstStop,
-		@secondColor @secondStop,
-		@midColor @midStop,
-		@endColor @lastStop);
+		to right,
+		@startColor @firstStop*100%,
+		@secondColor @secondStop*100%,
+		@midColor @midStop*100%,
+		@endColor @lastStop*100%);
 }
 
 //
