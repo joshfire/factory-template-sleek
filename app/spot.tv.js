@@ -7,9 +7,11 @@ define([
   'joshlib!ui/verticallist',
   'joshlib!ui/grid',
   'joshlib!ui/item',
+  'joshlib!ui/factorymedia',
+  'joshlib!ui/imageloader',
   'joshlib!vendor/underscore',
   'joshlib!utils/dollar'],
-function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, _, $) {
+function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImageLoader, _, $) {
 
   return Spot.extend({
 
@@ -36,6 +38,7 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
     // Creates views
     //
     createViews: function(sections) {
+      var self = this;
       //
       // Toolbar
       //
@@ -59,6 +62,80 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
 
       toolbar.setCollection(sectionCollection);
       toolbar.render();
+
+      // Photo overlay
+
+      var PhotoOverlay = ImageLoader.extend({
+        initialize: function(options) {
+          ImageLoader.prototype.initialize.call(this, options);
+
+          this.navUp = this.navDown = this.navAction = this.exit;
+          this.offset = options.offset;
+        },
+
+        exit: function() {
+          this.hide();
+          window.location = '#' + self.section.slug;
+        },
+
+        navLeft: function() {
+          var newOffset = this.offset - 1;
+
+          if(newOffset < 0) {
+            newOffset = self.section.collection.length - 1;
+          }
+
+          window.location = '#' +  self.section.slug + '/' + newOffset;
+        },
+
+        navRight: function() {
+          var newOffset = this.offset + 1;
+
+          if(newOffset >= self.section.collection.length) {
+            newOffset = 0;
+          }
+
+          window.location = '#' +  self.section.slug + '/' + newOffset;
+        }
+      });
+
+      this.photoDetail = new PhotoOverlay({
+        el: '#photos-detail',
+        templateEl: '#template-photo',
+        getImageUrl: function() {
+          return this.model.get('contentURL');
+        }
+      });
+
+      this.photoDetail.hide();
+
+      // Video overlay
+
+      var VideoOverlay = FactoryMedia.extend({
+        initialize: function(options) {
+          FactoryMedia.prototype.initialize.call(this, options);
+
+          this.navUp = this.navDown = this.navLeft = this.navRight = this.navAction = this.exit;
+        },
+
+        exit: function() {
+          this.hide();
+          window.location = '#' + self.section.slug;
+        }
+      });
+
+      this.videoDetail = new VideoOverlay({
+        el: '#videos-detail',
+        templateEl: '#template-video',
+        mediaOptions: {
+          width: '100%',
+          height: '100%',
+          autoPlay: true,
+          html5: true
+        }
+      });
+
+      this.videoDetail.hide();
 
       //
       // Views
@@ -205,6 +282,7 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
     createRoutes: function(sections, layout) {
       var toolbar = layout.views[0];
       var cards = layout.views[1];
+      var self = this;
 
       var controllers = {
         routes: {
@@ -223,6 +301,7 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
 
         // List route
         controllers[section.slug] = function() {
+          self.section = section;
           cards.showChildren(section.slug);
           cards.children[section.slug].showChildren('list');
           if(toolbar.active === -1) {
@@ -238,33 +317,44 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
         }
 
         // Detail route
-        if(section.outputType !== 'photos') {
-          controllers.routes[section.slug + '/:offset'] = section.slug + 'Detail';
+        controllers.routes[section.slug + '/:offset'] = section.slug + 'Detail';
 
-          controllers[section.slug + 'Detail'] = function(offset) {cards.showChildren(section.slug);
-            offset = parseInt(offset, 10);
+        controllers[section.slug + 'Detail'] = function(offset) {
+          self.section = section;
+          offset = parseInt(offset, 10);$('iframe').remove();
+          document.body.id = section.outputType;
+          var detail;
+
+          if(section.outputType === 'photos') {
+            detail = self.photoDetail;
+            detail.offset = offset;
+            detail.show();
+          } else if(section.outputType === 'videos') {
+            detail = self.videoDetail;
+            detail.show();
+          } else {
+            cards.showChildren(section.slug);
             cards.children[section.slug].showChildren('detail');
 
-            $('iframe').remove();
-            document.body.id = section.outputType;
-            var detail = cards.children[section.slug].children['detail'];
-            detail.navFocus(layout);
+            detail = cards.children[section.slug].children['detail'];
+          }
 
-            if(section.collection.length === 0) {
-              section.collection.fetch({
-                success: function() {
-                  if(section.collection.length > offset) {
-                    detail.setModel(section.collection.at(offset));
-                    detail.render();
-                  }
+          detail.navFocus(layout);
+
+          if(section.collection.length === 0) {
+            section.collection.fetch({
+              success: function() {
+                if(section.collection.length > offset) {
+                  detail.setModel(section.collection.at(offset));
+                  detail.render();
                 }
-              });
-            } else if(section.collection.length > offset) {
-              detail.setModel(section.collection.at(offset));
-              detail.render();
-            }
-          };
-        }
+              }
+            });
+          } else if(section.collection.length > offset) {
+            detail.setModel(section.collection.at(offset));
+            detail.render();
+          }
+        };
       });
 
       return controllers;

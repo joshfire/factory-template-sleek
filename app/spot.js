@@ -27,9 +27,11 @@ function(Collection, Item, ImageLoader, Router, _) {
   },
 
   _.extend(Spot.prototype, {
-    initialize: function() {
+    initialize: function(cb) {
       this.title = Joshfire.factory.config.app.name;
       this.backgroundURL = Joshfire.factory.config.template.options.backgroundurl;
+      this.logoURL = Joshfire.factory.config.app.logo ?
+                  Joshfire.factory.config.app.logo.contentURL : null;
 
       // set template color from user set option
       this.setColor(Joshfire.factory.config.template.options.color || 'blue');
@@ -86,6 +88,8 @@ function(Collection, Item, ImageLoader, Router, _) {
             var controllers = this.createRoutes(sections, views);
             var router = Router(controllers);
             router.historyStart();
+
+            cb && cb();
           }
         }, this));
       }, this));
