@@ -207,7 +207,7 @@ function(Spot, Toolbar, SlidePanel, List, Item, FactoryMedia, ImageGallery, $, _
           });
           view.show();
           view.showChildren('list');
-          view.render();
+          //view.render();
           $('iframe').remove();
           document.body.id = section.outputType;
           $title.html(section.name);
@@ -237,7 +237,7 @@ function(Spot, Toolbar, SlidePanel, List, Item, FactoryMedia, ImageGallery, $, _
             });
             view.show();
             view.showChildren('detail');
-            view.render();
+            //view.render();
             offset = parseInt(offset, 10);
             $('iframe').remove();
             document.body.id = section.outputType;
