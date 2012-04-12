@@ -10,7 +10,8 @@ var compress = true;
 var files = [
     'phone',
     'tv',
-    'tablet'
+    'tablet',
+    'desktop'
 ];
 
 var colors = {

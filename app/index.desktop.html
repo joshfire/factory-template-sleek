@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+
+    <title></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <style type="text/css" media="screen">
+      body, html {
+        height: 100%;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      body {
+        background: #000 url(images/spinner.gif) no-repeat center center;
+      }
+
+      #container {
+        display: none;
+      }
+    </style>
+
+    <script type="text/javascript" src="todate.js"></script>
+    <script type="text/javascript" src="vendor/moment.js"></script>
+    <script type="text/javascript" src="prettystatus.js"></script>
+    <script data-joshfire-bootstrap src="http://127.0.0.1:40021/bootstrap/4f7ee34fcb31d63e47000002/4f688d8d3c7ecd00000001c0/phone/"></script>
+  </head>
+
+  <body class="device-phone" ontouchmove="event.preventDefault()">
+    <div id="container">
+      <header>
+        <div class="container">
+          <div class="nine-sixty">
+            <span>&nbsp;</span>
+            <div id="toolbar">&nbsp;</div>
+            <h1><span id="title">&nbsp;</span></h1>
+          </div>
+        </div>
+      </header>
+      <div id="cards-container">
+        <div id="cards"></div>
+      </div>
+      </div>
+    </div>
+
+    <!-- TEMPLATES -->
+
+    <script type="text/template" id="template-toolbar">
+      <ul>
+        <%= children %>
+      </ul>
+    </script>
+
+    <script type="text/template" id="toolbar-item">
+      <li>
+        <a href="<%= item.linkURL %>" class="<%= item.outputType %> section-<%= item.slug %>">
+          <div class="indicator"><span>&nbsp;</span></div>
+          <%= item.name %><span>&nbsp;</span>
+        </a>
+      </li>
+    </script>
+
+    <script type="text/template" id="template-list-view">
+      <div class="first">
+        <ul class="list">
+          <%= children %>
+        </ul>
+      </div>
+      <div class="spinner">&nbsp;</div>
+    </script>
+
+    <script type="text/template" id="template-detail-view">
+      <div></div>
+      <div class="spinner">&nbsp;</div>
+    </script>
+
+    <script type="text/template" id="item-list">
+      <ul class="list">
+        <%= children %>
+      </ul>
+    </script>
+
+    <script type="text/template" id="template-unknown-item">
+      <li class="unknown-item"><div>Unknown item type: <%= item['@type'] || item.itemType %></div></li>
+    </script>
+
+    <script type="text/template" id="template-image-item">
+      <li class="photo-item">
+        <div class="image" style="background-image: url(<%= imageUrl %>)">
+          <a class="image-link" href="<%= item.contentURL %>" title="<%= item.name %>">&nbsp;</a>
+          <div class="spinner">&nbsp;</div>
+        </div>
+      </li>
+    </script>
+
+    <script type="text/template" id="template-status-item">
+      <li class="status-item">
+        <div>
+          <a href="#<%= section.slug %>/<%= offset %>">
+            <img src="<%= item.author[0].image.contentURL %>">
+            <div class="right">
+              <h3><%= item.author[0].name %> @<%= item.author[0]['foaf:nick'] %></h3>
+              <p><%= item.name %></p>
+              <h4><%= moment(toDate(item.datePublished)).fromNow() %></h4>
+            </div>
+          </a>
+        </div>
+      </li>
+    </script>
+
+    <script type="text/template" id="template-video-item">
+      <li class="video-item">
+        <div>
+          <a href="#<%= section.slug %>/<%= offset %>">
+            <div>
+              <img src="<%= (item.thumbnail && item.thumbnail[0]) ? item.thumbnail[0].contentURL : (item.image && item.image.contentURL ? item.image.contentURL : '') %>">
+              <div class="right">
+                <h3><%= item.name %></h3>
+              </div>
+            </div>
+          </a>
+        </div>
+      </li>
+    </script>
+
+    <script type="text/template" id="template-event-item">
+      <li class="event-item">
+        <div>
+          <a href="#<%= section.slug %>/<%= offset %>">
+            <div>
+              <h3>
+                <span><%= moment(toDate(item.startDate)).calendar() %></span>
+              </h3>
+              <h4><%= item.name %></h4>
+            </div>
+          </a>
+        </div>
+      </li>
+    </script>
+
+    <script type="text/template" id="template-news-item">
+      <li class="news-item">
+        <div>
+          <a href="#<%= section.slug %>/<%= offset %>">
+            <div>
+              <h3>
+                <span><%= moment(toDate(item.datePublished)).fromNow() %></span>
+              </h3>
+              <h4><%= item.name %></h4>
+              <!--p><%= item.description %></p-->
+            </div>
+          </a>
+        </div>
+      </li>
+    </script>
+
+    <script type="text/template" id="template-status">
+      <div>
+        <div class="header">
+          <img src="<%= item.author[0].image.contentURL %>">
+          <h2><%= item.author[0].name %></h2>
+          <h3>@<%= item.author[0]['foaf:nick'] %></h3>
+        </div>
+        <div class="arrow"><span>&nbsp;</span></div>
+        <div class="message">
+          <div class="cover">&nbsp;</div>
+          <h4><%= moment(toDate(item.datePublished)).fromNow() %></h4>
+          <p><%= prettyStatus(item.name) %></p>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-event">
+      <div>
+        <h3>
+          <span>From <%= moment(toDate(item.startDate)).format('LLLL') %> to <%= moment(toDate(item.endDate)).format('LLLL') %></span>
+        </h3>
+        <h4><%= item.name %></h4>
+        <% if(item.description) { %>
+          <p class="description"><%= item.description %></p>
+        <% } %>
+        <% if(item.location && item.location.name) { %>
+          <p class="location"><%= item.location.name %></p>
+        <% } %>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-video">
+      <div>
+        <%= media %>
+        <div class="body">
+          <% if (item.uploadDate || item.datePublished || item.dateCreated) { %>
+          <h3><%= moment(toDate(item.uploadDate || item.datePublished || item.dateCreated)).format('LLLL') %></h3>
+          <% } %>
+          <h4><%= item.name %></h4>
+          <% if(item.description) { %>
+          <p><%= item.description %></p>
+          <% } %>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-news">
+      <div>
+        <h3><%= moment(toDate(item.datePublished)).format('LLLL') %></h3>
+        <h4><%= item.name %></h4>
+        <div class="body">
+          <%= item.articleBody %>
+        </div>
+      </div>
+    </script>
+
+    <script>Joshfire.debug=true;</script>
+    <script data-main="app.desktop" src="joshfire-framework/lib/adapters/ios/bootstrap.js"></script>
+    <script type="text/javascript">
+      // if app icon, set "apple-touch-icon-precomposed" for webapps installed on mobile
+      // For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: (have to be an absolute URL)
+      if(Joshfire.factory.config.app.icon) {
+        $("head").append('<link rel="apple-touch-icon-precomposed" href="'+ Joshfire.factory.config.app.icon.contentURL +'">')
+      }
+    </script>
+  </body>
+</html>

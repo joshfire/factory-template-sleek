@@ -9,22 +9,15 @@ define([
   'joshlib!ui/item',
   'joshlib!ui/imageloader',
   'joshlib!router',
+  'joshlib!vendor/backbone',
   'joshlib!vendor/underscore'],
-function(Collection, Item, ImageLoader, Router, _) {
+function(Collection, Item, ImageLoader, Router, Backbone, _) {
 
   var Spot = function() {
     _.bindAll(this, 'initialize',  'setColor', 'slugify');
   };
 
-  Spot.extend = function(properties) {
-    var Class = function() {
-      Spot.call(this);
-    };
-
-    _.extend(Class.prototype, Spot.prototype);
-    _.extend(Class.prototype, properties);
-    return Class;
-  },
+  Spot.extend = Backbone.View.extend;
 
   _.extend(Spot.prototype, {
     initialize: function(cb) {

@@ -16,6 +16,10 @@ function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
       $('head').append('<link id="color" rel="stylesheet" href="css/tablet.' + color + '.css" type="text/css">');
     },
 
+    setTitle: function(value) {
+      $('#title').html(value);
+    },
+
     //
     // Creates views
     //
@@ -158,8 +162,9 @@ function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
           }
         }
       };
-      var $title = $('#title');
+
       var $toolbar = $('#toolbar');
+      var self = this;
 
       _.forEach(sections, function(section) {
         controllers.routes[section.slug] = section.slug;
@@ -175,7 +180,7 @@ function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
           view.show();
           $('iframe').remove();
           document.body.id = section.outputType;
-          $title.html(section.name);
+          self.setTitle(section.name);
           $toolbar.find('.active').removeClass('active');
           $toolbar.find('.section-' + section.slug).addClass('active');
 
@@ -209,7 +214,7 @@ function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
             view.show();
             $('iframe').remove();
             document.body.id = section.outputType;
-            $title.html(section.name);
+            self.setTitle(section.name);
             $toolbar.find('.active').removeClass('active');
             $toolbar.find('.section-' + section.slug).addClass('active');
             detail.show();

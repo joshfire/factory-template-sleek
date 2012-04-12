@@ -3,14 +3,17 @@ app/joshfire-framework export-ignore
 app/app.phone.js export-ignore
 app/app.tablet.js export-ignore
 app/app.tv.js export-ignore
+app/app.desktop.js export-ignore
 app/spot.js export-ignore
 app/spot.phone.js export-ignore
 app/spot.tablet.js export-ignore
 app/spot.tv.js export-ignore
+app/spot.desktop.js export-ignore
 app/bootstrap.js export-ignore
 app/index.phone.html export-ignore
 app/index.tablet.html export-ignore
 app/index.tv.html export-ignore
+app/index.desktop.html export-ignore
 app/ui export-ignore
 app/less export-ignore
 build.sh export-ignore

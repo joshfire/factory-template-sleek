@@ -66,6 +66,19 @@
           "marketing/tv-screenshot2.jpg",
           "marketing/tv-screenshot3.jpg"
         ]
+      },
+      {
+        "devices": "desktop",
+        "startfile": "app/index.desktop.optimized.html",
+        "price": {
+          "eur": 499,
+          "usd": 669
+        },
+        "images": "marketing/phone.jpg",
+        "screenshots": [
+          "marketing/tablet-screenshot1.png",
+          "marketing/tablet-screenshot2.png"
+        ]
       }
     ],
     "options": {
