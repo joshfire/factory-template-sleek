@@ -106,6 +106,94 @@
         "datasources.main",
         "backgroundurl"
       ]
-    }
+    },
+
+    "libraries": [
+      {
+        "name": "Joshfire Framework",
+        "homepage": "http://framework.joshfire.com",
+        "description": "The first open source multi-device development framework. Using only standards like HTML5 and JavaScript, it allows developers and integrators to quickly create native and dedicated web apps for browsers, Node.JS, desktops, smart phones, smartTVs and connected objects.",
+        "repositories": [
+          {
+            "type": "git",
+            "url": "https://github.com/joshfire/joshfire-framework.git"
+          }
+        ],
+        "licenses": [
+          {
+            "type": "MIT",
+            "url": "https://raw.github.com/joshfire/joshfire-framework/master/LICENSE"
+          }
+        ]
+      },
+      {
+        "name": "Klass",
+        "homepage": "https://github.com/ded/klass",
+        "description": "An expressive, cross platform JavaScript Class provider with a classical interface to prototypal inheritance.",
+        "repositories": [
+          {
+            "type": "git",
+            "url": "https://github.com/ded/klass.git"
+          }
+        ],
+        "licenses": [
+          {
+            "type": "MIT",
+            "url": "license-klass.txt"
+          }
+        ]
+      },
+      {
+        "name": "LESS",
+        "homepage": "http://lesscss.org",
+        "description": "LESS extends CSS with dynamic behavior such as variables, mixins, operations and functions. LESS runs on both the client-side (Chrome, Safari, Firefox) and server-side, with Node.js and Rhino.",
+        "repositories": [
+          {
+            "type": "git",
+            "url": "https://github.com/cloudhead/less.js.git"
+          }
+        ],
+        "licenses": [
+          {
+            "type": "Apache-2.0",
+            "url": "license-less.txt"
+          }
+        ]
+      },
+      {
+        "name": "Moment.js",
+        "homepage": "http://momentjs.com/",
+        "description": "A lightweight (3.7k) javascript date library for parsing, manipulating, and formatting dates.",
+        "repositories": [
+          {
+            "type": "git",
+            "url": "https://github.com/timrwood/moment.git"
+          }
+        ],
+        "licenses": [
+          {
+            "type": "MIT",
+            "url": "license-moment.txt"
+          }
+        ]
+      },
+      {
+        "name": "Photoswipe",
+        "homepage": "http://www.photoswipe.com/",
+        "description": "Inspired by the iOS photo viewer and Google images for mobile, PhotoSwipe is a HTML/CSS/JavaScript based image gallery specifically targeting mobile devices.",
+        "repositories": [
+          {
+            "type": "git",
+            "url": "https://github.com/codecomputerlove/PhotoSwipe.git"
+          }
+        ],
+        "licenses": [
+          {
+            "type": "MIT",
+            "url": "license-photoswipe.txt"
+          }
+        ]
+      }
+    ]
   }
 }
