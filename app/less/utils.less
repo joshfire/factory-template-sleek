@@ -4,6 +4,8 @@
 .box-shadow (@string) {
 	-webkit-box-shadow: @string;
      -moz-box-shadow: @string;
+      -ms-box-shadow: @string;
+       -o-box-shadow: @string;
 			    box-shadow: @string;
 }
 
@@ -13,6 +15,8 @@
 .border-radius (@radius: 2px) {
 	-webkit-border-radius: @radius;
 	   -moz-border-radius: @radius;
+			-ms-border-radius: @radius;
+			 -o-border-radius: @radius;
 			    border-radius: @radius;
 }
 
@@ -28,6 +32,14 @@
 	-moz-border-radius-bottomright: @bottomright;
 	-moz-border-radius-bottomleft: @bottomleft;
 	-moz-border-radius-topleft: @topleft;
+	-ms-border-radius-topright: @topright;
+	-ms-border-radius-bottomright: @bottomright;
+	-ms-border-radius-bottomleft: @bottomleft;
+	-ms-border-radius-topleft: @topleft;
+	-o-border-radius-topright: @topright;
+	-o-border-radius-bottomright: @bottomright;
+	-o-border-radius-bottomleft: @bottomleft;
+	-o-border-radius-topleft: @topleft;
 	border-top-right-radius: @topright;
 	border-bottom-right-radius: @bottomright;
 	border-bottom-left-radius: @bottomleft;
@@ -41,6 +53,7 @@
 	-webkit-transform: rotate(@deg);
 	   -moz-transform: rotate(@deg);
 	   	-ms-transform: rotate(@deg);
+	   	 -o-transform: rotate(@deg);
 			    transform: rotate(@deg);
 }
 
@@ -51,6 +64,7 @@
 	-webkit-transform: skew(@deg, @deg2);
 	   -moz-transform: skew(@deg, @deg2);
 	   	-ms-transform: skew(@deg, @deg2);
+	   	 -o-transform: skew(@deg, @deg2);
 			    transform: skew(@deg, @deg2);
 }
 
@@ -61,6 +75,7 @@
 	-webkit-transform: translate(@x, @y);
 	   -moz-transform: translate(@x, @y);
 		  -ms-transform: translate(@x, @y);
+		   -o-transform: translate(@x, @y);
 			    transform: translate(@x, @y);
 }
 
@@ -71,6 +86,7 @@
 	-webkit-transform: translate3d(@x, @y, @z);
 	   -moz-transform: translate3d(@x, @y, @z);
 		  -ms-transform: translate3d(@x, @y, @z);
+		   -o-transform: translate3d(@x, @y, @z);
 			    transform: translate3d(@x, @y, @z);
 }
 
@@ -81,6 +97,7 @@
 	-webkit-transform: scale(@factor);
 	   -moz-transform: scale(@factor);
 	   	-ms-transform: scale(@factor);
+	   	 -o-transform: scale(@factor);
 			    transform: scale(@factor);
 }
 
@@ -91,6 +108,7 @@
 	-webkit-transform: scaleX(@factor);
 	   -moz-transform: scaleX(@factor);
 	   	-ms-transform: scaleX(@factor);
+	   	 -o-transform: scaleX(@factor);
 			    transform: scaleX(@factor);
 }
 
@@ -101,6 +119,7 @@
 	-webkit-transform: scaleY(@factor);
 	   -moz-transform: scaleY(@factor);
 	   	-ms-transform: scaleY(@factor);
+	   	 -o-transform: scaleY(@factor);
 			    transform: scaleY(@factor);
 }
 
@@ -111,6 +130,7 @@
 	-webkit-perspective: @value;
 	   -moz-perspective: @value;
 		  -ms-perspective: @value;
+		   -o-perspective: @value;
 			    perspective: @value;
 }
 
@@ -121,6 +141,7 @@
 	-webkit-transition: @transition;
 	   -moz-transition: @transition;
 	   	-ms-transition: @transition;
+	   	 -o-transition: @transition;
 			    transition: @transition;
 }
 
@@ -131,6 +152,7 @@
 	-webkit-transform-origin: @x @y;
 	   -moz-transform-origin: @x @y;
 		  -ms-transform-origin: @x @y;
+		   -o-transform-origin: @x @y;
 			    transform-origin: @x @y;
 }
 
@@ -141,6 +163,8 @@
 	background-image: -webkit-gradient(linear, left top, right top, from(@startColor), to(@endColor));
 	background-image: -webkit-linear-gradient(right center, @startColor, @endColor);
 	background-image: -moz-linear-gradient(right center, @startColor, @endColor);
+	background-image: -ms-linear-gradient(right center, @startColor, @endColor);
+	background-image: -o-linear-gradient(right center, @startColor, @endColor);
 }
 
 //
@@ -157,6 +181,16 @@
 		@midColor @midStop,
 		@endColor @lastStop);
 	background-image: -moz-linear-gradient(
+		to right,
+		@startColor @firstStop*100%,
+		@midColor @midStop*100%,
+		@endColor @lastStop*100%);
+	background-image: -ms-linear-gradient(
+		to right,
+		@startColor @firstStop*100%,
+		@midColor @midStop*100%,
+		@endColor @lastStop*100%);
+	background-image: -o-linear-gradient(
 		to right,
 		@startColor @firstStop*100%,
 		@midColor @midStop*100%,
@@ -184,6 +218,18 @@
 		@secondColor @secondStop*100%,
 		@midColor @midStop*100%,
 		@endColor @lastStop*100%);
+	background-image: -ms-linear-gradient(
+		to right,
+		@startColor @firstStop*100%,
+		@secondColor @secondStop*100%,
+		@midColor @midStop*100%,
+		@endColor @lastStop*100%);
+	background-image: -o-linear-gradient(
+		to right,
+		@startColor @firstStop*100%,
+		@secondColor @secondStop*100%,
+		@midColor @midStop*100%,
+		@endColor @lastStop*100%);
 }
 
 //
@@ -193,6 +239,8 @@
 	background-image: -webkit-gradient(linear, left top, left bottom, from(@startColor), to(@endColor));
 	background-image: -webkit-linear-gradient(@startColor, @endColor);
 	background-image: -moz-linear-gradient(@startColor, @endColor);
+	background-image: -ms-linear-gradient(@startColor, @endColor);
+	background-image: -o-linear-gradient(@startColor, @endColor);
 }
 
 //
@@ -202,6 +250,8 @@
 	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(@startColor), color-stop(@colorStop, @midColor), to(@endColor));
 	background-image: -webkit-linear-gradient(@startColor, color-stop(@colorStop, @midColor), @endColor);
 	background-image: -moz-linear-gradient(@startColor, color-stop(@midColor, @colorStop), @endColor);
+	background-image: -ms-linear-gradient(@startColor, color-stop(@midColor, @colorStop), @endColor);
+	background-image: -o-linear-gradient(@startColor, color-stop(@midColor, @colorStop), @endColor);
 }
 
 //
@@ -209,6 +259,10 @@
 //
 .radial-gradient(@startColor: white, @endColor: black, @posX:center, @posY:center, @shape:circle, @size:farthest-corner){
   background-image: -webkit-radial-gradient(@posX @posY, @shape @size, @startColor, @endColor);
+  background-image: -moz-radial-gradient(@posX @posY, @shape @size, @startColor, @endColor);
+  background-image: -ms-radial-gradient(@posX @posY, @shape @size, @startColor, @endColor);
+  background-image: -o-radial-gradient(@posX @posY, @shape @size, @startColor, @endColor);
+  background-image: radial-gradient(@posX @posY, @shape @size, @startColor, @endColor);
 }
 
 //
@@ -218,6 +272,8 @@
 	filter: e(%("alpha(opacity=%d)", @opacity * 100));
 	-khtml-opacity: @opacity;
 	-moz-opacity: @opacity;
+	-ms-opacity: @opacity;
+	-o-opacity: @opacity;
 	opacity: @opacity;
 }
 
