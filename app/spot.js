@@ -27,7 +27,7 @@ function(Collection, Item, ImageLoader, Router, Backbone, _) {
                   Joshfire.factory.config.app.logo.contentURL : null;
 
       // set template color from user set option
-      this.setColor(Joshfire.factory.config.template.options.color || 'blue');
+      this.setColor(Joshfire.factory.config.template.options.color || 'gray');
 
       document.title = this.title;
 
