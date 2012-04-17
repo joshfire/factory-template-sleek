@@ -128,6 +128,24 @@ function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
             className: section.outputType + ' section mosaic-list'
           });
           break;
+          case 'sounds':
+          list = new List({
+            templateEl: '#template-list-view',
+            scroller: true,
+            itemFactory: this.itemFactory(section),
+            collection: section.collection,
+            className: section.outputType + ' left-panel simple-list'
+          });
+          detail = new FactoryMedia({
+            templateEl: '#template-sound',
+            scroller: true,
+            className: 'right-panel',
+            mediaOptions: {
+              strategy: 'html5',
+              width: '100%'
+            }
+          });
+          break;
         }
 
         if(list) {
@@ -178,7 +196,7 @@ function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
             }
           });
           view.show();
-          $('iframe').remove();
+          $('iframe, audio, video, object').remove();
           document.body.id = section.outputType;
           self.setTitle(section.name);
           $toolbar.find('.active').removeClass('active');
@@ -212,7 +230,7 @@ function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
             var detail = views[section.slug + 'Detail'];
             offset = parseInt(offset, 10);
             view.show();
-            $('iframe').remove();
+            $('iframe, audio, video, object').remove();
             document.body.id = section.outputType;
             self.setTitle(section.name);
             $toolbar.find('.active').removeClass('active');

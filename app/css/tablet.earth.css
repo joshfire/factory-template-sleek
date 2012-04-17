@@ -70,6 +70,8 @@ header h1{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,A
 .video-item>div img{float:left;display:block;width:120px;height:90px;}
 .video-item>div .right{margin-left:132px;padding-right:1.5em;padding-top:1em;}
 .video-item>div h3{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1em;}
+.sound-item>div a{display:block;padding:1em 1em 1em .5em;}.sound-item>div a >div{background:url(../images/phone-plus-dark.png) no-repeat right center;padding-right:2em;}.sound-item>div a >div:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
+.sound-item>div h3{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1em;margin-bottom:.2em;}
 .news-item>div{line-height:1.2em;}.news-item>div a{display:block;padding:.5em 1em .5em .5em;}.news-item>div a >div{background:url(../images/phone-plus-dark.png) no-repeat right center;padding-right:2em;}.news-item>div a >div:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
 .news-item>div img{float:right;display:block;width:120px;height:90px;}
 .news-item>div .right{margin-left:132px;padding-right:1.5em;padding-top:1em;}
@@ -117,6 +119,12 @@ div.ps-toolbar-play div.ps-toolbar-content{background-position:-88px 0;}
 #videos .right-panel .body{padding:1.2em 1em 1em;margin-top:-0.5em;background:transparent url(../images/phone-shadow.png) no-repeat center top;background-size:100% auto;}
 #videos .right-panel h3{font-weight:normal;font-size:1em;margin-bottom:.8em;margin-top:1em;}
 #videos .right-panel h4{text-transform:uppercase;font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.2em;margin-bottom:1em;color:#873612;}
+#sounds{background:#ffffff;}
+#sounds #cards{color:#333333;}
+#sounds .right-panel{line-height:1.2em;padding:1.2em 1em 1em;margin-top:-0.5em;background:transparent url(../images/phone-shadow.png) no-repeat center top;background-size:100% auto;}#sounds .right-panel img{height:32px;width:auto;float:left;margin-right:.2em;}
+#sounds .right-panel h3{font-weight:normal;font-size:1em;margin-bottom:.8em;margin-top:1em;}
+#sounds .right-panel h4{text-transform:uppercase;font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.2em;margin-bottom:1em;color:#873612;}
+#sounds .right-panel .media{margin:1em 0;}
 #news{background:#ffffff;}
 #news #cards{color:#333333;}
 #news .right-panel{line-height:1.2em;}#news .right-panel h3{font-weight:normal;font-size:.9em;margin-bottom:.2em;margin-top:1em;padding:0 .5em;}

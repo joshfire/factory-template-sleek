@@ -48,6 +48,7 @@ function(Collection, Item, ImageLoader, Router, Backbone, _) {
         var outputType;
 
         datasource.getDesc(_.bind(function(err, desc) {
+
           switch(desc.outputType) {
             case 'Article/Status':
             outputType = 'statuses';
@@ -64,6 +65,9 @@ function(Collection, Item, ImageLoader, Router, Backbone, _) {
             break;
             case 'VideoObject':
             outputType = 'videos';
+            break;
+            case 'MusicRecording':
+            outputType = 'sounds';
             break;
             default:
             outputType = 'other';
@@ -166,6 +170,16 @@ function(Collection, Item, ImageLoader, Router, Backbone, _) {
             model: model,
             offset: offset,
             templateEl: '#template-news-item'
+          });
+          break;
+
+          case 'MusicRecording':
+          console.log(model.toJSON());
+          return new Item({
+            data: {section: section},
+            model: model,
+            offset: offset,
+            templateEl: '#template-sound-item'
           });
           break;
 

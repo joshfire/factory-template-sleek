@@ -28,7 +28,7 @@
     <script type="text/javascript" src="todate.js"></script>
     <script type="text/javascript" src="vendor/moment.js"></script>
     <script type="text/javascript" src="prettystatus.js"></script>
-    <script data-joshfire-bootstrap src="http://127.0.0.1:40021/bootstrap/4f7ee34fcb31d63e47000002/4f688d8d3c7ecd00000001c0/phone/"></script>
+    <script data-joshfire-bootstrap src="http://preview-staging.joshfireapps.com/bootstrap/4f845035744218010000007b/4f8840bf6e08390100000712/tablet/"></script>
   </head>
 
   <body class="device-phone" ontouchmove="event.preventDefault()">
@@ -155,6 +155,19 @@
       </li>
     </script>
 
+    <script type="text/template" id="template-sound-item">
+      <li class="sound-item">
+        <div>
+          <a href="#<%= section.slug %>/<%= offset %>">
+            <div>
+              <% if(item.author && item.author.name) { %><h3><%= item.author.name %></h3><% } %>
+              <h4><%= item.name %></h4>
+            </div>
+          </a>
+        </div>
+      </li>
+    </script>
+
     <script type="text/template" id="template-status">
       <div>
         <div class="header">
@@ -208,6 +221,22 @@
         <div class="body">
           <%= item.articleBody %>
         </div>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-sound">
+      <div>
+        <% if (item.uploadDate || item.datePublished || item.dateCreated) { %>
+        <h3><%= moment(toDate(item.uploadDate || item.datePublished || item.dateCreated)).format('LLLL') %></h3>
+        <% } %>
+        <h4><%= item.name %><% if(item.author && item.author.name) { %> by <%= item.author.name %><% } %></h4>
+        <% if(item.thumbnail && item.thumbnail.length) { %>
+          <img src="<%= item.thumbnail[0].contentURL %>" />
+        <% } %>
+        <div class="media"><%= media %></div>
+        <% if(item.description) { %>
+        <p><%= item.description %></p>
+        <% } %>
       </div>
     </script>
 
