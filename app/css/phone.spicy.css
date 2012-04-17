@@ -31,6 +31,7 @@ header>span{display:block;position:absolute;top:0;right:0;width:40%;height:2.24e
 #toolbar ul li a.videos{background-image:url(../images/phone-videos.png);}
 #toolbar ul li a.events{background-image:url(../images/phone-events.png);}
 #toolbar ul li a.news{background-image:url(../images/phone-news.png);}
+#toolbar ul li a.sounds{background-image:url(../images/phone-sounds.png);}
 #toolbar ul li a.contact{background-image:url(../images/phone-contact.png);}
 #toolbar ul li a.map{background-image:url(../images/phone-map.png);}
 #toolbar ul li a.next,#toolbar ul li a.prev{background-image:url(../images/phone-more.png);}
