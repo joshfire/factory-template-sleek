@@ -122,7 +122,7 @@ div.ps-toolbar-play div.ps-toolbar-content{background-position:-88px 0;}
 #videos .right-panel h4{text-transform:uppercase;font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.2em;margin-bottom:1em;color:#454f0f;}
 #sounds{background:#ffffff;}
 #sounds #cards{color:#333333;}
-#sounds .right-panel{line-height:1.2em;padding:1.2em 1em 1em;margin-top:-0.5em;background:transparent url(../images/phone-shadow.png) no-repeat center top;background-size:100% auto;}#sounds .right-panel img{height:32px;width:auto;float:left;margin-right:.2em;}
+#sounds .right-panel{line-height:1.2em;padding:1.2em 1em 1em;margin-top:-0.5em;}#sounds .right-panel img{height:32px;width:auto;float:left;margin-right:.2em;}
 #sounds .right-panel h3{font-weight:normal;font-size:1em;margin-bottom:.8em;margin-top:1em;}
 #sounds .right-panel h4{text-transform:uppercase;font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.2em;margin-bottom:1em;color:#454f0f;}
 #sounds .right-panel .media{margin:1em 0;}

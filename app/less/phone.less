@@ -524,6 +524,25 @@ header {
   }
 }
 
+.sound-item > div {
+  a {
+    display: block;
+    padding: 1em 1em 1em .5em;
+
+    & > div {
+      background: url(../images/phone-plus-dark.png) no-repeat right center;
+      padding-right: 2em;
+      .clear-fix;
+    }
+  }
+
+  h3 {
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    margin-bottom: .2em;
+  }
+}
+
 // A news item
 .news-item > div {
   line-height: 1.2em;
@@ -727,6 +746,54 @@ header {
     font-size: 1.2em;
     margin-bottom: 1em;
     color: @background-color;
+  }
+}
+
+//---------------------------------------------------------------------------
+// Sounds
+//---------------------------------------------------------------------------
+
+#sounds {
+  background: @light-background-color;
+}
+
+#sounds #cards {
+  color: @dark-text-color;
+}
+
+#sounds .detail {
+
+  line-height: 1.2em;
+
+  img {
+    height: 32px;
+    width: auto;
+    float: left;
+    margin: 0 .2em 0 0;
+  }
+
+  .body {
+    padding: 1.2em 1em 1em;
+    margin-top: -.5em;
+  }
+
+  h3 {
+    font-weight: normal;
+    font-size: 1em;
+    margin-bottom: .8em;
+    margin-top: 1em;
+  }
+
+  h4 {
+    text-transform: uppercase;
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+    color: @background-color;
+  }
+
+  .media {
+    margin: 1em 0;
   }
 }
 
