@@ -32,8 +32,7 @@ h1,h2,h3,h4,h5,h6{font-size:1em;font-weight:normal;}
 #toolbar a.videos{background-image:url(../images/tv-videos.png);}
 #toolbar a.events{background-image:url(../images/tv-events.png);}
 #toolbar a.news{background-image:url(../images/tv-news.png);}
-#toolbar a.contact{background-image:url(../images/tv-contact.png);}
-#toolbar a.map{background-image:url(../images/tv-map.png);}
+#toolbar a.sounds{background-image:url(../images/tv-sounds.png);}
 #toolbar li{width:120px;height:60px;margin:0 auto 10px;background:#903a13;-webkit-border-radius:4px;-moz-border-radius:4px;-ms-border-radius:4px;-o-border-radius:4px;border-radius:4px;-webkit-box-sizing:border-box;}#toolbar li.nav-active{background:transparent url(../images/tv-glow.png) no-repeat center center;}
 #toolbar .highlight{position:absolute;left:137.5px;top:0;height:100%;width:137.5px;pointer-events:none;background-image:-webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0.02)), to(rgba(255, 255, 255, 0.01)));background-image:-webkit-linear-gradient(right center, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));background-image:-moz-linear-gradient(right center, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));background-image:-ms-linear-gradient(right center, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));background-image:-o-linear-gradient(right center, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));}
 #toolbar.nav-focused .nav-active{background-color:rgba(255, 255, 255, 0.1);-webkit-box-shadow:0 0 50px rgba(255, 255, 255, 0.3);-moz-box-shadow:0 0 50px rgba(255, 255, 255, 0.3);-ms-box-shadow:0 0 50px rgba(255, 255, 255, 0.3);-o-box-shadow:0 0 50px rgba(255, 255, 255, 0.3);box-shadow:0 0 50px rgba(255, 255, 255, 0.3);border:solid 3px rgba(255, 255, 255, 0.2);width:118px;height:58px;}
@@ -63,6 +62,7 @@ h1,h2,h3,h4,h5,h6{font-size:1em;font-weight:normal;}
 .detail>div p,.detail>div .body{font-size:40px;margin-bottom:1em;}
 .detail>div h4{font-size:.9em;margin-bottom:1em;font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;}
 .detail>div img{width:100%;height:auto;margin:1em 0;}
+.detail>div .media{margin:1em 0;}
 .head{font-size:36px;padding:20px 30px 20px 100px;margin-bottom:40px;margin-left:-100px;text-shadow:none;background:#ffffff url(../images/tv-back.png) no-repeat 20px center;color:#333333;display:inline-block;-webkit-box-shadow:-5px 5px 3px rgba(0, 0, 0, 0.2);-moz-box-shadow:-5px 5px 3px rgba(0, 0, 0, 0.2);-ms-box-shadow:-5px 5px 3px rgba(0, 0, 0, 0.2);-o-box-shadow:-5px 5px 3px rgba(0, 0, 0, 0.2);box-shadow:-5px 5px 3px rgba(0, 0, 0, 0.2);}.head:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
 .head .image{width:130px;height:130px;background-size:cover;background-repeat:no-repeat;float:right;margin-left:30px;}
 .head .title{margin-right:190px;}
