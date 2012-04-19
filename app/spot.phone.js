@@ -174,7 +174,8 @@ function(Spot, Toolbar, SlidePanel, List, Item, FactoryMedia, ImageGallery, $, _
                 className: 'content detail',
                 mediaOptions: {
                   strategy: 'html5',
-                  width: '100%'
+                  width: 'auto',
+                  height: 'auto'
                 }
               })
             },

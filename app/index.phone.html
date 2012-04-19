@@ -191,7 +191,9 @@
 
     <script type="text/template" id="template-video">
       <div>
-        <%= media %>
+        <div class="media">
+          <%= media %>
+        </div>
         <div class="body">
           <% if (item.uploadDate || item.datePublished || item.dateCreated) { %>
           <h3><%= moment(toDate(item.uploadDate || item.datePublished || item.dateCreated)).format('LLLL') %></h3>
