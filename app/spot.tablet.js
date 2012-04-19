@@ -196,7 +196,7 @@ function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
             }
           });
           view.show();
-          $('iframe, audio, video, object').remove();
+          $('iframe, audio, video, object, embed').remove();
           document.body.id = section.outputType;
           self.setTitle(section.name);
           $toolbar.find('.active').removeClass('active');

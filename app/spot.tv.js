@@ -248,6 +248,36 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
             className: 'slide-panel'
           });
           break;
+          case 'sounds':
+          view = new SlidePanel({
+            children: {
+              list: new VerticalList({
+                templateEl: '#template-list-view',
+                offsetTop: 40,
+                offsetBottom: 40,
+                itemFactory: this.itemFactory(section),
+                collection: section.collection,
+                className: section.outputType + ' content'
+              }),
+              detail: new FactoryMedia({
+                templateEl: '#template-sound',
+                scroller: true,
+                offsetTop: 100,
+                offsetBottom: 100,
+                navLeft: function() {
+                  window.location = '#' + section.slug;
+                },
+                className: 'content detail',
+                mediaOptions: {
+                  strategy: 'html5',
+                  width: '100%',
+                  autoPlay: true
+                }
+              })
+            },
+            className: 'slide-panel'
+          });
+          break;
         }
 
         if(view) {
@@ -310,7 +340,7 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
             cards.children[section.slug].children.list.navFocus(cards.children[section.slug]);
           }
           toolbar.activate(position);
-          $('iframe').remove();
+          $('iframe, audio, video, object, embed').remove();
           document.body.id = section.outputType;
 
           section.collection.length || section.collection.fetch();

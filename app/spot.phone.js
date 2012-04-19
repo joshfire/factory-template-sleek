@@ -158,6 +158,30 @@ function(Spot, Toolbar, SlidePanel, List, Item, FactoryMedia, ImageGallery, $, _
             className: 'slide-panel'
           });
           break;
+          case 'sounds':
+          view = new SlidePanel({
+            children: {
+              list: new List({
+                templateEl: '#template-list-view',
+                scroller: true,
+                itemFactory: this.itemFactory(section),
+                collection: section.collection,
+                className: section.outputType + ' content simple-list'
+              }),
+              detail: new FactoryMedia({
+                templateEl: '#template-sound',
+                scroller: true,
+                className: 'content detail',
+                mediaOptions: {
+                  strategy: 'html5',
+                  width: 'auto',
+                  height: 'auto'
+                }
+              })
+            },
+            className: 'slide-panel'
+          });
+          break;
         }
 
         if(view) {
@@ -208,7 +232,7 @@ function(Spot, Toolbar, SlidePanel, List, Item, FactoryMedia, ImageGallery, $, _
           view.show();
           view.showChildren('list');
           //view.render();
-          $('iframe').remove();
+          $('iframe, audio, video, object, embed').remove();
           document.body.id = section.outputType;
           $title.html(section.name);
           $toolbar.find('.active').removeClass('active');

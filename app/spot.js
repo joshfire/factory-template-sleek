@@ -174,7 +174,6 @@ function(Collection, Item, ImageLoader, Router, Backbone, _) {
           break;
 
           case 'MusicRecording':
-          console.log(model.toJSON());
           return new Item({
             data: {section: section},
             model: model,

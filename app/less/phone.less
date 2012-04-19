@@ -148,6 +148,10 @@ header {
           background-image: url(../images/phone-news.png);
         }
 
+        &.sounds {
+          background-image: url(../images/phone-sounds.png);
+        }
+
         &.contact {
           background-image: url(../images/phone-contact.png);
         }
@@ -520,6 +524,25 @@ header {
   }
 }
 
+.sound-item > div {
+  a {
+    display: block;
+    padding: 1em 1em 1em .5em;
+
+    & > div {
+      background: url(../images/phone-plus-dark.png) no-repeat right center;
+      padding-right: 2em;
+      .clear-fix;
+    }
+  }
+
+  h3 {
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    margin-bottom: .2em;
+  }
+}
+
 // A news item
 .news-item > div {
   line-height: 1.2em;
@@ -648,7 +671,7 @@ header {
 // Tweaks
 //---------------------------------------------------------------------------
 
-#photos, #videos, #photos {
+#photos {
   h1 {
     .box-shadow(0 2px 2px rgba(0,0,0,.6));
   }
@@ -703,10 +726,13 @@ header {
     height: auto;
   }
 
+  .media {
+    background: #000;
+  }
+
   .body {
     padding: 1.2em 1em 1em;
-    margin-top: -.5em;
-    background: transparent url(../images/phone-shadow.png) no-repeat center top;
+    background: white url(../images/phone-shadow.png) no-repeat center top;
     background-size: 100% auto;
   }
 
@@ -723,6 +749,53 @@ header {
     font-size: 1.2em;
     margin-bottom: 1em;
     color: @background-color;
+  }
+}
+
+//---------------------------------------------------------------------------
+// Sounds
+//---------------------------------------------------------------------------
+
+#sounds {
+  background: @light-background-color;
+}
+
+#sounds #cards {
+  color: @dark-text-color;
+}
+
+#sounds .detail {
+
+  line-height: 1.2em;
+
+  img {
+    height: 32px;
+    width: auto;
+    float: left;
+    margin: 0 .2em 0 0;
+  }
+
+  .body {
+    padding: 1.2em 1em 1em;
+  }
+
+  h3 {
+    font-weight: normal;
+    font-size: 1em;
+    margin-bottom: .8em;
+    margin-top: 1em;
+  }
+
+  h4 {
+    text-transform: uppercase;
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+    color: @background-color;
+  }
+
+  .media {
+    margin: 1em 0;
   }
 }
 
