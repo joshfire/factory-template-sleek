@@ -106,7 +106,8 @@ function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
             className: 'right-panel',
             mediaOptions: {
               strategy: 'html5',
-              width: '100%'
+              width: '100%',
+              height: '450'
             }
           });
           break;
@@ -116,6 +117,22 @@ function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
             itemFactory: this.itemFactory(section),
             collection: section.collection,
             className: section.outputType + ' section mosaic-list'
+          });
+          break;
+          case 'sounds':
+          list = new List({
+            templateEl: '#template-list-view',
+            itemFactory: this.itemFactory(section),
+            collection: section.collection,
+            className: section.outputType + ' left-panel simple-list'
+          });
+          detail = new FactoryMedia({
+            templateEl: '#template-sound',
+            className: 'right-panel',
+            mediaOptions: {
+              strategy: 'html5',
+              width: '100%'
+            }
           });
           break;
         }
@@ -168,7 +185,7 @@ function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
             }
           });
           view.show();
-          $('iframe').remove();
+          $('iframe, audio, video, object, embed').remove();
           document.body.id = section.outputType;
           self.setTitle(section.name);
           $toolbar.find('.active').removeClass('active');
