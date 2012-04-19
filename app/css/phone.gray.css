@@ -114,13 +114,13 @@ div.ps-toolbar-play div.ps-toolbar-content{background-position:-88px 0;}
 #videos .detail{line-height:1.2em;}#videos .detail a{position:relative;display:block;top:0;left:0;}
 #videos .detail .play{height:5em;width:4em;overflow:hidden;position:absolute;top:50%;left:50%;margin-top:-2.5em;-webkit-transform:scalex(1.5);-moz-transform:scalex(1.5);-ms-transform:scalex(1.5);-o-transform:scalex(1.5);transform:scalex(1.5);}#videos .detail .play span{display:block;height:3em;width:3em;margin-left:-1.5em;margin-top:1em;background-color:#fff;-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);-o-transform:rotate(45deg);transform:rotate(45deg);}
 #videos .detail img{width:100%;height:auto;}
-#videos .detail .body{padding:1.2em 1em 1em;margin-top:-0.5em;background:transparent url(../images/phone-shadow.png) no-repeat center top;background-size:100% auto;}
+#videos .detail .body{padding:1.2em 1em 1em;background:transparent url(../images/phone-shadow.png) no-repeat center top;background-size:100% auto;}
 #videos .detail h3{font-weight:normal;font-size:1em;margin-bottom:.8em;margin-top:1em;}
 #videos .detail h4{text-transform:uppercase;font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.2em;margin-bottom:1em;color:#222222;}
 #sounds{background:#ffffff;}
 #sounds #cards{color:#333333;}
 #sounds .detail{line-height:1.2em;}#sounds .detail img{height:32px;width:auto;float:left;margin:0 .2em 0 0;}
-#sounds .detail .body{padding:1.2em 1em 1em;margin-top:-0.5em;}
+#sounds .detail .body{padding:1.2em 1em 1em;}
 #sounds .detail h3{font-weight:normal;font-size:1em;margin-bottom:.8em;margin-top:1em;}
 #sounds .detail h4{text-transform:uppercase;font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.2em;margin-bottom:1em;color:#222222;}
 #sounds .detail .media{margin:1em 0;}
