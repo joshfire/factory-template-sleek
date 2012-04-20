@@ -80,7 +80,7 @@ function(Spot, Toolbar, SlidePanel, List, Item, FactoryMedia, ImageGallery, $, _
           view.show();
           view.showChildren('list');
           //view.render();
-          $('iframe').remove();
+          $('iframe, audio, video, object, embed').remove();
           document.body.id = section.outputType;
           $title.html(section.name);
           $toolbar.find('.active').removeClass('active');

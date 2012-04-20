@@ -201,6 +201,22 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
         case 'video':
         case 'photo':
           return null;
+        case 'sound':
+          return new FactoryMedia({
+            templateEl: '#template-' + section.outputType,
+            scroller: true,
+            offsetTop: 100,
+            offsetBottom: 100,
+            navLeft: function() {
+              window.location = '#' + section.slug;
+            },
+            className: this.getClassName(section.outputType, 'detail'),
+            mediaOptions: {
+              strategy: 'html5',
+              width: '100%',
+              autoPlay: true
+            }
+          });
         default:
           return new Item({
             templateEl: '#template-' + section.outputType,
@@ -281,7 +297,7 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
             cards.children[section.slug].children.list.navFocus(cards.children[section.slug]);
           }
           toolbar.activate(position);
-          $('iframe').remove();
+          $('iframe, audio, video, object, embed').remove();
           document.body.id = section.outputType;
 
           section.collection.length || section.collection.fetch();

@@ -119,34 +119,24 @@ function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
     /**
      * Creates the element to use to represent an item for the given section.
      *
-     * Default implement creates a List linked to the
-     * template-list-view template.
-     *
-     * Override this function in derivated classes to add
-     * specific logic.
-     *
      * @function
      * @param {Object} section Section to render
      * @return {UIElement} The element to use. May include a detailed view.
      */
     createDetailElement: function(section) {
-      switch (section.outputType) {
-        case 'video':
-          return new FactoryMedia({
-            templateEl: '#template-' + section.outputType,
-            className: this.getClassName(section.outputType, 'detail'),
-            mediaOptions: {
-              strategy: 'html5',
-              width: '100%'
-            }
-          });
-        case 'photo':
-          return null;
-        default:
-          return new Item({
-            templateEl: '#template-' + section.outputType,
-            className: this.getClassName(section.outputType, 'detail')
-          });
+      if (section.outputType === 'video') {
+        return new FactoryMedia({
+          templateEl: '#template-' + section.outputType,
+          className: this.getClassName(section.outputType, 'detail'),
+          mediaOptions: {
+            strategy: 'html5',
+            width: '100%',
+            height: '450'
+          }
+        });
+      }
+      else {
+        return Spot.prototype.createDetailElement.call(this, section);
       }
     },
 
@@ -182,7 +172,7 @@ function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
             }
           });
           view.show();
-          $('iframe').remove();
+          $('iframe, audio, video, object, embed').remove();
           document.body.id = section.outputType;
           self.setTitle(section.name);
           $toolbar.find('.active').removeClass('active');

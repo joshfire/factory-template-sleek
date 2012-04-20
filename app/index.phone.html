@@ -151,6 +151,19 @@
       </li>
     </script>
 
+    <script type="text/template" id="template-sound-item">
+      <li class="sound-item">
+        <div>
+          <a href="#<%= section.slug %>/<%= offset %>">
+            <div>
+              <% if(item.author && item.author.name) { %><h3><%= item.author.name %></h3><% } %>
+              <h4><%= item.name %></h4>
+            </div>
+          </a>
+        </div>
+      </li>
+    </script>
+
     <script type="text/template" id="template-status">
       <div>
         <div class="header">
@@ -184,7 +197,9 @@
 
     <script type="text/template" id="template-video">
       <div>
-        <%= media %>
+        <div class="media">
+          <%= media %>
+        </div>
         <div class="body">
           <% if (item.uploadDate || item.datePublished || item.dateCreated) { %>
           <h3><%= moment(toDate(item.uploadDate || item.datePublished || item.dateCreated)).format('LLLL') %></h3>
@@ -226,6 +241,24 @@
 
     <script type="text/template" id="template-map-overlay">
       <p class="map-overlay"><%= address %></p>
+    </script>
+
+    <script type="text/template" id="template-sound">
+      <div>
+        <div class="body">
+          <% if (item.uploadDate || item.datePublished || item.dateCreated) { %>
+          <h3><%= moment(toDate(item.uploadDate || item.datePublished || item.dateCreated)).format('LLLL') %></h3>
+          <% } %>
+          <h4><%= item.name %><% if(item.author && item.author.name) { %> by <%= item.author.name %><% } %></h4>
+          <% if(item.thumbnail && item.thumbnail.length) { %>
+            <img src="<%= item.thumbnail[0].contentURL %>" />
+          <% } %>
+          <div class="media"><%= media %></div>
+          <% if(item.description) { %>
+          <p><%= item.description %></p>
+          <% } %>
+        </div>
+      </div>
     </script>
 
     <script>Joshfire.debug=false;</script>

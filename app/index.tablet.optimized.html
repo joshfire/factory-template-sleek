@@ -28,7 +28,7 @@
     <script type="text/javascript" src="todate.js"></script>
     <script type="text/javascript" src="vendor/moment.js"></script>
     <script type="text/javascript" src="prettystatus.js"></script>
-    <script data-joshfire-bootstrap src="http://preview-staging.joshfireapps.com/bootstrap/4f845035744218010000007b/4f7ae9f3db94b201000000e2/phone/"></script>
+    <script data-joshfire-bootstrap src="http://192.168.2.115:40021/bootstrap/4f8d2eda4fe1db9d17000021/4f8e8296067fd7bf0c000263/tablet/"></script>
   </head>
 
   <body class="device-phone" ontouchmove="event.preventDefault()">
@@ -81,8 +81,14 @@
       </ul>
     </script>
 
-    <script type="text/template" id="template-unknown-item">
-      <li class="unknown-item"><div>Unknown item type: <%= item['@type'] || item.itemType %></div></li>
+    <script type="text/template" id="template-other-item">
+      <li class="other-item">
+        <div>
+          <a href="#<%= section.slug %>/<%= offset %>">
+            <div>Unknown item type: <%= item['@type'] || item.itemType %></div>
+          </a>
+        </div>
+      </li>
     </script>
 
     <script type="text/template" id="template-image-item">
@@ -155,6 +161,19 @@
       </li>
     </script>
 
+    <script type="text/template" id="template-sound-item">
+      <li class="sound-item">
+        <div>
+          <a href="#<%= section.slug %>/<%= offset %>">
+            <div>
+              <% if(item.author && item.author.name) { %><h3><%= item.author.name %></h3><% } %>
+              <h4><%= item.name %></h4>
+            </div>
+          </a>
+        </div>
+      </li>
+    </script>
+
     <script type="text/template" id="template-status">
       <div>
         <div class="header">
@@ -211,7 +230,31 @@
       </div>
     </script>
 
-    <script>Joshfire.debug=true;</script>
+    <script type="text/template" id="template-other">
+      <div>
+        <h4><%= item.name %></h4>
+        <div class="body">
+          <%= item.description %>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-sound">
+      <div>
+        <% if (item.uploadDate || item.datePublished || item.dateCreated) { %>
+        <h3><%= moment(toDate(item.uploadDate || item.datePublished || item.dateCreated)).format('LLLL') %></h3>
+        <% } %>
+        <h4><%= item.name %><% if(item.author && item.author.name) { %> by <%= item.author.name %><% } %></h4>
+        <% if(item.thumbnail && item.thumbnail.length) { %>
+          <img src="<%= item.thumbnail[0].contentURL %>" />
+        <% } %>
+        <div class="media"><%= media %></div>
+        <% if(item.description) { %>
+        <p><%= item.description %></p>
+        <% } %>
+      </div>
+    </script>
+
     <script src="app.tablet.optimized.js"></script>
     <script type="text/javascript">
       // if app icon, set "apple-touch-icon-precomposed" for webapps installed on mobile

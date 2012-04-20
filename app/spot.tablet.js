@@ -102,7 +102,7 @@ function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
             }
           });
           view.show();
-          $('iframe').remove();
+          $('iframe, audio, video, object, embed').remove();
           document.body.id = section.outputType;
           self.setTitle(section.name);
           $toolbar.find('.active').removeClass('active');
@@ -136,7 +136,7 @@ function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
             var detail = views[section.slug + 'Detail'];
             offset = parseInt(offset, 10);
             view.show();
-            $('iframe').remove();
+            $('iframe, audio, video, object').remove();
             document.body.id = section.outputType;
             self.setTitle(section.name);
             $toolbar.find('.active').removeClass('active');

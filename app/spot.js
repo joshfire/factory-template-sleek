@@ -82,6 +82,7 @@ function(Collection, Item, List, SlidePanel, FactoryMedia, ImageLoader, Router, 
         // in the "other" category.
         var outputType;
         datasource.getDesc(_.bind(function(err, desc) {
+
           switch(desc.outputType) {
             case 'Article/Status':
               outputType = 'status';
@@ -99,6 +100,9 @@ function(Collection, Item, List, SlidePanel, FactoryMedia, ImageLoader, Router, 
               break;
             case 'VideoObject':
               outputType = 'video';
+              break;
+            case 'MusicRecording':
+              outputType = 'sound';
               break;
             default:
               outputType = 'other';
@@ -335,6 +339,17 @@ function(Collection, Item, List, SlidePanel, FactoryMedia, ImageLoader, Router, 
               width: '100%'
             }
           });
+        case 'sound':
+          return new FactoryMedia({
+            templateEl: '#template-sound',
+            scroller: true,
+            className: this.getClassName(section.outputType, 'detail'),
+            mediaOptions: {
+              strategy: 'html5',
+              width: 'auto',
+              height: 'auto'
+            }
+          });
         case 'photo':
           return null;
         default:
@@ -434,6 +449,14 @@ function(Collection, Item, List, SlidePanel, FactoryMedia, ImageLoader, Router, 
               model: model,
               offset: offset,
               templateEl: '#template-news-item'
+            });
+
+          case 'MusicRecording':
+            return new Item({
+              data: {section: section},
+              model: model,
+              offset: offset,
+              templateEl: '#template-sound-item'
             });
 
           default:
