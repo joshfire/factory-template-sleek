@@ -13,7 +13,7 @@
     <script type="text/javascript" src="todate.js"></script>
     <script type="text/javascript" src="vendor/moment.js"></script>
     <script type="text/javascript" src="prettystatus.js"></script>
-    <script data-joshfire-bootstrap src="http://127.0.0.1:40021/bootstrap/4f7ee34fcb31d63e47000002/4f688d8d3c7ecd00000001c0/phone/"></script>
+    <script data-joshfire-bootstrap src="http://192.168.2.115:40021/bootstrap/4f8d2eda4fe1db9d17000021/4f8e8296067fd7bf0c000263/tv/"></script>
 
     <style type="text/css" media="screen">
       body, html {
@@ -82,8 +82,14 @@
       </ul>
     </script>
 
-    <script type="text/template" id="template-unknown-item">
-      <li class="unknown-item"><div>Unknown item type: <%= item['@type'] || item.itemType %></div></li>
+    <script type="text/template" id="template-other-item">
+      <li class="other-item">
+        <div>
+          <a href="#<%= section.slug %>/<%= offset %>">
+            <div>Unknown item type: <%= item['@type'] || item.itemType %></div>
+          </a>
+        </div>
+      </li>
     </script>
 
     <script type="text/template" id="template-image-item">
@@ -236,6 +242,15 @@
         <div class="body">
           <h4><%= moment(toDate(item.datePublished)).format('LLLL') %></h4>
           <%= item.articleBody %>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-other">
+      <div>
+        <h4><%= item.name %></h4>
+        <div class="body">
+          <%= item.description %>
         </div>
       </div>
     </script>

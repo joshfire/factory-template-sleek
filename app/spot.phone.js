@@ -1,3 +1,5 @@
+/*global define, Joshfire, document, Backbone*/
+
 define([
   'spot',
   'joshlib!ui/toolbar',
@@ -12,32 +14,22 @@ define([
 function(Spot, Toolbar, SlidePanel, List, Item, FactoryMedia, ImageGallery, $, _) {
 
   return Spot.extend({
+    /**
+     * The code is specific to phones
+     */
+    deviceFamily: 'phone',
 
-    setColor: function(color) {
-      $('#color').remove();
-      $('head').append('<link id="color" rel="stylesheet" href="css/phone.' + color + '.css" type="text/css">');
-    },
 
-    //
-    // Creates views
-    //
-    createViews: function(sections) {
-      //
-      // Toolbar
-      //
-      var sectionCollection = new Backbone.Collection();
-
-      for(var i = 0; i < sections.length; i++) {
-        section = sections[i];
-        sectionCollection.add({
-          name: section.name,
-          linkURL: '#' + section.slug,
-          outputType: section.outputType,
-          slug: section.slug
-        });
-      }
-
-      var toolbar = new Toolbar({
+    /**
+     * Creates the toolbar UI element.
+     * Overrides base function to return a Toolbar element with appropriate
+     * scrolling options.
+     *
+     * @function
+     * @return {UIElement} The toolbar UI element to use
+     */
+    createToolbarElement: function() {
+      return new Toolbar({
         el: '#toolbar',
         templateEl: '#template-toolbar',
         itemTemplateEl: '#toolbar-item',
@@ -50,128 +42,8 @@ function(Spot, Toolbar, SlidePanel, List, Item, FactoryMedia, ImageGallery, $, _
         },
         useWindowWidth: true
       });
-
-      toolbar.setCollection(sectionCollection);
-      toolbar.render();
-
-      //
-      // Views
-      //
-      var views = {};
-      var $cards = $('#cards');
-
-      _.forEach(sections, _.bind(function(section) {
-        var view;
-
-        switch(section.outputType) {
-          case 'statuses':
-          view = new SlidePanel({
-            children: {
-              list: new List({
-                templateEl: '#template-list-view',
-                scroller: true,
-                itemFactory: this.itemFactory(section),
-                collection: section.collection,
-                className: section.outputType + ' content hashed-list'
-              }),
-              detail: new Item({
-                templateEl: '#template-status',
-                scroller: true,
-                className: 'content detail'
-              })
-            },
-            className: 'slide-panel'
-          });
-          break;
-          case 'news':
-          view = new SlidePanel({
-            children: {
-              list: new List({
-                templateEl: '#template-list-view',
-                scroller: true,
-                itemFactory: this.itemFactory(section),
-                collection: section.collection,
-                className: section.outputType + ' content simple-list'
-              }),
-              detail: new Item({
-                templateEl: '#template-news',
-                scroller: true,
-                className: 'content detail'
-              })
-            },
-            className: 'slide-panel'
-          });
-          break;
-          case 'events':
-          view = new SlidePanel({
-            children: {
-              list: new List({
-                templateEl: '#template-list-view',
-                scroller: true,
-                itemFactory: this.itemFactory(section),
-                collection: section.collection,
-                className: section.outputType + ' content hashed-list'
-              }),
-              detail: new Item({
-                templateEl: '#template-event',
-                scroller: true,
-                className: 'content detail'
-              })
-            },
-            className: 'slide-panel'
-          });
-          break;
-          case 'videos':
-          view = new SlidePanel({
-            children: {
-              list: new List({
-                templateEl: '#template-list-view',
-                scroller: true,
-                itemFactory: this.itemFactory(section),
-                collection: section.collection,
-                className: section.outputType + ' content simple-list'
-              }),
-              detail: new FactoryMedia({
-                templateEl: '#template-video',
-                scroller: true,
-                className: 'content detail',
-                mediaOptions: {
-                  strategy: 'html5',
-                  width: '100%'
-                }
-              })
-            },
-            className: 'slide-panel'
-          });
-          break;
-          case 'photos':
-          view = new SlidePanel({
-            children: {
-              list: new ImageGallery({
-                templateEl: '#template-list-view',
-                scroller: true,
-                itemFactory: this.itemFactory(section),
-                collection: section.collection,
-                className: section.outputType + ' content mosaic-list'
-              })
-            },
-            className: 'slide-panel'
-          });
-          break;
-        }
-
-        if(view) {
-          _.each(view.children, function(child) {
-            $(view.el).append(child.el);
-          });
-          view.hide();
-          views[section.slug] = view;
-          $cards.append(view.el);
-        }
-      }, this));
-
-      return views;
     },
+
 
     //
     // Creates routes
@@ -221,10 +93,10 @@ function(Spot, Toolbar, SlidePanel, List, Item, FactoryMedia, ImageGallery, $, _
           $back.hide();
 
           section.collection.length || section.collection.fetch();
-        }
+        };
 
         // Detail route
-        if(section.outputType !== 'photos') {
+        if(section.outputType !== 'photo') {
           controllers.routes[section.slug + '/:offset'] = section.slug + 'Detail';
 
           controllers[section.slug + 'Detail'] = function(offset) {
@@ -267,47 +139,6 @@ function(Spot, Toolbar, SlidePanel, List, Item, FactoryMedia, ImageGallery, $, _
       });
 
       return controllers;
-    },
-
-    //
-    // Returns a thumbnail URL form a video object
-    //
-    getVideoThumbnail: function(item) {
-      if(item.thumbnails) {
-        var thumbnails = item.thumbnail;
-        var best = thumbnails[0];
-
-        for (var i = 1; i < thumbnails.length; i++) {
-          var thumbnail = thumbnails[i];
-
-          if(thumbnail.width > best.width) best = thumbnail;
-        };
-
-        return best.contentURL;
-      }
-
-      return item.image.contentURL;
-    },
-
-    getThumbnail: function(item, offset) {
-      var width = document.body.clientWidth * .5;
-
-      if(item.thumbnail) {
-        var thumbnails = item.thumbnail;
-        var best = thumbnails[0];
-
-        for (var i=0; i < thumbnails.length; i++) {
-          var thumbnail = thumbnails[i];
-
-          if(thumbnail.width >= width && (thumbnail.width < best.width || best.width < width)) {
-            best = thumbnails[i];
-          }
-        }
-
-        return best.contentURL;
-      }
-
-      return item.contentURL;
     }
   });
 });

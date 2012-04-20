@@ -1,3 +1,5 @@
+/*global define, Joshfire, document, Backbone*/
+
 define([
   'spot',
   'joshlib!ui/list',
@@ -10,132 +12,144 @@ define([
 function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
 
   return Spot.extend({
-    setColor: function(color) {
-      $('#color').remove();
-      $('head').append('<link id="color" rel="stylesheet" href="css/desktop.' + color + '.css" type="text/css">');
-    },
+    /**
+     * The code is specific to desktops
+     */
+    deviceFamily: 'desktop',
 
+    /**
+     * Sets the main title.
+     *
+     * Overrides base function to add the application title.
+     */
     setTitle: function(value) {
       $('#title').html(this.title + ' &rsaquo; ' + value);
     },
 
-    //
-    // Creates views
-    //
-    createViews: function(sections) {
-      //
-      // Toolbar
-      //
-      var sectionCollection = new Backbone.Collection();
 
-      for(var i = 0; i < sections.length; i++) {
-        section = sections[i];
-        sectionCollection.add({
-          name: section.name,
-          linkURL: '#' + section.slug,
-          outputType: section.outputType,
-          slug: section.slug
-        });
+    /**
+     * Retrieves the classname(s) to use to flag an item in a list
+     * or the detail element that represents the item.
+     *
+     * Overrides base method.
+     *
+     * @function
+     * @param {string} itemType itemType The section's output type
+     */
+    getClassName: function (itemType, context) {
+      if (context === 'list') {
+        switch (itemType) {
+          case 'status':
+          case 'event':
+            return 'left-panel hashed-list';
+          case 'photo':
+            return 'section mosaic-list';
+          default:
+            return 'left-panel simple-list';
+        }
+      }
+      else {
+        return 'right-panel';
+      }
+    },
+
+
+    /**
+     * Inserts the list/detail views in the list of views.
+     *
+     * Override base method with tablet-specific logic.
+     *
+     * @function
+     * @param {Object} views Existing views identified by their ID
+     * @param {string} viewid The base ID of the view to insert
+     * @param {UIElement} listElement The list element
+     * @param {UIElement} detailElement Potential detail view
+     */
+    insertView: function(views, viewid, listElement, detailElement) {
+      if (listElement) {
+        listElement.hide();
+        listElement.render();
+        views[viewid] = listElement;
+        $("#cards").append(listElement.el);
       }
 
-      var toolbar = new List({
-        el: '#toolbar',
-        templateEl: '#template-toolbar',
-        itemTemplateEl: '#toolbar-item'
-      });
+      if (detailElement) {
+        detailElement.hide();
+        views[viewid + 'Detail'] = detailElement;
+        $("#cards").append(detailElement.el);
+      }
+    },
 
-      toolbar.setCollection(sectionCollection);
-      toolbar.render();
 
-      //
-      // Views
-      //
-      var views = {};
-      var $cards = $('#cards');
+    /**
+     * Creates the element to use to represent a list of items
+     * for the given section.
+     *
+     * Default implement creates a List linked to the
+     * template-list-view template.
+     *
+     * Override this function in derivated classes to add
+     * specific logic.
+     *
+     * @function
+     * @param {Object} section Section to render
+     * @return {UIElement} The element to use. May include a detailed view.
+     */
+    createListElement: function(section) {
+      if (section.outputType === 'video') {
+        return new ImageGallery({
+          templateEl: '#template-list-view',
+          itemFactory: this.itemFactory(section),
+          collection: section.collection,
+          className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
+        });
+      }
+      else {
+        return new List({
+          templateEl: '#template-list-view',
+          itemFactory: this.itemFactory(section),
+          collection: section.collection,
+          className: section.outputType + ' ' +
+            this.getClassName(section.outputType, 'list')
+        });
+      }
+    },
 
-      _.forEach(sections, _.bind(function(section) {
-        var list;
-        var detail;
 
-        switch(section.outputType) {
-          case 'statuses':
-          list = new List({
-            templateEl: '#template-list-view',
-            itemFactory: this.itemFactory(section),
-            collection: section.collection,
-            className: section.outputType + ' left-panel hashed-list'
-          });
-          detail = new Item({
-            templateEl: '#template-status',
-            className: 'right-panel'
-          });
-          break;
-          case 'news':
-          list = new List({
-            templateEl: '#template-list-view',
-            itemFactory: this.itemFactory(section),
-            collection: section.collection,
-            className: section.outputType + ' left-panel simple-list'
-          });
-          detail = new Item({
-            templateEl: '#template-news',
-            className: 'right-panel'
-          });
-          break;
-          case 'events':
-          list = new List({
-            templateEl: '#template-list-view',
-            itemFactory: this.itemFactory(section),
-            collection: section.collection,
-            className: section.outputType + ' left-panel hashed-list'
-          });
-          detail = new Item({
-            templateEl: '#template-event',
-            className: 'right-panel'
-          });
-          break;
-          case 'videos':
-          list = new List({
-            templateEl: '#template-list-view',
-            itemFactory: this.itemFactory(section),
-            collection: section.collection,
-            className: section.outputType + ' left-panel simple-list'
-          });
-          detail = new FactoryMedia({
-            templateEl: '#template-video',
-            className: 'right-panel',
+    /**
+     * Creates the element to use to represent an item for the given section.
+     *
+     * Default implement creates a List linked to the
+     * template-list-view template.
+     *
+     * Override this function in derivated classes to add
+     * specific logic.
+     *
+     * @function
+     * @param {Object} section Section to render
+     * @return {UIElement} The element to use. May include a detailed view.
+     */
+    createDetailElement: function(section) {
+      switch (section.outputType) {
+        case 'video':
+          return new FactoryMedia({
+            templateEl: '#template-' + section.outputType,
+            className: this.getClassName(section.outputType, 'detail'),
             mediaOptions: {
               strategy: 'html5',
               width: '100%'
             }
           });
-          break;
-          case 'photos':
-          list = new ImageGallery({
-            templateEl: '#template-list-view',
-            itemFactory: this.itemFactory(section),
-            collection: section.collection,
-            className: section.outputType + ' section mosaic-list'
+        case 'photo':
+          return null;
+        default:
+          return new Item({
+            templateEl: '#template-' + section.outputType,
+            className: this.getClassName(section.outputType, 'detail')
           });
-          break;
-        }
-
-        if(list) {
-          list.hide();
-          list.render();
-          views[section.slug] = list;
-          $cards.append(list.el);
-        }
-
-        if(detail) {
-          detail.hide();
-          views[section.slug + 'Detail'] = detail;
-          $cards.append(detail.el);
-        }
-      }, this));
-
-      return views;
+      }
     },
+
 
     //
     // Creates routes
@@ -174,7 +188,7 @@ function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
           $toolbar.find('.active').removeClass('active');
           $toolbar.find('.section-' + section.slug).addClass('active');
 
-          if(section.outputType !== 'photos') {
+          if(section.outputType !== 'photo') {
             var detail = views[section.slug + 'Detail'];
             detail.show();
           }
@@ -183,7 +197,7 @@ function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
             success: function() {
               view.render();
 
-              if(section.collection.length !== 0 && section.outputType !== 'photos') {
+              if(section.collection.length !== 0 && section.outputType !== 'photo') {
                 detail.setModel(section.collection.at(0));
                 detail.render();
                 view.$('.active').removeClass('active');
@@ -191,10 +205,10 @@ function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
               }
             }
           });
-        }
+        };
 
         // Detail route
-        if(section.outputType !== 'photos') {
+        if(section.outputType !== 'photo') {
           controllers.routes[section.slug + '/:offset'] = section.slug + 'Detail';
 
           controllers[section.slug + 'Detail'] = function(offset) {
@@ -233,47 +247,6 @@ function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
       });
 
       return controllers;
-    },
-
-    //
-    // Returns a thumbnail URL form a video object
-    //
-    getVideoThumbnail: function(item) {
-      if(item.thumbnails) {
-        var thumbnails = item.thumbnail;
-        var best = thumbnails[0];
-
-        for (var i = 1; i < thumbnails.length; i++) {
-          var thumbnail = thumbnails[i];
-
-          if(thumbnail.width > best.width) best = thumbnail;
-        };
-
-        return best.contentURL;
-      }
-
-      return item.image.contentURL;
-    },
-
-    getThumbnail: function(item, offset) {
-      var width = document.body.clientWidth * .5;
-
-      if(item.thumbnail) {
-        var thumbnails = item.thumbnail;
-        var best = thumbnails[0];
-
-        for (var i=0; i < thumbnails.length; i++) {
-          var thumbnail = thumbnails[i];
-
-          if(thumbnail.width >= width && (thumbnail.width < best.width || best.width < width) || best.width < width && thumbnail.width > best.width) {
-            best = thumbnails[i];
-          }
-        }
-
-        return best.contentURL;
-      }
-
-      return item.contentURL;
     }
   });
 });

@@ -144,23 +144,27 @@ header {
         position: relative;
         pointer-events: all;
 
-        &.photos {
+        &.photo {
           background-image: url(../images/phone-photos.png);
         }
 
-        &.statuses {
+        &.status {
           background-image: url(../images/phone-statuses.png);
         }
 
-        &.videos {
+        &.video {
           background-image: url(../images/phone-videos.png);
         }
 
-        &.events {
+        &.event {
           background-image: url(../images/phone-events.png);
         }
 
         &.news {
+          background-image: url(../images/phone-news.png);
+        }
+
+        &.other {
           background-image: url(../images/phone-news.png);
         }
 
@@ -552,6 +556,8 @@ header {
 }
 
 // A news item
+// (and other types of item)
+.other-item > div,
 .news-item > div {
   line-height: 1.2em;
 
@@ -628,6 +634,7 @@ header {
     padding: 0 .3em;
   }
 }
+
 
 /****************************************************************************
 
@@ -744,15 +751,15 @@ header {
 // Videos
 //---------------------------------------------------------------------------
 
-#videos #cards-container {
+#video #cards-container {
   background: @light-background-color;
 }
 
-#videos #cards{
+#video #cards{
   color: @dark-text-color;
 }
 
-#videos .right-panel {
+#video .right-panel {
 
   line-height: 1.2em;
 
@@ -854,7 +861,7 @@ header {
 // Statuses
 //---------------------------------------------------------------------------
 
-#statuses .right-panel {
+#status .right-panel {
 
   > div {
     min-height: 100%;
@@ -942,7 +949,7 @@ header {
 // Events
 //---------------------------------------------------------------------------
 
-#events .right-panel {
+#event .right-panel {
 
   line-height: 1.2em;
   background: @light-background-color;
@@ -969,5 +976,44 @@ header {
 
   p {
     margin-bottom: 1em;
+  }
+}
+
+
+//---------------------------------------------------------------------------
+// Other
+//---------------------------------------------------------------------------
+
+#other #cards-container {
+  background: @light-background-color;
+}
+
+#other #cards {
+  color: @dark-text-color;
+}
+
+#other .right-panel {
+
+  line-height: 1.2em;
+
+  h3 {
+    font-weight: normal;
+    font-size: .9em;
+    margin-bottom: .2em;
+    margin-top: 1em;
+    padding: 0 .5em;
+  }
+
+  h4 {
+    text-transform: uppercase;
+    color: @background-color;
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+    padding: 0 .5em;
+  }
+
+  .body {
+    padding: 0 .5em;
   }
 }

@@ -1,3 +1,5 @@
+/*global define, Joshfire, document, window, Backbone*/
+
 define([
   'spot',
   'joshlib!ui/horizontallayout',
@@ -14,18 +16,13 @@ define([
 function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImageLoader, _, $) {
 
   return Spot.extend({
-
-    setColor: function(color) {
-      $('#color').remove();
-      $('head').append('<link id="color" rel="stylesheet" href="css/tv.' + color + '.css" type="text/css">');
-    },
+    /**
+     * The code is specific to TV
+     */
+    deviceFamily: 'tv',
 
     setLogo: function(url) {
-      $('#logo').html('<img src="' + url + '" >');
-    },
-
-    setTitle: function(value) {
-      $('#logo').html(value);
+      $('#logo').html('<img src="' + url + '" />');
     },
 
     setBackground: function(url) {
@@ -34,37 +31,55 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
       });
     },
 
-    //
-    // Creates views
-    //
-    createViews: function(sections) {
-      var self = this;
-      //
-      // Toolbar
-      //
-      var sectionCollection = new Backbone.Collection();
 
-      for(var i = 0; i < sections.length; i++) {
-        section = sections[i];
-        sectionCollection.add({
-          name: section.name,
-          linkURL: '#' + section.slug,
-          outputType: section.outputType,
-          slug: section.slug
-        });
-      }
-
-      var toolbar = new Toolbar({
+    /**
+     * Creates the toolbar UI element.
+     * Overrides base function to return a Toolbar element.
+     *
+     * @function
+     * @return {UIElement} The toolbar UI element to use
+     */
+    createToolbarElement: function() {
+      return new Toolbar({
         el: '#toolbar',
         templateEl: '#template-toolbar',
         itemTemplateEl: '#toolbar-item'
       });
+    },
 
-      toolbar.setCollection(sectionCollection);
-      toolbar.render();
+
+    /**
+     * Retrieves the classname(s) to use to flag an item in a list
+     * or the detail element that represents the item.
+     *
+     * Overrides base method.
+     *
+     * @function
+     * @param {string} itemType itemType The section's output type
+     */
+    getClassName: function (itemType, context) {
+      if (context === 'list') {
+        return 'content';
+      }
+      else {
+        return 'content detail';
+      }
+    },
+
+
+    /**
+     * Creates additional views: photo and video overlays
+     *
+     * Overrides base function with TV-specific logic.
+     *
+     * @function
+     * @param {Object} views Views of the application, to complete with
+     *   additional views created by the function (keys are views IDs)
+     */
+    createAdditionalViews: function(views) {
+      var self = this;
 
       // Photo overlay
-
       var PhotoOverlay = ImageLoader.extend({
         initialize: function(options) {
           ImageLoader.prototype.initialize.call(this, options);
@@ -110,7 +125,6 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
       this.photoDetail.hide();
 
       // Video overlay
-
       var VideoOverlay = FactoryMedia.extend({
         initialize: function(options) {
           FactoryMedia.prototype.initialize.call(this, options);
@@ -136,129 +150,85 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
       });
 
       this.videoDetail.hide();
+    },
 
-      //
-      // Views
-      //
-      var views = {};
+
+    /**
+     * Creates the element to use to represent a list of items
+     * for the given section.
+     *
+     * Overrides base function with TV specific logic.
+     *
+     * @function
+     * @param {Object} section Section to render
+     * @return {UIElement} The element to use. May include a detailed view.
+     */
+    createListElement: function(section) {
+      switch (section.outputType) {
+        case 'video':
+        case 'photo':
+          return new Grid({
+            templateEl: '#template-mosaic',
+            itemFactory: this.itemFactory(section),
+            collection: section.collection,
+            className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
+          });
+        
+        default:
+          return new VerticalList({
+            templateEl: '#template-list-view',
+            offsetTop: 40,
+            offsetBottom: 40,
+            itemFactory: this.itemFactory(section),
+            collection: section.collection,
+            className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
+          });
+      }
+    },
+
+
+    /**
+     * Creates the element to use to represent an item for the given section.
+     *
+     * Overrides base function with TV specific logic.
+     *
+     * @function
+     * @param {Object} section Section to render
+     * @return {UIElement} The element to use. May include a detailed view.
+     */
+    createDetailElement: function(section) {
+      switch (section.outputType) {
+        case 'video':
+        case 'photo':
+          return null;
+        default:
+          return new Item({
+            templateEl: '#template-' + section.outputType,
+            scroller: true,
+            offsetTop: 100,
+            offsetBottom: 100,
+            navLeft: function() {
+              window.location = '#' + section.slug;
+            },
+            className: this.getClassName(section.outputType, 'detail')
+          });
+      }
+    },
+
+
+    /**
+     * Initializes and renders views created from the given list of sections.
+     *
+     * Overrides base method to add a bit of post-processing.
+     *
+     * @function
+     * @param {Array(Object)} sections The list of sections
+     *  (see "initialize" for format)
+     * @return {Object} Views created identified by their ID
+     */
+    createViews: function(sections) {
+      var views = Spot.prototype.createViews.call(this, sections);
       var $cards = $('#cards');
-
-      _.forEach(sections, _.bind(function(section) {
-        var view;
-
-        switch(section.outputType) {
-          case 'statuses':
-          view = new SlidePanel({
-            children: {
-              list: new VerticalList({
-                templateEl: '#template-list-view',
-                offsetTop: 40,
-                offsetBottom: 40,
-                itemFactory: this.itemFactory(section),
-                collection: section.collection,
-                className: section.outputType + ' content'
-              }),
-              detail: new Item({
-                templateEl: '#template-status',
-                scroller: true,
-                offsetTop: 100,
-                offsetBottom: 100,
-                navLeft: function() {
-                  window.location = '#' + section.slug;
-                },
-                className: 'content detail'
-              })
-            },
-            className: 'slide-panel'
-          });
-          break;
-          case 'news':
-          view = new SlidePanel({
-            children: {
-              list: new VerticalList({
-                templateEl: '#template-list-view',
-                offsetTop: 40,
-                offsetBottom: 40,
-                itemFactory: this.itemFactory(section),
-                collection: section.collection,
-                className: section.outputType + ' content'
-              }),
-              detail: new Item({
-                templateEl: '#template-news',
-                scroller: true,
-                offsetTop: 100,
-                offsetBottom: 100,
-                navLeft: function() {
-                  window.location = '#' + section.slug;
-                },
-                className: 'content detail'
-              })
-            },
-            className: 'slide-panel'
-          });
-          break;
-          case 'events':
-          view = new SlidePanel({
-            children: {
-              list: new VerticalList({
-                templateEl: '#template-list-view',
-                offsetTop: 40,
-                offsetBottom: 40,
-                itemFactory: this.itemFactory(section),
-                collection: section.collection,
-                className: section.outputType + ' content'
-              }),
-              detail: new Item({
-                templateEl: '#template-event',
-                scroller: true,
-                offsetTop: 100,
-                offsetBottom: 100,
-                navLeft: function() {
-                  window.location = '#' + section.slug;
-                },
-                className: 'content detail'
-              })
-            },
-            className: 'slide-panel'
-          });
-          break;
-          case 'videos':
-          view = new SlidePanel({
-            children: {
-              list: new Grid({
-                templateEl: '#template-mosaic',
-                itemFactory: this.itemFactory(section),
-                collection: section.collection,
-                className: section.outputType + ' content'
-              })
-            },
-            className: 'slide-panel'
-          });
-          break;
-          case 'photos':
-          view = new SlidePanel({
-            children: {
-              list: new Grid({
-                templateEl: '#template-mosaic',
-                itemFactory: this.itemFactory(section),
-                collection: section.collection,
-                className: section.outputType + ' content'
-              })
-            },
-            className: 'slide-panel'
-          });
-          break;
-        }
-
-        if(view) {
-          _.each(view.children, function(child) {
-            $(view.el).append(child.el);
-          });
-          view.render();
-          views[section.slug] = view;
-          $cards.append(view.el);
-        }
-      }, this));
 
       var cards = new CardPanel({
         el: $cards,
@@ -268,13 +238,14 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
       var horizontalLayout = new HorizontalLayout({
         el: '#container',
         views: [
-          toolbar,
+          this.toolbarView,
           cards
         ]
       });
 
       return horizontalLayout;
     },
+
 
     //
     // Creates routes
@@ -314,7 +285,7 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
           document.body.id = section.outputType;
 
           section.collection.length || section.collection.fetch();
-        }
+        };
 
         // Detail route
         controllers.routes[section.slug + '/:offset'] = section.slug + 'Detail';
@@ -325,11 +296,11 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
           document.body.id = section.outputType;
           var detail;
 
-          if(section.outputType === 'photos') {
+          if(section.outputType === 'photo') {
             detail = self.photoDetail;
             detail.offset = offset;
             detail.show();
-          } else if(section.outputType === 'videos') {
+          } else if(section.outputType === 'video') {
             detail = self.videoDetail;
             detail.show();
           } else {
@@ -360,26 +331,16 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
       return controllers;
     },
 
-    //
-    // Returns a thumbnail URL form a video object
-    //
-    getVideoThumbnail: function(item) {
-      if(item.thumbnail) {
-        var thumbnails = item.thumbnail;
-        var best = thumbnails[0];
 
-        for (var i = 1; i < thumbnails.length; i++) {
-          var thumbnail = thumbnails[i];
-
-          if(thumbnail.width > best.width) best = thumbnail;
-        };
-
-        return best.contentURL;
-      }
-
-      return item.image.contentURL;
-    },
-
+    /**
+     * Returns the URL of a thumbnail of an image object.
+     *
+     * Overrides base function with TV specific rules.
+     *
+     * @function
+     * @param {object} item VideoObject to parse
+     * @return {string} Thumbnail URL that best match the viewport size
+     */
     getThumbnail: function(item, offset) {
 
       var width = document.body.clientWidth;
@@ -388,11 +349,11 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
         case 0:
         case 1:
         case 7:
-        width = width * .25;
+        width = width * 0.25;
         break;
 
         default:
-        width = width * .1;
+        width = width * 0.1;
       }
 
       if(item.thumbnail) {
@@ -407,12 +368,15 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
           }
         }
 
-        if(best) {
+        if (best) {
           return best.contentURL;
+        }
+        else {
+          return '';
         }
       }
 
-      return item.contentURL;
+      return Spot.prototype.getThumbnail.call(this, item, offset);
     }
   });
 });

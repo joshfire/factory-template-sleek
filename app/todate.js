@@ -1,7 +1,10 @@
-var toDate = function(string) {
+var toDate = function (string) {
   var regexp = "([0-9]{4})(-([0-9]{2})(-([0-9]{2})" +
-      "(T([0-9]{2}):([0-9]{2})(:([0-9]{2})(\.([0-9]+))?)?" +
+      "(T([0-9]{2}):([0-9]{2})(:([0-9]{2})(\\.([0-9]+))?)?" +
       "(Z|(([-+])([0-9]{2}):([0-9]{2})))?)?)?)?";
+    if (!string) {
+        return new Date();
+    }
     var d = string.match(new RegExp(regexp));
 
     var offset = 0;
@@ -19,7 +22,7 @@ var toDate = function(string) {
     }
 
     offset -= date.getTimezoneOffset();
-    time = (Number(date) + (offset * 60 * 1000));
+    var time = (Number(date) + (offset * 60 * 1000));
 
     return new Date(Number(time));
- }
+ };

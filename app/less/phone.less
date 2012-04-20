@@ -128,19 +128,19 @@ header {
         background-repeat: no-repeat;
         position: relative;
 
-        &.photos {
+        &.photo {
           background-image: url(../images/phone-photos.png);
         }
 
-        &.statuses {
+        &.status {
           background-image: url(../images/phone-statuses.png);
         }
 
-        &.videos {
+        &.video {
           background-image: url(../images/phone-videos.png);
         }
 
-        &.events {
+        &.event {
           background-image: url(../images/phone-events.png);
         }
 
@@ -154,6 +154,10 @@ header {
 
         &.map {
           background-image: url(../images/phone-map.png);
+        }
+
+        &.other {
+          background-image: url(../images/phone-news.png);
         }
 
         &.next, &.prev {
@@ -521,6 +525,8 @@ header {
 }
 
 // A news item
+// (and other types of item)
+.other-item > div,
 .news-item > div {
   line-height: 1.2em;
 
@@ -598,6 +604,7 @@ header {
   }
 }
 
+
 /****************************************************************************
 
   MISC
@@ -648,7 +655,7 @@ header {
 // Tweaks
 //---------------------------------------------------------------------------
 
-#photos, #videos, #photos {
+#photo, #video {
   h1 {
     .box-shadow(0 2px 2px rgba(0,0,0,.6));
   }
@@ -658,15 +665,15 @@ header {
 // Videos
 //---------------------------------------------------------------------------
 
-#videos {
+#video {
   background: @light-background-color;
 }
 
-#videos #cards {
+#video #cards {
   color: @dark-text-color;
 }
 
-#videos .detail {
+#video .detail {
 
   line-height: 1.2em;
 
@@ -768,7 +775,7 @@ header {
 // Statuses
 //---------------------------------------------------------------------------
 
-#statuses .detail {
+#status .detail {
 
   > div {
     min-height: 100%;
@@ -856,7 +863,7 @@ header {
 // Events
 //---------------------------------------------------------------------------
 
-#events .detail {
+#event .detail {
 
   line-height: 1.2em;
   background: @light-background-color;
@@ -883,5 +890,44 @@ header {
 
   p {
     margin-bottom: 1em;
+  }
+}
+
+
+//---------------------------------------------------------------------------
+// Other
+//---------------------------------------------------------------------------
+
+#other {
+  background: @light-background-color;
+}
+
+#other #cards {
+  color: @dark-text-color;
+}
+
+#other .detail {
+
+  line-height: 1.2em;
+
+  h3 {
+    font-weight: normal;
+    font-size: .9em;
+    margin-bottom: .2em;
+    margin-top: 1em;
+    padding: 0 .5em;
+  }
+
+  h4 {
+    text-transform: uppercase;
+    color: @background-color;
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+    padding: 0 .5em;
+  }
+
+  .body {
+    padding: 0 .5em;
   }
 }
