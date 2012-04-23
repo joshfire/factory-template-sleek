@@ -44,7 +44,7 @@
       </div>
     </div>
 
-    <!-- TEMPLATES -->
+    <!-- TEMPLATES SHARED BY PHONE/TABLET/DESKTOP versions -->
 
     <script type="text/template" id="template-toolbar">
       <ul>
@@ -68,17 +68,6 @@
         </ul>
       </div>
       <div class="spinner">&nbsp;</div>
-    </script>
-
-    <script type="text/template" id="template-detail-view">
-      <div></div>
-      <div class="spinner">&nbsp;</div>
-    </script>
-
-    <script type="text/template" id="item-list">
-      <ul class="list">
-        <%= children %>
-      </ul>
     </script>
 
     <script type="text/template" id="template-other-item">
@@ -205,21 +194,6 @@
       </div>
     </script>
 
-    <script type="text/template" id="template-video">
-      <div>
-        <%= media %>
-        <div class="body">
-          <% if (item.uploadDate || item.datePublished || item.dateCreated) { %>
-          <h3><%= moment(toDate(item.uploadDate || item.datePublished || item.dateCreated)).format('LLLL') %></h3>
-          <% } %>
-          <h4><%= item.name %></h4>
-          <% if(item.description) { %>
-          <p><%= item.description %></p>
-          <% } %>
-        </div>
-      </div>
-    </script>
-
     <script type="text/template" id="template-news">
       <div>
         <h3><%= moment(toDate(item.datePublished)).format('LLLL') %></h3>
@@ -239,6 +213,23 @@
       </div>
     </script>
 
+    <!-- TEMPLATES SPECIFIC TO THIS VERSION -->
+
+    <script type="text/template" id="template-video">
+      <div>
+        <%= media %>
+        <div class="body">
+          <% if (item.uploadDate || item.datePublished || item.dateCreated) { %>
+          <h3><%= moment(toDate(item.uploadDate || item.datePublished || item.dateCreated)).format('LLLL') %></h3>
+          <% } %>
+          <h4><%= item.name %></h4>
+          <% if(item.description) { %>
+          <p><%= item.description %></p>
+          <% } %>
+        </div>
+      </div>
+    </script>
+
     <script type="text/template" id="template-sound">
       <div>
         <% if (item.uploadDate || item.datePublished || item.dateCreated) { %>
@@ -253,6 +244,17 @@
         <p><%= item.description %></p>
         <% } %>
       </div>
+    </script>
+
+    <script type="text/template" id="template-detail-view">
+      <div></div>
+      <div class="spinner">&nbsp;</div>
+    </script>
+
+    <script type="text/template" id="item-list">
+      <ul class="list">
+        <%= children %>
+      </ul>
     </script>
 
     <script src="app.tablet.optimized.js"></script>

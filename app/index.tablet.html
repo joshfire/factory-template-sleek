@@ -44,7 +44,7 @@
       </div>
     </div>
 
-    <!-- TEMPLATES -->
+    <!-- TEMPLATES SHARED BY PHONE/TABLET/DESKTOP versions -->
 
     <script type="text/template" id="template-toolbar">
       <ul>
@@ -68,17 +68,6 @@
         </ul>
       </div>
       <div class="spinner">&nbsp;</div>
-    </script>
-
-    <script type="text/template" id="template-detail-view">
-      <div></div>
-      <div class="spinner">&nbsp;</div>
-    </script>
-
-    <script type="text/template" id="item-list">
-      <ul class="list">
-        <%= children %>
-      </ul>
     </script>
 
     <script type="text/template" id="template-other-item">
@@ -205,21 +194,6 @@
       </div>
     </script>
 
-    <script type="text/template" id="template-video">
-      <div>
-        <%= media %>
-        <div class="body">
-          <% if (item.uploadDate || item.datePublished || item.dateCreated) { %>
-          <h3><%= moment(toDate(item.uploadDate || item.datePublished || item.dateCreated)).format('LLLL') %></h3>
-          <% } %>
-          <h4><%= item.name %></h4>
-          <% if(item.description) { %>
-          <p><%= item.description %></p>
-          <% } %>
-        </div>
-      </div>
-    </script>
-
     <script type="text/template" id="template-news">
       <div>
         <h3><%= moment(toDate(item.datePublished)).format('LLLL') %></h3>
@@ -235,6 +209,23 @@
         <h4><%= item.name %></h4>
         <div class="body">
           <%= item.description %>
+        </div>
+      </div>
+    </script>
+
+    <!-- TEMPLATES SPECIFIC TO THIS VERSION -->
+
+    <script type="text/template" id="template-video">
+      <div>
+        <%= media %>
+        <div class="body">
+          <% if (item.uploadDate || item.datePublished || item.dateCreated) { %>
+          <h3><%= moment(toDate(item.uploadDate || item.datePublished || item.dateCreated)).format('LLLL') %></h3>
+          <% } %>
+          <h4><%= item.name %></h4>
+          <% if(item.description) { %>
+          <p><%= item.description %></p>
+          <% } %>
         </div>
       </div>
     </script>
@@ -255,7 +246,19 @@
       </div>
     </script>
 
-    <script>Joshfire.debug=true;</script>
+    <script type="text/template" id="template-detail-view">
+      <div></div>
+      <div class="spinner">&nbsp;</div>
+    </script>
+
+    <script type="text/template" id="item-list">
+      <ul class="list">
+        <%= children %>
+      </ul>
+    </script>
+
+
+    <script>Joshfire.debug=false;</script>
     <script data-main="app.tablet" src="joshfire-framework/lib/adapters/ios/bootstrap.js"></script>
     <script type="text/javascript">
       // if app icon, set "apple-touch-icon-precomposed" for webapps installed on mobile

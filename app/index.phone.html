@@ -45,7 +45,7 @@
       <footer id="toolbar"><div>&nbsp;</div></footer>
     </div>
 
-    <!-- TEMPLATES -->
+    <!-- TEMPLATES SHARED BY PHONE/TABLET/DESKTOP versions -->
 
     <script type="text/template" id="template-toolbar">
       <ul>
@@ -195,23 +195,6 @@
       </div>
     </script>
 
-    <script type="text/template" id="template-video">
-      <div>
-        <div class="media">
-          <%= media %>
-        </div>
-        <div class="body">
-          <% if (item.uploadDate || item.datePublished || item.dateCreated) { %>
-          <h3><%= moment(toDate(item.uploadDate || item.datePublished || item.dateCreated)).format('LLLL') %></h3>
-          <% } %>
-          <h4><%= item.name %></h4>
-          <% if(item.description) { %>
-          <p><%= item.description %></p>
-          <% } %>
-        </div>
-      </div>
-    </script>
-
     <script type="text/template" id="template-news">
       <div>
         <h3><%= moment(toDate(item.datePublished)).format('LLLL') %></h3>
@@ -231,16 +214,23 @@
       </div>
     </script>
 
-    <script type="text/template" id="template-contact-index">
-      <div><%= textContent %></div>
-    </script>
+    <!-- TEMPLATES SPECIFIC TO THIS VERSION -->
 
-    <script type="text/template" id="template-contact-map">
-      <div class="google-map"></div>
-    </script>
-
-    <script type="text/template" id="template-map-overlay">
-      <p class="map-overlay"><%= address %></p>
+    <script type="text/template" id="template-video">
+      <div>
+        <div class="media">
+          <%= media %>
+        </div>
+        <div class="body">
+          <% if (item.uploadDate || item.datePublished || item.dateCreated) { %>
+          <h3><%= moment(toDate(item.uploadDate || item.datePublished || item.dateCreated)).format('LLLL') %></h3>
+          <% } %>
+          <h4><%= item.name %></h4>
+          <% if(item.description) { %>
+          <p><%= item.description %></p>
+          <% } %>
+        </div>
+      </div>
     </script>
 
     <script type="text/template" id="template-sound">
@@ -259,6 +249,20 @@
           <% } %>
         </div>
       </div>
+    </script>
+
+    <!-- TEMPLATES FOR SPOT -->
+
+    <script type="text/template" id="template-contact-index">
+      <div><%= textContent %></div>
+    </script>
+
+    <script type="text/template" id="template-contact-map">
+      <div class="google-map"></div>
+    </script>
+
+    <script type="text/template" id="template-map-overlay">
+      <p class="map-overlay"><%= address %></p>
     </script>
 
     <script>Joshfire.debug=false;</script>
