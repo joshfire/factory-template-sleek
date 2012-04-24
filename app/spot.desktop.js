@@ -3,13 +3,12 @@
 define([
   'spot',
   'joshlib!ui/list',
-  'joshlib!ui/item',
   'joshlib!ui/factorymedia',
   'ui/imagegallery',
   'joshlib!utils/dollar',
   'joshlib!vendor/underscore'
   ],
-function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
+function(Spot, List, FactoryMedia, ImageGallery, $, _) {
 
   return Spot.extend({
     /**
@@ -124,10 +123,10 @@ function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
      * @return {UIElement} The element to use. May include a detailed view.
      */
     createDetailElement: function(section) {
-      if (section.outputType === 'video') {
+      var itemType = this.convertItemType(section.model.get('@type'));
+      if (itemType === 'video') {
         return new FactoryMedia({
-          templateEl: '#template-' + section.outputType,
-          className: this.getClassName(section.outputType, 'detail'),
+          templateEl: '#template-' + itemType,
           mediaOptions: {
             strategy: 'html5',
             width: '100%',

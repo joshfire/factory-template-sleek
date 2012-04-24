@@ -2,14 +2,10 @@
 
 define([
   'spot',
-  'joshlib!ui/list',
-  'joshlib!ui/item',
-  'joshlib!ui/factorymedia',
-  'ui/imagegallery',
   'joshlib!utils/dollar',
   'joshlib!vendor/underscore'
   ],
-function(Spot, List, Item, FactoryMedia, ImageGallery, $, _) {
+function(Spot, $, _) {
 
   return Spot.extend({
     /**

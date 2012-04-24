@@ -13,6 +13,7 @@
 
 define([
   'joshlib!collection',
+  'joshlib!ui/dynamiccontainer',
   'joshlib!ui/item',
   'joshlib!ui/list',
   'joshlib!ui/slidepanel',
@@ -23,7 +24,7 @@ define([
   'joshlib!vendor/underscore',
   'joshlib!utils/dollar',
   'ui/imagegallery'],
-function(Collection, Item, List, SlidePanel, FactoryMedia, ImageLoader, Router, Backbone, _, $, ImageGallery) {
+function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, ImageLoader, Router, Backbone, _, $, ImageGallery) {
 
   var Spot = function() {
     _.bindAll(this, 'initialize',  'setColor', 'slugify');
@@ -42,6 +43,41 @@ function(Collection, Item, List, SlidePanel, FactoryMedia, ImageLoader, Router, 
      */
     deviceFamily: 'all',
 
+
+    /**
+     * Converts a schema.org type into an internal type of items
+     */
+    convertItemType: function(type) {
+      var outputType = null;
+      switch (type) {
+        case 'Article/Status':
+          outputType = 'status';
+          break;
+        case 'NewsArticle':
+        case 'BlogPosting':
+        case 'Article':
+          outputType = 'news';
+          break;
+        case 'Event':
+          outputType = 'event';
+          break;
+        case 'ImageObject':
+          outputType = 'photo';
+          break;
+        case 'VideoObject':
+          outputType = 'video';
+          break;
+        case 'MusicRecording':
+          outputType = 'sound';
+          break;
+        default:
+          outputType = 'other';
+          break;
+      }
+      return outputType;
+    },
+
+
     /**
      * Initialization of the application.
      * The function is automatically called by the framework when the application
@@ -50,6 +86,8 @@ function(Collection, Item, List, SlidePanel, FactoryMedia, ImageLoader, Router, 
      * @function
      */
     initialize: function(cb) {
+      var self = this;
+
       this.title = Joshfire.factory.config.app.name;
       this.backgroundURL = Joshfire.factory.config.template.options.backgroundurl;
       this.logoURL = Joshfire.factory.config.app.logo ?
@@ -82,37 +120,10 @@ function(Collection, Item, List, SlidePanel, FactoryMedia, ImageLoader, Router, 
         // in the "other" category.
         var outputType;
         datasource.getDesc(_.bind(function(err, desc) {
-
-          switch(desc.outputType) {
-            case 'Article/Status':
-              outputType = 'status';
-              break;
-            case 'NewsArticle':
-            case 'BlogPosting':
-            case 'Article':
-              outputType = 'news';
-              break;
-            case 'Event':
-              outputType = 'event';
-              break;
-            case 'ImageObject':
-              outputType = 'photo';
-              break;
-            case 'VideoObject':
-              outputType = 'video';
-              break;
-            case 'MusicRecording':
-              outputType = 'sound';
-              break;
-            default:
-              outputType = 'other';
-              break;
-          }
-
           sections[index] = {
             name: name,
             slug: index + '--' + slug,
-            outputType: outputType,
+            outputType: self.convertItemType(desc.outputType),
             collection: collection
           };
 
@@ -240,7 +251,7 @@ function(Collection, Item, List, SlidePanel, FactoryMedia, ImageLoader, Router, 
       // Parse sections and build corresponding views
       _.forEach(sections, _.bind(function(section) {
         var listElement = this.createListElement(section);
-        var detailElement = this.createDetailElement(section);
+        var detailElement = this.createDetailContainer(section);
         this.insertView(views, section.slug, listElement, detailElement);
       }, this));
 
@@ -316,6 +327,40 @@ function(Collection, Item, List, SlidePanel, FactoryMedia, ImageLoader, Router, 
 
 
     /**
+     * Creates the container element for the detail view of the given section.
+     *
+     * Default implementation creates a DynamicContainer that uses
+     * createDetailElement to select the right UI element to create
+     * for the item to render. No detail view for 'photo' streams.
+     *
+     * Override this function in derivated class as necessary.
+     *
+     * @function
+     * @param {Object} section Section to render
+     * @return {UIElement} The container element to use.
+     *  Null when section does not have any associated detail view
+     *  (or when the detail view is managed by dedicated code)
+     */
+    createDetailContainer: function(section) {
+      var self = this;
+
+      if (section.outputType === 'photo') {
+        return null;
+      }
+      else {
+        return new DynamicContainer({
+          itemFactory: function (options) {
+            // Delegate the creation to createDetailElement
+            _.extend(options, { slug: section.slug });
+            return self.createDetailElement(options);
+          },
+          className: self.getClassName(section, 'detail')
+        });
+      }
+    },
+
+
+    /**
      * Creates the element to use to represent an item for the given section.
      *
      * Default implement creates a List linked to the
@@ -326,14 +371,14 @@ function(Collection, Item, List, SlidePanel, FactoryMedia, ImageLoader, Router, 
      *
      * @function
      * @param {Object} section Section to render
-     * @return {UIElement} The element to use. May include a detailed view.
+     * @return {UIElement} The element to use.
      */
     createDetailElement: function(section) {
-      switch (section.outputType) {
+      var itemType = this.convertItemType(section.model.get('@type'));
+      switch (itemType) {
         case 'video':
           return new FactoryMedia({
-            templateEl: '#template-' + section.outputType,
-            className: this.getClassName(section.outputType, 'detail'),
+            templateEl: '#template-' + itemType,
             mediaOptions: {
               strategy: 'html5',
               width: '100%'
@@ -343,7 +388,6 @@ function(Collection, Item, List, SlidePanel, FactoryMedia, ImageLoader, Router, 
           return new FactoryMedia({
             templateEl: '#template-sound',
             scroller: true,
-            className: this.getClassName(section.outputType, 'detail'),
             mediaOptions: {
               strategy: 'html5',
               width: 'auto',
@@ -351,12 +395,12 @@ function(Collection, Item, List, SlidePanel, FactoryMedia, ImageLoader, Router, 
             }
           });
         case 'photo':
+          // TODO: a detail photo view is required when the list has mixed content
           return null;
         default:
           return new Item({
-            templateEl: '#template-' + section.outputType,
-            scroller: true,
-            className: this.getClassName(section.outputType, 'detail')
+            templateEl: '#template-' + itemType,
+            scroller: true
           });
       }
     },

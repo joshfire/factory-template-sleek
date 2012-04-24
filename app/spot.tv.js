@@ -95,22 +95,46 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
 
         navLeft: function() {
           var newOffset = this.offset - 1;
-
-          if(newOffset < 0) {
+          if (newOffset < 0) {
             newOffset = self.section.collection.length - 1;
           }
 
-          window.location = '#' +  self.section.slug + '/' + newOffset;
+          // Search for the previous image in the feed
+          // (this may not be the item right before this one if feed includes
+          // mixed content)
+          while ((newOffset !== this.offset) &&
+            (self.section.collection.at(newOffset).get('@type') !== 'ImageObject')) {
+            newOffset = newOffset - 1;
+            if(newOffset < 0) {
+              newOffset = self.section.collection.length - 1;
+            }
+          }
+
+          if (newOffset != this.offset) {
+            window.location = '#' +  self.section.slug + '/' + newOffset;
+          }
         },
 
         navRight: function() {
           var newOffset = this.offset + 1;
-
-          if(newOffset >= self.section.collection.length) {
+          if (newOffset >= self.section.collection.length) {
             newOffset = 0;
           }
 
-          window.location = '#' +  self.section.slug + '/' + newOffset;
+          // Search for the previous image in the feed
+          // (this may not be the item right after this one if feed includes
+          // mixed content)
+          while ((newOffset !== this.offset) &&
+            (self.section.collection.at(newOffset).get('@type') !== 'ImageObject')) {
+            newOffset = newOffset + 1;
+            if (newOffset >= self.section.collection.length) {
+              newOffset = 0;
+            }
+          }
+
+          if (newOffset != this.offset) {
+            window.location = '#' +  self.section.slug + '/' + newOffset;
+          }
         }
       });
 
@@ -197,20 +221,20 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
      * @return {UIElement} The element to use. May include a detailed view.
      */
     createDetailElement: function(section) {
-      switch (section.outputType) {
+      var itemType = this.convertItemType(section.model.get('@type'));
+      switch (itemType) {
         case 'video':
         case 'photo':
           return null;
         case 'sound':
           return new FactoryMedia({
-            templateEl: '#template-' + section.outputType,
+            templateEl: '#template-' + itemType,
             scroller: true,
             offsetTop: 100,
             offsetBottom: 100,
             navLeft: function() {
               window.location = '#' + section.slug;
             },
-            className: this.getClassName(section.outputType, 'detail'),
             mediaOptions: {
               strategy: 'html5',
               width: '100%',
@@ -219,14 +243,13 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
           });
         default:
           return new Item({
-            templateEl: '#template-' + section.outputType,
+            templateEl: '#template-' + itemType,
             scroller: true,
             offsetTop: 100,
             offsetBottom: 100,
             navLeft: function() {
               window.location = '#' + section.slug;
-            },
-            className: this.getClassName(section.outputType, 'detail')
+            }
           });
       }
     },
@@ -310,36 +333,42 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
           self.section = section;
           offset = parseInt(offset, 10);$('iframe').remove();
           document.body.id = section.outputType;
-          var detail;
+          
+          var detail = null;
+          var renderDetailView = function () {
+            if(section.collection.length <= offset) return;
 
-          if(section.outputType === 'photo') {
-            detail = self.photoDetail;
-            detail.offset = offset;
-            detail.show();
-          } else if(section.outputType === 'video') {
-            detail = self.videoDetail;
-            detail.show();
-          } else {
-            cards.showChildren(section.slug);
-            cards.children[section.slug].showChildren('detail');
+            var model = section.collection.at(offset);
 
-            detail = cards.children[section.slug].children['detail'];
-          }
+            if ((section.outputType === 'photo') || 
+              (model.get('@type') === 'ImageObject')) {
+              detail = self.photoDetail;
+              detail.offset = offset;
+              detail.show();
+            } else if ((section.outputType === 'video') || 
+              (model.get('@type') === 'VideoObject')) {
+              detail = self.videoDetail;
+              detail.show();
+            } else {
+              cards.showChildren(section.slug);
+              cards.children[section.slug].showChildren('detail');
+              detail = cards.children[section.slug].children['detail'];
+            }
 
-          detail.navFocus(layout);
+            detail.setModel(model);
+            detail.render();
+            detail.navFocus(layout);
+          };
 
           if(section.collection.length === 0) {
             section.collection.fetch({
-              success: function() {
-                if(section.collection.length > offset) {
-                  detail.setModel(section.collection.at(offset));
-                  detail.render();
+                success: function() {
+                  renderDetailView();
                 }
-              }
-            });
-          } else if(section.collection.length > offset) {
-            detail.setModel(section.collection.at(offset));
-            detail.render();
+              });
+          }
+          else {
+            renderDetailView();
           }
         };
       });

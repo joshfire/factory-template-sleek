@@ -3,15 +3,10 @@
 define([
   'spot',
   'joshlib!ui/toolbar',
-  'joshlib!ui/slidepanel',
-  'joshlib!ui/list',
-  'joshlib!ui/item',
-  'joshlib!ui/factorymedia',
-  'ui/imagegallery',
   'joshlib!utils/dollar',
   'joshlib!vendor/underscore'
   ],
-function(Spot, Toolbar, SlidePanel, List, Item, FactoryMedia, ImageGallery, $, _) {
+function(Spot, Toolbar, $, _) {
 
   return Spot.extend({
     /**
