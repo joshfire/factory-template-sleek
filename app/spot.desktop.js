@@ -95,7 +95,7 @@ function(Spot, List, FactoryMedia, ImageGallery, $, _) {
      * @return {UIElement} The element to use. May include a detailed view.
      */
     createListElement: function(section) {
-      if (section.outputType === 'video') {
+      if (section.outputType === 'photo') {
         return new ImageGallery({
           templateEl: '#template-list-view',
           itemFactory: this.itemFactory(section),
