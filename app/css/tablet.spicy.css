@@ -30,6 +30,7 @@ header h1{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,A
 #toolbar ul li a.video{background-image:url(../images/phone-videos.png);}
 #toolbar ul li a.event{background-image:url(../images/phone-events.png);}
 #toolbar ul li a.news{background-image:url(../images/phone-news.png);}
+#toolbar ul li a.product{background-image:url(../images/phone-products.png);}
 #toolbar ul li a.other{background-image:url(../images/phone-news.png);}
 #toolbar ul li a.sound{background-image:url(../images/phone-sounds.png);}
 #toolbar ul li a.next,#toolbar ul li a.prev{background-image:url(../images/phone-more.png);}
