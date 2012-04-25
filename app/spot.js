@@ -121,30 +121,22 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
         // Main section type depends on the type of content returned by the
         // datasource. Datasources that return mixed content typically fall
         // in the "other" category.
-        var outputType;
-        datasource.getDesc(_.bind(function(err, desc) {
-          sections[index] = {
-            name: name,
-            slug: index + '--' + slug,
-            outputType: self.convertItemType(desc.outputType),
-            collection: collection
-          };
-
-          // Create the views once all sections have been initialized
-          // (getDesc is asynchronous, so this code cannot easily be
-          // moved outside of getDesc's callback function. Consider
-          // using async to improve readability if the template uses
-          // more and more of code like this)
-          if(++loaded === datasources.children.length) {
-            var views = this.createViews(sections);
-            var controllers = this.createRoutes(sections, views);
-            var router = Router(controllers);
-            router.historyStart();
-
-            cb && cb();
-          }
-        }, this));
+        var outputType = datasource.getOutputType();
+        sections[index] = {
+          name: name,
+          slug: index + '--' + slug,
+          outputType: self.convertItemType(outputType),
+          collection: collection
+        };
       }, this));
+
+      // Create the views once all sections have been initialized
+      var views = this.createViews(sections);
+      var controllers = this.createRoutes(sections, views);
+      var router = Router(controllers);
+      router.historyStart();
+
+      cb && cb();
     },
 
 
