@@ -554,7 +554,8 @@ header {
 // A news item
 // (and other types of item)
 .other-item > div,
-.news-item > div {
+.news-item > div,
+.product-item > div {
   line-height: 1.2em;
 
   a {
@@ -597,7 +598,15 @@ header {
   p {
     font-size: .9em;
   }
+
+  .offer:before {
+    content: '(';
+  }
+  .offer:after {
+    content: ')';
+  }
 }
+
 
 // An event item
 .event-item > div {
@@ -687,6 +696,15 @@ header {
     .box-shadow(0 2px 2px rgba(0,0,0,.6));
   }
 }
+
+.detail {
+  & > div {
+    height: 100%;
+  }
+
+
+}
+
 
 //---------------------------------------------------------------------------
 // Videos
@@ -807,44 +825,6 @@ header {
 
   .media {
     margin: 1em 0;
-  }
-}
-
-//---------------------------------------------------------------------------
-// News
-//---------------------------------------------------------------------------
-
-#news {
-  background: @light-background-color;
-}
-
-#news #cards {
-  color: @dark-text-color;
-}
-
-#news .detail {
-
-  line-height: 1.2em;
-
-  h3 {
-    font-weight: normal;
-    font-size: .9em;
-    margin-bottom: .2em;
-    margin-top: 1em;
-    padding: 0 .5em;
-  }
-
-  h4 {
-    text-transform: uppercase;
-    color: @background-color;
-    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 1.2em;
-    margin-bottom: 1em;
-    padding: 0 .5em;
-  }
-
-  .body {
-    padding: 0 .5em;
   }
 }
 
@@ -972,17 +952,23 @@ header {
 
 
 //---------------------------------------------------------------------------
-// Other
+// News
 //---------------------------------------------------------------------------
 
+#news,
+#product,
 #other {
   background: @light-background-color;
 }
 
+#news #cards,
+#product #cards,
 #other #cards {
   color: @dark-text-color;
 }
 
+#news .detail,
+#product .detail,
 #other .detail {
 
   line-height: 1.2em;
@@ -1005,6 +991,6 @@ header {
   }
 
   .body {
-    padding: 0 .5em;
+    padding: 2.2em 1em 1em;
   }
 }

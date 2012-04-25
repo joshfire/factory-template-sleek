@@ -67,6 +67,26 @@ function(Spot, $, _) {
       }
     },
 
+
+    /**
+     * Returns the width that is available for detailed views.
+     *
+     * The function is used in particular to tell the media factory the
+     * maximum width it may use.
+     *
+     * @function
+     * @return {integer} The width available in CSS pixels
+     */
+    getContentWidth: function() {
+      // Note the app contains more than one right panel, but only
+      // one that should be displayed at a given time
+      var panels = $('.right-panel').get();
+      var activePanel = _.max(panels, function (panel) {
+        return $(panel).width();
+      });
+      return $(activePanel).width();
+    },
+
     //
     // Creates routes
     //

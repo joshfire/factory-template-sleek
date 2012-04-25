@@ -70,6 +70,9 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
         case 'MusicRecording':
           outputType = 'sound';
           break;
+        case 'Product':
+          outputType = 'product';
+          break;
         default:
           outputType = 'other';
           break;
@@ -375,13 +378,23 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
      */
     createDetailElement: function(section) {
       var itemType = this.convertItemType(section.model.get('@type'));
+      var self = this;
+
       switch (itemType) {
         case 'video':
           return new FactoryMedia({
             templateEl: '#template-' + itemType,
             mediaOptions: {
               strategy: 'html5',
-              width: '100%'
+              width: self.getContentWidth()
+            }
+          });
+        case 'status':
+          return new ImageLoader({
+            templateEl: '#template-' + itemType,
+            scroller: true,
+            getImageUrl: function () {
+              return self.getAuthorThumbnail(section.model.toJSON());
             }
           });
         case 'sound':
@@ -394,13 +407,13 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
               height: 'auto'
             }
           });
-        case 'photo':
-          // TODO: a detail photo view is required when the list has mixed content
-          return null;
         default:
-          return new Item({
+          return new ImageLoader({
             templateEl: '#template-' + itemType,
-            scroller: true
+            scroller: true,
+            getImageUrl: function () {
+              return self.getThumbnail(section.model.toJSON());
+            }
           });
       }
     },
@@ -448,68 +461,31 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
       return function(model, offset) {
         var item = model.toJSON();
         var type = item['@type'] || item.itemType;
+        var templateEl = '#template-' + self.convertItemType(type) + '-item';
+        var options = {
+          data: { section: section },
+          model: model,
+          offset: offset,
+          templateEl: templateEl
+        };
 
         switch(type) {
           case 'ImageObject':
-            return new ImageLoader({
-              data: {section: section},
-              model: model,
-              offset: offset,
-              templateEl: '#template-image-item',
-              getImageUrl: function() {
-                return self.getThumbnail(item, offset);
-              }
-            });
+          case 'VideoObject':
+          case 'Product':
+            options.getImageUrl = function () {
+              return self.getThumbnail(item, offset);
+            };
+            return new ImageLoader(options);
 
           case 'Article/Status':
-            return new Item({
-              data: {section: section},
-              model: model,
-              offset: offset,
-              templateEl: '#template-status-item'
-            });
-
-          case 'VideoObject':
-            return new Item({
-              data: {section: section},
-              model: model,
-              offset: offset,
-              templateEl: '#template-video-item'
-            });
-
-          case 'Event':
-            return new Item({
-              data: {section: section},
-              model: model,
-              offset: offset,
-              templateEl: '#template-event-item'
-            });
-
-          case 'BlogPosting':
-          case 'NewsArticle':
-          case 'Article':
-            return new Item({
-              data: {section: section},
-              model: model,
-              offset: offset,
-              templateEl: '#template-news-item'
-            });
-
-          case 'MusicRecording':
-            return new Item({
-              data: {section: section},
-              model: model,
-              offset: offset,
-              templateEl: '#template-sound-item'
-            });
+            options.getImageUrl = function () {
+              return self.getAuthorThumbnail(item, offset);
+            };
+            return new ImageLoader(options);
 
           default:
-            return new Item({
-              data: {section: section},
-              model: model,
-              offset: offset,
-              templateEl: '#template-other-item'
-            });
+            return new Item(options);
         }
       };
     },
@@ -531,69 +507,92 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
 
 
     /**
-     * Returns the URL of a thumbnail of a video object
+     * Returns the width that is available for detailed views.
+     *
+     * The function is used in particular to tell the media factory the
+     * maximum width it may use.
      *
      * @function
-     * @param {object} item VideoObject to parse
-     * @return {string} Thumbnail URL that best match the viewport size
+     * @return {integer} The width available in CSS pixels
      */
-    getVideoThumbnail: function(item) {
-      if (!item) return '';
-
-      if (item.thumbnail) {
-        var best = item.thumbnail[0] || { contentURL: '' };
-
-        for (var i = 1; i < item.thumbnail.length; i++) {
-          var thumbnail = item.thumbnail[i];
-          if (thumbnail.width > best.width) {
-            best = thumbnail;
-          }
-        }
-
-        return best.contentURL || '';
-      }
-
-      if (item.image && item.image.contentURL) {
-        return item.image.contentURL;
-      }
+    getContentWidth: function() {
+      return document.body.clientWidth;
     },
 
 
     /**
-     * Returns the URL of a thumbnail of an image object
+     * Returns the URL of the thumbnail of an object
      *
      * @function
-     * @param {object} item VideoObject to parse
+     * @param {object} item schema.org friendly object to parse
      * @return {string} Thumbnail URL that best match the viewport size
      */
     getThumbnail: function(item, offset) {
-      var width = document.body.clientWidth * 0.5;
+      if (!item) return '';
 
-      if (item.thumbnail) {
-        var thumbnails = item.thumbnail;
-        var best = thumbnails[0];
+      var width = document.body.clientWidth * 0.5;
+      var thumbnailWidth = 0;
+      var bestWidth = 0;
+
+      // Check the full list of thumbnails to start with
+      var thumbnails = item.thumbnail;
+      var thumbnailUrl = null;
+      var thumbnail = null;
+      var best = null;
+      if (thumbnails && (thumbnails.length > 0)) {
+        best = thumbnails[0];
+        bestWidth = best.width || 0;
 
         for (var i=0; i < thumbnails.length; i++) {
-          var thumbnail = thumbnails[i];
+          thumbnail = thumbnails[i];
+          thumbnailWidth = thumbnail.width || 0;
 
-          if(thumbnail.width >= width && (thumbnail.width < best.width || best.width < width) || best.width < width && thumbnail.width > best.width) {
+          if (((thumbnailWidth >= width) &&
+              ((thumbnailWidth < bestWidth) || (bestWidth < width))) ||
+            ((bestWidth < width) && (thumbnailWidth > bestWidth))) {
             best = thumbnails[i];
           }
         }
 
-        if (best) {
-          return best.contentURL || '';
+        thumbnailUrl = best.thumbnailUrl;
+      }
+
+      if (!thumbnailUrl) {
+        // No thumbnail URL found yet, return the content of the object
+        // if it is an image, or the value of its image property if set
+        if ((item['@type'] === 'ImageObject') && item.contentURL) {
+          thumbnailUrl = item.contentURL;
         }
-        else {
-          return '';
+        else if (item.image && item.image.contentURL) {
+          thumbnailUrl = item.image.contentURL;
         }
       }
-      else if ((item['@type'] === 'ImageObject') && item.contentURL) {
-        return item.contentURL;
+      if (!thumbnailUrl) {
+        thumbnailUrl = '';
       }
-      else if (item.image && item.image.contentURL) {
-        return item.image.contentURL;
+      return thumbnailUrl;
+    },
+
+
+    /**
+     * Returns the URL of a thumbnail of the item's author.
+     *
+     * @function
+     * @param {object} item schema.org friendly object to parse
+     * @return {string} Thumbnail URL that best matches the viewport size
+     */
+    getAuthorThumbnail: function(item, offset) {
+      if (!item) return '';
+
+      var thumbnailUrl = '';
+      if (item.author && item.author[0]) {
+        thumbnailUrl = this.getThumbnail(item.author[0], offset);
       }
+      if (!thumbnailUrl) {
+        // Fallback to "usual" thumbnail
+        thumbnailUrl = this.getThumbnail(item, offset);
+      }
+      return thumbnailUrl;
     },
 
 

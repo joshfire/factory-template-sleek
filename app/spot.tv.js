@@ -222,35 +222,36 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
      */
     createDetailElement: function(section) {
       var itemType = this.convertItemType(section.model.get('@type'));
+      var self = this;
+      var options = {
+        templateEl: '#template-' + itemType,
+        scroller: true,
+        offsetTop: 100,
+        offsetBottom: 100,
+        navLeft: function() {
+          window.location = '#' + section.slug;
+        }
+      };
       switch (itemType) {
         case 'video':
         case 'photo':
           return null;
         case 'sound':
-          return new FactoryMedia({
-            templateEl: '#template-' + itemType,
-            scroller: true,
-            offsetTop: 100,
-            offsetBottom: 100,
-            navLeft: function() {
-              window.location = '#' + section.slug;
-            },
-            mediaOptions: {
-              strategy: 'html5',
-              width: '100%',
-              autoPlay: true
-            }
-          });
+          options.mediaOptions = {
+            strategy: 'html5',
+            autoPlay: true
+          };
+          return new FactoryMedia(options);
+        case 'status':
+          options.getImageUrl = function () {
+            return self.getAuthorThumbnail(section.model.toJSON());
+          };
+          return new ImageLoader(options);
         default:
-          return new Item({
-            templateEl: '#template-' + itemType,
-            scroller: true,
-            offsetTop: 100,
-            offsetBottom: 100,
-            navLeft: function() {
-              window.location = '#' + section.slug;
-            }
-          });
+          options.getImageUrl = function () {
+            return self.getThumbnail(section.model.toJSON());
+          };
+          return new ImageLoader(options);
       }
     },
 

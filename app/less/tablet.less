@@ -564,6 +564,7 @@ header {
 // A news item
 // (and other types of item)
 .other-item > div,
+.product-item > div,
 .news-item > div {
   line-height: 1.2em;
 
@@ -606,6 +607,13 @@ header {
 
   p {
     font-size: .9em;
+  }
+
+  .offer:before {
+    content: '(';
+  }
+  .offer:after {
+    content: ')';
   }
 }
 
@@ -870,43 +878,6 @@ header {
   }
 }
 
-//---------------------------------------------------------------------------
-// News
-//---------------------------------------------------------------------------
-
-#news {
-  background: @light-background-color;
-}
-
-#news #cards {
-  color: @dark-text-color;
-}
-
-#news .right-panel {
-
-  line-height: 1.2em;
-
-  h3 {
-    font-weight: normal;
-    font-size: .9em;
-    margin-bottom: .2em;
-    margin-top: 1em;
-    padding: 0 .5em;
-  }
-
-  h4 {
-    text-transform: uppercase;
-    color: @background-color;
-    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 1.2em;
-    margin-bottom: 1em;
-    padding: 0 .5em;
-  }
-
-  .body {
-    padding: 0 .5em;
-  }
-}
 
 //---------------------------------------------------------------------------
 // Statuses
@@ -1032,17 +1003,23 @@ header {
 
 
 //---------------------------------------------------------------------------
-// Other
+// News, Products, Other
 //---------------------------------------------------------------------------
 
+#news,
+#product,
 #other {
   background: @light-background-color;
 }
 
+#news #cards,
+#product #cards,
 #other #cards {
   color: @dark-text-color;
 }
 
+#news .right-panel,
+#product .right-panel,
 #other .right-panel {
 
   line-height: 1.2em;
@@ -1065,6 +1042,6 @@ header {
   }
 
   .body {
-    padding: 0 .5em;
+    padding: 2.2em 1em 1em;
   }
 }

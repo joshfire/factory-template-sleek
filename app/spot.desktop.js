@@ -123,13 +123,14 @@ function(Spot, List, FactoryMedia, ImageGallery, $, _) {
      * @return {UIElement} The element to use. May include a detailed view.
      */
     createDetailElement: function(section) {
+      var self = this;
       var itemType = this.convertItemType(section.model.get('@type'));
       if (itemType === 'video') {
         return new FactoryMedia({
           templateEl: '#template-' + itemType,
           mediaOptions: {
             strategy: 'html5',
-            width: '100%',
+            width: self.getContentWidth(),
             height: '450'
           }
         });
@@ -137,6 +138,26 @@ function(Spot, List, FactoryMedia, ImageGallery, $, _) {
       else {
         return Spot.prototype.createDetailElement.call(this, section);
       }
+    },
+
+
+    /**
+     * Returns the width that is available for detailed views.
+     *
+     * The function is used in particular to tell the media factory the
+     * maximum width it may use.
+     *
+     * @function
+     * @return {integer} The width available in CSS pixels
+     */
+    getContentWidth: function() {
+      // Note the app contains more than one right panel, but only
+      // one that should be displayed at a given time
+      var panels = $('.right-panel').get();
+      var activePanel = _.max(panels, function (panel) {
+        return $(panel).width();
+      });
+      return $(activePanel).width();
     },
 
 
