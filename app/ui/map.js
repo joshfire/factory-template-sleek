@@ -7,6 +7,10 @@
 define(["joshlib!uielement","joshlib!utils/dollar","joshlib!vendor/underscore"], function(UIElement,$,_) {
 
   var UIMap = UIElement.extend({
+    /**
+     * View short name
+     */
+    name: 'map',
 
     initialize: function(options) {
       if (options.templateEl) {

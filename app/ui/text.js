@@ -1,6 +1,10 @@
 define(["joshlib!uielement","joshlib!utils/dollar","joshlib!vendor/underscore"], function(UIElement,$,_) {
 
   var UIText = UIElement.extend({
+    /**
+     * View short name
+     */
+    name: 'text',
 
     initialize: function(options) {
       if (options.templateEl) {
