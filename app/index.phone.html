@@ -133,7 +133,7 @@
                 <span><%= moment(toDate(item.startDate)).calendar() %></span>
               </h3>
               <% } %>
-              <h4><%= item.name %></h4>
+              <h4><%= item.name || item.description %></h4>
             </div>
           </a>
         </div>
@@ -150,7 +150,7 @@
                 <span><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></span>
               </h3>
               <% } %>
-              <h4><%= item.name %></h4>
+              <h4><%= item.name || item.description %></h4>
             </div>
           </a>
         </div>
@@ -175,32 +175,12 @@
       </li>
     </script>
 
-    <script type="text/template" id="template-product-item">
-      <li class="product-item">
-        <div>
-          <a href="#<%= section.slug %>/<%= offset %>">
-            <div>
-              <% if (imageUrl) { %>
-              <img src="<%= imageUrl %>" alt="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" />
-              <% } %>
-              <h4>
-                <%= item.name %>
-                <% if (item.offers && item.offers[0] && item.offers[0].price) {  %>
-                  <span class="offer"><%= (item.offers[0].priceCurrency === 'EUR') ? '€' : ((item.offers[0].priceCurrency === 'GBP') ? '₤' : '$') %><%= item.offers[0].price %></span>
-                <% } %>
-              </h4>
-            </div>
-          </a>
-        </div>
-      </li>
-    </script>
-
     <script type="text/template" id="template-other-item">
       <li class="other-item">
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <div>
-              <h4><%= item.name %></h4>
+              <h4><%= item.name || item.description %></h4>
             </div>
           </a>
         </div>
@@ -293,6 +273,26 @@
     </script>
 
     <!-- TEMPLATES SPECIFIC TO THIS VERSION -->
+
+    <script type="text/template" id="template-product-item">
+      <li class="product-item">
+        <div>
+          <a href="#<%= section.slug %>/<%= offset %>">
+            <div>
+              <% if (imageUrl) { %>
+              <img src="<%= imageUrl %>" alt="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" />
+              <% } %>
+              <h4>
+                <%= item.name %>
+                <% if (item.offers && item.offers[0] && item.offers[0].price) {  %>
+                  <span class="offer"><%= (item.offers[0].priceCurrency === 'EUR') ? '€' : ((item.offers[0].priceCurrency === 'GBP') ? '₤' : '$') %><%= item.offers[0].price %></span>
+                <% } %>
+              </h4>
+            </div>
+          </a>
+        </div>
+      </li>
+    </script>
 
     <script type="text/template" id="template-video">
       <div class="media">

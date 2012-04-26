@@ -136,7 +136,7 @@
                 <span><%= moment(toDate(item.startDate)).calendar() %></span>
               </h3>
               <% } %>
-              <h4><%= item.name %></h4>
+              <h4><%= item.name || item.description %></h4>
             </div>
           </a>
         </div>
@@ -153,7 +153,7 @@
                 <span><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></span>
               </h3>
               <% } %>
-              <h4><%= item.name %></h4>
+              <h4><%= item.name || item.description %></h4>
             </div>
           </a>
         </div>
@@ -183,7 +183,7 @@
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <div>
-              <h4><%= item.name %></h4>
+              <h4><%= item.name || item.description %></h4>
             </div>
           </a>
         </div>
@@ -231,7 +231,7 @@
 
     <script type="text/template" id="template-news">
       <div class="body">
-        <% if (item.startDate && item.endDate && (item.startDate !== item.endDate)) { %>
+        <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
         <h3><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).format('LLLL') %></h3>
         <% } %>
         <h4><%= item.name %></h4>

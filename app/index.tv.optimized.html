@@ -140,7 +140,7 @@
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <div class="item-content">
-              <h3><%= item.name %></h3>
+              <h3><%= item.name || item.description %></h3>
             </div>
             <div class="far-left">
               <p><%= moment(toDate(item.startDate)).calendar() %></p>
@@ -155,7 +155,7 @@
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <div class="item-content">
-              <h3><%= item.name %></h3>
+              <h3><%= item.name || item.description %></h3>
             </div>
             <div class="far-left">
               <p>
@@ -179,7 +179,7 @@
               <% } else if (item.author && item.author.name) { %>
                 <h3><%= item.author.name %></h3>
               <% } %>
-              <h4><%= item.name %></h4>
+              <h4><%= item.name || item.description %></h4>
             </div>
           </a>
         </div>
@@ -208,7 +208,7 @@
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <div>
-              <h4><%= item.name %></h4>
+              <h4><%= item.name || item.description %></h4>
             </div>
           </a>
         </div>
@@ -344,7 +344,7 @@
         </div>
       </div>
     </script>
-    
+        
     <script src="app.tv.optimized.js"></script>
   </body>
 </html>

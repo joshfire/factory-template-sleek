@@ -56,6 +56,7 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
         case 'NewsArticle':
         case 'BlogPosting':
         case 'Article':
+        case 'CreativeWork':
           outputType = 'news';
           break;
         case 'Event':
@@ -452,8 +453,8 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
 
       return function(model, offset) {
         var item = model.toJSON();
-        var type = item['@type'] || item.itemType;
-        var templateEl = '#template-' + self.convertItemType(type) + '-item';
+        var type = section.outputType || self.convertItemType(item['@type']);
+        var templateEl = '#template-' + type + '-item';
         var options = {
           data: { section: section },
           model: model,
@@ -462,15 +463,15 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
         };
 
         switch(type) {
-          case 'ImageObject':
-          case 'VideoObject':
-          case 'Product':
+          case 'photo':
+          case 'video':
+          case 'product':
             options.getImageUrl = function () {
               return self.getThumbnail(item, offset);
             };
             return new ImageLoader(options);
 
-          case 'Article/Status':
+          case 'status':
             options.getImageUrl = function () {
               return self.getAuthorThumbnail(item, offset);
             };
