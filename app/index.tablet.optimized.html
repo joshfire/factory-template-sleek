@@ -258,6 +258,20 @@
       </div>
     </script>
 
+    <script type="text/template" id="template-photo">
+      <div class="body">
+        <h4><%= item.name %></h4>
+        <% if (imageUrl) { %>
+          <div class="center"><img src="<%= imageUrl %>" alt="" /></div>
+        <% } %>
+        <% if (item.articleBody) { %>
+        <%= item.articleBody %>
+        <% } else if (item.description) { %>
+        <%= item.description %>
+        <% } %>
+      </div>
+    </script>
+
     <script type="text/template" id="template-other">
       <div class="body">
         <h4><%= item.name %></h4>
