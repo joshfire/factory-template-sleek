@@ -97,47 +97,48 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
       this.logoURL = Joshfire.factory.config.app.logo ?
                   Joshfire.factory.config.app.logo.contentURL : null;
 
-      // Set the template color based on the option selected by the user
-      this.setColor(Joshfire.factory.config.template.options.color || 'gray');
-
       // Set the document's title to the application title
       document.title = this.title;
 
-      //
-      // Sections: one section per datasource
-      //
-      var datasources = Joshfire.factory.getDataSource('main') || { children: [] };
-      var sections = new Array(datasources.children.length);
-      var loaded = 0;
+      // Set the template color based on the option selected by the user
+      // (this loads the CSS)
+      this.setColor(Joshfire.factory.config.template.options.color || 'gray', function () {
+        //
+        // Sections: one section per datasource
+        //
+        var datasources = Joshfire.factory.getDataSource('main') || { children: [] };
+        var sections = new Array(datasources.children.length);
+        var loaded = 0;
 
-      // Prepare sections
-      _.forEach(datasources.children, _.bind(function(datasource, index) {
-        var name = datasource.name || '';
-        var slug = this.slugify(name.toLowerCase());
-        var collection = new Collection([], {
-          dataSource: datasource,
-          dataSourceQuery: {}
-        });
+        // Prepare sections
+        _.forEach(datasources.children, _.bind(function(datasource, index) {
+          var name = datasource.name || '';
+          var slug = this.slugify(name.toLowerCase());
+          var collection = new Collection([], {
+            dataSource: datasource,
+            dataSourceQuery: {}
+          });
 
-        // Main section type depends on the type of content returned by the
-        // datasource. Datasources that return mixed content typically fall
-        // in the "other" category.
-        var outputType = datasource.getOutputType();
-        sections[index] = {
-          name: name,
-          slug: index + '--' + slug,
-          outputType: self.convertItemType(outputType),
-          collection: collection
-        };
-      }, this));
+          // Main section type depends on the type of content returned by the
+          // datasource. Datasources that return mixed content typically fall
+          // in the "other" category.
+          var outputType = datasource.getOutputType();
+          sections[index] = {
+            name: name,
+            slug: index + '--' + slug,
+            outputType: self.convertItemType(outputType),
+            collection: collection
+          };
+        }, self));
 
-      // Create the views once all sections have been initialized
-      var views = this.createViews(sections);
-      var controllers = this.createRoutes(sections, views);
-      var router = Router(controllers);
-      router.historyStart();
+        // Create the views once all sections have been initialized
+        var views = self.createViews(sections);
+        var controllers = self.createRoutes(sections, views);
+        var router = Router(controllers);
+        router.historyStart();
 
-      cb && cb();
+        cb && cb();
+      });
     },
 
 
@@ -147,12 +148,11 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
      * @function
      * @param {string} color The color to set (value must be one of the supported
      *  colors, e.g. "gray", "blue", etc.)
+     * @param {function} callback Callback function run when CSS is done loading
      */
-    setColor: function(color) {
+    setColor: function(color, callback) {
       $('#color').remove();
-      $('head').append('<link id="color" rel="stylesheet" href="' +
-        'css/' + this.deviceFamily + '.' + color + '.css" ' +
-        'type="text/css" />');
+      window.Sid.css('css/' + this.deviceFamily + '.' + color + '.css', callback);
     },
 
 
