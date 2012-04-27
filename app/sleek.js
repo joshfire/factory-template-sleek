@@ -146,42 +146,17 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
      * Returns the list of datasources entered by the user, in the
      * right order.
      *
-     * The returned list is either built from a multiple "main"
-     * datasource when the code is used for the Sleek template,
-     * or from a set of datasource names when the code is used
-     * for the Spot template.
-     *
-     * The actual name of the datasources is lost in the case of
-     * the Spot template, but that's no big deal, since the names
-     * are just to orient users to provide a "photos" feed, but
-     * do not bear any more meaning than that.
-     *
-     * Both cases are handled here not to have to maintain two
-     * versions of the code for Sleek and Spot.
-     *
      * @function
      * @return {Array(Object)} The list of datasources, an empty
      *   array when no datasources are defined.
      */
     getDatasources: function() {
-      // Important: update the list of names whenever the list
-      // of datasources changes in Spot's package.json
-      var datasourceNames = [
-        'photos', 'videos', 'events',
-        'news', 'statuses'
-      ];
       var mainDatasource = Joshfire.factory.getDataSource('main');
       var datasources = [];
 
       if (mainDatasource && mainDatasource.children &&
         (mainDatasource.children.length > 0)) {
         datasources = datasources.concat(mainDatasource.children);
-      }
-      else {
-        datasources = _.map(datasourceNames, function (name) {
-          return Joshfire.factory.config.datasources[name];
-        });
-        datasources = _.compact(datasources);
       }
       return datasources;
     },
