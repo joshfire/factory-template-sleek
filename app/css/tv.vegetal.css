@@ -27,6 +27,7 @@ img{max-width:100%;}
 #contact .body a{text-decoration:underline;}
 #contact .body img{max-width:100%;height:auto;margin-bottom:1em;display:block;}
 .google-map{height:100%;}
+.google-map img{max-width:none;}
 .map-overlay{color:#333333;}
 body.device-tv{font-size:36px;background-repeat:no-repeat;background-position:center center;background-size:cover;}
 #container{background-image:-webkit-gradient(linear, left top, left bottom, from(rgba(69, 79, 15, 0.9)), to(rgba(5, 6, 1, 0.9)));background-image:-webkit-linear-gradient(rgba(69, 79, 15, 0.9), rgba(5, 6, 1, 0.9));background-image:-moz-linear-gradient(rgba(69, 79, 15, 0.9), rgba(5, 6, 1, 0.9));background-image:-ms-linear-gradient(rgba(69, 79, 15, 0.9), rgba(5, 6, 1, 0.9));background-image:-o-linear-gradient(rgba(69, 79, 15, 0.9), rgba(5, 6, 1, 0.9));}
