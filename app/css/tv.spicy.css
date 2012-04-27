@@ -35,6 +35,8 @@ h1,h2,h3,h4,h5,h6{font-size:1em;font-weight:normal;}
 #toolbar a.event{background-image:url(../images/tv-events.png);}
 #toolbar a.news{background-image:url(../images/tv-news.png);}
 #toolbar a.sound{background-image:url(../images/tv-sounds.png);}
+#toolbar a.contact{background-image:url(../images/phone-contact.png);}
+#toolbar a.map{background-image:url(../images/phone-map.png);}
 #toolbar a.product{background-image:url(../images/tv-products.png);}
 #toolbar a.other{background-image:url(../images/tv-news.png);}
 #toolbar li{width:120px;height:60px;margin:0 auto 10px;background:#860000;-webkit-border-radius:4px;-moz-border-radius:4px;-ms-border-radius:4px;-o-border-radius:4px;border-radius:4px;-webkit-box-sizing:border-box;}#toolbar li.nav-active{background:transparent url(../images/tv-glow.png) no-repeat center center;}
