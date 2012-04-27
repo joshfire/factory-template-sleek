@@ -1,17 +1,29 @@
 /*global define, Joshfire, document, Backbone*/
 
 define([
-  'spot',
+  'sleek',
+  'joshlib!ui/list',
+  'joshlib!ui/factorymedia',
+  'ui/imagegallery',
   'joshlib!utils/dollar',
   'joshlib!vendor/underscore'
   ],
-function(Spot, $, _) {
+function(Sleek, List, FactoryMedia, ImageGallery, $, _) {
 
-  return Spot.extend({
+  return Sleek.extend({
     /**
-     * The code is specific to tablets
+     * The code is specific to desktops
      */
-    deviceFamily: 'tablet',
+    deviceFamily: 'desktop',
+
+    /**
+     * Sets the main title.
+     *
+     * Overrides base function to add the application title.
+     */
+    setTitle: function(value) {
+      $('#title').html(this.title + ' &rsaquo; ' + value);
+    },
 
 
     /**
@@ -69,6 +81,67 @@ function(Spot, $, _) {
 
 
     /**
+     * Creates the element to use to represent a list of items
+     * for the given section.
+     *
+     * Default implement creates a List linked to the
+     * template-list-view template.
+     *
+     * Override this function in derivated classes to add
+     * specific logic.
+     *
+     * @function
+     * @param {Object} section Section to render
+     * @return {UIElement} The element to use. May include a detailed view.
+     */
+    createListElement: function(section) {
+      if (section.outputType === 'photo') {
+        return new ImageGallery({
+          templateEl: '#template-list-view',
+          itemFactory: this.itemFactory(section),
+          collection: section.collection,
+          className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
+        });
+      }
+      else {
+        return new List({
+          templateEl: '#template-list-view',
+          itemFactory: this.itemFactory(section),
+          collection: section.collection,
+          className: section.outputType + ' ' +
+            this.getClassName(section.outputType, 'list')
+        });
+      }
+    },
+
+
+    /**
+     * Creates the element to use to represent an item for the given section.
+     *
+     * @function
+     * @param {Object} section Section to render
+     * @return {UIElement} The element to use. May include a detailed view.
+     */
+    createDetailElement: function(section) {
+      var self = this;
+      var itemType = this.convertItemType(section.model.get('@type'));
+      if (itemType === 'video') {
+        return new FactoryMedia({
+          templateEl: '#template-' + itemType,
+          mediaOptions: {
+            strategy: 'html5',
+            width: self.getContentWidth(),
+            height: '450'
+          }
+        });
+      }
+      else {
+        return Sleek.prototype.createDetailElement.call(this, section);
+      }
+    },
+
+
+    /**
      * Returns the width that is available for detailed views.
      *
      * The function is used in particular to tell the media factory the
@@ -86,6 +159,7 @@ function(Spot, $, _) {
       });
       return $(activePanel).width();
     },
+
 
     //
     // Creates routes
@@ -152,7 +226,7 @@ function(Spot, $, _) {
             var detail = views[section.slug + 'Detail'];
             offset = parseInt(offset, 10);
             view.show();
-            $('iframe, audio, video, object').remove();
+            $('iframe').remove();
             document.body.id = section.outputType;
             self.setTitle(section.name);
             $toolbar.find('.active').removeClass('active');

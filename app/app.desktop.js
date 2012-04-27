@@ -1,7 +1,7 @@
 define([
-  'spot.desktop',
+  'sleek.desktop',
   'joshlib!utils/onready'],
-function(Spot, onReady) {
-  var spot = new Spot();
-  onReady(spot.initialize);
+function(Sleek, onReady) {
+  var sleek = new Sleek();
+  onReady(sleek.initialize);
 });

@@ -2,11 +2,9 @@
  * @fileoverview Main template logic, code shared by all platforms supported
  * by the template.
  *
- * The code is extended in spot.[platform].js to add platform-specific logic.
+ * The code is extended in sleek.[platform].js to add platform-specific logic.
  * To ease maintenance, the goal is to share as much code as possible between
  * versions.
- *
- * The name "Spot" comes from the fact that Sleek is a fork of the Spot template.
  */
 
 /*global define, Joshfire, document*/
@@ -26,17 +24,17 @@ define([
   'ui/imagegallery'],
 function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, ImageLoader, Router, Backbone, _, $, ImageGallery) {
 
-  var Spot = function() {
+  var Sleek = function() {
     _.bindAll(this, 'initialize',  'setColor', 'slugify');
   };
 
-  Spot.extend = Backbone.View.extend;
+  Sleek.extend = Backbone.View.extend;
 
-  _.extend(Spot.prototype, {
+  _.extend(Sleek.prototype, {
     /**
      * Device family that identifies the platform handled by a more specific class.
      * Override this property in derivated class as appropriate. For instance, set
-     * the property to 'phone' in spot.phone.js.
+     * the property to 'phone' in sleek.phone.js.
      *
      * The property is typically used to target platform-specific CSS files and
      * properties.
@@ -106,12 +104,14 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
         //
         // Sections: one section per datasource
         //
-        var datasources = Joshfire.factory.getDataSource('main') || { children: [] };
-        var sections = new Array(datasources.children.length);
+        // (The way the list of datasources is retrieved actually depends
+        // on whether the code is used in Sleek or in Spot)
+        var datasources = self.getDatasources();
+        var sections = new Array(datasources.length);
         var loaded = 0;
 
         // Prepare sections
-        _.forEach(datasources.children, _.bind(function(datasource, index) {
+        _.forEach(datasources, _.bind(function(datasource, index) {
           var name = datasource.name || '';
           var slug = this.slugify(name.toLowerCase());
           var collection = new Collection([], {
@@ -139,6 +139,51 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
 
         cb && cb();
       });
+    },
+
+
+    /**
+     * Returns the list of datasources entered by the user, in the
+     * right order.
+     *
+     * The returned list is either built from a multiple "main"
+     * datasource when the code is used for the Sleek template,
+     * or from a set of datasource names when the code is used
+     * for the Spot template.
+     *
+     * The actual name of the datasources is lost in the case of
+     * the Spot template, but that's no big deal, since the names
+     * are just to orient users to provide a "photos" feed, but
+     * do not bear any more meaning than that.
+     *
+     * Both cases are handled here not to have to maintain two
+     * versions of the code for Sleek and Spot.
+     *
+     * @function
+     * @return {Array(Object)} The list of datasources, an empty
+     *   array when no datasources are defined.
+     */
+    getDatasources: function() {
+      // Important: update the list of names whenever the list
+      // of datasources changes in Spot's package.json
+      var datasourceNames = [
+        'photos', 'videos', 'events',
+        'news', 'statuses'
+      ];
+      var mainDatasource = Joshfire.factory.getDataSource('main');
+      var datasources = [];
+
+      if (mainDatasource && mainDatasource.children &&
+        (mainDatasource.children.length > 0)) {
+        datasources = datasources.concat(mainDatasource.children);
+      }
+      else {
+        datasources = _.map(datasourceNames, function (name) {
+          return Joshfire.factory.config.datasources[name];
+        });
+        datasources = _.compact(datasources);
+      }
+      return datasources;
     },
 
 
@@ -597,5 +642,5 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
     }
   });
 
-  return Spot;
+  return Sleek;
 });

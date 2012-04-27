@@ -1,7 +1,7 @@
 /*global define, Joshfire, document, window, Backbone*/
 
 define([
-  'spot',
+  'sleek',
   'joshlib!ui/horizontallayout',
   'joshlib!ui/toolbar',
   'joshlib!ui/cardpanel',
@@ -13,9 +13,9 @@ define([
   'joshlib!ui/imageloader',
   'joshlib!vendor/underscore',
   'joshlib!utils/dollar'],
-function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImageLoader, _, $) {
+function(Sleek, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImageLoader, _, $) {
 
-  return Spot.extend({
+  return Sleek.extend({
     /**
      * The code is specific to TV
      */
@@ -267,7 +267,7 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
      * @return {Object} Views created identified by their ID
      */
     createViews: function(sections) {
-      var views = Spot.prototype.createViews.call(this, sections);
+      var views = Sleek.prototype.createViews.call(this, sections);
       var $cards = $('#cards');
 
       var cards = new CardPanel({
@@ -422,7 +422,7 @@ function(Spot, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, G
         }
       }
 
-      return Spot.prototype.getThumbnail.call(this, item, offset);
+      return Sleek.prototype.getThumbnail.call(this, item, offset);
     }
   });
 });

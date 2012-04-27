@@ -1,31 +1,31 @@
 define([
-  'spot.tv',
+  'sleek.tv',
   'joshlib!utils/onready',
   'joshlib!utils/dollar'],
-function(Spot, onReady, $) {
-  var spot = new Spot();
+function(Sleek, onReady, $) {
+  var sleek = new Sleek();
   onReady(function() {
-    spot.initialize(function() {
-      $win = $(window);
+    sleek.initialize(function() {
+      var $win = $(window);
 
       var resize = function() {
         $('body').css({
           zoom: Math.max(50, $win.height() / 10.80) + '%'
         });
-      }
+      };
 
       $win.resize(resize);
 
       resize();
 
-      if(spot.backgroundURL) {
-        spot.setBackground(spot.backgroundURL);
+      if(sleek.backgroundURL) {
+        sleek.setBackground(sleek.backgroundURL);
       }
 
-      if(spot.logoURL) {
-        spot.setLogo(spot.logoURL);
+      if(sleek.logoURL) {
+        sleek.setLogo(sleek.logoURL);
       } else {
-        spot.setTitle(spot.title);
+        sleek.setTitle(sleek.title);
       }
     });
   });

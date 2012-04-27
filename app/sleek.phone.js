@@ -1,14 +1,14 @@
 /*global define, Joshfire, document, Backbone*/
 
 define([
-  'spot',
+  'sleek',
   'joshlib!ui/toolbar',
   'joshlib!utils/dollar',
   'joshlib!vendor/underscore'
   ],
-function(Spot, Toolbar, $, _) {
+function(Sleek, Toolbar, $, _) {
 
-  return Spot.extend({
+  return Sleek.extend({
     /**
      * The code is specific to phones
      */
