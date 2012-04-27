@@ -174,6 +174,8 @@ function(Sleek, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, 
       });
 
       this.videoDetail.hide();
+
+      Sleek.prototype.createAdditionalViews.call(this, views);
     },
 
 
