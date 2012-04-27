@@ -532,15 +532,26 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
     /**
      * Create routes for all created views.
      *
-     * Function stub. Override this function in derivated classes.
+     * Function stub that only handles the home page.
+     * Override this function in derivated classes.
      *
      * @function
      * @param {Array(Object)} sections The list of sections that compose the app
      * @param {Object} Created views identified by their ID
-     * @param {Object} Route controllers
+     * @return {Object} Route controllers
      */
     createRoutes: function(sections, views) {
-      return {};
+      return {
+        routes: {
+          '': 'home'
+        },
+
+        home: function() {
+          if (sections.length) {
+            this[sections[0].slug]();
+          }
+        }
+      };
     },
 
 

@@ -44,18 +44,7 @@ function(Sleek, Toolbar, $, _) {
     // Creates routes
     //
     createRoutes: function(sections, views) {
-      var controllers = {
-        routes: {
-          '': 'home'
-        },
-
-        home: function() {
-          if(sections.length) {
-            controllers[sections[0].slug]();
-          }
-        }
-      };
-
+      var controllers = Sleek.prototype.createRoutes.call(this, sections, views);
       var $title = $('#title');
       var $toolbar = $('#toolbar');
       var $back = $('#back');
