@@ -22,6 +22,12 @@ a{color:inherit;text-decoration:none;}
 img{max-width:100%;}
 #container{display:block;position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden;}
 .center{text-align:center;}
+#contact .body{padding:2em 1em;}
+#contact .body p{margin-bottom:1em;}
+#contact .body a{text-decoration:underline;}
+#contact .body img{max-width:100%;height:auto;margin-bottom:1em;display:block;}
+.google-map{height:100%;}
+.map-overlay{color:#333333;}
 body.device-tv{font-size:36px;background-repeat:no-repeat;background-position:center center;background-size:cover;}
 #container{background-image:-webkit-gradient(linear, left top, left bottom, from(rgba(135, 54, 18, 0.9)), to(rgba(58, 23, 8, 0.9)));background-image:-webkit-linear-gradient(rgba(135, 54, 18, 0.9), rgba(58, 23, 8, 0.9));background-image:-moz-linear-gradient(rgba(135, 54, 18, 0.9), rgba(58, 23, 8, 0.9));background-image:-ms-linear-gradient(rgba(135, 54, 18, 0.9), rgba(58, 23, 8, 0.9));background-image:-o-linear-gradient(rgba(135, 54, 18, 0.9), rgba(58, 23, 8, 0.9));}
 ul{list-style:none;}
