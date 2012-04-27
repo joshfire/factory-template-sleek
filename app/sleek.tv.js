@@ -1,7 +1,7 @@
 /*global define, Joshfire, document, window, Backbone*/
 
 define([
-  'sleek',
+  'sleek.custom',
   'joshlib!ui/horizontallayout',
   'joshlib!ui/toolbar',
   'joshlib!ui/cardpanel',

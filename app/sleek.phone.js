@@ -1,7 +1,7 @@
 /*global define, Joshfire, document, Backbone*/
 
 define([
-  'sleek',
+  'sleek.custom',
   'joshlib!ui/toolbar',
   'joshlib!utils/dollar',
   'joshlib!vendor/underscore'
