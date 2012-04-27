@@ -293,7 +293,7 @@ function(Sleek, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, 
     // Creates routes
     //
     createRoutes: function(sections, layout) {
-      var controllers = Sleek.prototype.createRoutes.call(this, sections, views);
+      var controllers = Sleek.prototype.createRoutes.call(this, sections, layout);
       var toolbar = layout.views[0];
       var cards = layout.views[1];
       var self = this;
