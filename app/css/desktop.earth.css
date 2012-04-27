@@ -22,6 +22,7 @@ a{color:inherit;text-decoration:none;}
 img{max-width:100%;}
 #container{display:block;position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden;}
 .center{text-align:center;}
+.panel{width:100%;height:100%;}
 #contact .body{padding:2em 1em;}
 #contact .body p{margin-bottom:1em;}
 #contact .body a{text-decoration:underline;}
