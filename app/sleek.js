@@ -413,7 +413,6 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
         case 'sound':
           return new FactoryMedia({
             templateEl: '#template-sound',
-            scroller: true,
             mediaOptions: {
               strategy: 'html5',
               width: 'auto',
