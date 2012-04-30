@@ -16,6 +16,33 @@ define([
 function(Sleek, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImageLoader, _, $) {
 
   return Sleek.extend({
+    initialize: function (cb) {
+      var self = this;
+      var $win = $(window);
+
+      var resize = function() {
+        $('body').css({
+          zoom: Math.max(50, $win.height() / 10.80) + '%'
+        });
+      };
+
+      $win.resize(resize);
+      resize();
+
+      Sleek.prototype.initialize.apply(this, function () {
+        if (self.backgroundURL) {
+          self.setBackground(self.backgroundURL);
+        }
+
+        if (self.logoURL) {
+          self.setLogo(self.logoURL);
+        } else {
+          self.setTitle(self.title);
+        }
+      });
+    },
+
+
     /**
      * The code is specific to TV
      */
