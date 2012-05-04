@@ -87,6 +87,26 @@ function(Sleek, $, _) {
       return $(activePanel).width();
     },
 
+
+    /**
+     * Returns the height that is available for detailed views.
+     *
+     * The function is used in particular to tell the media factory the
+     * maximum height it may use.
+     *
+     * @function
+     * @return {integer} The height available in CSS pixels
+     */
+    getContentHeight: function() {
+      // Note the app contains more than one right panel, but only
+      // one that should be displayed at a given time
+      var panels = $('.right-panel').get();
+      var activePanel = _.max(panels, function (panel) {
+        return $(panel).height();
+      });
+      return $(activePanel).height();
+    },
+
     //
     // Creates routes
     //

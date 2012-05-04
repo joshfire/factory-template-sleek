@@ -29,7 +29,7 @@
     <script type="text/javascript" src="vendor/moment.js"></script>
     <script type="text/javascript" src="vendor/sidjs-0.1.js"></script>
     <script type="text/javascript" src="prettystatus.js"></script>
-    <script data-joshfire-bootstrap src="http://192.168.2.115:40021/bootstrap/4f8d2eda4fe1db9d17000021/4f99277832e6f83b1600095f/desktop/"></script>
+    <script data-joshfire-bootstrap src="http://192.168.2.115:40021/bootstrap/4f8d2eda4fe1db9d17000021/4fa150e2174c6ed727000046/desktop/"></script>
   </head>
 
   <body class="device-phone" ontouchmove="event.preventDefault()">
@@ -325,7 +325,9 @@
 
     <script type="text/template" id="template-video">
       <div>
-        <%= media %>
+        <div class="media">
+          <%= media.html %>
+        </div>
         <div class="body">
           <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
           <h3><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).format('LLLL') %></h3>

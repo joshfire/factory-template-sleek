@@ -1,5 +1,5 @@
 body,div,h1,h2,h3,h4,h5,h6,p,blockquote,pre,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,th,td,article,aside,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0;border:0;}
-article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,audio,canvas,video{display:block;}
+article,aside,details,figcaption,figure,footer,header,hgroup,iframe,nav,section,audio,canvas,video{display:block;}
 html{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
 body{font-size:100%;}
 sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}
@@ -137,6 +137,8 @@ div.ps-toolbar-play div.ps-toolbar-content{background-position:-88px 0;}
 #video .right-panel{line-height:1.2em;}#video .right-panel a{position:relative;display:block;top:0;left:0;}
 #video .right-panel .play{height:5em;width:4em;overflow:hidden;position:absolute;top:50%;left:50%;margin-top:-2.5em;-webkit-transform:scalex(1.5);-moz-transform:scalex(1.5);-ms-transform:scalex(1.5);-o-transform:scalex(1.5);transform:scalex(1.5);}#video .right-panel .play span{display:block;height:3em;width:3em;margin-left:-1.5em;margin-top:1em;background-color:#fff;-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);-o-transform:rotate(45deg);transform:rotate(45deg);}
 #video .right-panel img{width:100%;height:auto;}
+#video .right-panel .media{background-color:black;}
+#video .right-panel .media div,#video .right-panel .media iframe,#video .right-panel .media video{margin:0 auto;}
 #video .right-panel .body{padding:1.2em 1em 1em;margin-top:-0.5em;background:transparent url(../images/phone-shadow.png) no-repeat center top;background-size:100% auto;}
 #video .right-panel h3{font-weight:normal;font-size:1em;margin-bottom:.8em;margin-top:1em;}
 #video .right-panel h4{text-transform:uppercase;font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.2em;margin-bottom:1em;color:#1c3953;}

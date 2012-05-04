@@ -397,9 +397,15 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
         case 'video':
           return new FactoryMedia({
             templateEl: '#template-' + itemType,
+            scroller: true,
+            scrollerSelector: '.wrapper',
+            width: self.getContentWidth(),
+            height: self.getContentHeight(),
             mediaOptions: {
               strategy: 'html5',
-              width: self.getContentWidth()
+              width: '100%',
+              height: '80%',
+              adjustSize: true
             }
           });
         case 'status':
@@ -414,9 +420,7 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
           return new FactoryMedia({
             templateEl: '#template-sound',
             mediaOptions: {
-              strategy: 'html5',
-              width: 'auto',
-              height: 'auto'
+              strategy: 'html5'
             }
           });
         default:
@@ -539,7 +543,36 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
      * @return {integer} The width available in CSS pixels
      */
     getContentWidth: function() {
-      return document.body.clientWidth;
+      // Note the app contains more than one slide panel, but only
+      // one that should be displayed at a given time
+      var panels = $('.slide-panel').get();
+      var activePanel = _.max(panels, function (panel) {
+        return $(panel).width();
+      });
+
+      // Slide panels take twice the width available
+      // (since they contain two panels)
+      return Math.floor($(activePanel).width() / 2);
+    },
+
+
+    /**
+     * Returns the height that is available for detailed views.
+     *
+     * The function is used in particular to tell the media factory the
+     * maximum width it may use.
+     *
+     * @function
+     * @return {integer} The width available in CSS pixels
+     */
+    getContentHeight: function() {
+      // Note the app contains more than one slide panel, but only
+      // one that should be displayed at a given time
+      var panels = $('.slide-panel').get();
+      var activePanel = _.max(panels, function (panel) {
+        return $(panel).height();
+      });
+      return $(activePanel).height();
     },
 
 
