@@ -29,7 +29,7 @@ function(Sleek, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, 
       $win.resize(resize);
       resize();
 
-      Sleek.prototype.initialize.apply(this, function () {
+      Sleek.prototype.initialize.call(this, function () {
         if (self.backgroundURL) {
           self.setBackground(self.backgroundURL);
         }
