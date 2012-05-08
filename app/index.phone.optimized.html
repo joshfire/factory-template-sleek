@@ -354,7 +354,7 @@
         <% if(item.thumbnail && item.thumbnail.length) { %>
           <img src="<%= item.thumbnail[0].contentURL %>" />
         <% } %>
-        <div class="media"><%= media %></div>
+        <div class="media"><%= media.html %></div>
         <% if(item.description) { %>
         <p><%= item.description %></p>
         <% } %>

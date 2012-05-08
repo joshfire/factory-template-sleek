@@ -352,7 +352,7 @@
             <h4><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).format('LLLL') %></h4>
           <% } %>
 
-          <div class="media"><%= media %></div>
+          <div class="media"><%= media.html %></div>
           <% if(item.description) { %>
           <p><%= item.description %></p>
           <% } %>
