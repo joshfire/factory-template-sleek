@@ -63,7 +63,8 @@ function(Sleek, Toolbar, $, _) {
           });
           view.show();
           view.showChildren('list');
-          //view.render();
+          // Render is needed to show the spinner while loading.
+          view.children.list.render();
           $('iframe, audio, video, object, embed').remove();
           document.body.id = section.outputType;
           $title.html(section.name);
