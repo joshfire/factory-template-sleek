@@ -72,7 +72,10 @@ header>span{display:block;position:absolute;top:0;right:0;width:40%;height:2.24e
 .mosaic-list li:last-child:nth-child(6n - 2){width:100%;}.mosaic-list li:last-child:nth-child(6n - 2)>div{padding-bottom:25%;}
 .mosaic-list li:last-child:nth-child(6n - 1)>div{padding-bottom:50%;}
 .unknown-item>div{padding:1em;}
-.photo-item>div{background-size:cover;background-position:center center;}.photo-item>div.loading .spinner{display:block !important;}
+.photo-item .image-link{background-size:cover;background-position:center center;-webkit-transition:0.7s ease-in-out all;-moz-transition:0.7s ease-in-out all;-ms-transition:0.7s ease-in-out all;-o-transition:0.7s ease-in-out all;transition:0.7s ease-in-out all;}
+.photo-item .spinner{display:none !important;}
+.photo-item.loading .image-link{filter:alpha(opacity=0);-khtml-opacity:0;-moz-opacity:0;-ms-opacity:0;-o-opacity:0;opacity:0;-webkit-transition:none;-moz-transition:none;-ms-transition:none;-o-transition:none;transition:none;}
+.photo-item.loading .spinner{display:block !important;border-radius:none !important;}
 .status-item>div a{display:block;padding:1em;}
 .status-item>div >div{background:url(../images/phone-arrow.png) no-repeat right center;padding-right:2em;}.status-item>div >div:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
 .status-item>div img{float:left;display:block;width:48px;height:48px;-webkit-box-shadow:0 0 0.5em rgba(0, 0, 0, 0.6);-moz-box-shadow:0 0 0.5em rgba(0, 0, 0, 0.6);-ms-box-shadow:0 0 0.5em rgba(0, 0, 0, 0.6);-o-box-shadow:0 0 0.5em rgba(0, 0, 0, 0.6);box-shadow:0 0 0.5em rgba(0, 0, 0, 0.6);}

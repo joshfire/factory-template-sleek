@@ -455,13 +455,26 @@ header {
 }
 
 // A photo item
-.photo-item > div {
-  background-size: cover;
-  background-position: center center;
+.photo-item {
+  .image-link {
+    background-size: cover;
+    background-position: center center;
+    .transition(.7s ease-in-out all);
+  }
+
+  .spinner {
+    display: none !important;
+  }
 
   &.loading {
+    .image-link {
+      .opacity(0);
+      .transition(none);
+    }
+
     .spinner {
       display: block !important;
+      border-radius: none !important;
     }
   }
 }
