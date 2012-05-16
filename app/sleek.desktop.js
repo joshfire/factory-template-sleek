@@ -214,6 +214,9 @@ function(Sleek, List, FactoryMedia, ImageGallery, $, _) {
             detail.show();
           }
 
+          // Render is needed to show the spinner while loading.
+          view.render();
+
           section.collection.fetch({
             success: function() {
               view.render();
