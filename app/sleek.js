@@ -91,6 +91,7 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
       var self = this;
 
       this.title = Joshfire.factory.config.app.name;
+      this.tabs = Joshfire.factory.config.template.options.tabs || [];
       this.backgroundURL = Joshfire.factory.config.template.options.backgroundurl;
       this.logoURL = Joshfire.factory.config.app.logo ?
                   Joshfire.factory.config.app.logo.contentURL : null;
@@ -112,7 +113,7 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
 
         // Prepare sections
         _.forEach(datasources, _.bind(function(datasource, index) {
-          var name = datasource.name || '';
+          var name = this.tabs[index] || datasource.name || '';
           var slug = this.slugify(name.toLowerCase());
           var collection = new Collection([], {
             dataSource: datasource,
