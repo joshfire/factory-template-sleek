@@ -140,7 +140,7 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
             if(!list) return;
 
             // REMOVE || true
-            if(collection.length === 1 || true) {
+            if(collection.length === 1) {
               // Make sure the slide pannel is all the way to the left.
               slidePanel.show('list');
 
