@@ -114,7 +114,7 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
         // Prepare sections
         _.forEach(datasources, _.bind(function(datasource, index) {
           var name = this.tabs[index] || datasource.name || '';
-          var slug = this.slugify(name.toLowerCase());
+          var slug = index + '--' + this.slugify(name.toLowerCase());
           var collection = new Collection([], {
             dataSource: datasource,
             dataSourceQuery: {}
@@ -126,10 +126,43 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
           var outputType = datasource.getOutputType();
           sections[index] = {
             name: name,
-            slug: index + '--' + slug,
+            slug: slug,
             outputType: self.convertItemType(outputType),
             collection: collection
           };
+
+          // Bind to collection events to handle the case where there is only
+          // one model.
+          collection.bind('syncsuccess', function(event) {
+            var slidePanel = views[slug] || views.views[1].children[slug];
+            var list = slidePanel.children.list;
+
+            // If there is no list view, we don't do anything specific.
+            if(!list) return;
+
+            // REMOVE || true
+            if(collection.length === 1) {
+              // Make sure the slide pannel is all the way to the left.
+              slidePanel.show('list');
+
+              // We have a single model, so we try to only display the detail
+              // view for that item.
+              var detail = slidePanel.children.detail;
+
+              // If there is no list view, we don't do anything specific.
+              if(!detail) return;
+
+              // Set the model for the detail view and render it.
+              detail.setModel(collection.at(0));
+              detail.render();
+
+              // Hide the list view.
+              list.hide();
+            } else {
+              // If there are multiple items, make sure the list is visible.
+              list.show();
+            }
+          });
         }, self));
 
         // Create the views once all sections have been initialized
