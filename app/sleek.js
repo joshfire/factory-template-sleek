@@ -14,6 +14,7 @@ define([
   'joshlib!ui/dynamiccontainer',
   'joshlib!ui/item',
   'joshlib!ui/list',
+  'joshlib!ui/cardpanel',
   'joshlib!ui/slidepanel',
   'joshlib!ui/factorymedia',
   'joshlib!ui/imageloader',
@@ -22,7 +23,7 @@ define([
   'joshlib!vendor/underscore',
   'joshlib!utils/dollar',
   'ui/imagegallery'],
-function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, ImageLoader, Router, Backbone, _, $, ImageGallery) {
+function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, FactoryMedia, ImageLoader, Router, Backbone, _, $, ImageGallery) {
 
   var Sleek = function() {
     _.bindAll(this, 'initialize',  'setColor', 'slugify');
@@ -129,39 +130,6 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
             outputType: self.convertItemType(outputType),
             collection: collection
           };
-
-          // Bind to collection events to handle the case where there is only
-          // one model.
-          collection.bind('syncsuccess', function(event) {
-            var slidePanel = views[slug] || views.views[1].children[slug];
-            var list = slidePanel.children.list;
-
-            // If there is no list view, we don't do anything specific.
-            if(!list) return;
-
-            // REMOVE || true
-            if(collection.length === 1) {
-              // Make sure the slide pannel is all the way to the left.
-              slidePanel.show('list');
-
-              // We have a single model, so we try to only display the detail
-              // view for that item.
-              var detail = slidePanel.children.detail;
-
-              // If there is no list view, we don't do anything specific.
-              if(!detail) return;
-
-              // Set the model for the detail view and render it.
-              detail.setModel(collection.at(0));
-              detail.render();
-
-              // Hide the list view.
-              list.hide();
-            } else {
-              // If there are multiple items, make sure the list is visible.
-              list.show();
-            }
-          });
         }, self));
 
         // Create the views once all sections have been initialized
@@ -299,12 +267,22 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
 
       // Parse sections and build corresponding views
       _.forEach(sections, _.bind(function(section) {
-        var listElement = this.createListElement(section);
-        var detailElement = this.createDetailContainer(section);
-        this.insertView(views, section.slug, listElement, detailElement);
+        //var listElement = this.createListElement(section);
+        //var detailElement = this.createDetailContainer(section);
+        //this.insertView(views, section.slug, listElement, detailElement);
+        var sectionView = this.createSectionView(section);
+
+        views[section.slug] = sectionView;
       }, this));
 
-      return views;
+      cardPanel = new CardPanel({
+        el: '#cards',
+        children: views
+      });
+
+      cardPanel.render();
+
+      return cardPanel;
     },
 
 
@@ -337,6 +315,45 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
       });
     },
 
+    createSectionView: function(section) {
+      return new DynamicContainer({
+        collection: section.collection,
+        viewFactory: this.viewFactory(section)
+      });
+    },
+
+    viewFactory: function(section) {
+      return _.bind(function(params) {
+        var collection = params.collection;
+
+        if(collection.length === 1) {
+          return this.createDetailContainer(section);
+        }
+
+        var list = this.createListElement(section);
+        var detail = this.createDetailContainer(section);
+        var view = this.createListAndDetailView(list, detail);
+
+        return view;
+      }, this);
+    },
+
+    createListAndDetailView: function(list, detail) {
+      var view = new SlidePanel({
+        children: {
+          list: list,
+          detail: detail
+        },
+        currentChild: 'list',
+        className: 'slide-panel'
+      });
+
+      return view;
+    },
+
+    insertSectionView: function(view) {
+      $('#cards').append(view.el);
+    },
 
     /**
      * Creates the element to use to represent a list of items
@@ -393,19 +410,14 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
     createDetailContainer: function(section) {
       var self = this;
 
-      if (section.outputType === 'photo') {
-        return null;
-      }
-      else {
-        return new DynamicContainer({
-          itemFactory: function (options) {
-            // Delegate the creation to createDetailElement
-            _.extend(options, { slug: section.slug });
-            return self.createDetailElement(options);
-          },
-          className: self.getClassName(section, 'detail')
-        });
-      }
+      return new DynamicContainer({
+        viewFactory: function (options) {
+          // Delegate the creation to createDetailElement
+          _.extend(options, { slug: section.slug });
+          return self.createDetailElement(options);
+        },
+        className: self.getClassName(section, 'detail')
+      });
     },
 
 
@@ -419,11 +431,15 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
      * specific logic.
      *
      * @function
-     * @param {Object} section Section to render
+     * @param {Object} options Rendering options
      * @return {UIElement} The element to use.
      */
-    createDetailElement: function(section) {
-      var itemType = this.convertItemType(section.model.get('@type'));
+    createDetailElement: function(options) {
+      if(!options.model) {
+        return new Item({});
+      }
+
+      var itemType = this.convertItemType(options.model.get('@type'));
       var self = this;
 
       switch (itemType) {
@@ -446,7 +462,7 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
             templateEl: '#template-' + itemType,
             scroller: true,
             getImageUrl: function () {
-              return self.getAuthorThumbnail(section.model.toJSON());
+              return self.getAuthorThumbnail(options.model.toJSON());
             }
           });
         case 'sound':
@@ -461,7 +477,7 @@ function(Collection, DynamicContainer, Item, List, SlidePanel, FactoryMedia, Ima
             templateEl: '#template-' + itemType,
             scroller: true,
             getImageUrl: function () {
-              return self.getThumbnail(section.model.toJSON());
+              return self.getThumbnail(options.model.toJSON());
             }
           });
       }

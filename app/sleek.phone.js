@@ -55,19 +55,9 @@ function(Sleek, Toolbar, $, _) {
 
         // List route
         controllers[section.slug] = function() {
-          var view = views[section.slug];
-          _.forEach(views, function(child) {
-            if(child !== view) {
-              child.hide();
-            }
-          });
-          view.show();
-          view.showChildren('list');
-          // Render is needed to show the spinner while loading.
-          view.children.list.render();
-          $('iframe, audio, video, object, embed').remove();
-          document.body.id = section.outputType;
           $title.html(section.name);
+          document.body.id = section.outputType;
+          $('iframe, audio, video, object, embed').remove();
           $toolbar.find('.active').removeClass('active');
           $toolbar.find('.section-' + section.slug).addClass('active');
           $refresh.show().unbind('click').bind('click', function(e) {
@@ -77,7 +67,22 @@ function(Sleek, Toolbar, $, _) {
           });
           $back.hide();
 
-          section.collection.length || section.collection.fetch();
+          views.showChild(section.slug);
+          var container = views.children[section.slug];
+
+            if(section.collection.length) {
+              if(container.view && container.view.children && container.view.children.list) {
+                container.view.showChild('list', 'left');
+              }
+            } else {
+              section.collection.fetch({
+                success: function() {
+                  if(container.view && container.view.children && container.view.children.list) {
+                    container.view.showChild('list', 'left');
+                  }
+                }
+              });
+            }
         };
 
         // Detail route
@@ -85,39 +90,45 @@ function(Sleek, Toolbar, $, _) {
           controllers.routes[section.slug + '/:offset'] = section.slug + 'Detail';
 
           controllers[section.slug + 'Detail'] = function(offset) {
-            var view = views[section.slug];
-            var detail = view.children.detail;
-            _.forEach(views, function(child) {
-              if(child !== view) {
-                child.hide();
-              }
-            });
-            view.show();
-            view.showChildren('detail');
-            //view.render();
             offset = parseInt(offset, 10);
-            $('iframe').remove();
-            document.body.id = section.outputType;
             $title.html(section.name);
+            document.body.id = section.outputType;
+            $('iframe, audio, video, object, embed').remove();
             $toolbar.find('.active').removeClass('active');
             $toolbar.find('.section-' + section.slug).addClass('active');
             $refresh.hide();
             $back.attr('href', '#' + section.slug);
             $back.css({display: 'block'});
 
+            views.showChild(section.slug);
+            var container = views.children[section.slug];
 
-            if(section.collection.length === 0) {
+            if(section.collection.length) {
+              if(container.view && container.view.children && container.view.children.detail) {
+                var detail = container.view.children.detail;
+
+                if(section.collection.length > offset) {
+                  detail.setModel(section.collection.at(offset));
+                  detail.render();
+                }
+
+                container.view.showChild('detail', 'right');
+              }
+            } else {
               section.collection.fetch({
                 success: function() {
-                  if(section.collection.length > offset) {
-                    detail.setModel(section.collection.at(offset));
-                    detail.render();
+                  if(container.view && container.view.children && container.view.children.detail) {
+                    var detail = container.view.children.detail;
+
+                    if(section.collection.length > offset) {
+                      detail.setModel(section.collection.at(offset));
+                      detail.render();
+                    }
+
+                    container.view.showChild('detail', 'right');
                   }
                 }
               });
-            } else if(section.collection.length > offset) {
-              detail.setModel(section.collection.at(offset));
-              detail.render();
             }
           };
         }
