@@ -36,6 +36,9 @@ function(Sleek, Layout, $, _) {
             return 'left-panel simple-list';
         }
       }
+      else if (context === 'single') {
+        return 'single';
+      }
       else {
         return 'right-panel';
       }
@@ -58,33 +61,6 @@ function(Sleek, Layout, $, _) {
       });
 
       return view;
-    },
-
-
-    /**
-     * Inserts the list/detail views in the list of views.
-     *
-     * Override base method with tablet-specific logic.
-     *
-     * @function
-     * @param {Object} views Existing views identified by their ID
-     * @param {string} viewid The base ID of the view to insert
-     * @param {UIElement} listElement The list element
-     * @param {UIElement} detailElement Potential detail view
-     */
-    insertView: function(views, viewid, listElement, detailElement) {
-      if (listElement) {
-        listElement.hide();
-        listElement.render();
-        views[viewid] = listElement;
-        $("#cards").append(listElement.el);
-      }
-
-      if (detailElement) {
-        detailElement.hide();
-        views[viewid + 'Detail'] = detailElement;
-        $("#cards").append(detailElement.el);
-      }
     },
 
 
@@ -140,36 +116,31 @@ function(Sleek, Layout, $, _) {
 
         // List route
         controllers[section.slug] = function() {
-          var view = views[section.slug];
-          _.forEach(views, function(child) {
-            if(child !== view) {
-              child.hide();
-            }
-          });
-          view.show();
-          $('iframe, audio, video, object, embed').remove();
           document.body.id = section.outputType;
           self.setTitle(section.name);
+          $('iframe, audio, video, object, embed').remove();
           $toolbar.find('.active').removeClass('active');
           $toolbar.find('.section-' + section.slug).addClass('active');
 
-          if(section.outputType !== 'photo') {
-            var detail = views[section.slug + 'Detail'];
-            detail.show();
-          }
-
-          // Render is needed to show the spinner while loading.
-          view.render();
+          views.showChild(section.slug);
+          var container = views.children[section.slug];
 
           section.collection.fetch({
             success: function() {
-              view.render();
-
-              if(section.collection.length !== 0 && section.outputType !== 'photo') {
+              if(container.view.children && container.view.children.detail &&
+                  section.collection.length) {
+                var detail = container.view.children.detail;
                 detail.setModel(section.collection.at(0));
                 detail.render();
-                view.$('.active').removeClass('active');
-                $(view.$('li')[0]).addClass('active');
+
+                if(container.view.children.list) {
+                  var list = container.view.children.list;
+                  list.$('.active').removeClass('active');
+                  $(list.$('li')[0]).addClass('active');
+                }
+              } else if(section.collection.length) {
+                container.setModel(section.collection.at(0));
+                container.render();
               }
             }
           });
@@ -180,35 +151,51 @@ function(Sleek, Layout, $, _) {
           controllers.routes[section.slug + '/:offset'] = section.slug + 'Detail';
 
           controllers[section.slug + 'Detail'] = function(offset) {
-            var view = views[section.slug];
-            var detail = views[section.slug + 'Detail'];
             offset = parseInt(offset, 10);
-            view.show();
             $('iframe, audio, video, object').remove();
             document.body.id = section.outputType;
             self.setTitle(section.name);
             $toolbar.find('.active').removeClass('active');
             $toolbar.find('.section-' + section.slug).addClass('active');
-            detail.show();
+
+            views.showChild(section.slug);
+
+            var container = views.children[section.slug];
 
             if(section.collection.length === 0) {
               section.collection.fetch({
                 success: function() {
-                  view.render();
+                  if(!container.view.children || !container.view.children.detail) {
+                    return;
+                  }
+                  var detail = container.view.children.detail;
 
                   if(section.collection.length > offset) {
+                    var detail = container.view.children.detail;
                     detail.setModel(section.collection.at(offset));
                     detail.render();
-                    view.$('.active').removeClass('active');
-                    $(view.$('li')[offset]).addClass('active');
+
+                    if(container.view.children.list) {
+                      var list = container.view.children.list;
+                      list.$('.active').removeClass('active');
+                      $(list.$('li')[offset]).addClass('active');
+                    }
                   }
                 }
               });
             } else if(section.collection.length > offset) {
+              if(!container.view.children || !container.view.children.detail) {
+                return;
+              }
+              var detail = container.view.children.detail;
               detail.setModel(section.collection.at(offset));
               detail.render();
-              view.$('.active').removeClass('active');
-              $(view.$('li')[offset]).addClass('active');
+
+              if(container.view.children.list) {
+                var list = container.view.children.list;
+                list.$('.active').removeClass('active');
+                $(list.$('li')[offset]).addClass('active');
+              }
             }
           };
         }

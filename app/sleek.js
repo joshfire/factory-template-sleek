@@ -323,8 +323,12 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
       return _.bind(function(params) {
         var collection = params.collection;
 
-        if(collection.length === 1) {
-          return this.createDetailContainer(section);
+        if (section.outputType === 'photo') {
+          return this.createListElement(section);
+        }
+
+        if(collection.length === 1 || true) {
+          return this.createDetailContainer(section, true);
         }
 
         var list = this.createListElement(section);
@@ -386,11 +390,12 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
      *
      * @function
      * @param {Object} section Section to render
+     * @param {bool} whether this is a detail view for a single page
      * @return {UIElement} The container element to use.
      *  Null when section does not have any associated detail view
      *  (or when the detail view is managed by dedicated code)
      */
-    createDetailContainer: function(section) {
+    createDetailContainer: function(section, isSingle) {
       var self = this;
 
       return new DynamicContainer({
@@ -399,7 +404,7 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
           _.extend(options, { slug: section.slug });
           return self.createDetailElement(options);
         },
-        className: self.getClassName(section, 'detail')
+        className: self.getClassName(section, isSingle ? 'single' : 'detail')
       });
     },
 
@@ -465,40 +470,6 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
           });
       }
     },
-
-
-    /**
-     * Inserts the list/detail views in the list of views.
-     *
-     * The list and detailed views are combined together in
-     * a slide panel. Override this function to build another
-     * layout in derivated classes.
-     *
-     * @function
-     * @param {Object} views Existing views identified by their ID
-     * @param {string} viewid The base ID of the view to insert
-     * @param {UIElement} listElement The list element
-     * @param {UIElement} detailElement Potential detail view
-     */
-    insertView: function(views, viewid, listElement, detailElement) {
-      var view = new SlidePanel({
-        children: {
-          list: listElement,
-          detail: detailElement
-        },
-        className: 'slide-panel'
-      });
-
-      _.each(view.children, function(child) {
-        if (child) {
-          $(view.el).append(child.el);
-        }
-      });
-      view.hide();
-      views[viewid] = view;
-      $("#cards").append(view.el);
-    },
-
 
     //
     // Creates a list item view based on the type of the item.

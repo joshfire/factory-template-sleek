@@ -751,7 +751,15 @@ header {
   }
 }
 
-.right-panel {
+.single {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.right-panel > div {
   position: absolute;
   left: 350px;
   top: 0;
@@ -793,7 +801,7 @@ header {
   color: @dark-text-color;
 }
 
-#video .right-panel {
+#video .right-panel, #video .single {
 
   line-height: 1.2em;
 
@@ -875,7 +883,7 @@ header {
   color: @dark-text-color;
 }
 
-#sound .right-panel {
+#sound .right-panel, #sound .single {
 
   line-height: 1.2em;
 
@@ -914,7 +922,7 @@ header {
 // Statuses
 //---------------------------------------------------------------------------
 
-#status .right-panel {
+#status .right-panel, #status .single {
 
   > div {
     min-height: 100%;
@@ -1002,7 +1010,7 @@ header {
 // Events
 //---------------------------------------------------------------------------
 
-#event .right-panel {
+#event .right-panel, #event .single {
 
   line-height: 1.2em;
   background: @light-background-color;
@@ -1049,9 +1057,9 @@ header {
   color: @dark-text-color;
 }
 
-#news .right-panel,
-#product .right-panel,
-#other .right-panel {
+#news .right-panel, #news .single,
+#product .right-panel, #product .single,
+#other .right-panel, #other .single {
 
   line-height: 1.2em;
 
