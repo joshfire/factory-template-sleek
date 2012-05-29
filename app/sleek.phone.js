@@ -39,6 +39,18 @@ function(Sleek, Toolbar, $, _) {
       });
     },
 
+    updateList: function(section, container) {
+      section.collection.fetch({
+        success: function() {
+          if(container.view.children && container.view.children.list) {
+            container.view.showChild('list', 'left');
+          } else if(section.collection.length) {
+            container.setModel(section.collection.at(0));
+            container.render();
+          }
+        }
+      });
+    },
 
     //
     // Creates routes
@@ -49,6 +61,7 @@ function(Sleek, Toolbar, $, _) {
       var $toolbar = $('#toolbar');
       var $back = $('#back');
       var $refresh = $('#refresh');
+      var self = this;
 
       _.forEach(sections, function(section) {
         controllers.routes[section.slug] = section.slug;
@@ -60,29 +73,23 @@ function(Sleek, Toolbar, $, _) {
           $('iframe, audio, video, object, embed').remove();
           $toolbar.find('.active').removeClass('active');
           $toolbar.find('.section-' + section.slug).addClass('active');
-          $refresh.show().unbind('click').bind('click', function(e) {
-            section.collection.fetch();
+          $refresh.show().unbind('click').bind('click', _.bind(function(e) {
+            self.updateList(section, container);
             e.preventDefault();
             return false;
-          });
+          }, this));
           $back.hide();
 
           views.showChild(section.slug);
           var container = views.children[section.slug];
 
-            if(section.collection.length) {
-              if(container.view && container.view.children && container.view.children.list) {
-                container.view.showChild('list', 'left');
-              }
-            } else {
-              section.collection.fetch({
-                success: function() {
-                  if(container.view && container.view.children && container.view.children.list) {
-                    container.view.showChild('list', 'left');
-                  }
-                }
-              });
+          if(section.collection.length) {
+            if(container.view.children && container.view.children.list) {
+              container.view.showChild('list', 'left');
             }
+          } else {
+            self.updateList(section, container);
+          }
         };
 
         // Detail route
@@ -117,7 +124,7 @@ function(Sleek, Toolbar, $, _) {
             } else {
               section.collection.fetch({
                 success: function() {
-                  if(container.view && container.view.children && container.view.children.detail) {
+                  if(container.view.children && container.view.children.detail) {
                     var detail = container.view.children.detail;
 
                     if(section.collection.length > offset) {

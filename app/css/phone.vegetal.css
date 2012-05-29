@@ -78,7 +78,7 @@ header>span{display:block;position:absolute;top:0;right:0;width:40%;height:2.24e
 .photo-item.loading .spinner{display:block !important;border-radius:none !important;}
 .status-item>div a{display:block;padding:1em;}
 .status-item>div >div{background:url(../images/phone-arrow.png) no-repeat right center;padding-right:2em;}.status-item>div >div:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
-.status-item>div img{float:left;display:block;width:48px;height:48px;-webkit-box-shadow:0 0 0.5em rgba(0, 0, 0, 0.6);-moz-box-shadow:0 0 0.5em rgba(0, 0, 0, 0.6);-ms-box-shadow:0 0 0.5em rgba(0, 0, 0, 0.6);-o-box-shadow:0 0 0.5em rgba(0, 0, 0, 0.6);box-shadow:0 0 0.5em rgba(0, 0, 0, 0.6);}
+.status-item>div img{float:left;display:block;width:48px;height:48px;-webkit-box-shadow:0 0 0.5em rgba(0, 0, 0, 0.6);-moz-box-shadow:0 0 0.5em rgba(0, 0, 0, 0.6);-ms-box-shadow:0 0 0.5em rgba(0, 0, 0, 0.6);-o-box-shadow:0 0 0.5em rgba(0, 0, 0, 0.6);box-shadow:0 0 0.5em rgba(0, 0, 0, 0.6);margin:0;}
 .status-item>div .right{margin-left:60px;padding-right:1.5em;}
 .status-item>div h3{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1em;margin-bottom:.15em;}
 .status-item>div p{color:#d9d9d9;}
@@ -150,6 +150,7 @@ div.ps-toolbar-play div.ps-toolbar-content{background-position:-88px 0;}
 #status .detail .header img{float:left;display:block;width:48px;height:48px;margin:1em;-webkit-box-shadow:0 0 0.5em rgba(0, 0, 0, 0.6);-moz-box-shadow:0 0 0.5em rgba(0, 0, 0, 0.6);-ms-box-shadow:0 0 0.5em rgba(0, 0, 0, 0.6);-o-box-shadow:0 0 0.5em rgba(0, 0, 0, 0.6);box-shadow:0 0 0.5em rgba(0, 0, 0, 0.6);}
 #status .detail .header h2{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.2em;padding-top:1em;}
 #status .detail .header h3{font-weight:normal;font-size:1.2em;}
+#status .detail .body{height:100%;}
 #status .detail .message{color:#333333;padding:5% 6%;}#status .detail .message .cover{background-color:#ffffff;-webkit-box-shadow:0 -1em 4em rgba(0, 0, 0, 0.8);-moz-box-shadow:0 -1em 4em rgba(0, 0, 0, 0.8);-ms-box-shadow:0 -1em 4em rgba(0, 0, 0, 0.8);-o-box-shadow:0 -1em 4em rgba(0, 0, 0, 0.8);box-shadow:0 -1em 4em rgba(0, 0, 0, 0.8);position:absolute;bottom:0;left:0;right:0;top:6.8em;}
 #status .detail .message h4{font-weight:normal;margin-bottom:1.3em;color:#808080;font-size:1.2em;position:relative;}
 #status .detail .message p{font-size:1.4em;position:relative;}#status .detail .message p strong,#status .detail .message p em,#status .detail .message p a{color:#6f8110;font-weight:normal;font-style:normal;}
