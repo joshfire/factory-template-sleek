@@ -336,16 +336,6 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
     },
 
     createListAndDetailView: function(list, detail) {
-      var view = new SlidePanel({
-        children: {
-          list: list,
-          detail: detail
-        },
-        currentChild: 'list',
-        className: 'slide-panel'
-      });
-
-      return view;
     },
 
     /**

@@ -2,10 +2,11 @@
 
 define([
   'sleek.custom',
+  'joshlib!ui/layout',
   'joshlib!utils/dollar',
   'joshlib!vendor/underscore'
   ],
-function(Sleek, $, _) {
+function(Sleek, Layout, $, _) {
 
   return Sleek.extend({
     /**
@@ -38,6 +39,25 @@ function(Sleek, $, _) {
       else {
         return 'right-panel';
       }
+    },
+
+    /**
+     * Must create a list + detail view for a section.
+     *
+     * @param {Backbone.View} the list view
+     * @param {Backbone.View} the detail view
+     * @return {Backbone.View} the section viex
+     */
+    createListAndDetailView: function(list, detail) {
+      var view = new Layout({
+        children: {
+          list: list,
+          detail: detail
+        },
+        className: 'split-view'
+      });
+
+      return view;
     },
 
 

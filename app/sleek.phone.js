@@ -3,10 +3,11 @@
 define([
   'sleek.custom',
   'joshlib!ui/toolbar',
+  'joshlib!ui/slidepanel',
   'joshlib!utils/dollar',
   'joshlib!vendor/underscore'
   ],
-function(Sleek, Toolbar, $, _) {
+function(Sleek, Toolbar, SlidePanel, $, _) {
 
   return Sleek.extend({
     /**
@@ -37,6 +38,26 @@ function(Sleek, Toolbar, $, _) {
         },
         useWindowWidth: true
       });
+    },
+
+    /**
+     * Must create a list + detail view for a section.
+     *
+     * @param {Backbone.View} the list view
+     * @param {Backbone.View} the detail view
+     * @return {Backbone.View} the section viex
+     */
+    createListAndDetailView: function(list, detail) {
+      var view = new SlidePanel({
+        children: {
+          list: list,
+          detail: detail
+        },
+        currentChild: 'list',
+        className: 'slide-panel'
+      });
+
+      return view;
     },
 
     /**
@@ -80,7 +101,7 @@ function(Sleek, Toolbar, $, _) {
     updateDetail: function(section, container, offset) {
       section.collection.fetch({
         success: _.bind(function() {
-          this.showDetail(section, collection, offset);
+          this.showDetail(section, container, offset);
         }, this)
       });
     },
