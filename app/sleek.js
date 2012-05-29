@@ -327,7 +327,7 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
           return this.createListElement(section);
         }
 
-        if(collection.length === 1 || true) {
+        if(collection.length === 1) {
           return this.createDetailContainer(section, true);
         }
 

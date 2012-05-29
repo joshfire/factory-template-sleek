@@ -2,28 +2,17 @@
 
 define([
   'sleek.custom',
-  'joshlib!ui/list',
-  'joshlib!ui/factorymedia',
-  'ui/imagegallery',
+  'joshlib!ui/layout',
   'joshlib!utils/dollar',
   'joshlib!vendor/underscore'
   ],
-function(Sleek, List, FactoryMedia, ImageGallery, $, _) {
+function(Sleek, Layout, $, _) {
 
   return Sleek.extend({
     /**
-     * The code is specific to desktops
+     * The code is specific to tablets
      */
     deviceFamily: 'desktop',
-
-    /**
-     * Sets the main title.
-     *
-     * Overrides base function to add the application title.
-     */
-    setTitle: function(value) {
-      $('#title').html(this.title + ' &rsaquo; ' + value);
-    },
 
 
     /**
@@ -47,98 +36,31 @@ function(Sleek, List, FactoryMedia, ImageGallery, $, _) {
             return 'left-panel simple-list';
         }
       }
+      else if (context === 'single') {
+        return 'single';
+      }
       else {
         return 'right-panel';
       }
     },
 
-
     /**
-     * Inserts the list/detail views in the list of views.
+     * Must create a list + detail view for a section.
      *
-     * Override base method with tablet-specific logic.
-     *
-     * @function
-     * @param {Object} views Existing views identified by their ID
-     * @param {string} viewid The base ID of the view to insert
-     * @param {UIElement} listElement The list element
-     * @param {UIElement} detailElement Potential detail view
+     * @param {Backbone.View} the list view
+     * @param {Backbone.View} the detail view
+     * @return {Backbone.View} the section viex
      */
-    insertView: function(views, viewid, listElement, detailElement) {
-      if (listElement) {
-        listElement.hide();
-        listElement.render();
-        views[viewid] = listElement;
-        $("#cards").append(listElement.el);
-      }
+    createListAndDetailView: function(list, detail) {
+      var view = new Layout({
+        children: {
+          list: list,
+          detail: detail
+        },
+        className: 'split-view'
+      });
 
-      if (detailElement) {
-        detailElement.hide();
-        views[viewid + 'Detail'] = detailElement;
-        $("#cards").append(detailElement.el);
-      }
-    },
-
-
-    /**
-     * Creates the element to use to represent a list of items
-     * for the given section.
-     *
-     * Default implement creates a List linked to the
-     * template-list-view template.
-     *
-     * Override this function in derivated classes to add
-     * specific logic.
-     *
-     * @function
-     * @param {Object} section Section to render
-     * @return {UIElement} The element to use. May include a detailed view.
-     */
-    createListElement: function(section) {
-      if (section.outputType === 'photo') {
-        return new ImageGallery({
-          templateEl: '#template-list-view',
-          itemFactory: this.itemFactory(section),
-          collection: section.collection,
-          className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
-        });
-      }
-      else {
-        return new List({
-          templateEl: '#template-list-view',
-          itemFactory: this.itemFactory(section),
-          collection: section.collection,
-          className: section.outputType + ' ' +
-            this.getClassName(section.outputType, 'list')
-        });
-      }
-    },
-
-
-    /**
-     * Creates the element to use to represent an item for the given section.
-     *
-     * @function
-     * @param {Object} section Section to render
-     * @return {UIElement} The element to use. May include a detailed view.
-     */
-    createDetailElement: function(section) {
-      var self = this;
-      var itemType = this.convertItemType(section.model.get('@type'));
-      if (itemType === 'video') {
-        return new FactoryMedia({
-          templateEl: '#template-' + itemType,
-          mediaOptions: {
-            strategy: 'html5',
-            width: self.getContentWidth(),
-            height: 450,
-            adjustSize: true
-          }
-        });
-      }
-      else {
-        return Sleek.prototype.createDetailElement.call(this, section);
-      }
+      return view;
     },
 
 
@@ -181,8 +103,6 @@ function(Sleek, List, FactoryMedia, ImageGallery, $, _) {
       return $(activePanel).height();
     },
 
-
-
     //
     // Creates routes
     //
@@ -196,36 +116,31 @@ function(Sleek, List, FactoryMedia, ImageGallery, $, _) {
 
         // List route
         controllers[section.slug] = function() {
-          var view = views[section.slug];
-          _.forEach(views, function(child) {
-            if(child !== view) {
-              child.hide();
-            }
-          });
-          view.show();
-          $('iframe, audio, video, object, embed').remove();
           document.body.id = section.outputType;
           self.setTitle(section.name);
+          $('iframe, audio, video, object, embed').remove();
           $toolbar.find('.active').removeClass('active');
           $toolbar.find('.section-' + section.slug).addClass('active');
 
-          if(section.outputType !== 'photo') {
-            var detail = views[section.slug + 'Detail'];
-            detail.show();
-          }
-
-          // Render is needed to show the spinner while loading.
-          view.render();
+          views.showChild(section.slug);
+          var container = views.children[section.slug];
 
           section.collection.fetch({
             success: function() {
-              view.render();
-
-              if(section.collection.length !== 0 && section.outputType !== 'photo') {
+              if(container.view.children && container.view.children.detail &&
+                  section.collection.length) {
+                var detail = container.view.children.detail;
                 detail.setModel(section.collection.at(0));
                 detail.render();
-                view.$('.active').removeClass('active');
-                $(view.$('li')[0]).addClass('active');
+
+                if(container.view.children.list) {
+                  var list = container.view.children.list;
+                  list.$('.active').removeClass('active');
+                  $(list.$('li')[0]).addClass('active');
+                }
+              } else if(section.collection.length) {
+                container.setModel(section.collection.at(0));
+                container.render();
               }
             }
           });
@@ -236,35 +151,51 @@ function(Sleek, List, FactoryMedia, ImageGallery, $, _) {
           controllers.routes[section.slug + '/:offset'] = section.slug + 'Detail';
 
           controllers[section.slug + 'Detail'] = function(offset) {
-            var view = views[section.slug];
-            var detail = views[section.slug + 'Detail'];
             offset = parseInt(offset, 10);
-            view.show();
-            $('iframe').remove();
+            $('iframe, audio, video, object').remove();
             document.body.id = section.outputType;
             self.setTitle(section.name);
             $toolbar.find('.active').removeClass('active');
             $toolbar.find('.section-' + section.slug).addClass('active');
-            detail.show();
+
+            views.showChild(section.slug);
+
+            var container = views.children[section.slug];
 
             if(section.collection.length === 0) {
               section.collection.fetch({
                 success: function() {
-                  view.render();
+                  if(!container.view.children || !container.view.children.detail) {
+                    return;
+                  }
+                  var detail = container.view.children.detail;
 
                   if(section.collection.length > offset) {
+                    var detail = container.view.children.detail;
                     detail.setModel(section.collection.at(offset));
                     detail.render();
-                    view.$('.active').removeClass('active');
-                    $(view.$('li')[offset]).addClass('active');
+
+                    if(container.view.children.list) {
+                      var list = container.view.children.list;
+                      list.$('.active').removeClass('active');
+                      $(list.$('li')[offset]).addClass('active');
+                    }
                   }
                 }
               });
             } else if(section.collection.length > offset) {
+              if(!container.view.children || !container.view.children.detail) {
+                return;
+              }
+              var detail = container.view.children.detail;
               detail.setModel(section.collection.at(offset));
               detail.render();
-              view.$('.active').removeClass('active');
-              $(view.$('li')[offset]).addClass('active');
+
+              if(container.view.children.list) {
+                var list = container.view.children.list;
+                list.$('.active').removeClass('active');
+                $(list.$('li')[offset]).addClass('active');
+              }
             }
           };
         }

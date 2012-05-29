@@ -759,12 +759,16 @@ header {
   bottom: 0;
 }
 
-.right-panel > div {
+.right-panel {
   position: absolute;
   left: 350px;
   top: 0;
   right: 0;
   bottom: 0;
+
+  & > div {
+    height: 100%;
+  }
 
   &.loading {
     .spinner {

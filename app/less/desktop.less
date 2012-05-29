@@ -25,7 +25,7 @@ body {
   .box-shadow(0 0 30px rgba(0,0,0,.5));
 }
 
-.right-panel, .left-panel, .mosaic-list {
+.right-panel, .left-panel, .mosaic-list, .single {
   overflow: auto;
 }
 
@@ -773,12 +773,25 @@ header {
   }
 }
 
+.single {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
 .right-panel > div {
   position: absolute;
   left: 350px;
   top: 0;
   right: 0;
   bottom: 0;
+
+  & > div {
+    height: 100%;
+    overflow: auto;
+  }
 
   &.loading {
     .spinner {
@@ -815,7 +828,7 @@ header {
   color: @dark-text-color;
 }
 
-#video .right-panel {
+#video .right-panel, #video .single {
 
   line-height: 1.2em;
 
@@ -897,7 +910,7 @@ header {
   color: @dark-text-color;
 }
 
-#sound .right-panel {
+#sound .right-panel, #sound .single {
 
   line-height: 1.2em;
 
@@ -935,7 +948,7 @@ header {
 // Statuses
 //---------------------------------------------------------------------------
 
-#status .right-panel {
+#status .right-panel, #status .single {
 
   > div {
     min-height: 100%;
@@ -1023,7 +1036,7 @@ header {
 // Events
 //---------------------------------------------------------------------------
 
-#event .right-panel {
+#event .right-panel, #event .single {
 
   line-height: 1.2em;
   background: @light-background-color;
@@ -1070,9 +1083,9 @@ header {
   color: @dark-text-color;
 }
 
-#other .right-panel,
-#product .right-panel,
-#news .right-panel {
+#other .right-panel, #other .single,
+#product .right-panel, #product .single,
+#news .right-panel, #news .single {
 
   line-height: 1.2em;
 
