@@ -232,15 +232,25 @@ header {
 ****************************************************************************/
 
 //---------------------------------------------------------------------------
-// Content = screen - (header + footer)
+// Viewport = screen - (header + footer)
 //---------------------------------------------------------------------------
-.content {
+#viewport {
   position: absolute;
   left: 0;
   top: 2.2em;
   bottom: 3.05em;
   width: 100%;
   z-index: 1;
+}
+
+#cards {
+  width: 100%;
+  height: 100%;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
 
   & > div {
     .backface-hidden;
@@ -279,9 +289,7 @@ header {
 //---------------------------------------------------------------------------
 .panel {
   position: absolute;
-  left: 0;
-  top: 2.2em;
-  bottom: 3.05em;
+  height: 100%;
   width: 100%;
 }
 
@@ -291,9 +299,8 @@ header {
 .slide-panel {
   position: absolute;
   left: 0;
-  top: 2.2em;
-  bottom: 3.05em;
   width: 100%;
+  height: 100%;
   .backface-hidden;
 
   & > .content {
@@ -302,7 +309,7 @@ header {
     left: 0;
     top: 0;
     height: 100%;
-    width: 50%;
+    width: 100%;
   }
 }
 

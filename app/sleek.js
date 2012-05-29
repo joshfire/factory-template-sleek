@@ -267,22 +267,19 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
 
       // Parse sections and build corresponding views
       _.forEach(sections, _.bind(function(section) {
-        //var listElement = this.createListElement(section);
-        //var detailElement = this.createDetailContainer(section);
-        //this.insertView(views, section.slug, listElement, detailElement);
         var sectionView = this.createSectionView(section);
 
         views[section.slug] = sectionView;
       }, this));
 
-      cardPanel = new CardPanel({
+      sectionsView = new SlidePanel({
         el: '#cards',
         children: views
       });
 
-      cardPanel.render();
+      sectionsView.render();
 
-      return cardPanel;
+      return sectionsView;
     },
 
 
@@ -349,10 +346,6 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
       });
 
       return view;
-    },
-
-    insertSectionView: function(view) {
-      $('#cards').append(view.el);
     },
 
     /**

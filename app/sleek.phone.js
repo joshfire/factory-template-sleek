@@ -39,22 +39,79 @@ function(Sleek, Toolbar, $, _) {
       });
     },
 
+    /**
+     * Updates a section list.
+     *
+     * @function
+     * @param {Object} the list section
+     * @parma {Backbone.View} the section container
+     */
     updateList: function(section, container) {
       section.collection.fetch({
-        success: function() {
-          if(container.view.children && container.view.children.list) {
-            container.view.showChild('list', 'left');
-          } else if(section.collection.length) {
-            container.setModel(section.collection.at(0));
-            container.render();
-          }
-        }
+        success: _.bind(function() {
+          this.showList(section, container)
+        }, this)
       });
     },
 
-    //
-    // Creates routes
-    //
+    /**
+     * Displays a section list (assuming the section is already active).
+     *
+     * @function
+     * @param {Object} the list section
+     * @parma {Backbone.View} the section container
+     */
+    showList: function(section, container) {
+      if(container.view.children && container.view.children.list) {
+        container.view.showChild('list', 'left');
+      } else if(section.collection.length) {
+        container.setModel(section.collection.at(0));
+        container.render();
+      }
+    },
+
+    /**
+     * Updates a section item detail.
+     *
+     * @function
+     * @param {Object} the detail section
+     * @parma {Backbone.View} the section container
+     */
+    updateDetail: function(section, container, offset) {
+      section.collection.fetch({
+        success: _.bind(function() {
+          this.showDetail(section, collection, offset);
+        }, this)
+      });
+    },
+
+    /**
+     * Displays a section item detail.
+     *
+     * @function
+     * @param {Object} the detail section
+     * @parma {Backbone.View} the section container
+     */
+    showDetail: function(section, container, offset) {
+      if(container.view.children && container.view.children.detail) {
+        var detail = container.view.children.detail;
+
+        if(section.collection.length > offset) {
+          detail.setModel(section.collection.at(offset));
+          detail.render();
+        }
+
+        container.view.showChild('detail', 'right');
+      }
+    },
+
+    /**
+     * Creates the routes for the phone version.
+     *
+     * @function
+     * @param {Object} the list of sections
+     * @parma {Backbone.View} the sections view container
+     */
     createRoutes: function(sections, views) {
       var controllers = Sleek.prototype.createRoutes.call(this, sections, views);
       var $title = $('#title');
@@ -84,9 +141,7 @@ function(Sleek, Toolbar, $, _) {
           var container = views.children[section.slug];
 
           if(section.collection.length) {
-            if(container.view.children && container.view.children.list) {
-              container.view.showChild('list', 'left');
-            }
+            self.showList(section, container);
           } else {
             self.updateList(section, container);
           }
@@ -111,31 +166,9 @@ function(Sleek, Toolbar, $, _) {
             var container = views.children[section.slug];
 
             if(section.collection.length) {
-              if(container.view && container.view.children && container.view.children.detail) {
-                var detail = container.view.children.detail;
-
-                if(section.collection.length > offset) {
-                  detail.setModel(section.collection.at(offset));
-                  detail.render();
-                }
-
-                container.view.showChild('detail', 'right');
-              }
+              self.showDetail(section, container, offset);
             } else {
-              section.collection.fetch({
-                success: function() {
-                  if(container.view.children && container.view.children.detail) {
-                    var detail = container.view.children.detail;
-
-                    if(section.collection.length > offset) {
-                      detail.setModel(section.collection.at(offset));
-                      detail.render();
-                    }
-
-                    container.view.showChild('detail', 'right');
-                  }
-                }
-              });
+              self.updateDetail(section, container, offset);
             }
           };
         }
