@@ -129,7 +129,8 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
             name: name,
             slug: slug,
             outputType: self.convertItemType(outputType),
-            collection: collection
+            collection: collection,
+            index: index,
           };
         }, self));
 
@@ -314,10 +315,14 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
     },
 
     createSectionView: function(section) {
-      return new DynamicContainer({
+      var view = new DynamicContainer({
         collection: section.collection,
         viewFactory: this.viewFactory(section)
       });
+
+      section.view = view;
+
+      return view;
     },
 
     viewFactory: function(section) {
@@ -403,7 +408,7 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
         viewFactory: function (options) {
           // Delegate the creation to createDetailElement
           _.extend(options, { slug: section.slug });
-          return self.createDetailElement(options);
+          return self.createDetailElement(options, isSingle);
         },
         className: self.getClassName(section, isSingle ? 'single' : 'detail')
       });

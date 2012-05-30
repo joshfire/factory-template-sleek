@@ -2,7 +2,7 @@
 
 define([
   'sleek.custom',
-  'joshlib!ui/horizontallayout',
+  'joshlib!uielement',
   'joshlib!ui/toolbar',
   'joshlib!ui/cardpanel',
   'joshlib!ui/slidepanel',
@@ -13,7 +13,7 @@ define([
   'joshlib!ui/imageloader',
   'joshlib!vendor/underscore',
   'joshlib!utils/dollar'],
-function(Sleek, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImageLoader, _, $) {
+function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImageLoader, _, $) {
 
   return Sleek.extend({
     initialize: function (cb) {
@@ -93,7 +93,6 @@ function(Sleek, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, 
       }
     },
 
-
     /**
      * Creates additional views: photo and video overlays
      *
@@ -117,34 +116,34 @@ function(Sleek, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, 
 
         exit: function() {
           this.hide();
-          window.location = '#' + self.section.slug;
+          window.location = '#' + self.activeSection.slug;
         },
 
         navLeft: function() {
           var newOffset = this.offset - 1;
           if (newOffset < 0) {
-            newOffset = self.section.collection.length - 1;
+            newOffset = self.activeSection.collection.length - 1;
           }
 
           // Search for the previous image in the feed
           // (this may not be the item right before this one if feed includes
           // mixed content)
           while ((newOffset !== this.offset) &&
-            (self.section.collection.at(newOffset).get('@type') !== 'ImageObject')) {
+            (self.activeSection.collection.at(newOffset).get('@type') !== 'ImageObject')) {
             newOffset = newOffset - 1;
             if(newOffset < 0) {
-              newOffset = self.section.collection.length - 1;
+              newOffset = self.activeSection.collection.length - 1;
             }
           }
 
           if (newOffset != this.offset) {
-            window.location = '#' +  self.section.slug + '/' + newOffset;
+            window.location = '#' +  self.activeSection.slug + '/' + newOffset;
           }
         },
 
         navRight: function() {
           var newOffset = this.offset + 1;
-          if (newOffset >= self.section.collection.length) {
+          if (newOffset >= self.activeSection.collection.length) {
             newOffset = 0;
           }
 
@@ -152,15 +151,15 @@ function(Sleek, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, 
           // (this may not be the item right after this one if feed includes
           // mixed content)
           while ((newOffset !== this.offset) &&
-            (self.section.collection.at(newOffset).get('@type') !== 'ImageObject')) {
+            (self.activeSection.collection.at(newOffset).get('@type') !== 'ImageObject')) {
             newOffset = newOffset + 1;
-            if (newOffset >= self.section.collection.length) {
+            if (newOffset >= self.activeSection.collection.length) {
               newOffset = 0;
             }
           }
 
           if (newOffset != this.offset) {
-            window.location = '#' +  self.section.slug + '/' + newOffset;
+            window.location = '#' +  self.activeSection.slug + '/' + newOffset;
           }
         }
       });
@@ -185,7 +184,7 @@ function(Sleek, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, 
 
         exit: function() {
           this.hide();
-          window.location = '#' + self.section.slug;
+          window.location = '#' + self.activeSection.slug;
         }
       });
 
@@ -201,6 +200,43 @@ function(Sleek, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, 
       });
 
       this.videoDetail.hide();
+
+      // We create a 'virtual' view to handle global navigation that are not
+      // tied to routes.
+      this.virtualView = new UIElement({
+        navRight: _.bind(function() {
+          switch(this.focused) {
+            case 'toolbar':
+            if(this.activeSection && !this.activeSection.loading) {
+              var container = this.activeSection.view;
+
+              if(container.view) {
+                var view = container.view;
+
+                if(view.children && view.children.list) {
+                  view.children.list.navFocus(this.virtualView);
+                } else {
+                  view.navFocus(this.virtualView);
+                }
+
+                this.focused = 'list';
+              }
+            }
+            break;
+          }
+        }, this),
+        navLeft: _.bind(function() {
+          switch(this.focused) {
+            case 'list':
+            this.toolbarView.navFocus(this.virtualView);
+            this.focused = 'toolbar'
+            break;
+            case 'detail':
+            window.location = '#' + this.activeSection.slug;
+            break;
+          }
+        }, this)
+      });
 
       Sleek.prototype.createAdditionalViews.call(this, views);
     },
@@ -226,7 +262,7 @@ function(Sleek, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, 
             collection: section.collection,
             className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
           });
-        
+
         default:
           return new VerticalList({
             templateEl: '#template-list-view',
@@ -239,6 +275,112 @@ function(Sleek, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, 
       }
     },
 
+    /**
+     * Must create a list + detail view for a section.
+     *
+     * @param {Backbone.View} the list view
+     * @param {Backbone.View} the detail view
+     * @return {Backbone.View} the section viex
+     */
+    createListAndDetailView: function(list, detail) {
+      var view = new SlidePanel({
+        children: {
+          list: list,
+          detail: detail
+        },
+        currentChild: 'list',
+        className: 'slide-panel'
+      });
+
+      return view;
+    },
+
+    /**
+     * Updates a section list.
+     *
+     * @function
+     * @param {Object} the list section
+     * @parma {Backbone.View} the section container
+     */
+    updateList: function(section, container) {
+      section.loading = true;
+
+      section.collection.fetch({
+        success: _.bind(function() {
+          this.showList(section, container);
+          section.loading = false;
+        }, this)
+      });
+    },
+
+    /**
+     * Displays a section list (assuming the section is already active).
+     *
+     * @function
+     * @param {Object} the list section
+     * @parma {Backbone.View} the section container
+     */
+    showList: function(section, container) {
+      if(container.view.children && container.view.children.list) {
+        container.view.showChild('list', 'left');
+      } else if(section.collection.length === 1) {
+        container.setModel(section.collection.at(0));
+        container.render();
+      }
+    },
+
+    /**
+     * Updates a section item detail.
+     *
+     * @function
+     * @param {Object} the detail section
+     * @parma {Backbone.View} the section container
+     */
+    updateDetail: function(section, container, offset) {
+      section.collection.fetch({
+        success: _.bind(function() {
+          this.showDetail(section, container, offset);
+        }, this)
+      });
+    },
+
+    /**
+     * Displays a section item detail.
+     *
+     * @function
+     * @param {Object} the detail section
+     * @parma {Backbone.View} the section container
+     */
+    showDetail: function(section, container, offset) {
+      var model = section.collection.at(offset);
+      var detail = null;
+
+      if(section.collection.length > offset) {
+        switch(section.outputType) {
+          case 'photo':
+          detail = this.photoDetail;
+          detail.offset = offset;
+          detail.show();
+          break;
+          case 'video':
+          detail = this.videoDetail;
+          detail.offset = offset;
+          detail.show();
+          break;
+          default:
+          if(container.view.children && container.view.children.detail) {
+            detail = container.view.children.detail;
+            container.view.showChild('detail', 'right');
+          }
+        }
+
+        if(detail) {
+          detail.setModel(section.collection.at(offset));
+          detail.render();
+          detail.navFocus();
+        }
+      }
+    },
 
     /**
      * Creates the element to use to represent an item for the given section.
@@ -246,20 +388,29 @@ function(Sleek, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, 
      * Overrides base function with TV specific logic.
      *
      * @function
-     * @param {Object} section Section to render
+     * @param {Object} options Rendering options
      * @return {UIElement} The element to use. May include a detailed view.
      */
-    createDetailElement: function(section) {
-      var itemType = this.convertItemType(section.model.get('@type'));
+    createDetailElement: function(params, isSingle) {
+      if(!params.model) {
+        return new Item({});
+      }
+
+      var itemType = this.convertItemType(params.model.get('@type'));
       var self = this;
       var options = {
         templateEl: '#template-' + itemType,
         scroller: true,
         offsetTop: 100,
         offsetBottom: 100,
-        navLeft: function() {
-          window.location = '#' + section.slug;
-        }
+        navLeft: _.bind(function() {
+          if(isSingle) {
+            this.toolbarView.navFocus(this.virtualView);
+            this.focused = 'toolbar';
+          } else {
+            window.location = '#' + params.slug;
+          }
+        }, this)
       };
       switch (itemType) {
         case 'video':
@@ -273,122 +424,81 @@ function(Sleek, HorizontalLayout, Toolbar, CardPanel, SlidePanel, VerticalList, 
           return new FactoryMedia(options);
         case 'status':
           options.getImageUrl = function () {
-            return self.getAuthorThumbnail(section.model.toJSON());
+            return self.getAuthorThumbnail(params.model.toJSON());
           };
           return new ImageLoader(options);
         default:
           options.getImageUrl = function () {
-            return self.getThumbnail(section.model.toJSON());
+            return self.getThumbnail(params.model.toJSON());
           };
           return new ImageLoader(options);
       }
     },
 
-
-    /**
-     * Initializes and renders views created from the given list of sections.
-     *
-     * Overrides base method to add a bit of post-processing.
-     *
-     * @function
-     * @param {Array(Object)} sections The list of sections
-     *  (see "initialize" for format)
-     * @return {Object} Views created identified by their ID
-     */
-    createViews: function(sections) {
-      var views = Sleek.prototype.createViews.call(this, sections);
-      var $cards = $('#cards');
-
-      var cards = new CardPanel({
-        el: $cards,
-        children: views
-      });
-
-      var horizontalLayout = new HorizontalLayout({
-        el: '#container',
-        views: [
-          this.toolbarView,
-          cards
-        ]
-      });
-
-      return horizontalLayout;
-    },
-
-
     //
     // Creates routes
     //
-    createRoutes: function(sections, layout) {
-      var controllers = Sleek.prototype.createRoutes.call(this, sections, layout);
-      var toolbar = layout.views[0];
-      var cards = layout.views[1];
+    createRoutes: function(sections, views) {
+      var controllers = Sleek.prototype.createRoutes.call(this, sections, views);
       var self = this;
+      var toolbar = this.toolbarView;
 
       _.forEach(sections, function(section, position) {
         controllers.routes[section.slug] = section.slug;
 
         // List route
         controllers[section.slug] = function() {
-          self.section = section;
-          cards.showChildren(section.slug);
-          cards.children[section.slug].showChildren('list');
-          if(toolbar.active === -1) {
-            toolbar.navFocus(layout);
-          } else if(!toolbar.focused) {
-            cards.children[section.slug].children.list.navFocus(cards.children[section.slug]);
-          }
-          toolbar.activate(position);
-          $('iframe, audio, video, object, embed').remove();
+          self.activeSection = section;
           document.body.id = section.outputType;
+          $('iframe, audio, video, object, embed').remove();
 
-          section.collection.length || section.collection.fetch();
+          views.showChild(section.slug);
+          var container = self.activeSection.view;
+
+          if(section.collection.length) {
+            self.showList(section, container);
+          } else {
+            self.updateList(section, container);
+          }
+
+          if(toolbar.active === -1 || self.activeSection.loading) {
+            toolbar.activate(self.activeSection.index);
+            toolbar.navFocus(self.virtualView);
+            self.focused = 'toolbar';
+          } else if(self.focused !== 'toolbar') {
+            if(container.view) {
+              var view = container.view;
+
+              if(view.children && view.children.list) {
+                view.children.list.navFocus(self.virtualView);
+              } else {
+                view.navFocus(self.virtualView);
+              }
+
+              self.focused = 'list';
+            }
+          }
         };
 
         // Detail route
         controllers.routes[section.slug + '/:offset'] = section.slug + 'Detail';
 
         controllers[section.slug + 'Detail'] = function(offset) {
-          self.section = section;
-          offset = parseInt(offset, 10);$('iframe').remove();
+          offset = parseInt(offset, 10);
+          self.activeSection = section;
           document.body.id = section.outputType;
-          
-          var detail = null;
-          var renderDetailView = function () {
-            if(section.collection.length <= offset) return;
+          $('iframe, audio, video, object, embed').remove();
 
-            var model = section.collection.at(offset);
+          views.showChild(section.slug);
+          var container = self.activeSection.view;
 
-            if ((section.outputType === 'photo') || 
-              (model.get('@type') === 'ImageObject')) {
-              detail = self.photoDetail;
-              detail.offset = offset;
-              detail.show();
-            } else if ((section.outputType === 'video') || 
-              (model.get('@type') === 'VideoObject')) {
-              detail = self.videoDetail;
-              detail.show();
-            } else {
-              cards.showChildren(section.slug);
-              cards.children[section.slug].showChildren('detail');
-              detail = cards.children[section.slug].children['detail'];
-            }
-
-            detail.setModel(model);
-            detail.render();
-            detail.navFocus(layout);
-          };
-
-          if(section.collection.length === 0) {
-            section.collection.fetch({
-                success: function() {
-                  renderDetailView();
-                }
-              });
+          if(section.collection.length) {
+            self.showDetail(section, container, offset);
+          } else {
+            self.updateDetail(section, container, offset);
           }
-          else {
-            renderDetailView();
-          }
+
+          self.focused = 'detail';
         };
       });
 

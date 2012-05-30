@@ -174,6 +174,10 @@ h1, h2, h3, h4, h5, h6 {
   left: @toolbar-width;
   overflow: hidden;
   z-index: 5;
+
+  & > div {
+    height: 100%;
+  }
 }
 
 .content {
@@ -205,14 +209,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .slide-panel {
-  width: 200%;
+  width: 100%;
   height: 100%;
   //.transition(0.4s ease-in-out all);
-
-  .content {
-    float: left;
-    width: 50%;
-  }
 }
 
 /*.nav-active {
@@ -231,6 +230,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .list-container {
   margin-left: 400px;
+  height: 100%;
   background-color: darken(@background-color, 10%);
   .box-shadow(-5px 5px 10px rgba(0,0,0,.3));
 }
