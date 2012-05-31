@@ -1,0 +1,5 @@
+* Use a top level UILayout view instead of multiple top level views. It should
+  make the template cleaner.
+* When using both keyboard and mouse on TV version, navigation is akward.
+* Add icon selection to tabs.
+* Object/Mirror version?
