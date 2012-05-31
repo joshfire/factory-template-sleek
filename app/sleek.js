@@ -212,6 +212,9 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
             return 'content simple-list';
         }
       }
+      else if(context === 'single') {
+        return 'single content detail'
+      }
       else {
         return 'content detail';
       }
@@ -561,7 +564,7 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
 
       // Slide panels take twice the width available
       // (since they contain two panels)
-      return Math.floor($(activePanel).width() / 2);
+      return Math.floor($(activePanel).width());
     },
 
 
