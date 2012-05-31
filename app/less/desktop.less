@@ -779,9 +779,13 @@ header {
   top: 0;
   right: 0;
   bottom: 0;
+
+  & > div {
+    height: 100%;
+  }
 }
 
-.right-panel > div {
+.right-panel {
   position: absolute;
   left: 350px;
   top: 0;
@@ -1108,5 +1112,11 @@ header {
 
   .body {
     padding: 2.2em 1em 1em;
+  }
+}
+
+.single {
+  h3, h4 {
+    padding: 0 !important;
   }
 }
