@@ -88,6 +88,9 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
       if (context === 'list') {
         return 'content';
       }
+      else if(context === 'single') {
+        return 'single content detail';
+      }
       else {
         return 'content detail';
       }
