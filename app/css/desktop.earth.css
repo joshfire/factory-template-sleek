@@ -21,6 +21,8 @@ body{background-image:-webkit-gradient(linear, left top, left bottom, from(#8736
 a{color:inherit;text-decoration:none;}
 img{max-width:100%;}
 .single li{margin-left:40px;}
+.single ul{list-style:square;}
+.single ol{list-style:decimal;}
 #container{display:block;position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden;}
 .center{text-align:center;}
 .panel{width:100%;height:100%;}
