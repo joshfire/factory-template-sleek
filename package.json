@@ -108,7 +108,7 @@
               "type": "tabarray",
               "items": [
                 {
-                  "type": "fieldset",
+                  "type": "section",
                   "legend": "{{value}}",
                   "items": [
                     {
