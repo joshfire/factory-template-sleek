@@ -41,15 +41,15 @@ header{background:url(../images/phone-shadow.png) no-repeat center 2.2em;padding
 header h1{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.3em;text-transform:uppercase;line-height:1em;padding:.5em 0;float:left;}header h1 span{display:block;position:relative;z-index:50;text-shadow:0 0 2px rgba(0, 0, 0, 0.4);}
 #back{position:absolute;left:0;top:0;width:3em;height:2.24em;overflow:hidden;z-index:35;background:transparent url(../images/phone-back.png) no-repeat center center;text-indent:-30000px;display:none;}
 #refresh{position:absolute;right:0;top:0;width:3em;height:2.24em;overflow:hidden;z-index:35;background:transparent url(../images/phone-refresh.png) no-repeat center center;text-indent:-30000px;}
-#toolbar{float:right;}#toolbar ul{list-style:none;height:100%;}#toolbar ul li{float:left;margin-left:.3em;}#toolbar ul li a{display:block;background-color:#1d4162;-webkit-border-radius:0.15em;-moz-border-radius:0.15em;-ms-border-radius:0.15em;-o-border-radius:0.15em;border-radius:0.15em;text-align:center;height:2.3em;margin:.3em 0;width:4em;text-indent:-30000px;background-position:center center;background-repeat:no-repeat;position:relative;pointer-events:all;}#toolbar ul li a.photo{background-image:url(../images/phone-photos.png);}
-#toolbar ul li a.status{background-image:url(../images/phone-statuses.png);}
-#toolbar ul li a.video{background-image:url(../images/phone-videos.png);}
-#toolbar ul li a.event{background-image:url(../images/phone-events.png);}
-#toolbar ul li a.sound{background-image:url(../images/phone-sounds.png);}
+#toolbar{float:right;}#toolbar ul{list-style:none;height:100%;}#toolbar ul li{float:left;margin-left:.3em;}#toolbar ul li a{display:block;background-color:#1d4162;-webkit-border-radius:0.15em;-moz-border-radius:0.15em;-ms-border-radius:0.15em;-o-border-radius:0.15em;border-radius:0.15em;text-align:center;height:2.3em;margin:.3em 0;width:4em;text-indent:-30000px;background-position:center center;background-repeat:no-repeat;position:relative;pointer-events:all;}#toolbar ul li a.photo{background-image:url(../images/phone-photo.png);}
+#toolbar ul li a.status{background-image:url(../images/phone-status.png);}
+#toolbar ul li a.video{background-image:url(../images/phone-video.png);}
+#toolbar ul li a.event{background-image:url(../images/phone-event.png);}
+#toolbar ul li a.sound{background-image:url(../images/phone-sound.png);}
 #toolbar ul li a.contact{background-image:url(../images/phone-contact.png);}
 #toolbar ul li a.map{background-image:url(../images/phone-map.png);}
 #toolbar ul li a.news{background-image:url(../images/phone-news.png);}
-#toolbar ul li a.product{background-image:url(../images/phone-products.png);}
+#toolbar ul li a.product{background-image:url(../images/phone-product.png);}
 #toolbar ul li a.other{background-image:url(../images/phone-news.png);}
 #toolbar ul li a.next,#toolbar ul li a.prev{background-image:url(../images/phone-more.png);}
 #toolbar ul li a >span{left:0;top:0;position:absolute;display:block;width:100%;height:50%;background-image:-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.04)), to(rgba(255, 255, 255, 0.03)));background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.03));background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.03));background-image:-ms-linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.03));background-image:-o-linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.03));}

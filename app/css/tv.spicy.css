@@ -40,15 +40,15 @@ a{font:inherit;}
 h1,h2,h3,h4,h5,h6{font-size:1em;font-weight:normal;}
 #logo{position:absolute;width:275px;text-align:center;padding:40px 0;background-image:-webkit-gradient(linear, 0 0, 0 100%, from(rgba(255, 255, 255, 0)), color-stop(0.5, rgba(255, 255, 255, 0.08)), to(rgba(255, 255, 255, 0)));background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0), color-stop(0.5, rgba(255, 255, 255, 0.08)), rgba(255, 255, 255, 0));background-image:-moz-linear-gradient(rgba(255, 255, 255, 0), color-stop(rgba(255, 255, 255, 0.08), 0.5), rgba(255, 255, 255, 0));background-image:-ms-linear-gradient(rgba(255, 255, 255, 0), color-stop(rgba(255, 255, 255, 0.08), 0.5), rgba(255, 255, 255, 0));background-image:-o-linear-gradient(rgba(255, 255, 255, 0), color-stop(rgba(255, 255, 255, 0.08), 0.5), rgba(255, 255, 255, 0));font-size:1.2em;}#logo img{max-width:100%;max-height:200px;}
 #toolbar{background:transparent url(../images/tv-shadow.png) no-repeat 275px center;background-size:auto 100%;position:relative;width:375px;height:100%;z-index:20;}#toolbar ul{background-image:-webkit-gradient(linear, left top, left bottom, from(#7c0000), to(#3a0000));background-image:-webkit-linear-gradient(#7c0000, #3a0000);background-image:-moz-linear-gradient(#7c0000, #3a0000);background-image:-ms-linear-gradient(#7c0000, #3a0000);background-image:-o-linear-gradient(#7c0000, #3a0000);width:275px;height:100%;padding-top:300px;-webkit-box-sizing:border-box;}
-#toolbar a{width:100%;height:100%;display:block;text-indent:-30000px;background-repeat:no-repeat;background-position:center center;}#toolbar a.photo{background-image:url(../images/tv-photos.png);}
-#toolbar a.status{background-image:url(../images/tv-statuses.png);}
-#toolbar a.video{background-image:url(../images/tv-videos.png);}
-#toolbar a.event{background-image:url(../images/tv-events.png);}
+#toolbar a{width:100%;height:100%;display:block;text-indent:-30000px;background-repeat:no-repeat;background-position:center center;}#toolbar a.photo{background-image:url(../images/tv-photo.png);}
+#toolbar a.status{background-image:url(../images/tv-status.png);}
+#toolbar a.video{background-image:url(../images/tv-video.png);}
+#toolbar a.event{background-image:url(../images/tv-event.png);}
 #toolbar a.news{background-image:url(../images/tv-news.png);}
-#toolbar a.sound{background-image:url(../images/tv-sounds.png);}
+#toolbar a.sound{background-image:url(../images/tv-sound.png);}
 #toolbar a.contact{background-image:url(../images/tv-contact.png);}
 #toolbar a.map{background-image:url(../images/tv-map.png);}
-#toolbar a.product{background-image:url(../images/tv-products.png);}
+#toolbar a.product{background-image:url(../images/tv-product.png);}
 #toolbar a.other{background-image:url(../images/tv-news.png);}
 #toolbar li{width:120px;height:60px;margin:0 auto 10px;background:#860000;-webkit-border-radius:4px;-moz-border-radius:4px;-ms-border-radius:4px;-o-border-radius:4px;border-radius:4px;-webkit-box-sizing:border-box;}#toolbar li.nav-active{background:transparent url(../images/tv-glow.png) no-repeat center center;}
 #toolbar .highlight{position:absolute;left:137.5px;top:0;height:100%;width:137.5px;pointer-events:none;background-image:-webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0.02)), to(rgba(255, 255, 255, 0.01)));background-image:-webkit-linear-gradient(right center, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));background-image:-moz-linear-gradient(right center, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));background-image:-ms-linear-gradient(right center, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));background-image:-o-linear-gradient(right center, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));}
