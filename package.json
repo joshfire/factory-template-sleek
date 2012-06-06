@@ -96,14 +96,14 @@
             "type": "string",
             "enum": [
               "contact",
-              "events",
+              "event",
               "map",
               "news",
-              "photos",
-              "products",
-              "sounds",
-              "statuses",
-              "videos"
+              "photo",
+              "product",
+              "sound",
+              "status",
+              "video"
             ]
           }
         }
