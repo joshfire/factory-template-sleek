@@ -29,7 +29,7 @@
     <script type="text/javascript" src="vendor/moment.js"></script>
     <script type="text/javascript" src="vendor/sidjs-0.1.js"></script>
     <script type="text/javascript" src="prettystatus.js"></script>
-    <script data-joshfire-bootstrap src="http://127.0.0.1:40021/bootstrap/4f7ee34fcb31d63e47000002/4f688d8d3c7ecd00000001c0/phone/"></script>
+    <script data-joshfire-bootstrap src="http://127.0.0.1:40021/bootstrap/4fa7de84e1c05b6927000021/4fccd335ef88120db50000dd/phone/"></script>
   </head>
 
   <body class="device-phone" ontouchmove="event.preventDefault()">
@@ -55,7 +55,7 @@
 
     <script type="text/template" id="toolbar-item">
       <li>
-        <a href="<%= item.linkURL %>" class="<%= (item.name.toLowerCase() === 'contact') ? 'contact' : item.outputType %> section-<%= item.slug %>">
+        <a href="<%= item.linkURL %>" class="<%= (item.name.toLowerCase() === 'contact') ? 'contact' : item.icon %> section-<%= item.slug %>">
           <div class="indicator"><span>&nbsp;</span></div>
           <%= item.name %><span>&nbsp;</span>
         </a>

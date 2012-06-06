@@ -93,6 +93,7 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
 
       this.title = Joshfire.factory.config.app.name;
       this.tabs = Joshfire.factory.config.template.options.tabs || [];
+      this.tabicons = Joshfire.factory.config.template.options.tabicons || [];
       this.backgroundURL = Joshfire.factory.config.template.options.backgroundurl;
       this.logoURL = Joshfire.factory.config.app.logo ?
                   Joshfire.factory.config.app.logo.contentURL : null;
@@ -115,6 +116,7 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
         // Prepare sections
         _.forEach(datasources, _.bind(function(datasource, index) {
           var name = this.tabs[index] || datasource.name || '';
+          var icon = this.tabicons[index];
           var slug = index + '--' + this.slugify(name.toLowerCase());
           var collection = new Collection([], {
             dataSource: datasource,
@@ -128,9 +130,10 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
           sections[index] = {
             name: name,
             slug: slug,
+            icon: icon || self.convertItemType(outputType),
             outputType: self.convertItemType(outputType),
             collection: collection,
-            index: index,
+            index: index
           };
         }, self));
 
@@ -237,6 +240,7 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
         section = sections[i];
         sectionCollection.add({
           name: section.name,
+          icon: section.icon,
           linkURL: '#' + section.slug,
           outputType: section.outputType,
           slug: section.slug
