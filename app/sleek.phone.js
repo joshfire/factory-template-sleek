@@ -61,6 +61,24 @@ function(Sleek, Toolbar, SlidePanel, $, _) {
     },
 
     /**
+     * Refreshes a section list.
+     *
+     * @function
+     * @param {Object} the list section
+     * @parma {Backbone.View} the section container
+     */
+    refreshList: function(section, container) {
+      section.collection.fetch({
+        dataSourceQuery: {
+          nocache: true
+        },
+        success: _.bind(function() {
+          this.showList(section, container);
+        }, this)
+      });
+    },
+
+    /**
      * Updates a section list.
      *
      * @function
@@ -70,7 +88,7 @@ function(Sleek, Toolbar, SlidePanel, $, _) {
     updateList: function(section, container) {
       section.collection.fetch({
         success: _.bind(function() {
-          this.showList(section, container)
+          this.showList(section, container);
         }, this)
       });
     },
@@ -152,7 +170,7 @@ function(Sleek, Toolbar, SlidePanel, $, _) {
           $toolbar.find('.active').removeClass('active');
           $toolbar.find('.section-' + section.slug).addClass('active');
           $refresh.show().unbind('click').bind('click', _.bind(function(e) {
-            self.updateList(section, container);
+            self.refreshList(section, container);
             e.preventDefault();
             return false;
           }, this));
