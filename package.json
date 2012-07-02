@@ -141,7 +141,7 @@
                     {
                       "key": "tabs[]",
                       "valueInLegend": true,
-                      "value": "Tab {{idx}}"
+                      "value": "{{values.datasources.main[]}}"
                     },
                     {
                       "title": "Tab data source",
