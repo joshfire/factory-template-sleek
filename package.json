@@ -83,9 +83,9 @@
           "title": "Tabs titles",
           "type": "array",
           "items": {
-            "title": "Short tab title (max. 10 characters)",
+            "title": "Short tab title (max. 15 characters)",
             "type": "string",
-            "maxLength": 10
+            "maxLength": 15
           }
         },
         "tabicons": {
