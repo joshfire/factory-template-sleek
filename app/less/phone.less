@@ -22,7 +22,7 @@ body {
 header {
   background: url(../images/phone-shadow.png) no-repeat center 2.2em;
   padding-bottom: 10em;
-  background-size: 100% auto;
+  background-size: 100% 25%;
   width: 100%;
 
   h1 {
@@ -539,8 +539,9 @@ header {
   }
 }
 
-// A video item
-.video-item > div {
+// Video & News items
+.video-item > div,
+.news-item > div {
   a {
     display: block;
     padding: .5em 1em .5em .5em;
@@ -552,17 +553,16 @@ header {
     }
   }
 
-  img {
+  .thumbnail {
     float: left;
     display: block;
     width: 120px;
     height: 90px;
+    margin-right: 20px;
   }
 
   .right {
-    margin-left: 132px;
-    padding-right: 1.5em;
-    padding-top: 1em;
+    padding:1em 0 0 15px;
   }
 
   h3 {
@@ -590,10 +590,8 @@ header {
   }
 }
 
-// A news item
 // (and other types of item)
 .other-item > div,
-.news-item > div,
 .product-item > div {
   line-height: 1.2em;
 

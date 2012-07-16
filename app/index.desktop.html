@@ -29,7 +29,7 @@
     <script type="text/javascript" src="vendor/moment.js"></script>
     <script type="text/javascript" src="vendor/sidjs-0.1.js"></script>
     <script type="text/javascript" src="prettystatus.js"></script>
-    <script data-joshfire-bootstrap src="http://127.0.0.1:40021/bootstrap/4fa7de84e1c05b6927000021/4fccd335ef88120db50000dd/phone/"></script>
+    <script data-joshfire-bootstrap src="http://preview.joshfireapps.com/bootstrap/500422b7c3eff902000024d1/auto/desktop/"></script>
   </head>
 
   <body class="device-phone" ontouchmove="event.preventDefault()">
@@ -149,12 +149,19 @@
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <div>
-              <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
-              <h3>
-                <span><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></span>
-              </h3>
+              <% if (item.image.contentURL) { %>
+              <span class="thumbnail" style="background:url(<%= item.image.contentURL%>) no-repeat 0% 100%; background-size:contain; "></span>
+              <% } else { %>
+                <span class="thumbnail" style="background:url(images/noimage.png) no-repeat 0% 100%; background-size:contain; "></span>
               <% } %>
-              <h4><%= item.name || item.description %></h4>
+              <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+              <div class="right">
+                <h3>
+                  <span><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></span>
+                </h3>
+                <% } %>
+                <h4><%= item.name || item.description %></h4>
+              </div>
             </div>
           </a>
         </div>
