@@ -75,9 +75,9 @@
           "default":"gray",
           "required": true
         },
-        "backgroundurl": {
-          "title": "Background URL (for TV version)",
-          "type": "string"
+        "backgroundimage" : {
+          "title": "Background image for TV version",
+          "type": "object"
         },
         "tabs": {
           "title": "Tabs titles",
@@ -114,7 +114,11 @@
           "legend": "Styles",
           "items": [
             "color",
-            "backgroundurl"
+            {
+              "key" : "backgroundimage",
+              "type": "file-transloadit"
+            }
+            
           ]
         },
         {
