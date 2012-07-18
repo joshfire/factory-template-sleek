@@ -94,7 +94,7 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
       this.title = Joshfire.factory.config.app.name;
       this.tabs = Joshfire.factory.config.template.options.tabs || [];
       this.tabicons = Joshfire.factory.config.template.options.tabicons || [];
-      this.backgroundURL = Joshfire.factory.config.template.options.backgroundurl;
+      this.backgroundURL = Joshfire.factory.config.template.options.backgroundimage ? Joshfire.factory.config.template.options.backgroundimage.url : Joshfire.factory.config.template.options.backgroundurl;
       this.logoURL = Joshfire.factory.config.app.logo ?
                   Joshfire.factory.config.app.logo.contentURL : null;
 
