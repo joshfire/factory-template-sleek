@@ -70,8 +70,8 @@
         <ul class="list">
           <%= children %>
         </ul>
+        <div class="loadmore"><p>Load more entries</p></div>
       </div>
-      <div class="spinner">&nbsp;</div>
     </script>
 
     <script type="text/template" id="template-photo-item">
@@ -88,7 +88,7 @@
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <% if (imageUrl) { %>
-            <img src="<%= imageUrl %>" alt="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" />
+              <span class="thumbnail" style="background-image:url(<%= imageUrl %>)"></span>
             <% } %>
             <div class="right">
               <% if (item.author && item.author[0] && item.author[0].name) { %>
@@ -115,7 +115,7 @@
           <a href="#<%= section.slug %>/<%= offset %>">
             <div>
               <% if (imageUrl) { %>
-              <img src="<%= imageUrl %>" alt="" />
+                <span class="thumbnail" style="background-image:url(<%= imageUrl %>)"></span>
               <% } %>
               <div class="right">
                 <h3><%= item.name %></h3>
@@ -149,9 +149,7 @@
           <a href="#<%= section.slug %>/<%= offset %>">
             <div>
               <% if (item.image.contentURL) { %>
-              <span class="thumbnail" style="background:url(<%= item.image.contentURL%>) no-repeat 0% 100%; background-size:contain; "></span>
-              <% } else { %>
-                <span class="thumbnail" style="background:url(images/noimage.png) no-repeat 0% 100%; background-size:contain; "></span>
+                <span class="thumbnail" style="background-image:url(<%= item.image.contentURL %>)"></span>
               <% } %>
               <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
               <div class="right">
@@ -201,7 +199,7 @@
       <div class="body">
         <div class="header">
           <% if (imageUrl) { %>
-            <img src="<%= imageUrl %>" alt="" />
+            <span class="thumbnail" style="background-image:url(<%= imageUrl %>)"></span>
           <% } %>
           <% if (item.author && item.author[0] && item.author[0].name) { %>
             <h2><%= item.author[0].name %></h2>
@@ -320,7 +318,7 @@
           <a href="#<%= section.slug %>/<%= offset %>">
             <div>
               <% if (imageUrl) { %>
-              <img src="<%= imageUrl %>" alt="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" />
+                <span class="thumbnail" style="background-image:url(<%= imageUrl %>)"></span>
               <% } %>
               <h4>
                 <%= item.name %>
@@ -362,7 +360,7 @@
           <% } else if (item.author && item.author.name) { %> by <%= item.author.name %><% } %>
         </h4>
         <% if(item.thumbnail && item.thumbnail.length) { %>
-          <img src="<%= item.thumbnail[0].contentURL %>" />
+          <span class="thumbnail" style="background-image:url(<%= item.thumbnail[0].contentURL %>)"></span>
         <% } %>
         <div class="media"><%= media.html %></div>
         <% if(item.description) { %>

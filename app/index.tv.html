@@ -87,8 +87,8 @@
         <ul class="list">
           <%= children %>
         </ul>
+        <div class="loadmore"><p>Load more entries</p></div>
       </div>
-      <div class="spinner">&nbsp;</div>
     </script>
 
     <script type="text/template" id="template-mosaic">
@@ -170,9 +170,7 @@
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <% if (item.image.contentURL) { %>
-              <span class="thumbnail" style="background:url(<%= item.image.contentURL%>) no-repeat 0% 100%; background-size:contain; "></span>
-            <% } else { %>
-              <span class="thumbnail" style="background:url(images/noimage.png) no-repeat 0% 100%; background-size:contain; "></span>
+              <span class="thumbnail" style="background-image:url(<%= item.image.contentURL %>)"></span>
             <% } %>
             <div class="item-content">
               <h3><%= item.name || item.description %></h3>

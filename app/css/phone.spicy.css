@@ -57,14 +57,14 @@ header>span{display:block;position:absolute;top:0;right:0;width:40%;height:2.24e
 #viewport{position:absolute;left:0;top:2.2em;bottom:3.05em;width:100%;z-index:1;}
 #cards{width:100%;height:100%;}
 .content{position:absolute;left:0;top:0;width:100%;height:100%;}.content >div{-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden;}
-.content.loading .spinner{display:block;}
-.content .spinner{background:rgba(0, 0, 0, 0.9) url(../images/spinner.gif) no-repeat center center;position:absolute;top:0;bottom:0;left:50%;top:50%;width:5em;height:5em;margin-top:-2.5em;margin-left:-2.5em;z-index:2;display:none;-webkit-border-radius:0.5em;-moz-border-radius:0.5em;-ms-border-radius:0.5em;-o-border-radius:0.5em;border-radius:0.5em;}
-.content img{max-width:100%;margin:1em 0;}
+.content.loading .loadmore{background:rgba(0, 0, 0, 0.9) url('../images/spinner.gif') no-repeat center center;}.content.loading .loadmore p{display:none;}
+.content .loadmore{background:rgba(0, 0, 0, 0.9);width:100%;height:50px;line-height:50px;text-align:center;font-size:18px;z-index:200;cursor:pointer;color:#fff;}
+.content img{max-width:100%;}
 .panel{position:absolute;height:100%;width:100%;}
 .slide-panel{position:absolute;left:0;width:100%;height:100%;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden;}.slide-panel >.content{float:left;position:relative;left:0;top:0;height:100%;width:100%;}
 .list{list-style:none;line-height:1em;padding:0;}.list:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
 .simple-list li{border-bottom:solid 2px rgba(124, 0, 0, 0.15);background-image:-webkit-gradient(linear, left top, left bottom, from(rgba(124, 0, 0, 0.1)), to(rgba(255, 255, 255, 0)));background-image:-webkit-linear-gradient(rgba(124, 0, 0, 0.1), rgba(255, 255, 255, 0));background-image:-moz-linear-gradient(rgba(124, 0, 0, 0.1), rgba(255, 255, 255, 0));background-image:-ms-linear-gradient(rgba(124, 0, 0, 0.1), rgba(255, 255, 255, 0));background-image:-o-linear-gradient(rgba(124, 0, 0, 0.1), rgba(255, 255, 255, 0));}.simple-list li:first-child{padding-top:1em;}
-.simple-list li:last-child{border-bottom:none;padding-bottom:2em;}
+.simple-list li:last-child{border-bottom:none;}
 .hashed-list li{border-bottom:solid thin rgba(175, 0, 0, 0.2);}.hashed-list li:nth-child(even){background-color:rgba(22, 0, 0, 0.3);}
 .hashed-list li:first-child{padding-top:1em;}
 .hashed-list li:last-child{border-bottom:none;padding-bottom:2em;}
@@ -88,8 +88,8 @@ header>span{display:block;position:absolute;top:0;right:0;width:40%;height:2.24e
 .status-item>div h3{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1em;margin-bottom:.15em;}
 .status-item>div p{color:#d9d9d9;}
 .status-item>div h4{font-size:1em;font-weight:normal;color:#b3b3b3;margin-top:.15em;}
+.thumbnail{float:left;display:block;width:120px;height:90px;margin-right:20px;background-image:url('../images/noimage.png');background:no-repeat center center;background-size:cover;}
 .video-item>div a,.news-item>div a{display:block;padding:.5em 1em .5em .5em;}.video-item>div a >div,.news-item>div a >div{background:url(../images/phone-plus-dark.png) no-repeat right center;padding-right:2em;}.video-item>div a >div:after,.news-item>div a >div:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
-.video-item>div .thumbnail,.news-item>div .thumbnail{float:left;display:block;width:120px;height:90px;margin-right:20px;}
 .video-item>div .right,.news-item>div .right{padding:1em 0 0 15px;}
 .video-item>div h3,.news-item>div h3{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1em;}
 .sound-item>div a{display:block;padding:1em 1em 1em .5em;}.sound-item>div a >div{background:url(../images/phone-plus-dark.png) no-repeat right center;padding-right:2em;}.sound-item>div a >div:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
