@@ -67,7 +67,7 @@ header>span{display:block;position:absolute;top:0;right:0;width:40%;height:2.24e
 .simple-list li:last-child{border-bottom:none;}
 .hashed-list li{border-bottom:solid thin rgba(60, 60, 60, 0.2);}.hashed-list li:nth-child(even){background-color:rgba(0, 0, 0, 0.3);}
 .hashed-list li:first-child{padding-top:1em;}
-.hashed-list li:last-child{border-bottom:none;padding-bottom:2em;}
+.hashed-list li:last-child{border-bottom:none;}
 .mosaic-list{background:#000;position:absolute;left:0;top:0;width:100%;height:100%;}.mosaic-list li{width:50%;float:left;padding:0;}.mosaic-list li>div{display:block;height:0;overflow:hidden;padding-bottom:50%;position:relative;}.mosaic-list li>div a{display:block;position:absolute;left:0;right:0;top:0;bottom:0;border:solid thin #000;}
 .mosaic-list li:nth-child(6n - 5)>div{padding-bottom:100%;}
 .mosaic-list li:nth-child(6n - 1){float:right;}.mosaic-list li:nth-child(6n - 1)>div{padding-bottom:100%;}

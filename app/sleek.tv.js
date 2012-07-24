@@ -330,6 +330,36 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
         container.setModel(section.collection.at(0));
         container.render();
       }
+
+      $('.loadmore').bind('click', _.bind(function(e) {
+        var skiped = $('.'+section.outputType).find('.list li').length;
+        this.loadMoreEntries(section, container, skiped);
+        e.preventDefault();
+      }, this));
+    },
+
+    /**
+     * Load more entries of the datasource when the user is in the
+     * bottom of the list
+     *
+     * @function
+     * @return {Array(Object)} The list of datasources, an empty
+     *   array when no datasources are defined.
+     */
+    loadMoreEntries: function(section, container, skiped) {
+      $('.content').addClass('loading');
+      // var currentHTML = $('.'+section.outputType).find('.list').html();
+      var limitless   = skiped + 10;
+
+      section.collection.fetch({
+        dataSourceQuery: {
+          nocache: false,
+          limit: limitless
+        },
+        success: _.bind(function() {
+          this.showList(section, container); // params if need skip/limit : , skiped, currentHTML
+        }, this)
+      });
     },
 
     /**

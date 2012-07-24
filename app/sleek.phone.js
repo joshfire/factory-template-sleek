@@ -15,7 +15,6 @@ function(Sleek, Toolbar, SlidePanel, $, _) {
      */
     deviceFamily: 'phone',
 
-
     /**
      * Creates the toolbar UI element.
      * Overrides base function to return a Toolbar element with appropriate
@@ -100,13 +99,44 @@ function(Sleek, Toolbar, SlidePanel, $, _) {
      * @param {Object} the list section
      * @parma {Backbone.View} the section container
      */
-    showList: function(section, container) {
+    showList: function(section, container, skiped, currentHTML) {
+    // Uncomment if skip/limit needed
       if(container.view.children && container.view.children.list) {
         container.view.showChild('list', 'left');
       } else if(section.collection.length) {
         container.setModel(section.collection.at(0));
         container.render();
       }
+
+      $('.loadmore').bind('click', _.bind(function(e) {
+        window.skiped = $('.'+section.outputType).find('.list li').length;
+        this.loadMoreEntries(section, container, window.skiped);
+        e.preventDefault();
+      }, this));
+    },
+
+    /**
+     * Load more entries of the datasource when the user is in the
+     * bottom of the list
+     *
+     * @function
+     * @return {Array(Object)} The list of datasources, an empty
+     *   array when no datasources are defined.
+     */
+    loadMoreEntries: function(section, container, skiped) {
+      $('.content').addClass('loading');
+      // var currentHTML = $('.'+section.outputType).find('.list').html();
+      var limitless   = window.skiped + 10;
+
+      section.collection.fetch({
+        dataSourceQuery: {
+          nocache: false,
+          limit: limitless
+        },
+        success: _.bind(function() {
+          this.showList(section, container); // params if need skip/limit : , currentHTML
+        }, this)
+      });
     },
 
     /**
@@ -152,12 +182,12 @@ function(Sleek, Toolbar, SlidePanel, $, _) {
      * @parma {Backbone.View} the sections view container
      */
     createRoutes: function(sections, views) {
-      var controllers = Sleek.prototype.createRoutes.call(this, sections, views);
-      var $title = $('#title');
-      var $toolbar = $('#toolbar');
-      var $back = $('#back');
-      var $refresh = $('#refresh');
-      var self = this;
+      var controllers = Sleek.prototype.createRoutes.call(this, sections, views),
+          $title = $('#title'),
+          $toolbar = $('#toolbar'),
+          $back = $('#back'),
+          $refresh = $('#refresh'),
+          self = this;
 
       _.forEach(sections, function(section) {
         controllers.routes[section.slug] = section.slug;
@@ -174,6 +204,7 @@ function(Sleek, Toolbar, SlidePanel, $, _) {
             e.preventDefault();
             return false;
           }, this));
+
           $back.hide();
 
           views.showChild(section.slug);

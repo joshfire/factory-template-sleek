@@ -147,7 +147,6 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
       });
     },
 
-
     /**
      * Returns the list of datasources entered by the user, in the
      * right order.
@@ -166,7 +165,6 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
       }
       return datasources;
     },
-
 
     /**
      * Sets the template color
@@ -291,7 +289,6 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
       return sectionsView;
     },
 
-
     /**
      * Creates additional views.
      *
@@ -378,8 +375,7 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
           collection: section.collection,
           className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
         });
-      }
-      else {
+      } else {
         return new List({
           templateEl: '#template-list-view',
           scroller: true,

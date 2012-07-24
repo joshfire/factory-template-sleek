@@ -63,6 +63,57 @@ function(Sleek, Layout, $, _) {
       return view;
     },
 
+    showList:function(section, container) {
+      if(container.view.children) {
+        if(container.view.children.detail) {
+          var detail = container.view.children.detail;
+          detail.setModel(section.collection.at(0));
+          detail.render();
+        } else {
+          container.setModel(section.collection.at(0));
+          container.render();
+        }
+
+        if(container.view.children.list) {
+          var list = container.view.children.list;
+          list.$('.active').removeClass('active');
+          $(list.$('li')[0]).addClass('active');
+        }
+      } else if(section.collection.length) {
+        container.setModel(section.collection.at(0));
+        container.render();
+      }
+
+
+      $('.loadmore').bind('click', _.bind(function(e) {
+        window.skiped = $('.'+section.outputType).find('.list li').length;
+        this.loadMoreEntries(section, container, window.skiped);
+        e.preventDefault();
+      }, this));
+    },
+
+    /**
+     * Load more entries of the datasource when the user is in the
+     * bottom of the list
+     *
+     * @function
+     * @return {Array(Object)} The list of datasources, an empty
+     *   array when no datasources are defined.
+     */
+    loadMoreEntries: function(section, container, skiped) {
+      // var currentHTML = $('.'+section.outputType).find('.list').html();
+      var limitless   = window.skiped + 10;
+
+      section.collection.fetch({
+        dataSourceQuery: {
+          nocache: false,
+          limit: limitless
+        },
+        success: _.bind(function() {
+          this.showList(section, container); // params if need skip/limit : , skiped, currentHTML
+        }, this)
+      });
+    },
 
     /**
      * Returns the width that is available for detailed views.
@@ -127,21 +178,7 @@ function(Sleek, Layout, $, _) {
 
           section.collection.fetch({
             success: function() {
-              if(container.view.children && container.view.children.detail &&
-                  section.collection.length) {
-                var detail = container.view.children.detail;
-                detail.setModel(section.collection.at(0));
-                detail.render();
-
-                if(container.view.children.list) {
-                  var list = container.view.children.list;
-                  list.$('.active').removeClass('active');
-                  $(list.$('li')[0]).addClass('active');
-                }
-              } else if(section.collection.length) {
-                container.setModel(section.collection.at(0));
-                container.render();
-              }
+              self.showList(section, container);
             }
           });
         };
