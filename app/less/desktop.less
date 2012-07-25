@@ -41,7 +41,7 @@ body {
 header {
   background: url(../images/phone-shadow.png) no-repeat center 2.2em;
   padding-bottom: 10em;
-  background-size: 100% 25%;
+  background-size: 100% auto;
   width: 100%;
   position: relative;
   z-index: 2;
@@ -261,31 +261,33 @@ header {
 //---------------------------------------------------------------------------
 // Content = screen - (header + footer)
 //---------------------------------------------------------------------------
-.left-panel {
+.content {
+
 
   & > div {
     .backface-hidden;
   }
 
   &.loading {
-    .loadmore {
-      background: rgba(0, 0, 0, 0.9) url('../images/spinner.gif') no-repeat center center;
-      p {
-        display: none;
-      }
+    .spinner {
+      display: block;
     }
   }
 
-  .loadmore {
-    background: rgba(0, 0, 0, 0.9);
-    width: 100%;
-    height: 50px;
-    line-height:50px;
-    text-align:center;
-    font-size:18px;
-    z-index: 200;
-    cursor:pointer;
-    color:#fff;
+  .spinner {
+    background: rgba(0,0,0,.9) url(../images/spinner.gif) no-repeat center center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    top: 50%;
+    width: 5em;
+    height: 5em;
+    margin-top: -2.5em;
+    margin-left: -2.5em;
+    z-index: 2;
+    display: none;
+    .border-radius(.5em);
   }
 }
 
@@ -506,7 +508,6 @@ header {
 }
 
 // A status item
-.status-item { min-height:100px; }
 .status-item > div {
   a {
     display: block;
@@ -529,7 +530,7 @@ header {
   }
 
   .right {
-    margin-left: 140px;
+    margin-left: 60px;
     padding-right: 1.5em;
   }
 
@@ -551,20 +552,8 @@ header {
   }
 }
 
-.thumbnail {
-  float: left;
-  display: block;
-  width: 120px;
-  height: 90px;
-  margin-right: 20px;
-  background-image:url('../images/noimage.png');
-  background:no-repeat center center;
-  background-size:cover;
-}
-
-// Video & News items
-.video-item > div,
-.news-item > div {
+// A video item
+.video-item > div {
   a {
     display: block;
     padding: .5em 1em .5em .5em;
@@ -576,8 +565,17 @@ header {
     }
   }
 
+  img {
+    float: left;
+    display: block;
+    width: 120px;
+    height: 90px;
+  }
+
   .right {
-    padding:1em 0 0 15px;
+    margin-left: 132px;
+    padding-right: 1.5em;
+    padding-top: 1em;
   }
 
   h3 {
@@ -608,7 +606,8 @@ header {
 // A news item
 // (and other types of item)
 .other-item > div,
-.product-item > div {
+.product-item > div,
+.news-item > div {
   line-height: 1.2em;
 
   a {

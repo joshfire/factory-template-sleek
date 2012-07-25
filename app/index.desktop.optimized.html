@@ -29,7 +29,7 @@
     <script type="text/javascript" src="vendor/moment.js"></script>
     <script type="text/javascript" src="vendor/sidjs-0.1.js"></script>
     <script type="text/javascript" src="prettystatus.js"></script>
-    <script data-joshfire-bootstrap src="http://preview.joshfireapps.com/bootstrap/500422b7c3eff902000024d1/auto/desktop/"></script>
+    <script data-joshfire-bootstrap src="http://127.0.0.1:40021/bootstrap/4f9ab089332c300000000022/4fb0f83b42c20a9abc000436/phone/"></script>
   </head>
 
   <body class="device-phone" ontouchmove="event.preventDefault()">
@@ -71,8 +71,8 @@
         <ul class="list">
           <%= children %>
         </ul>
-        <div class="loadmore"><p>Load more entries</p></div>
       </div>
+      <div class="spinner">&nbsp;</div>
     </script>
 
     <script type="text/template" id="template-photo-item">
@@ -89,7 +89,7 @@
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <% if (imageUrl) { %>
-              <span class="thumbnail" style="background-image:url(<%= imageUrl %>)"></span>
+            <img src="<%= imageUrl %>" alt="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" />
             <% } %>
             <div class="right">
               <% if (item.author && item.author[0] && item.author[0].name) { %>
@@ -116,7 +116,7 @@
           <a href="#<%= section.slug %>/<%= offset %>">
             <div>
               <% if (imageUrl) { %>
-                <span class="thumbnail" style="background-image:url(<%= imageUrl %>)"></span>
+              <img src="<%= imageUrl %>" alt="" />
               <% } %>
               <div class="right">
                 <h3><%= item.name %></h3>
@@ -149,17 +149,12 @@
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <div>
-              <% if (item.image && item.image.contentURL) { %>
-                <span class="thumbnail" style="background-image:url(<%= item.image.contentURL %>)"></span>
-              <% } %>
               <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
-              <div class="right">
-                <h3>
-                  <span><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></span>
-                </h3>
-                <% } %>
-                <h4><%= item.name || item.description %></h4>
-              </div>
+              <h3>
+                <span><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></span>
+              </h3>
+              <% } %>
+              <h4><%= item.name || item.description %></h4>
             </div>
           </a>
         </div>
@@ -199,7 +194,7 @@
     <script type="text/template" id="template-status">
       <div class="header">
         <% if (imageUrl) { %>
-          <span class="thumbnail" style="background-image:url(<%= imageUrl %>)"></span>
+          <img src="<%= imageUrl %>" alt="" />
         <% } %>
         <% if (item.author && item.author[0] && item.author[0].name) { %>
           <h2><%= item.author[0].name %></h2>
