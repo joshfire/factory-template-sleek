@@ -94,6 +94,7 @@ header>span{display:block;position:absolute;top:0;right:0;width:40%;height:2.24e
 .video-item>div h3{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1em;}
 .sound-item>div a{display:block;padding:1em 1em 1em .5em;}.sound-item>div a >div{background:url(../images/phone-plus-dark.png) no-repeat right center;padding-right:2em;}.sound-item>div a >div:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
 .sound-item>div h3{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1em;margin-bottom:.2em;}
+.news-item .thumbnail{float:left;display:block;width:120px;height:90px;margin-right:.5em;background-image:url('../images/noimage.png');background:no-repeat center center;background-size:cover;}
 .other-item>div,.news-item>div,.product-item>div{line-height:1.2em;}.other-item>div a,.news-item>div a,.product-item>div a{display:block;padding:.5em 1em .5em .5em;}.other-item>div a >div,.news-item>div a >div,.product-item>div a >div{background:url(../images/phone-plus-dark.png) no-repeat right center;padding-right:2em;}.other-item>div a >div:after,.news-item>div a >div:after,.product-item>div a >div:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
 .other-item>div img,.news-item>div img,.product-item>div img{float:right;display:block;width:120px;height:90px;}
 .other-item>div .right,.news-item>div .right,.product-item>div .right{margin-left:132px;padding-right:1.5em;padding-top:1em;}

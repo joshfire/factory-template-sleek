@@ -170,6 +170,9 @@
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <div class="item-content">
+              <% if (item.image && item.image.contentURL) { %>
+                <span class="thumbnail" style="background-image:url(<%= item.image.contentURL %>)"></span>
+              <% } %>
               <h3><%= item.name || item.description %></h3>
             </div>
             <div class="far-left">

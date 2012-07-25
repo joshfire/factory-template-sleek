@@ -14,7 +14,7 @@
     <script type="text/javascript" src="vendor/moment.js"></script>
     <script type="text/javascript" src="vendor/sidjs-0.1.js"></script>
     <script type="text/javascript" src="prettystatus.js"></script>
-    <script data-joshfire-bootstrap src="http://127.0.0.1:40021/bootstrap/4f7ee34fcb31d63e47000002/4f688d8d3c7ecd00000001c0/phone/"></script>
+    <script data-joshfire-bootstrap src="http://preview.joshfireapps.com/bootstrap/500422b7c3eff902000024d1/500e95862d39e1020000050c/phone/"></script>
 
     <style type="text/css" media="screen">
       body, html {
@@ -170,6 +170,9 @@
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <div class="item-content">
+              <% if (item.image && item.image.contentURL) { %>
+                <span class="thumbnail" style="background-image:url(<%= item.image.contentURL %>)"></span>
+              <% } %>
               <h3><%= item.name || item.description %></h3>
             </div>
             <div class="far-left">

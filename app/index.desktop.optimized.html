@@ -29,7 +29,7 @@
     <script type="text/javascript" src="vendor/moment.js"></script>
     <script type="text/javascript" src="vendor/sidjs-0.1.js"></script>
     <script type="text/javascript" src="prettystatus.js"></script>
-    <script data-joshfire-bootstrap src="http://127.0.0.1:40021/bootstrap/4f9ab089332c300000000022/4fb0f83b42c20a9abc000436/phone/"></script>
+    <script data-joshfire-bootstrap src="http://preview.joshfireapps.com/bootstrap/500422b7c3eff902000024d1/500e95862d39e1020000050c/phone/"></script>
   </head>
 
   <body class="device-phone" ontouchmove="event.preventDefault()">
@@ -149,6 +149,9 @@
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <div>
+              <% if (item.image && item.image.contentURL) { %>
+                <span class="thumbnail" style="background-image:url(<%= item.image.contentURL %>)"></span>
+              <% } %>
               <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
               <h3>
                 <span><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></span>

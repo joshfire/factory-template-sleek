@@ -149,6 +149,9 @@
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <div>
+              <% if (item.image && item.image.contentURL) { %>
+                <span class="thumbnail" style="background-image:url(<%= item.image.contentURL %>)"></span>
+              <% } %>
               <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
               <h3>
                 <span><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></span>
