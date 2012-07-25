@@ -29,7 +29,7 @@
     <script type="text/javascript" src="vendor/moment.js"></script>
     <script type="text/javascript" src="vendor/sidjs-0.1.js"></script>
     <script type="text/javascript" src="prettystatus.js"></script>
-    <script data-joshfire-bootstrap src="http://127.0.0.1:40021/bootstrap/4f9ab089332c300000000022/4fb0f83b42c20a9abc000436/phone/"></script>
+    <script data-joshfire-bootstrap src="http://preview.joshfireapps.com/bootstrap/500422b7c3eff902000024d1/auto/phone/"></script>
   </head>
 
   <body class="device-phone" ontouchmove="event.preventDefault()">
@@ -70,8 +70,8 @@
         <ul class="list">
           <%= children %>
         </ul>
+        <div class="loadmore"><p>Load more entries</p></div>
       </div>
-      <div class="spinner">&nbsp;</div>
     </script>
 
     <script type="text/template" id="template-photo-item">
@@ -88,7 +88,7 @@
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <% if (imageUrl) { %>
-            <img src="<%= imageUrl %>" alt="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" />
+              <span class="thumbnail" style="background-image:url(<%= imageUrl %>)"></span>
             <% } %>
             <div class="right">
               <% if (item.author && item.author[0] && item.author[0].name) { %>
@@ -115,7 +115,7 @@
           <a href="#<%= section.slug %>/<%= offset %>">
             <div>
               <% if (imageUrl) { %>
-              <img src="<%= imageUrl %>" alt="" />
+                <span class="thumbnail" style="background-image:url(<%= imageUrl %>)"></span>
               <% } %>
               <div class="right">
                 <h3><%= item.name %></h3>
@@ -148,12 +148,17 @@
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <div>
-              <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
-              <h3>
-                <span><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></span>
-              </h3>
+              <% if (item.image && item.image.contentURL) { %>
+                <span class="thumbnail" style="background-image:url(<%= item.image.contentURL %>)"></span>
               <% } %>
-              <h4><%= item.name || item.description %></h4>
+              <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+              <div class="right">
+                <h3>
+                  <span><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></span>
+                </h3>
+                <% } %>
+                <h4><%= item.name || item.description %></h4>
+              </div>
             </div>
           </a>
         </div>
@@ -194,7 +199,7 @@
       <div class="body">
         <div class="header">
           <% if (imageUrl) { %>
-            <img src="<%= imageUrl %>" alt="" />
+            <span class="thumbnail" style="background-image:url(<%= imageUrl %>)"></span>
           <% } %>
           <% if (item.author && item.author[0] && item.author[0].name) { %>
             <h2><%= item.author[0].name %></h2>
@@ -313,7 +318,7 @@
           <a href="#<%= section.slug %>/<%= offset %>">
             <div>
               <% if (imageUrl) { %>
-              <img src="<%= imageUrl %>" alt="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" />
+                <span class="thumbnail" style="background-image:url(<%= imageUrl %>)"></span>
               <% } %>
               <h4>
                 <%= item.name %>
@@ -344,7 +349,6 @@
       </div>
     </script>
 
-
     <script type="text/template" id="template-sound">
       <div class="body">
         <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
@@ -356,7 +360,7 @@
           <% } else if (item.author && item.author.name) { %> by <%= item.author.name %><% } %>
         </h4>
         <% if(item.thumbnail && item.thumbnail.length) { %>
-          <img src="<%= item.thumbnail[0].contentURL %>" />
+          <span class="thumbnail" style="background-image:url(<%= item.thumbnail[0].contentURL %>)"></span>
         <% } %>
         <div class="media"><%= media.html %></div>
         <% if(item.description) { %>
