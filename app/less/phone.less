@@ -24,6 +24,8 @@ header {
   padding-bottom: 10em;
   background-size: 100% auto;
   width: 100%;
+  position:relative;
+  z-index:10;
 
   h1 {
     .vertical-gradient(desaturate(lighten(@background-color, 20%), 20%), desaturate(lighten(@background-color, 2), 20%));
@@ -594,8 +596,8 @@ header {
 .news-item .thumbnail {
   float: left;
   display: block;
-  width: 120px;
-  height: 90px;
+  width: 110px;
+  height: 80px;
   margin-right:.5em;
   background-image:url('../images/noimage.png');
   background:no-repeat center center;
