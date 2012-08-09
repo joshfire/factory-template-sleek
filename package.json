@@ -1,7 +1,7 @@
 {
   "name": "sleek",
   "fullName": "Sleek",
-  "version": "1.1.21",
+  "version": "1.1.22",
   "description": "Generic-purpose nicely polished template that supports photos, videos, events, RSS feeds, status updates, contact info, and a map. The views are adapted automatically based on the datasources that you set in the configuration settings. Just make sure that you use the most appropriate datasouce type for the underlying template inputs!\n\nThe template is available in 5 different colors: blue, spicy, gray, earth and vegetal.",
   "keywords": [
     "generic",
