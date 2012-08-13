@@ -94,7 +94,8 @@ function(Sleek, Toolbar, SlidePanel, $, _) {
     },
 
     /**
-     * Displays a section list (assuming the section is already active).
+     * Displays a section list
+     * (assuming the section is already active).
      *
      * @function
      * @param {Object} the list section
@@ -106,6 +107,19 @@ function(Sleek, Toolbar, SlidePanel, $, _) {
       } else if(section.collection.length) {
         container.setModel(section.collection.at(0));
         container.render();
+      }
+    },
+
+    /**
+     * Moves focus to the list view
+     * (for views that have a list and a detail sub-views)
+     *
+     * @function
+     * @param {Backbone.View} the section container
+     */
+    moveToList: function(container) {
+      if (container.view.children && container.view.children.list) {
+        container.view.showChild('list', 'left');
       }
     },
 
@@ -176,12 +190,13 @@ function(Sleek, Toolbar, SlidePanel, $, _) {
           }, this));
           $back.hide();
 
-          views.showChild(section.slug);
           var container = views.children[section.slug];
 
-          if(section.collection.length) {
-            self.showList(section, container);
+          if (section.collection.length) {
+            self.moveToList(container);
+            views.showChild(section.slug);
           } else {
+            views.showChild(section.slug);
             self.updateList(section, container);
           }
         };
