@@ -299,55 +299,6 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
     },
 
     /**
-     * Updates a section list.
-     *
-     * @function
-     * @param {Object} the list section
-     * @parma {Backbone.View} the section container
-     */
-    updateList: function(section, container) {
-      section.loading = true;
-
-      section.collection.fetch({
-        success: _.bind(function() {
-          this.showList(section, container);
-          section.loading = false;
-        }, this)
-      });
-    },
-
-    /**
-     * Displays a section list (assuming the section is already active).
-     *
-     * @function
-     * @param {Object} the list section
-     * @parma {Backbone.View} the section container
-     */
-    showList: function(section, container) {
-      if(container.view.children && container.view.children.list) {
-        container.view.showChild('list', 'left');
-      } else if(section.collection.length === 1) {
-        container.setModel(section.collection.at(0));
-        container.render();
-      }
-    },
-
-    /**
-     * Updates a section item detail.
-     *
-     * @function
-     * @param {Object} the detail section
-     * @parma {Backbone.View} the section container
-     */
-    updateDetail: function(section, container, offset) {
-      section.collection.fetch({
-        success: _.bind(function() {
-          this.showDetail(section, container, offset);
-        }, this)
-      });
-    },
-
-    /**
      * Displays a section item detail.
      *
      * @function
@@ -455,12 +406,12 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
           document.body.id = section.outputType;
           $('iframe, audio, video, object, embed').remove();
 
-          views.showChild(section.slug);
           var container = self.activeSection.view;
-
-          if(section.collection.length) {
-            self.showList(section, container);
+          if (section.collection.length) {
+            self.moveToList(container);
+            views.showChild(section.slug);
           } else {
+            views.showChild(section.slug);
             self.updateList(section, container);
           }
 
@@ -494,8 +445,7 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
 
           views.showChild(section.slug);
           var container = self.activeSection.view;
-
-          if(section.collection.length) {
+          if (section.collection.length) {
             self.showDetail(section, container, offset);
           } else {
             self.updateDetail(section, container, offset);

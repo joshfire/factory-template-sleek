@@ -61,104 +61,6 @@ function(Sleek, Toolbar, SlidePanel, $, _) {
     },
 
     /**
-     * Refreshes a section list.
-     *
-     * @function
-     * @param {Object} the list section
-     * @parma {Backbone.View} the section container
-     */
-    refreshList: function(section, container) {
-      section.collection.fetch({
-        dataSourceQuery: {
-          nocache: true
-        },
-        success: _.bind(function() {
-          this.showList(section, container);
-        }, this)
-      });
-    },
-
-    /**
-     * Updates a section list.
-     *
-     * @function
-     * @param {Object} the list section
-     * @parma {Backbone.View} the section container
-     */
-    updateList: function(section, container) {
-      section.collection.fetch({
-        success: _.bind(function() {
-          this.showList(section, container);
-        }, this)
-      });
-    },
-
-    /**
-     * Displays a section list
-     * (assuming the section is already active).
-     *
-     * @function
-     * @param {Object} the list section
-     * @parma {Backbone.View} the section container
-     */
-    showList: function(section, container) {
-      if(container.view.children && container.view.children.list) {
-        container.view.showChild('list', 'left');
-      } else if(section.collection.length) {
-        container.setModel(section.collection.at(0));
-        container.render();
-      }
-    },
-
-    /**
-     * Moves focus to the list view
-     * (for views that have a list and a detail sub-views)
-     *
-     * @function
-     * @param {Backbone.View} the section container
-     */
-    moveToList: function(container) {
-      if (container.view.children && container.view.children.list) {
-        container.view.showChild('list', 'left');
-      }
-    },
-
-    /**
-     * Updates a section item detail.
-     *
-     * @function
-     * @param {Object} the detail section
-     * @parma {Backbone.View} the section container
-     */
-    updateDetail: function(section, container, offset) {
-      section.collection.fetch({
-        success: _.bind(function() {
-          this.showDetail(section, container, offset);
-        }, this)
-      });
-    },
-
-    /**
-     * Displays a section item detail.
-     *
-     * @function
-     * @param {Object} the detail section
-     * @parma {Backbone.View} the section container
-     */
-    showDetail: function(section, container, offset) {
-      if(container.view.children && container.view.children.detail) {
-        var detail = container.view.children.detail;
-
-        if(section.collection.length > offset) {
-          detail.setModel(section.collection.at(offset));
-          detail.render();
-        }
-
-        container.view.showChild('detail', 'right');
-      }
-    },
-
-    /**
      * Creates the routes for the phone version.
      *
      * @function
@@ -191,7 +93,6 @@ function(Sleek, Toolbar, SlidePanel, $, _) {
           $back.hide();
 
           var container = views.children[section.slug];
-
           if (section.collection.length) {
             self.moveToList(container);
             views.showChild(section.slug);
@@ -216,9 +117,8 @@ function(Sleek, Toolbar, SlidePanel, $, _) {
             $back.attr('href', '#' + section.slug);
             $back.css({display: 'block'});
 
-            views.showChild(section.slug);
             var container = views.children[section.slug];
-
+            views.showChild(section.slug);
             if(section.collection.length) {
               self.showDetail(section, container, offset);
             } else {

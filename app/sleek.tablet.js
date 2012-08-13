@@ -103,6 +103,59 @@ function(Sleek, Layout, $, _) {
       return $(activePanel).height();
     },
 
+    /**
+     * Displays a section list
+     * (assuming the section is already active).
+     *
+     * @function
+     * @param {Object} the list section
+     * @parma {Backbone.View} the section container
+     */
+    showList: function(section, container) {
+      this.showDetail(section, container, 0);
+    },
+
+    /**
+     * Moves focus to the list view
+     * (for views that have a list and a detail sub-views)
+     *
+     * @function
+     * @param {Backbone.View} the section container
+     */
+    moveToList: function(container) {},
+
+    /**
+     * Displays a section item detail.
+     *
+     * @function
+     * @param {Object} the detail section
+     * @param {Backbone.View} the section container
+     * @param {Number} offset The zero-based index of the detail
+     *  to render in the collection
+     */
+    showDetail: function(section, container, offset) {
+      // Assess that we can indeed show the requested offset
+      if (section.collection.length <= offset) return;
+      var children = container.view.children || {};
+
+      // Render detail view
+      // (of full view if there are no listing)
+      if (children.detail) {
+        children.detail.setModel(section.collection.at(offset));
+        children.detail.render();
+      }
+      else {
+        container.setModel(section.collection.at(offset));
+        container.render();
+      }
+
+      // Render listing if defined
+      if (children.list) {
+        children.list.$('.active').removeClass('active');
+        $(children.list.$('li')[offset]).addClass('active');
+      }
+    },
+
     //
     // Creates routes
     //
@@ -122,28 +175,14 @@ function(Sleek, Layout, $, _) {
           $toolbar.find('.active').removeClass('active');
           $toolbar.find('.section-' + section.slug).addClass('active');
 
-          views.showChild(section.slug);
           var container = views.children[section.slug];
-
-          section.collection.fetch({
-            success: function() {
-              if(container.view.children && container.view.children.detail &&
-                  section.collection.length) {
-                var detail = container.view.children.detail;
-                detail.setModel(section.collection.at(0));
-                detail.render();
-
-                if(container.view.children.list) {
-                  var list = container.view.children.list;
-                  list.$('.active').removeClass('active');
-                  $(list.$('li')[0]).addClass('active');
-                }
-              } else if(section.collection.length) {
-                container.setModel(section.collection.at(0));
-                container.render();
-              }
-            }
-          });
+          if (section.collection.length) {
+            self.moveToList(container);
+            views.showChild(section.slug);
+          } else {
+            views.showChild(section.slug);
+            self.updateList(section, container);
+          }
         };
 
         // Detail route
@@ -158,44 +197,12 @@ function(Sleek, Layout, $, _) {
             $toolbar.find('.active').removeClass('active');
             $toolbar.find('.section-' + section.slug).addClass('active');
 
-            views.showChild(section.slug);
-
             var container = views.children[section.slug];
-
-            if(section.collection.length === 0) {
-              section.collection.fetch({
-                success: function() {
-                  if(!container.view.children || !container.view.children.detail) {
-                    return;
-                  }
-                  var detail = container.view.children.detail;
-
-                  if(section.collection.length > offset) {
-                    var detail = container.view.children.detail;
-                    detail.setModel(section.collection.at(offset));
-                    detail.render();
-
-                    if(container.view.children.list) {
-                      var list = container.view.children.list;
-                      list.$('.active').removeClass('active');
-                      $(list.$('li')[offset]).addClass('active');
-                    }
-                  }
-                }
-              });
-            } else if(section.collection.length > offset) {
-              if(!container.view.children || !container.view.children.detail) {
-                return;
-              }
-              var detail = container.view.children.detail;
-              detail.setModel(section.collection.at(offset));
-              detail.render();
-
-              if(container.view.children.list) {
-                var list = container.view.children.list;
-                list.$('.active').removeClass('active');
-                $(list.$('li')[offset]).addClass('active');
-              }
+            views.showChild(section.slug);
+            if (section.collection.length) {
+              self.showDetail(section, container, offset);
+            } else {
+              self.updateDetail(section, container, offset);
             }
           };
         }
