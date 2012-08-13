@@ -572,12 +572,19 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
             }
           });
         default:
-          return new ImageLoader({
+          // TODO: We should be looking for all images that are present
+          // in the item (e.g. in the articleBody property, not to the
+          // thumbnail of the item that is likely not going to be rendered)
+          // return new ImageLoader({
+          //   templateEl: '#template-' + itemType,
+          //   scroller: true,
+          //   getImageUrl: function () {
+          //     return self.getThumbnail(options.model.toJSON(), 0, 1);
+          //   }
+          // });
+          return new Item({
             templateEl: '#template-' + itemType,
-            scroller: true,
-            getImageUrl: function () {
-              return self.getThumbnail(options.model.toJSON());
-            }
+            scroller: true
           });
       }
     },
@@ -604,7 +611,7 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
           case 'video':
           case 'product':
             options.getImageUrl = function () {
-              return self.getThumbnail(item, offset);
+              return self.getThumbnail(item, offset, 0.2);
             };
             return new ImageLoader(options);
 
@@ -695,12 +702,17 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
      *
      * @function
      * @param {object} item schema.org friendly object to parse
+     * @param {Integer} offset The offset position (only used in TV version)
+     * @param {Number} widthRatio The fraction of screen width available
+     *  for the image, e.g. 0.4 for a thumbnail that is to occupy 40% of the
+     *  screen width
      * @return {string} Thumbnail URL that best match the viewport size
      */
-    getThumbnail: function(item, offset) {
+    getThumbnail: function(item, offset, widthRatio) {
       if (!item) return '';
 
-      var width = document.body.clientWidth * 0.5;
+      widthRatio = widthRatio || 0.2;
+      var neededWidth = document.body.clientWidth * widthRatio;
       var thumbnailWidth = 0;
       var bestWidth = 0;
 
@@ -717,14 +729,14 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
           thumbnail = thumbnails[i];
           thumbnailWidth = thumbnail.width || 0;
 
-          if (((thumbnailWidth >= width) &&
-              ((thumbnailWidth < bestWidth) || (bestWidth < width))) ||
-            ((bestWidth < width) && (thumbnailWidth > bestWidth))) {
+          if (((thumbnailWidth >= neededWidth) &&
+              ((thumbnailWidth < bestWidth) || (bestWidth < neededWidth))) ||
+            ((bestWidth < neededWidth) && (thumbnailWidth > bestWidth))) {
             best = thumbnails[i];
           }
         }
 
-        thumbnailUrl = best.thumbnailUrl;
+        thumbnailUrl = best.contentURL;
       }
 
       if (!thumbnailUrl) {
@@ -756,11 +768,11 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
 
       var thumbnailUrl = '';
       if (item.author && item.author[0]) {
-        thumbnailUrl = this.getThumbnail(item.author[0], offset);
+        thumbnailUrl = this.getThumbnail(item.author[0], offset, 0.2);
       }
       if (!thumbnailUrl) {
         // Fallback to "usual" thumbnail
-        thumbnailUrl = this.getThumbnail(item, offset);
+        thumbnailUrl = this.getThumbnail(item, offset, 0.2);
       }
       return thumbnailUrl;
     },
