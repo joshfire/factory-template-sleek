@@ -42,6 +42,25 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
      */
     deviceFamily: 'all',
 
+    /**
+     * Initial view (title bar and toolbar) have been rendered
+     */
+    initialized: false,
+
+    /**
+     * Client width available in CSS pixels
+     *
+     * Note the value is merely used as an indication to pick up a thumbnail
+     * image for listing views. It is not correct in that it does not follow
+     * orientation changes, but that's normally not a big deal.
+     *
+     * IMPORTANT: that value used to be computed in getThumbnail but, on iPad
+     * at least, accessing document.body.clientWidth forces a refresh of the
+     * screen which, in turn, means the screen will flicker for half a second,
+     * hence the need to store it once and for all here.
+     */
+    clientWidth: document.body.clientWidth,
+
 
     /**
      * Converts a schema.org type into an internal type of items
@@ -281,12 +300,10 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
         views[section.slug] = sectionView;
       }, this));
 
-      sectionsView = new SlidePanel({
+      sectionsView = new CardPanel({
         el: '#cards',
         children: views
       });
-
-      sectionsView.render();
 
       return sectionsView;
     },
@@ -321,6 +338,11 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
       });
     },
 
+    /**
+     * Section is a dynamic container so that we can automatically
+     * switch to detail view when the collection contains only one
+     * item
+     */
     createSectionView: function(section) {
       var view = new DynamicContainer({
         collection: section.collection,
@@ -712,7 +734,7 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
       if (!item) return '';
 
       widthRatio = widthRatio || 0.2;
-      var neededWidth = document.body.clientWidth * widthRatio;
+      var neededWidth = this.clientWidth * widthRatio;
       var thumbnailWidth = 0;
       var bestWidth = 0;
 

@@ -144,7 +144,7 @@ function(Sleek, Layout, $, _) {
         children.detail.setModel(section.collection.at(offset));
         children.detail.render();
       }
-      else {
+      else if (section.outputType !== 'photo') {
         container.setModel(section.collection.at(offset));
         container.render();
       }
@@ -182,6 +182,10 @@ function(Sleek, Layout, $, _) {
           } else {
             views.showChild(section.slug);
             self.updateList(section, container);
+            if (!self.initialized) {
+              views.render();
+              self.initialized = true;
+            }
           }
         };
 
@@ -203,6 +207,10 @@ function(Sleek, Layout, $, _) {
               self.showDetail(section, container, offset);
             } else {
               self.updateDetail(section, container, offset);
+              if (!self.initialized) {
+                views.render();
+                self.initialized = true;
+              }
             }
           };
         }
