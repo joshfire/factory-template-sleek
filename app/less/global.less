@@ -101,3 +101,59 @@ img {
 .map-overlay {
   color: @dark-text-color;
 }
+
+
+//---------------------------------------------------------------------------
+// An image that loads with a spinner and a fade-in transition
+// (note the image box takes the entire space available here and may need
+// to be adjusted somehow with more specific CSS properties)
+//---------------------------------------------------------------------------
+figure,
+.figure {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  & > img,
+  & > .img {
+    width: 100%;
+    height: 100%;
+  }
+
+  // Fade-in transition for the underlying image
+  & > .fadein {
+    .transition(.7s ease-in-out opacity);
+    .backface-hidden; // To avoid flickering on iOS
+  }
+
+  // Center spinner in image box, not rendered by default
+  & > .loader {
+    background: transparent url(../images/image-spinner.gif) no-repeat center center;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    display: none;
+
+    &.inv {
+      background-image: url(../images/image-spinner-inv.gif)
+    }
+  }
+
+  // When "loading" is there, spinner is displayed over the transparent image
+  &.loading {
+    & > .loader {
+      display: block;
+    }
+
+    & > img,
+    & > .img {
+      .opacity(0);
+      .transition(none);
+    }
+  }
+}

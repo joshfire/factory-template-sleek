@@ -475,29 +475,9 @@ header {
 
 // A photo item
 .photo-item {
-  .image-link {
+  .img {
     background-size: cover;
     background-position: center center;
-    .transition(.7s ease-in-out all);
-
-    // Force the use of the GPU to avoid flickering on iOS
-    -webkit-backface-visibility: hidden;
-  }
-
-  .spinner {
-    display: none !important;
-  }
-
-  &.loading {
-    .image-link {
-      .opacity(0);
-      .transition(none);
-    }
-
-    .spinner {
-      display: block !important;
-      border-radius: none !important;
-    }
   }
 }
 
@@ -515,13 +495,15 @@ header {
     padding-right: 2em;
   }
 
-  img {
+  .figure {
     float: left;
-    display: block;
     width: 48px;
     height: 48px;
-    .box-shadow(0 0 .5em rgba(0,0,0,.6));
+  }
+
+  img {
     margin: 0;
+    .box-shadow(0 0 .5em rgba(0,0,0,.6));
   }
 
   .right {
@@ -560,9 +542,8 @@ header {
     }
   }
 
-  img {
+  .figure {
     float: left;
-    display: block;
     width: 120px;
     height: 90px;
   }
@@ -599,15 +580,18 @@ header {
 }
 
 // A news item
-.news-item .thumbnail {
-  float: left;
-  display: block;
-  width: 110px;
-  height: 80px;
-  margin-right:.5em;
-  background-image:url('../images/noimage.png');
-  background:no-repeat center center;
-  background-size:cover;
+.news-item {
+  .figure {
+    float: left;
+    width: 110px;
+    height: 80px;
+    margin-right:.5em;
+  }
+
+  .img {
+    background: no-repeat center center;
+    background-size: cover;
+  }
 }
 
 // (and other types of item)
@@ -629,7 +613,6 @@ header {
 
   img {
     float: right;
-    display: block;
     width: 120px;
     height: 90px;
   }

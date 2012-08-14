@@ -628,15 +628,18 @@ function(Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Facto
           case 'photo':
           case 'video':
           case 'product':
+          case 'news':
             options.getImageUrl = function () {
               return self.getThumbnail(item, offset, 0.2);
             };
+            options.imageContainer = '.figure';
             return new ImageLoader(options);
 
           case 'status':
             options.getImageUrl = function () {
               return self.getAuthorThumbnail(item, offset);
             };
+            options.imageContainer = '.figure';
             return new ImageLoader(options);
 
           default:
