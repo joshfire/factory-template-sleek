@@ -466,7 +466,11 @@ header {
   .image-link {
     background-size: cover;
     background-position: center center;
+    .opacity(1);
     .transition(.7s ease-in-out all);
+
+    // Force the use of the GPU to avoid flickering on iOS
+    -webkit-backface-visibility: hidden;
   }
 
   .spinner {
