@@ -43,11 +43,6 @@ function(Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Facto
     deviceFamily: 'all',
 
     /**
-     * Initial view (title bar and toolbar) have been rendered
-     */
-    initialized: false,
-
-    /**
      * Client width available in CSS pixels
      *
      * Note the value is merely used as an indication to pick up a thumbnail
@@ -304,6 +299,7 @@ function(Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Facto
         el: '#cards',
         children: views
       });
+      sectionsView.render();
 
       return sectionsView;
     },

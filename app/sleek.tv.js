@@ -413,10 +413,6 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
           } else {
             views.showChild(section.slug);
             self.updateList(section, container);
-            if (!self.initialized) {
-              views.render();
-              self.initialized = true;
-            }
           }
 
           if(toolbar.active === -1 || self.activeSection.loading) {
@@ -453,10 +449,6 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
             self.showDetail(section, container, offset);
           } else {
             self.updateDetail(section, container, offset);
-            if (!self.initialized) {
-              views.render();
-              self.initialized = true;
-            }
           }
 
           self.focused = 'detail';
