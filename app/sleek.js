@@ -15,7 +15,7 @@ define([
   'joshlib!ui/item',
   'joshlib!ui/list',
   'joshlib!ui/cardpanel',
-  'joshlib!ui/slidepanel',
+  'joshlib!ui/fadeinpanel',
   'joshlib!ui/factorymedia',
   'joshlib!ui/imageloader',
   'joshlib!router',
@@ -23,7 +23,7 @@ define([
   'joshlib!vendor/underscore',
   'joshlib!utils/dollar',
   'ui/imagegallery'],
-function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, FactoryMedia, ImageLoader, Router, Backbone, _, $, ImageGallery) {
+function(Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, FactoryMedia, ImageLoader, Router, Backbone, _, $, ImageGallery) {
 
   var Sleek = function() {
     _.bindAll(this, 'initialize',  'setColor', 'slugify');
@@ -300,7 +300,7 @@ function(Collection, DynamicContainer, Item, List, CardPanel, SlidePanel, Factor
         views[section.slug] = sectionView;
       }, this));
 
-      sectionsView = new CardPanel({
+      sectionsView = new FadeInPanel({
         el: '#cards',
         children: views
       });
