@@ -29,7 +29,7 @@
     <script type="text/javascript" src="vendor/moment.js"></script>
     <script type="text/javascript" src="vendor/sidjs-0.1.js"></script>
     <script type="text/javascript" src="prettystatus.js"></script>
-    <script data-joshfire-bootstrap src="http://192.168.2.101:40021/bootstrap/5023b3487e351e9e4b00011c/auto/phone/"></script>
+    <script data-joshfire-bootstrap src="http://192.168.2.103:40021/bootstrap/5023b3487e351e9e4b00011c/auto/phone/"></script>
   </head>
 
   <body class="device-phone" ontouchmove="event.preventDefault()">
@@ -71,14 +71,13 @@
           <%= children %>
         </ul>
       </div>
-      <div class="spinner">&nbsp;</div>
+      <div class="loader large">&nbsp;</div>
     </script>
 
     <script type="text/template" id="template-photo-item">
       <li class="photo-item">
         <div class="figure">
           <a class="img fadein" href="<%= item.contentURL %>" title="<%= item.name %>" style="background-image: url(<%= imageUrl %>)">&nbsp;</a>
-          <div class="loader">&nbsp;</div>
         </div>
       </li>
     </script>

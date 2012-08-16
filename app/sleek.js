@@ -493,7 +493,9 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
           scroller: true,
           itemFactory: this.itemFactory(section),
           collection: section.collection,
-          className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
+          className: section.outputType + ' ' + this.getClassName(section.outputType, 'list'),
+          dataLoadingClass: 'dataloading',
+          loadingClass: 'loading'
         });
       }
       else {
