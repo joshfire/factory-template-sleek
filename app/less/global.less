@@ -112,10 +112,7 @@ figure,
 .figure {
   position: relative;
   display: block;
-  width: 100%;
-  height: 100%;
 
-  & > img,
   & > .img {
     width: 100%;
     height: 100%;
@@ -124,7 +121,7 @@ figure,
   // Fade-in transition for the underlying image
   & > .fadein {
     .transition(.7s ease-in-out opacity);
-    .backface-hidden; // To avoid flickering on iOS
+    .translate3d(0,0,0);
   }
 
   // Center spinner in image box, not rendered by default
@@ -155,5 +152,19 @@ figure,
       .opacity(0);
       .transition(none);
     }
+  }
+}
+
+// Simplified version when the image to load does not have a container
+// (note there is no way to display a spinner in that case)
+.figure-img {
+  &.fadein {
+    .transition(.7s ease-in-out opacity);
+    .translate3d(0,0,0);
+  }
+
+  &.loading {
+    .opacity(0);
+    .transition(none);    
   }
 }

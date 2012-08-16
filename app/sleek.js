@@ -18,12 +18,13 @@ define([
   'joshlib!ui/fadeinpanel',
   'joshlib!ui/factorymedia',
   'joshlib!ui/imageloader',
+  'joshlib!ui/imagesloader',
   'joshlib!router',
   'joshlib!vendor/backbone',
   'joshlib!vendor/underscore',
   'joshlib!utils/dollar',
   'ui/imagegallery'],
-function(Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, FactoryMedia, ImageLoader, Router, Backbone, _, $, ImageGallery) {
+function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, FactoryMedia, ImageLoader, ImagesLoader, Router, Backbone, _, $, ImageGallery) {
 
   var Sleek = function() {
     _.bindAll(this, 'initialize',  'setColor', 'slugify');
@@ -574,6 +575,13 @@ function(Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Facto
               adjustSize: true
             }
           });
+        case 'sound':
+          return new FactoryMedia({
+            templateEl: '#template-' + itemType,
+            mediaOptions: {
+              strategy: 'html5'
+            }
+          });
         case 'status':
           return new ImageLoader({
             templateEl: '#template-' + itemType,
@@ -582,27 +590,32 @@ function(Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Facto
               return self.getAuthorThumbnail(options.model.toJSON());
             }
           });
-        case 'sound':
-          return new FactoryMedia({
-            templateEl: '#template-sound',
-            mediaOptions: {
-              strategy: 'html5'
-            }
-          });
         default:
-          // TODO: We should be looking for all images that are present
-          // in the item (e.g. in the articleBody property, not to the
-          // thumbnail of the item that is likely not going to be rendered)
-          // return new ImageLoader({
-          //   templateEl: '#template-' + itemType,
-          //   scroller: true,
-          //   getImageUrl: function () {
-          //     return self.getThumbnail(options.model.toJSON(), 0, 1);
-          //   }
-          // });
-          return new Item({
+          return new ImagesLoader({
             templateEl: '#template-' + itemType,
-            scroller: true
+            scroller: true,
+            imageClass: 'fadein',
+            processImageEl: function (el) {
+              // Prepare image container and spinner
+              var loader = document.createElement('div');
+              loader.setAttribute('class', 'loader inv');
+              var container = document.createElement('div');
+              container.setAttribute('class', 'figure');
+              container.appendChild(loader);
+
+              // Constrain container width to the width of the image if known
+              // so that the loader appears correctly centered on screen.
+              // (it would always appear at the center of the screen otherwise)
+              if (el.getAttribute('width')) {
+                container.setAttribute('style',
+                  'width:' + el.getAttribute('width') + 'px');
+              }
+
+              // Wrap the image in its container and return the container
+              el.parentNode.replaceChild(container, el);
+              container.appendChild(el);
+              return container;
+            }
           });
       }
     },
