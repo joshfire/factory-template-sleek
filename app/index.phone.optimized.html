@@ -88,8 +88,8 @@
           <a href="#<%= section.slug %>/<%= offset %>">
             <% if (imageUrl) { %>
               <div class="figure">
-                <img src="<%= imageUrl %>" class="fadein" alt="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" />
-                <div class="loader"></div> 
+                <div class="img fadein" title="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" style="background-image: url(<%= imageUrl %>)"></div>
+                <div class="loader"></div>
               </div>
             <% } %>
             <div class="right">
@@ -118,7 +118,7 @@
             <div>
               <% if (imageUrl) { %>
                 <div class="figure">
-                  <img src="<%= imageUrl %>" class="fadein" alt="" />
+                  <div class="img fadein" style="background-image: url(<%= imageUrl %>)"></div>
                   <div class="loader inv"></div> 
                 </div>
               <% } %>

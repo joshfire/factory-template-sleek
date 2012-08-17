@@ -29,7 +29,7 @@
     <script type="text/javascript" src="vendor/moment.js"></script>
     <script type="text/javascript" src="vendor/sidjs-0.1.js"></script>
     <script type="text/javascript" src="prettystatus.js"></script>
-    <script data-joshfire-bootstrap src="http://192.168.2.103:40021/bootstrap/5023b3487e351e9e4b00011c/auto/desktop/"></script>
+    <script data-joshfire-bootstrap src="http://192.168.2.102:40021/bootstrap/5023b3487e351e9e4b00011c/auto/desktop/"></script>
   </head>
 
   <body class="device-phone" ontouchmove="event.preventDefault()">
@@ -89,8 +89,8 @@
           <a href="#<%= section.slug %>/<%= offset %>">
             <% if (imageUrl) { %>
               <div class="figure">
-                <img src="<%= imageUrl %>" class="fadein" alt="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" />
-                <div class="loader"></div> 
+                <div class="img fadein" title="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" style="background-image: url(<%= imageUrl %>)"></div>
+                <div class="loader"></div>
               </div>
             <% } %>
             <div class="right">
@@ -119,7 +119,7 @@
             <div>
               <% if (imageUrl) { %>
                 <div class="figure">
-                  <img src="<%= imageUrl %>" class="fadein" alt="" />
+                  <div class="img fadein" style="background-image: url(<%= imageUrl %>)"></div>
                   <div class="loader inv"></div> 
                 </div>
               <% } %>
@@ -203,24 +203,26 @@
     </script>
 
     <script type="text/template" id="template-status">
-      <div class="header">
-        <% if (imageUrl) { %>
-          <img src="<%= imageUrl %>" alt="" />
-        <% } %>
-        <% if (item.author && item.author[0] && item.author[0].name) { %>
-          <h2><%= item.author[0].name %></h2>
-        <% } %>
-        <% if (item.author && item.author[0] && item.author[0]['foaf:nick']) { %>
-          <h3>@<%= item.author[0]['foaf:nick'] %></h3>
-        <% } %>
-      </div>
-      <div class="arrow"><span>&nbsp;</span></div>
-      <div class="message">
-        <div class="cover">&nbsp;</div>
-        <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
-        <h4><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></h4>
-        <% } %>
-        <p><%= prettyStatus(item.name) %></p>
+      <div class="body">
+        <div class="header">
+          <% if (imageUrl) { %>
+            <img src="<%= imageUrl %>" alt="" />
+          <% } %>
+          <% if (item.author && item.author[0] && item.author[0].name) { %>
+            <h2><%= item.author[0].name %></h2>
+          <% } %>
+          <% if (item.author && item.author[0] && item.author[0]['foaf:nick']) { %>
+            <h3>@<%= item.author[0]['foaf:nick'] %></h3>
+          <% } %>
+        </div>
+        <div class="arrow"><span>&nbsp;</span></div>
+        <div class="message">
+          <div class="cover">&nbsp;</div>
+          <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+          <h4><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></h4>
+          <% } %>
+          <p><%= prettyStatus(item.name) %></p>
+        </div>
       </div>
     </script>
 

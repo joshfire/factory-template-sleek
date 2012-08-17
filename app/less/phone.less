@@ -451,14 +451,6 @@ header {
   padding: 1em;
 }
 
-// A photo item
-.photo-item {
-  .img {
-    background-size: cover;
-    background-position: center center;
-  }
-}
-
 // A status item
 .status-item > div {
   a {
@@ -479,8 +471,7 @@ header {
     height: 48px;
   }
 
-  img {
-    margin: 0;
+  .img {
     .box-shadow(0 0 .5em rgba(0,0,0,.6));
   }
 
@@ -524,6 +515,10 @@ header {
     float: left;
     width: 120px;
     height: 90px;
+  }
+
+  img {
+    margin: 0;
   }
 
   .right {
@@ -572,6 +567,14 @@ header {
   }
 }
 
+.product-item {
+  .figure {
+    float: right;
+    width: 120px;
+    height: 90px;
+  }
+}
+
 // (and other types of item)
 .other-item > div,
 .news-item > div,
@@ -587,12 +590,6 @@ header {
       padding-right: 2em;
       .clear-fix;
     }
-  }
-
-  img {
-    float: right;
-    width: 120px;
-    height: 90px;
   }
 
   .right {
