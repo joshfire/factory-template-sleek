@@ -20,10 +20,12 @@ textarea{overflow:auto;}
 html{height:100%;}
 body{background-image:-webkit-gradient(linear, left top, left bottom, from(#7c0000), to(#250000));background-image:-webkit-linear-gradient(#7c0000, #250000);background-image:-moz-linear-gradient(#7c0000, #250000);background-image:-ms-linear-gradient(#7c0000, #250000);background-image:-o-linear-gradient(#7c0000, #250000);background-attachment:fixed;background-repeat:no-repeat;color:#ffffff;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;height:100%;}
 a{color:inherit;text-decoration:none;}
-img{max-width:100%;}
-.single li{margin-left:40px;}
-.single ul{list-style:square;}
-.single ol{list-style:decimal;}
+img{max-width:100%;height:auto;}
+.detail ul,.single ul,.detail ol,.single ol{margin:1em;}
+.detail ul,.single ul{list-style:square;}
+.detail ol,.single ol{list-style:decimal;}
+.detail div,.single div{max-width:100%;}
+.detail p,.single p{margin-top:0.5em;margin-bottom:0.5em;}
 #container{display:block;position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden;}
 .center{text-align:center;}
 .panel{width:100%;height:100%;}
@@ -155,7 +157,9 @@ div.ps-toolbar-play div.ps-toolbar-content{background-position:-88px 0;}
 #video .right-panel img,#video .single img{width:100%;height:auto;}
 #video .right-panel .media,#video .single .media{background-color:black;}
 #video .right-panel .media div,#video .single .media div,#video .right-panel .media iframe,#video .single .media iframe,#video .right-panel .media video,#video .single .media video{margin:0 auto;}
-#video .right-panel .body,#video .single .body{padding:1.2em 1em 1em;margin-top:-0.5em;background:transparent url(../images/phone-shadow.png) no-repeat center top;background-size:100% auto;}
+#video .right-panel .body,#video .single .body{background:transparent url(../images/phone-shadow.png) no-repeat center top;background-size:100% auto;}
+#video .right-panel .wrapper >div:first-child,#video .single .wrapper >div:first-child{overflow:hidden;padding:0 1em;min-height:100%;}
+#video .right-panel .wrapper p,#video .single .wrapper p{margin-bottom:1em;}
 #video .right-panel h3,#video .single h3{font-weight:normal;font-size:1em;margin-bottom:.8em;margin-top:1em;}
 #video .right-panel h4,#video .single h4{text-transform:uppercase;font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.2em;margin-bottom:1em;color:#7c0000;}
 #sound{background:#ffffff;}

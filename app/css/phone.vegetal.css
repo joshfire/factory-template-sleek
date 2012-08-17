@@ -20,10 +20,12 @@ textarea{overflow:auto;}
 html{height:100%;}
 body{background-image:-webkit-gradient(linear, left top, left bottom, from(#454f0f), to(#050601));background-image:-webkit-linear-gradient(#454f0f, #050601);background-image:-moz-linear-gradient(#454f0f, #050601);background-image:-ms-linear-gradient(#454f0f, #050601);background-image:-o-linear-gradient(#454f0f, #050601);background-attachment:fixed;background-repeat:no-repeat;color:#ffffff;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;height:100%;}
 a{color:inherit;text-decoration:none;}
-img{max-width:100%;}
-.single li{margin-left:40px;}
-.single ul{list-style:square;}
-.single ol{list-style:decimal;}
+img{max-width:100%;height:auto;}
+.detail ul,.single ul,.detail ol,.single ol{margin:1em;}
+.detail ul,.single ul{list-style:square;}
+.detail ol,.single ol{list-style:decimal;}
+.detail div,.single div{max-width:100%;}
+.detail p,.single p{margin-top:0.5em;margin-bottom:0.5em;}
 #container{display:block;position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden;}
 .center{text-align:center;}
 .panel{width:100%;height:100%;}
@@ -95,7 +97,7 @@ header>span{display:block;position:absolute;top:0;right:0;width:40%;height:2.24e
 .video-item>div a{display:block;padding:.5em 1em .5em .5em;}.video-item>div a >div{background:url(../images/phone-plus-dark.png) no-repeat right center;padding-right:2em;}.video-item>div a >div:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
 .video-item>div .figure{float:left;width:120px;height:90px;}
 .video-item>div img{margin:0;}
-.video-item>div .right{margin-left:132px;padding-right:1.5em;padding-top:1em;}
+.video-item>div .right{margin-left:132px;padding-right:1.5em;}
 .video-item>div h3{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1em;}
 .sound-item>div a{display:block;padding:1em 1em 1em .5em;}.sound-item>div a >div{background:url(../images/phone-plus-dark.png) no-repeat right center;padding-right:2em;}.sound-item>div a >div:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
 .sound-item>div h3{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1em;margin-bottom:.2em;}
@@ -103,7 +105,7 @@ header>span{display:block;position:absolute;top:0;right:0;width:40%;height:2.24e
 .news-item .img{background:no-repeat center center;background-size:cover;}
 .product-item .figure{float:right;width:120px;height:90px;}
 .other-item>div,.news-item>div,.product-item>div{line-height:1.2em;}.other-item>div a,.news-item>div a,.product-item>div a{display:block;padding:.5em 1em .5em .5em;}.other-item>div a >div,.news-item>div a >div,.product-item>div a >div{background:url(../images/phone-plus-dark.png) no-repeat right center;padding-right:2em;}.other-item>div a >div:after,.news-item>div a >div:after,.product-item>div a >div:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
-.other-item>div .right,.news-item>div .right,.product-item>div .right{margin-left:132px;padding-right:1.5em;padding-top:1em;}
+.other-item>div .right,.news-item>div .right,.product-item>div .right{margin-left:132px;padding-right:1.5em;}
 .other-item>div h3,.news-item>div h3,.product-item>div h3{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:.9em;color:#454f0f;margin-bottom:.2em;}
 .other-item>div h4,.news-item>div h4,.product-item>div h4{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1em;margin-bottom:.3em;}
 .other-item>div p,.news-item>div p,.product-item>div p{font-size:.9em;}
@@ -147,7 +149,9 @@ div.ps-toolbar-play div.ps-toolbar-content{background-position:-88px 0;}
 #video .detail img{width:100%;height:auto;}
 #video .detail .media{background:#000;}
 #video .detail .media div,#video .detail .media iframe,#video .detail .media video{margin:0 auto;}
-#video .detail .body{padding:1.2em 1em 1em;background:#ffffff url(../images/phone-shadow.png) no-repeat center top;background-size:100% auto;}
+#video .detail .body{background:#ffffff url(../images/phone-shadow.png) no-repeat center top;background-size:100% auto;}
+#video .detail .wrapper >div:first-child{overflow:hidden;padding:0 1em;min-height:100%;}
+#video .detail .wrapper p{margin-bottom:1em;}
 #video .detail h3{font-weight:normal;font-size:1em;margin-bottom:.8em;margin-top:1em;}
 #video .detail h4{text-transform:uppercase;font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.2em;margin-bottom:1em;color:#454f0f;}
 #sound{background:#ffffff;}
