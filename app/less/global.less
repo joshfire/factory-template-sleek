@@ -21,21 +21,31 @@ a {
   text-decoration: none;
 }
 
+// Force all images not to exceed the size of their container
 img {
   max-width: 100%;
+  height: auto;
 }
 
+.detail,
 .single {
-  li {
-    margin-left: 40px;
+  ul, ol {
+    margin: 1em;
   }
-
   ul {
     list-style: square;
   }
-
   ol {
     list-style: decimal;
+  }
+
+  div {
+    max-width: 100%;
+  }
+
+  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
   }
 }
 

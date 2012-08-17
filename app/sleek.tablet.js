@@ -37,10 +37,10 @@ function(Sleek, Layout, $, _) {
         }
       }
       else if (context === 'single') {
-        return 'single';
+        return 'single detail';
       }
       else {
-        return 'right-panel';
+        return 'right-panel detail';
       }
     },
 

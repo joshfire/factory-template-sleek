@@ -610,7 +610,11 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
               // (it would always appear at the center of the screen otherwise)
               if (el.getAttribute('width')) {
                 container.setAttribute('style',
-                  'width:' + el.getAttribute('width') + 'px');
+                  'width:' + el.getAttribute('width') + 'px;max-width:100%');
+              }
+              else {
+                container.setAttribute('style',
+                  'width:' + el.getAttribute('width') + 'px;max-width:100%');
               }
 
               // Wrap the image in its container and return the container

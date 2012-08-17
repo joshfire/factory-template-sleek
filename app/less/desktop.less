@@ -871,10 +871,26 @@ header {
   }
 
   .body {
-    padding: 1.2em 1em 1em;
-    margin-top: -.5em;
     background: transparent url(../images/phone-shadow.png) no-repeat center top;
     background-size: 100% auto;
+  }
+
+  .wrapper {
+    & > div:first-child {
+      // The following property creates a new rendering context that forces
+      // the top margin of the first element to be included in the height of
+      // the container. In turn, it helps iScroll compute the right height
+      // for the scrolled area
+      overflow: hidden;
+      padding: 0 1em;
+
+      // Min-height avoids flickering on desktop-like screens
+      min-height: 100%;
+    }
+
+    & p {
+      margin-bottom: 1em;
+    }
   }
 
   h3 {
