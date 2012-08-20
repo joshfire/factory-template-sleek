@@ -231,7 +231,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
         }
       }
       else if(context === 'single') {
-        return 'single content detail'
+        return 'single content detail';
       }
       else {
         return 'content detail';
