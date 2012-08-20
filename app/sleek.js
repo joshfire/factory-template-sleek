@@ -158,7 +158,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
         var router = Router(controllers);
         router.historyStart();
 
-        cb && cb();
+        if (cb) cb();
       });
     },
 
@@ -279,20 +279,30 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      */
     createViews: function(sections) {
       var views = {};
+      var sectionsView = null;
+
+      // Create additional views and overlays
+      // (hook for derivated classes to add more logic)
+      this.createAdditionalViews(views);
+
+      if (!sections || (sections.length === 0)) {
+        sectionsView = new Item({
+          el: '#cards',
+          model: new Backbone.Model(),
+          templateEl: '#template-nodata'
+        });
+        sectionsView.render();
+        return sectionsView;
+      }
 
       // Create the toolbar
       // (not very clean to set it in "this", but TV version needs
       // to put the toolbar in a horizontal layout)
       this.toolbarView = this.createToolbar(sections);
 
-      // Create additional views and overlays
-      // (hook for derivated classes to add more logic)
-      this.createAdditionalViews(views);
-
       // Parse sections and build corresponding views
       _.forEach(sections, _.bind(function(section) {
         var sectionView = this.createSectionView(section);
-
         views[section.slug] = sectionView;
       }, this));
 
@@ -301,7 +311,6 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
         children: views
       });
       sectionsView.render();
-
       return sectionsView;
     },
 
@@ -688,6 +697,11 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
         home: function() {
           if (sections.length) {
             this[sections[0].slug]();
+          }
+          else {
+            $('#title').html('No data');
+            document.body.id = 'nodata';
+            $('#refresh').hide();
           }
         }
       };
