@@ -119,6 +119,12 @@ header {
     border-top: solid thin darken(@background-color, 10%);
     .clear-fix;
 
+    // The following property creates a new rendering context
+    // in the hope that this will be enough for Android to play
+    // nice with iScroll for the toolbar in native builds on
+    // a Google Nexus One
+    overflow: hidden;
+
     li {
       float: left;
 
