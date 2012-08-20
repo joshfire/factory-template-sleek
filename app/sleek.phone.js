@@ -34,7 +34,8 @@ function(Sleek, Toolbar, SlidePanel, $, _) {
           vScroll: false,
           hScrollbar: false,
           snap: true,
-          bounce: false
+          bounce: false,
+          disabled: true
         },
         useWindowWidth: true
       });
