@@ -29,7 +29,8 @@
           "marketing/phone-screenshot1.jpg",
           "marketing/phone-screenshot2.jpg",
           "marketing/phone-screenshot3.jpg"
-        ]
+        ],
+        "orientation": "portrait"
       },
       {
         "devices": "tablet",
