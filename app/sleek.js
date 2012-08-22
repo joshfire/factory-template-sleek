@@ -103,7 +103,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      *
      * @function
      */
-    initialize: function(cb) {
+    initialize: function() {
       var self = this;
 
       this.title = Joshfire.factory.config.app.name;
@@ -157,8 +157,6 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
         var controllers = self.createRoutes(sections, views);
         var router = Router(controllers);
         router.historyStart();
-
-        if (cb) cb();
       });
     },
 
