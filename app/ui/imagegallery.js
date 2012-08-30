@@ -1,4 +1,9 @@
-define(["joshlib!ui/list","vendor/klass","vendor/photoswipe","joshlib!utils/dollar","joshlib!vendor/underscore"], function(UIList,Klass,Photoswipe,$,_) {
+define([
+  "joshlib!ui/list",
+  "vendor/klass",
+  "vendor/photoswipe",
+  "joshlib!vendor/underscore"
+], function (UIList, Klass, Photoswipe, _) {
 
   var UIImageGallery = UIList.extend({
     /**
