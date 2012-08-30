@@ -171,7 +171,7 @@ function(Sleek, Layout, $, _) {
         controllers[section.slug] = function() {
           document.body.id = section.outputType;
           self.setTitle(section.name);
-          $('iframe, audio, video, object, embed').remove();
+          $('iframe, audio, video, object, embed', '#container').remove();
           $toolbar.find('.active').removeClass('active');
           $toolbar.find('.section-' + section.slug).addClass('active');
 
@@ -191,7 +191,7 @@ function(Sleek, Layout, $, _) {
 
           controllers[section.slug + 'Detail'] = function(offset) {
             offset = parseInt(offset, 10);
-            $('iframe, audio, video, object').remove();
+            $('iframe, audio, video, object', '#container').remove();
             document.body.id = section.outputType;
             self.setTitle(section.name);
             $toolbar.find('.active').removeClass('active');

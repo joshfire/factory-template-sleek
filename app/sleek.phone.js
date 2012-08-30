@@ -83,7 +83,7 @@ function(Sleek, Toolbar, SlidePanel, $, _) {
         controllers[section.slug] = function() {
           $title.html(section.name);
           document.body.id = section.outputType;
-          $('iframe, audio, video, object, embed').remove();
+          $('iframe, audio, video, object, embed', '#container').remove();
           $toolbar.find('.active').removeClass('active');
           $toolbar.find('.section-' + section.slug).addClass('active');
           $refresh.show().unbind('click').bind('click', _.bind(function(e) {
@@ -111,7 +111,7 @@ function(Sleek, Toolbar, SlidePanel, $, _) {
             offset = parseInt(offset, 10);
             $title.html(section.name);
             document.body.id = section.outputType;
-            $('iframe, audio, video, object, embed').remove();
+            $('iframe, audio, video, object, embed', '#container').remove();
             $toolbar.find('.active').removeClass('active');
             $toolbar.find('.section-' + section.slug).addClass('active');
             $refresh.hide();

@@ -404,7 +404,7 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
         controllers[section.slug] = function() {
           self.activeSection = section;
           document.body.id = section.outputType;
-          $('iframe, audio, video, object, embed').remove();
+          $('iframe, audio, video, object, embed', '#container').remove();
 
           var container = self.activeSection.view;
           if (section.collection.length) {
@@ -441,7 +441,7 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
           offset = parseInt(offset, 10);
           self.activeSection = section;
           document.body.id = section.outputType;
-          $('iframe, audio, video, object, embed').remove();
+          $('iframe, audio, video, object, embed', '#container').remove();
 
           views.showChild(section.slug);
           var container = self.activeSection.view;
