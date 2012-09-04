@@ -57,6 +57,22 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      */
     clientWidth: document.body.clientWidth,
 
+    /**
+     * Initialization flag. The flag is set once the application is ready
+     * to process its first route.
+     */
+    initialized: false,
+
+    /**
+     * The following flag is used to determine whether the router needs to
+     * trigger the "loaded" hook when the main view is done rendering or
+     * not.
+     *
+     * The flag is set once the hook has been triggered. Once set, this
+     * flag is never reset while the application is running.
+     */
+    loadedHookTriggered: false,
+
 
     /**
      * Converts a schema.org type into an internal type of items
@@ -154,8 +170,21 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
 
         // Create the views once all sections have been initialized
         var views = self.createViews(sections);
+
+        // The "loaded" hook is triggered once when the router handles
+        // the first route and when the view is rendered. The hook will
+        // typically hide a possibly installed splashscreen
+        views.bind('load', function () {
+          if (!this.loadedHookTriggered && this.initialized) {
+            this.loadedHookTriggered = true;
+            Joshfire.factory.getAddOns('loaded').run();
+          }
+        }, this);
+
+        // Initialize the router and start the application
         var controllers = self.createRoutes(sections, views);
         var router = Router(controllers);
+        this.initialized = true;
         router.historyStart();
       });
     },

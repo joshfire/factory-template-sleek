@@ -20,6 +20,9 @@
         "multiple":true
       }
     },
+    "hooks": [
+      "loaded"
+    ],
     "devices": [
       {
         "devices": "phone",
