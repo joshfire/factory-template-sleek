@@ -85,7 +85,6 @@
         },
         "tabs": {
           "title": "Tabs titles",
-          "maxLength":8,
           "type": "array",
           "items": {
             "title": "Short tab title (max. 15 characters)",
@@ -95,6 +94,7 @@
         },
         "tabicons": {
           "title": "Tabs icons",
+          "maxLength":8,
           "type": "array",
           "items": {
             "title": "Tab icon",
