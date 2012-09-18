@@ -17,7 +17,8 @@
       "main": {
         "title": "Main tabs",
         "description": "Any type of datasources accepted.",
-        "multiple":true
+        "multiple":true,
+        "maxLength":8
       }
     },
     "hooks": [
