@@ -723,7 +723,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
 
         home: function() {
           if (sections.length) {
-            this[sections[0].slug]();
+            window.location = '#' + sections[0].slug;
           }
           else {
             $('#title').html('No data');
