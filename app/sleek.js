@@ -171,6 +171,11 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
         // Create the views once all sections have been initialized
         var views = self.createViews(sections);
 
+        // Initialize the router and start the application
+        var controllers = self.createRoutes(sections, views);
+        var router = Router(controllers);
+        this.initialized = true;
+
         // The "loaded" hook is triggered once when the router handles
         // the first route and when the view is rendered. The hook will
         // typically hide a possibly installed splashscreen
@@ -180,11 +185,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
             Joshfire.factory.getAddOns('loaded').run();
           }
         }, this);
-
-        // Initialize the router and start the application
-        var controllers = self.createRoutes(sections, views);
-        var router = Router(controllers);
-        this.initialized = true;
+        views.render();
         router.historyStart();
       });
     },
@@ -297,7 +298,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
 
 
     /**
-     * Initializes and renders views created from the given list of sections.
+     * Initializes views created from the given list of sections.
      *
      * @function
      * @param {Array(Object)} sections The list of sections
@@ -318,7 +319,6 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
           model: new Backbone.Model(),
           templateEl: '#template-nodata'
         });
-        sectionsView.render();
         return sectionsView;
       }
 
@@ -337,7 +337,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
         el: '#cards',
         children: views
       });
-      sectionsView.render();
+
       return sectionsView;
     },
 
@@ -628,6 +628,16 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
               return self.getAuthorThumbnail(options.model.toJSON());
             }
           });
+        case 'photo':
+        case 'product':
+        case 'other':
+          return new ImageLoader({
+            templateEl: '#template-' + itemType,
+            scroller: true,
+            getImageUrl: function () {
+              return self.getThumbnail(options.model.toJSON());
+            }
+          });
         default:
           return new ImagesLoader({
             templateEl: '#template-' + itemType,
@@ -723,7 +733,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
 
         home: function() {
           if (sections.length) {
-            this[sections[0].slug]();
+            window.location = '#' + sections[0].slug;
           }
           else {
             $('#title').html('No data');
