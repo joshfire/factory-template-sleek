@@ -29,7 +29,7 @@ img{max-width:100%;height:auto;}
 .detail h1,.single h1{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.3em;padding-top:1em;}
 .detail h2,.single h2{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.2em;padding-top:1em;}
 .detail h3,.single h3{font-weight:normal;font-size:1.2em;}
-.detail .article a{font-weight:bold;text-decoration:underline;}
+.detail .article a{color:#be440e;font-weight:normal;font-style:normal;}
 .nodata{padding:3em 0;text-align:center;font-size:1.2em;background:#ffffff;color:#333333;}
 .article h1,.article h2,.article h3,.article h4,.article h5,.article h6{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;}
 .article h1{font-size:1.3em;font-weight:bold;padding-top:1.2em;}
@@ -62,7 +62,7 @@ ul{list-style:none;}
 a{font:inherit;}
 h1,h2,h3,h4,h5,h6{font-size:1em;font-weight:normal;}
 #logo{position:absolute;width:275px;text-align:center;padding:40px 0;background-image:-webkit-gradient(linear, 0 0, 0 100%, from(rgba(255, 255, 255, 0)), color-stop(0.5, rgba(255, 255, 255, 0.08)), to(rgba(255, 255, 255, 0)));background-image:-webkit-linear-gradient(rgba(255, 255, 255, 0), color-stop(0.5, rgba(255, 255, 255, 0.08)), rgba(255, 255, 255, 0));background-image:-moz-linear-gradient(rgba(255, 255, 255, 0), color-stop(rgba(255, 255, 255, 0.08), 0.5), rgba(255, 255, 255, 0));background-image:-ms-linear-gradient(rgba(255, 255, 255, 0), color-stop(rgba(255, 255, 255, 0.08), 0.5), rgba(255, 255, 255, 0));background-image:-o-linear-gradient(rgba(255, 255, 255, 0), color-stop(rgba(255, 255, 255, 0.08), 0.5), rgba(255, 255, 255, 0));font-size:1.2em;}#logo img{max-width:100%;max-height:200px;}
-.detail .article a{font-weight:bold;}
+.detail .nav-focused a{color:#be440e;font-weight:normal;font-style:normal;}
 .nodata{padding:3em 0;text-align:center;font-size:1.2em;background:#873612;color:#ffffff;}
 #toolbar{background:transparent url(../images/tv-shadow.png) no-repeat 275px center;background-size:auto 100%;position:relative;width:375px;height:100%;z-index:20;}#toolbar ul{background-image:-webkit-gradient(linear, left top, left bottom, from(#873612), to(#4d1f0a));background-image:-webkit-linear-gradient(#873612, #4d1f0a);background-image:-moz-linear-gradient(#873612, #4d1f0a);background-image:-ms-linear-gradient(#873612, #4d1f0a);background-image:-o-linear-gradient(#873612, #4d1f0a);width:275px;height:100%;padding-top:300px;-webkit-box-sizing:border-box;}
 #toolbar a{width:100%;height:100%;display:block;text-indent:-30000px;background-repeat:no-repeat;background-position:center center;}#toolbar a.photo{background-image:url(../images/tv-photo.png);}

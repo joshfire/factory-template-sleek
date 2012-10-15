@@ -29,7 +29,7 @@ img{max-width:100%;height:auto;}
 .detail h1,.single h1{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.3em;padding-top:1em;}
 .detail h2,.single h2{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.2em;padding-top:1em;}
 .detail h3,.single h3{font-weight:normal;font-size:1.2em;}
-.detail .article a{font-weight:bold;text-decoration:underline;}
+.detail .article a{color:#af0000;font-weight:normal;font-style:normal;}
 .nodata{padding:3em 0;text-align:center;font-size:1.2em;background:#ffffff;color:#333333;}
 .article h1,.article h2,.article h3,.article h4,.article h5,.article h6{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;}
 .article h1{font-size:1.3em;font-weight:bold;padding-top:1.2em;}
