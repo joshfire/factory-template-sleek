@@ -175,6 +175,17 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
         var controllers = self.createRoutes(sections, views);
         var router = Router(controllers);
         this.initialized = true;
+
+        // The "loaded" hook is triggered once when the router handles
+        // the first route and when the view is rendered. The hook will
+        // typically hide a possibly installed splashscreen
+        views.bind('load', function () {
+          if (!this.loadedHookTriggered && this.initialized) {
+            this.loadedHookTriggered = true;
+            Joshfire.factory.getAddOns('loaded').run();
+          }
+        }, this);
+        views.render();
         router.historyStart();
       });
     },
@@ -287,7 +298,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
 
 
     /**
-     * Initializes and renders views created from the given list of sections.
+     * Initializes views created from the given list of sections.
      *
      * @function
      * @param {Array(Object)} sections The list of sections
@@ -308,18 +319,6 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
           model: new Backbone.Model(),
           templateEl: '#template-nodata'
         });
-
-        // The "loaded" hook is triggered once when the router handles
-        // the first route and when the view is rendered. The hook will
-        // typically hide a possibly installed splashscreen
-        sectionsView.bind('load', function () {
-          if (!this.loadedHookTriggered && this.initialized) {
-            this.loadedHookTriggered = true;
-            Joshfire.factory.getAddOns('loaded').run();
-          }
-        }, this);
-
-        sectionsView.render();
         return sectionsView;
       }
 
@@ -339,17 +338,6 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
         children: views
       });
 
-      // The "loaded" hook is triggered once when the router handles
-      // the first route and when the view is rendered. The hook will
-      // typically hide a possibly installed splashscreen
-      sectionsView.bind('load', function () {
-        if (!this.loadedHookTriggered && this.initialized) {
-          this.loadedHookTriggered = true;
-          Joshfire.factory.getAddOns('loaded').run();
-        }
-      }, this);
-
-      sectionsView.render();
       return sectionsView;
     },
 
