@@ -392,16 +392,21 @@
       </div>
     </script>
 
-<script data-joshfire-bootstraped="" src="http://factory.joshfire.com/bootstrap/4ffdafd83b632e0100000a83/505aeabe179fd60200000403/phone/"></script>
-    <!--
-    <script data-joshfire-bootstrap src="http://192.168.2.102:40021/bootstrap/5023b3487e351e9e4b00011c/auto/phone/"></script>
-    -->
-    <script>Joshfire.debug=false;</script>
+<script data-joshfire-bootstrap src="http://factory.joshfire.com/bootstrap/4ffdafd83b632e0100000a83/505aeabe179fd60200000403/phone/"></script>
+
+    <script>Joshfire.debug=true;</script>
     <script type="text/javascript" src="todate.js"></script>
     <script type="text/javascript" src="vendor/moment.js"></script>
     <script type="text/javascript" src="vendor/sidjs-0.1.js"></script>
     <script type="text/javascript" src="prettystatus.js"></script>
-    <script data-main="app.phone" src="joshfire-framework/lib/adapters/ios/bootstrap.js"></script>
+    <script type="text/javascript">
+      if ((/android/gi).test(navigator.appVersion)) {
+        document.write('<script data-main="app.phone" src="joshfire-framework/lib/adapters/android/bootstrap.js"></'+'script>');
+      } else {
+        document.write('<script data-main="app.phone" src="joshfire-framework/lib/adapters/ios/bootstrap.js"></'+'script>');
+      }
+    </script>
+    
     <script type="text/javascript">
       // if app icon, set "apple-touch-icon-precomposed" for webapps installed on mobile
       // For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: (have to be an absolute URL)
