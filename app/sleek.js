@@ -189,12 +189,17 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
         // The "loaded" hook is triggered once when the router handles
         // the first route and when the view is rendered. The hook will
         // typically hide a possibly installed splashscreen
-        views.bind('load', function () {
-          if (!this.loadedHookTriggered && this.initialized) {
-            this.loadedHookTriggered = true;
+        var loaded = function() {
+          if (!self.loadedHookTriggered && self.initialized) {
+            self.loadedHookTriggered = true;
             Joshfire.factory.getAddOns('loaded').run();
           }
-        }, this);
+        }
+        views.bind('load',loaded);
+
+        //failsafe if first tab fails to load for some reason
+        setTimeout(loaded,20*1000); 
+
         views.render();
         self.router.historyStart();
       });
