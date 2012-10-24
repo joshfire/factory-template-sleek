@@ -180,7 +180,7 @@ div.ps-toolbar-play div.ps-toolbar-content{background-position:-88px 0;}
 #status .detail .body{height:100%;}
 #status .detail .message{color:#333333;padding:5% 6%;}#status .detail .message .cover{background-color:#ffffff;-webkit-box-shadow:0 -1em 4em rgba(0, 0, 0, 0.8);-moz-box-shadow:0 -1em 4em rgba(0, 0, 0, 0.8);-ms-box-shadow:0 -1em 4em rgba(0, 0, 0, 0.8);-o-box-shadow:0 -1em 4em rgba(0, 0, 0, 0.8);box-shadow:0 -1em 4em rgba(0, 0, 0, 0.8);position:absolute;bottom:0;left:0;right:0;top:6.8em;}
 #status .detail .message h4{font-weight:normal;margin-bottom:1.3em;color:#808080;font-size:1.2em;position:relative;}
-#status .detail .message p{font-size:1.4em;position:relative;}#status .detail .message p strong,#status .detail .message p em,#status .detail .message p a{color:#be440e;font-weight:normal;font-style:normal;}
+#status .detail .message p{font-size:1.4em;position:relative;}#status .detail .message p a{color:#be440e;font-weight:normal;font-style:normal;}
 #status .detail .arrow{height:.8em;margin-left:1.8em;overflow:hidden;position:relative;z-index:2;}#status .detail .arrow span{display:block;height:1.6em;width:1.6em;margin:.35em 0;background-color:#ffffff;-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);-o-transform:rotate(45deg);transform:rotate(45deg);}
 #event .detail{line-height:1.2em;background:#ffffff;color:#333333;}#event .detail>div{padding:1em;}
 #event .detail h3{font-weight:normal;font-size:1em;margin-bottom:.8em;margin-top:1em;}
