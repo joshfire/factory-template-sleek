@@ -88,7 +88,7 @@ h1, h2, h3, h4, h5, h6 {
   
   ul {
     //.vertical-gradient(@background-color, darken(@background-color, 13%));
-    background: @background-color;
+    background: darken(@background-color, 8%);
     width: @toolbar-width;
     height: 100%;
     padding-top: 110px;
@@ -163,11 +163,11 @@ h1, h2, h3, h4, h5, h6 {
     position: absolute;
     left: @toolbar-width / 2;
     top: 0;
-    height: 100%;
+    bottom: 0;
     width: @toolbar-width / 2;
     pointer-events: none;
     background: #FFF;
-    opacity: 0.02;
+    opacity: 0.04;
     //.horizontal-gradient(rgba(255,255,255,.02), rgba(255,255,255,.01));
   }
 
@@ -208,7 +208,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #cards {
 
-  background-color: lighten(@background-color, 2%);
+  background-color: darken(@background-color, 5%);
 
   & > div {
     height: 100%;
@@ -300,6 +300,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .jflist {
 
+  .transition(0.2s ease-in-out all);
   overflow: visible;
 
   li {
@@ -389,7 +390,7 @@ h1, h2, h3, h4, h5, h6 {
       color: @dark-text-color;
       background: none;
       margin-left: -50px;
-      .transition(0.1s ease-in-out all);
+      .transition(0.1s ease-in-out all 0.2s);
       
       a {
         background: none;
@@ -472,7 +473,7 @@ h1, h2, h3, h4, h5, h6 {
 
   .photo-item, .video-item {
     float: left;
-    width: 40%;
+    width: 33%;
 
     .caption {
       display: none;
@@ -493,10 +494,10 @@ h1, h2, h3, h4, h5, h6 {
       position: absolute;
       width: 84px;
       height: 84px;
-      top: 50%;
+      bottom: 50%;
       left: 50%;
       margin-left: -42px;
-      margin-top: -42px;
+      margin-bottom: -42px;
       background: @background-color url(../images/tv-zoom.png) no-repeat center center;
       .border-radius(42px);
       display: none;
@@ -527,67 +528,6 @@ h1, h2, h3, h4, h5, h6 {
         display: block !important;
       }
     }
-
-    // 1
-    &:nth-child(11n - 10) {
-      clear: both;
-    }
-
-    // 2
-    &:nth-child(11n - 9) {
-      float: right;
-    }
-
-    // 3
-    &:nth-child(11n - 8) {
-      width: 20%;
-    }
-
-    // 4
-    &:nth-child(11n - 7) {
-      width: 20%;
-    }
-
-    // 5
-    &:nth-child(11n - 6) {
-      width: 20%;
-      clear: both;
-    }
-
-    // 6
-    &:nth-child(11n - 5) {
-      width: 20%;
-    }
-
-    // 7
-    &:nth-child(11n - 4) {
-      width: 20%;
-      float: right;
-    }
-
-    // 8
-    &:nth-child(11n - 3) {
-      float: right;
-    }
-
-    // 9
-    &:nth-child(11n - 2) {
-      width: 20%;
-    }
-
-    // 10
-    &:nth-child(11n - 1) {
-      width: 20%;
-    }
-
-    // 11
-    &:nth-child(11n) {
-      width: 20%;
-      float: right;
-      margin-top: -20%;
-      clear: both;
-    }
-
   }
 
   .container {
@@ -606,6 +546,7 @@ h1, h2, h3, h4, h5, h6 {
     right: 10px;
     bottom: 10px;
     left: 10px;
+    background-size: cover;
   }
 
   .spinner {

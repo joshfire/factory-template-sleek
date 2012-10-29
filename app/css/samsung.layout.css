@@ -84,3 +84,14 @@ body, html {
   position: relative;
   float: left;
 }
+
+.mosaic {
+
+  display: block;
+  padding: 0 10px 10px 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+}
