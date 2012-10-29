@@ -1,0 +1,86 @@
+body, html {
+  width: 960px!important;
+  height: 540px!important;
+  overflow: hidden;
+}
+
+#cards {
+  left: 175px;
+  right: 0;
+  top: 0;
+  height: 540px;
+  z-index: 25;
+  position: absolute;
+  overflow: hidden;
+}
+
+#cards > div {
+  height: 100%;
+  width: 785px;
+  position: relative;
+}
+
+#cards > div > div {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.slide-panel > div {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.slide-panel > div > div {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+
+#console {
+  background: black;
+  color: white;
+  position: absolute;
+  z-index: 100;
+  bottom: 20px;
+  right: 10px;
+  width: 300px;
+  height: 450px;
+  border: solid 1px white;
+  padding: 10px;
+  word-break: break-all;
+  opacity: 0.5;
+}
+
+.list-indicator {
+  z-index: 40;
+}
+
+.list-container {
+  height: 540px;
+  background-color: #555;
+  position: relative;
+  float: right;
+  width: 540px;
+}
+
+.jflist {
+  position: absolute!important;
+  top: 0;
+  right: 0!important;
+  left: auto!important;
+  z-index: 45;
+  width: 540px!important;
+  padding-bottom: 20px!important;
+  margin: 0!important;
+}
+
+.jflist li {
+  display: block;
+  height: 170px;
+  width: 100%;
+  position: relative;
+  float: left;
+}

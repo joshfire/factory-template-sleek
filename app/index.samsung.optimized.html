@@ -5,35 +5,70 @@
 
     <title></title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="gtv-autozoom" content="off">
+    
+    <link rel="stylesheet" type="text/css" href="css/samsung.layout.css">
 
-    <style type="text/css" media="screen">
-      body, html {
-        height: 100%;
-        padding: 0;
-        margin: 0;
-        overflow: hidden;
-      }
+    <!-- Widget API -->
+    <script type='text/javascript' language='javascript' src='$MANAGER_WIDGET/Common/API/Widget.js'></script>
+    <!-- Remote key codes -->
+    <script type='text/javascript' language='javascript' src='$MANAGER_WIDGET/Common/API/TVKeyValue.js'></script>
+    <script type="text/javascript" language="javascript" src="$MANAGER_WIDGET/Common/API/Plugin.js"></script>
 
-      body {
-        background: #000 url(data:image/gif;base64,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) no-repeat center center;
-      }
+    <script type="text/javascript">
 
-      #container {
-        display: none;
-      }
-    </style>
+      // Console.log hack
+      window.console = {
+        log: function() {
+          //return;
+          var args = Array.prototype.slice.call(arguments);
+          var html = args.join(', ') + '<br />' + $('#console').html();
+          //alert(args.join(', '));
+          if (window.widgetAPI){
+            window.widgetAPI.putInnerHTML(document.getElementById('console'), html);
+          }
+          else{
+            $('#console').show();
+            $('#console').html(html);
+          }
+        }
+      };
+
+      // Initialize the Samsung widget API.
+      window.widgetAPI = new Common.API.Widget();
+
+      var launched = false;
+      // Called on body.onload
+      window.launch = function() {
+
+        var pluginAPI = new Common.API.Plugin();
+
+        // Enable default volume keys behavior.
+        window.onShow = function() {
+          // Needed to display the volume overlay.
+          var navPlugin = document.getElementById('pluginObjectNNavi');
+          navPlugin.SetBannerState(2);
+
+          // Tell the API we don't handle the volume keys and default behavior should be used.
+          pluginAPI.unregistKey(window.VK_VOL_UP);
+          pluginAPI.unregistKey(window.VK_VOL_DOWN);
+          pluginAPI.unregistKey(window.VK_MUTE);
+        };
+        
+        // Tell the API to display the app.
+        window.widgetAPI.sendReadyEvent();
+      };
+    </script>
   </head>
 
-  <body class="device-tv" ontouchmove="event.preventDefault()">
+  <body class="device-tv" onload="window.launch()">
     <div id="container">
+
+      <div id="console"></div>
 
       <div id="cards"></div>
 
       <div id="top-gradient-overlay"></div>
+
       <div id="bottom-gradient-overlay"></div>
 
       <div id="toolbar"></div>
@@ -46,61 +81,44 @@
 
     <!-- TEMPLATES SHARED BY ALL VERSIONS FOR SPOT -->
 
-    <script type="text/template" id="template-contact-index">
-      <div class="body"><%= textContent %></div>
-    </script>
+    <script type="text/template" id="template-contact-index"><div class="body"><%= textContent %></div></script>
 
-    <script type="text/template" id="template-contact-map">
-      <div class="google-map"></div>
-    </script>
+    <script type="text/template" id="template-contact-map"><div class="google-map"></div></script>
 
-    <script type="text/template" id="template-map-overlay">
-      <p class="map-overlay"><%= address %></p>
-    </script>
+    <script type="text/template" id="template-map-overlay"><p class="map-overlay"><%= address %></p></script>
 
     <!-- TEMPLATES MOSTLY SPECIFIC TO TV version -->
 
-    <script type="text/template" id="template-nodata">
-      <div class="single content nodata">
+    <script type="text/template" id="template-nodata"><div class="single content nodata">
         No data feed to display.
         <br/>Consider adding a data source.
-      </div>
-    </script>
+      </div></script>
 
-    <script type="text/template" id="template-toolbar">
-      <div id="logo"></div>
+    <script type="text/template" id="template-toolbar"><div id="logo"></div>
       <ul>
         <%= children %>
       </ul>
-      <div class="highlight"></div>
-    </script>
+      <div class="highlight"></div></script>
 
-    <script type="text/template" id="toolbar-item">
-      <li>
+    <script type="text/template" id="toolbar-item"><li>
         <a href="<%= item.linkURL %>" class="<%= (item.name.toLowerCase() === 'contact') ? 'contact' : item.icon %> section-<%= item.slug %>">
           <%= item.name %>
         </a>
-      </li>
-    </script>
+      </li></script>
 
-    <script type="text/template" id="template-list-view">
-      <div class="list-container">
+    <script type="text/template" id="template-list-view"><div class="list-container">
         <div class="list-indicator"></div>
-        <ul class="list">
+        <ul style="position: absolute;" class="jflist">
           <%= children %>
         </ul>
       </div>
-      <div class="loader large">&nbsp;</div>
-    </script>
+      <div class="loader large">&nbsp;</div></script>
 
-    <script type="text/template" id="template-mosaic">
-      <ul class="mosaic">
+    <script type="text/template" id="template-mosaic"><ul class="mosaic">
         <%= children %>
-      </ul>
-    </script>
+      </ul></script>
 
-    <script type="text/template" id="template-photo-item">
-      <li class="photo-item">
+    <script type="text/template" id="template-photo-item"><li class="photo-item">
         <div class="container">
           <div class="image" style="background-image: url(<%= imageUrl %>)">
             <a class="image-link" href="#<%= section.slug %>/<%= offset %>" title="<%= item.name %>">&nbsp;</a>
@@ -109,11 +127,9 @@
           <div class="caption"><%= item.name %></div>
           <% } %>
         </div>
-      </li>
-    </script>
+      </li></script>
 
-    <script type="text/template" id="template-video-item">
-      <li class="video-item">
+    <script type="text/template" id="template-video-item"><li class="video-item">
         <div class="container">
           <div class="image" style="background-image: url(<%= imageUrl %>)">
             <a class="video-link" href="#<%= section.slug %>/<%= offset %>" title="<%= item.name %>">&nbsp;</a>
@@ -123,11 +139,9 @@
           <% } %>
           <div class="spinner">&nbsp;</div>
         </div>
-      </li>
-    </script>
+      </li></script>
 
-    <script type="text/template" id="template-status-item">
-      <li class="status-item">
+    <script type="text/template" id="template-status-item"><li class="status-item">
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <div class="left">
@@ -148,11 +162,9 @@
             </div>
           </a>
         </div>
-      </li>
-    </script>
+      </li></script>
 
-    <script type="text/template" id="template-event-item">
-      <li class="event-item">
+    <script type="text/template" id="template-event-item"><li class="event-item">
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <div class="item-content">
@@ -163,11 +175,9 @@
             </div>
           </a>
         </div>
-      </li>
-    </script>
+      </li></script>
 
-    <script type="text/template" id="template-news-item">
-      <li class="news-item">
+    <script type="text/template" id="template-news-item"><li class="news-item">
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <div class="item-content">
@@ -185,11 +195,9 @@
             </div>
           </a>
         </div>
-      </li>
-    </script>
+      </li></script>
 
-    <script type="text/template" id="template-sound-item">
-      <li class="sound-item">
+    <script type="text/template" id="template-sound-item"><li class="sound-item">
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <div>
@@ -202,11 +210,9 @@
             </div>
           </a>
         </div>
-      </li>
-    </script>
+      </li></script>
 
-    <script type="text/template" id="template-product-item">
-      <li class="product-item">
+    <script type="text/template" id="template-product-item"><li class="product-item">
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <div>
@@ -219,11 +225,9 @@
             </div>
           </a>
         </div>
-      </li>
-    </script>
+      </li></script>
 
-    <script type="text/template" id="template-other-item">
-      <li class="other-item">
+    <script type="text/template" id="template-other-item"><li class="other-item">
         <div>
           <a href="#<%= section.slug %>/<%= offset %>">
             <div>
@@ -231,20 +235,14 @@
             </div>
           </a>
         </div>
-      </li>
-    </script>
+      </li></script>
 
-    <script type="text/template" id="template-photo">
-      <div class="image" style="background-image: url(<%= item.contentURL %>)"></div>
-      <div class="spinner"></div>
-    </script>
+    <script type="text/template" id="template-photo"><div class="image" style="background-image: url(<%= item.contentURL %>)"></div>
+      <div class="spinner"></div></script>
 
-    <script type="text/template" id="template-video">
-      <%= media.html %>
-    </script>
+    <script type="text/template" id="template-video"><%= media.html %></script>
 
-    <script type="text/template" id="template-status">
-      <div>
+    <script type="text/template" id="template-status"><div>
         <div class="head">
           <div class="image" style="background-image: url(<%= imageUrl %>)"></div>
           <div class="title">
@@ -259,11 +257,9 @@
           </div>
         </div>
         <p><%= prettyStatus(item.name) %></p>
-      </div>
-    </script>
+      </div></script>
 
-    <script type="text/template" id="template-event">
-      <div>
+    <script type="text/template" id="template-event"><div>
         <div class="head">
           <% if (item.startDate && item.endDate && (item.startDate !== item.endDate)) { %>
           From <%= moment(toDate(item.startDate)).format('LLLL') %> to <%= moment(toDate(item.endDate)).format('LLLL') %>
@@ -280,11 +276,9 @@
             <p class="location"><%= item.location.name %></p>
           <% } %>
         </div>
-      </div>
-    </script>
+      </div></script>
 
-    <script type="text/template" id="template-news">
-      <div>
+    <script type="text/template" id="template-news"><div>
         <div class="head">
           <%= item.name %>
         </div>
@@ -298,11 +292,9 @@
           <%= item.description %>
           <% } %>
         </div>
-      </div>
-    </script>
+      </div></script>
 
-    <script type="text/template" id="template-product">
-      <div>
+    <script type="text/template" id="template-product"><div>
         <div class="head"><%= item.name %></div>
         <div class="body">
           <% if (imageUrl) { %>
@@ -318,11 +310,9 @@
           <div class="offer">Price: <%= (item.offers[0].priceCurrency === 'EUR') ? '€' : ((item.offers[0].priceCurrency === 'GBP') ? '₤' : '$') %><%= item.offers[0].price %></div>
           <% } %>
         </div>
-      </div>
-    </script>
+      </div></script>
 
-    <script type="text/template" id="template-other">
-      <div>
+    <script type="text/template" id="template-other"><div>
         <div class="head"><%= item.name %></div>
         <div class="body">
           <% if (imageUrl) { %>
@@ -334,15 +324,11 @@
           <%= item.description %>
           <% } %>
         </div>
-      </div>
-    </script>
+      </div></script>
 
-    <script type="text/template" id="template-contact">
-      <div><%= textContent %></div>
-    </script>
+    <script type="text/template" id="template-contact"><div><%= textContent %></div></script>
 
-    <script type="text/template" id="template-sound">
-      <div>
+    <script type="text/template" id="template-sound"><div>
         <div class="head">
           <% if(item.thumbnail && item.thumbnail.length) { %>
           <div class="image" style="background-image: url(<%= item.thumbnail[0].contentURL %>)"></div>
@@ -361,15 +347,15 @@
           <p><%= item.description %></p>
           <% } %>
         </div>
-      </div>
-    </script>
-
+      </div></script>
+    
+    <script type="text/javascript" src="vendor/json2.js"></script>
     <script data-joshfire-bootstraped="" src="http://factory.joshfire.com/bootstrap/4ffdafd83b632e0100000a83/505aeabe179fd60200000403/tv/"></script>
     <script type="text/javascript" src="todate.js"></script>
     <script type="text/javascript" src="vendor/moment.js"></script>
     <script type="text/javascript" src="vendor/sidjs-0.1.js"></script>
     <script type="text/javascript" src="prettystatus.js"></script>
-    <script src="app.tv.tv.optimized.js"></script>
+    <script src="app.tv.samsung.samsungtv.optimized.js"></script>
   </body>
 </html>
 

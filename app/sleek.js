@@ -127,7 +127,6 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      */
     initialize: function() {
       var self = this;
-
       this.title = Joshfire.factory.config.app.name;
       this.tabs = Joshfire.factory.config.template.options.tabs || [];
       this.tabicons = Joshfire.factory.config.template.options.tabicons || [];
@@ -146,6 +145,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
         //
         // (The way the list of datasources is retrieved actually depends
         // on whether the code is used in Sleek or in Spot)
+        
         var datasources = self.getDatasources();
         var sections = new Array(datasources.length);
         var loaded = 0;
@@ -183,9 +183,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
 
         self.setupFastNavigate();
         self.init();
-
         self.initialized = true;
-
         // The "loaded" hook is triggered once when the router handles
         // the first route and when the view is rendered. The hook will
         // typically hide a possibly installed splashscreen
@@ -194,14 +192,16 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
             self.loadedHookTriggered = true;
             Joshfire.factory.getAddOns('loaded').run();
           }
-        }
-        views.bind('load',loaded);
+        };
+
+        views.bind('load', loaded);
 
         //failsafe if first tab fails to load for some reason
-        setTimeout(loaded,20*1000); 
+        setTimeout(loaded, 20*1000); 
 
         views.render();
         self.router.historyStart();
+        console.log('Init done');
       });
     },
 
@@ -457,11 +457,13 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      * @parma {Backbone.View} the section container
      */
     refreshList: function(section, container) {
+      console.log("REFRESH LIST");
       section.collection.fetch({
         dataSourceQuery: {
           nocache: true
         },
         success: _.bind(function() {
+          console.log('SHOW LIST');
           this.showList(section, container);
         }, this)
       });
@@ -475,8 +477,10 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      * @parma {Backbone.View} the section container
      */
     updateList: function(section, container) {
+      console.log("UPDATE LIST");
       section.collection.fetch({
         success: _.bind(function() {
+          console.log("SHOW LIST");
           this.showList(section, container);
         }, this)
       });
