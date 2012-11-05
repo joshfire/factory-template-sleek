@@ -75,6 +75,12 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
 
 
     /**
+     * Selector where fastNavigate() will be activated
+     * False to disable
+     */
+    fastNavigateSelector: false,
+
+    /**
      * Converts a schema.org type into an internal type of items
      */
     convertItemType: function(type) {
@@ -173,22 +179,55 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
 
         // Initialize the router and start the application
         var controllers = self.createRoutes(sections, views);
-        var router = Router(controllers);
-        this.initialized = true;
+        self.router = Router(controllers);
+
+        self.setupFastNavigate();
+        self.init();
+
+        self.initialized = true;
 
         // The "loaded" hook is triggered once when the router handles
         // the first route and when the view is rendered. The hook will
         // typically hide a possibly installed splashscreen
-        views.bind('load', function () {
-          if (!this.loadedHookTriggered && this.initialized) {
-            this.loadedHookTriggered = true;
+        var loaded = function() {
+          if (!self.loadedHookTriggered && self.initialized) {
+            self.loadedHookTriggered = true;
             Joshfire.factory.getAddOns('loaded').run();
           }
-        }, this);
+        }
+        views.bind('load',loaded);
+
+        //failsafe if first tab fails to load for some reason
+        setTimeout(loaded,20*1000); 
+
         views.render();
-        router.historyStart();
+        self.router.historyStart();
       });
     },
+
+    setupFastNavigate:function() {
+      if (!this.fastNavigateSelector) return;
+      var self = this;
+
+      var fastNavigate = function(evt) {
+        var href = $(evt.currentTarget).attr("href");
+
+        if (href.substring(0,1)=="#") {
+          self.router.navigate(href.substring(1),true);
+          evt.preventDefault();
+          evt.stopPropagation();
+
+          return false;
+        }
+      };
+
+      $(this.fastNavigateSelector).live("touchstart mousedown",fastNavigate);
+    },
+
+    /**
+     * Overload this to get custom initializations for devices
+     */
+    init:function() {},
 
 
     /**

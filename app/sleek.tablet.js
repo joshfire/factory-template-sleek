@@ -14,6 +14,8 @@ function(Sleek, Layout, $, _) {
      */
     deviceFamily: 'tablet',
 
+    fastNavigateSelector:"#container header a",
+
 
     /**
      * Retrieves the classname(s) to use to flag an item in a list

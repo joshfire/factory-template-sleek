@@ -15,6 +15,7 @@ function(Sleek, Toolbar, SlidePanel, $, _) {
      */
     deviceFamily: 'phone',
 
+    fastNavigateSelector:"#container header a, #container #toolbar a",
 
     /**
      * Creates the toolbar UI element.

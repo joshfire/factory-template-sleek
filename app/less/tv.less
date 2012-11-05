@@ -8,7 +8,7 @@
 @toolbar-width: 275px;
 
 body.device-tv {
-  font-size: @font-size / 1px;
+  font-size: @font-size * 1px;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -48,7 +48,7 @@ h1, h2, h3, h4, h5, h6 {
 .detail {
   .nav-focused { 
     a{
-      color: saturate(lighten(@background-color, 10%), 10%);
+      color: @link-color;
       font-weight: normal;
       font-style: normal;
     }
