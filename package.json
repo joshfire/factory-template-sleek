@@ -10,7 +10,7 @@
   ],
   "joshfire": {
     "images": {
-      "small": "marketing/sleek-small.jpg",
+      "small": "marketing/sleek-small.png",
       "big": "marketing/sleek-big.jpg"
     },
     "datasources": {
