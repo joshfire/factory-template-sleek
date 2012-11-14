@@ -10,6 +10,7 @@ var compress = true;
 var files = [
     'phone',
     'tv',
+    'samsung',
     'tablet',
     'desktop'
 ];

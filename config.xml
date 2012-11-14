@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget>
+	<ThumbIcon>icon/default_106.png</ThumbIcon>
+	<BigThumbIcon>icon/default_106.png</BigThumbIcon>
+	<ListIcon>icon/default_106.png</ListIcon>
+	<BigListIcon>icon/default_106.png</BigListIcon>
+	<category itemtype="string"></category>
+	<type itemtype="string">user</type>
+	<ver itemtype="string"></ver>
+	<mgver itemtype="string"></mgver>
+	<fullwidget itemtype="string">y</fullwidget>
+	<srcctl itemtype="boolean">y</srcctl>
+	<ticker itemtype="boolean">n</ticker>
+	<childlock itemtype="boolean">n</childlock>
+	<audiomute itemtype="boolean">n</audiomute>
+	<videomute itemtype="boolean">n</videomute>
+	<dcont itemtype="boolean">y</dcont>
+	<widgetname itemtype="string">Sleek</widgetname>
+	<description itemtype="string"></description>
+	<width itemtype="number">960</width>
+	<height itemtype="number">540</height>
+	<author itemtype="group">
+		<name itemtype="string">Tomasz Scislo, SPRC</name>
+		<email itemtype="string"></email>
+		<link itemtype="string"></link>
+		<organization itemtype="string"></organization>
+	</author>
+</widget>

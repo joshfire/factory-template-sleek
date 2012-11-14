@@ -1,0 +1,11 @@
+{
+  "name": "myzen",
+  "description": "MyZen test server",
+  "author": "Joshfire",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "2.x"
+  },
+  "user":"joshfire",
+  "engine": "node = 0.6.x"
+}
