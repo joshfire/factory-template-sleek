@@ -14,6 +14,10 @@ body.device-tv {
   background: none!important;
 }
 
+body > object {
+  display: none;
+}
+
 #container {
   //.vertical-gradient(fade(@background-color, 90%), fade(darken(@background-color, 17%), 90%));
   position: relative;
@@ -22,7 +26,7 @@ body.device-tv {
   background: none;
 
   width: 960px;
-  height: 540px;
+  height: 510px;
 }
 
 ul {
@@ -63,6 +67,26 @@ h1, h2, h3, h4, h5, h6 {
   }
 } 
 
+// Samsung 2011 specific elements should be
+// hidden by default
+.s2011 {
+  display: none;
+}
+// If we're on a 2011, body will have this class.
+body.sdk2011 {
+  .s2011 {
+    display: block;
+  }
+  .spinnermessage {
+    background: #000;
+    color: @text-color;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 5em;
+  }
+}
+
 //---------------------------------------------------------------------------
 // The no-data message
 //---------------------------------------------------------------------------
@@ -76,15 +100,15 @@ h1, h2, h3, h4, h5, h6 {
 
 
 #toolbar {
-  background: transparent url(../images/tv-shadow.png) no-repeat @toolbar-width center;
-  background-size: auto 100%;
+  /*background-size: auto 100%;*/
   
+  overflow: hidden;
   position: absolute;
   top: 0;
   left: 0;
   width: 205px;
-  height: 100%;
-  z-index: 20;
+  height: 510px;
+  z-index: 30;
   
   ul {
     //.vertical-gradient(@background-color, darken(@background-color, 13%));
@@ -148,8 +172,8 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   li {
-    width: 120px;
-    height: 60px;
+    width: 100px;
+    height: 50px;
     margin: 0 auto 10px;
     background: lighten(@background-color, 2%);
     .border-radius(4px);
@@ -166,8 +190,8 @@ h1, h2, h3, h4, h5, h6 {
     bottom: 0;
     width: @toolbar-width / 2;
     pointer-events: none;
-    background: #FFF;
-    opacity: 0.04;
+    background: transparent url('../images/samsung-toolbar-highlight.png');
+    opacity: 0.12;
     //.horizontal-gradient(rgba(255,255,255,.02), rgba(255,255,255,.01));
   }
 
@@ -176,8 +200,8 @@ h1, h2, h3, h4, h5, h6 {
       background-color: rgba(255,255,255,.1);
       .box-shadow(0 0 50px rgba(255,255,255,.3));
       border: solid 3px rgba(255,255,255,.2);
-      width: 118px;
-      height: 58px;
+      width: 98px;
+      height: 48px;
     }
   }
 }
@@ -208,16 +232,20 @@ h1, h2, h3, h4, h5, h6 {
 
 #cards {
 
-  background-color: darken(@background-color, 5%);
 
   & > div {
     height: 100%;
   }
 }
 
+.content.detail {
+  background: none;
+}
+
 .content {
   position: relative;
   height: 100%;
+  background: transparent url('../images/samsung-shadow-right.png') no-repeat 169px 0;
 
   &.loading {
     .spinner {
@@ -245,7 +273,7 @@ h1, h2, h3, h4, h5, h6 {
 .slide-panel {
   width: 100%;
   height: 100%;
-  .transition(0.4s ease-in-out all);
+  .transition(0.4s ease-in-out left);
 
   & > div {
     width: 100%;
@@ -281,7 +309,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .list-container {
   height: 540px;
-  background-color: lighten(@background-color, 10%);
+  background-color: darken(@background-color, 10%);
   //.box-shadow(-5px 5px 10px rgba(0,0,0,.3));
   // width: 535px;
 }
@@ -293,7 +321,7 @@ h1, h2, h3, h4, h5, h6 {
   top: -200;
   right: 0;
   height: 170px;
-  width: 580px;
+  width: 620px;
   background: @light-background-color url(../images/tv-more-black.png) no-repeat right center;
   //.box-shadow(-5px 5px 3px rgba(0,0,0,.2));
 }
@@ -308,6 +336,9 @@ h1, h2, h3, h4, h5, h6 {
     height: 170px;
     display: block;
     color: @text-color;
+
+    background: transparent url('../images/samsung-li-gradient.png') repeat-x 0 0;
+
   }
 
   li:first-child {
@@ -340,18 +371,15 @@ h1, h2, h3, h4, h5, h6 {
   .far-left {
     position: absolute;
     top: 0;
-    left: -180px;
-    width: 170px;
+    left: -170px;
+    width: 140px;
   }
 
   .far-left p {
     color: @text-color;
-    padding: 20px 0;
-    width: 230px;
+    padding: 40px 0 20px 0;
     height: 130px;
-    font-size: .8em;
-    display: table-cell;
-    vertical-align: middle;
+    font-size: 18px;
     text-shadow: 0 0 1px rgba(0,0,0,.9), 0 0 10px rgba(0,0,0,.8);
   }
 
@@ -380,6 +408,18 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+.sdk2011 {
+  .jflist {
+    .nav-active {
+      margin-left: 0;
+
+      .far-left {
+        left: -170px;
+      }
+    }
+  }
+}
+
 #cards.nav-focused-ancestor {
   .list-indicator {
     .opacity(1);
@@ -398,16 +438,23 @@ h1, h2, h3, h4, h5, h6 {
       }
 
       .far-left {
-        left: -170px;
+        left: -140px;
       }
     }
   }
 }
 
+
+.detail > div > div {
+  position: absolute;
+  left: 110px;
+  width: 620px;
+}
+
 .detail > div {
   max-width: 800px;
   margin: 0 auto;
-  padding: 100px 180px;
+  padding: 50px 50px 50px 110px;
   font-size: 60px;
   .transition(0.1s ease-in-out all);
   text-shadow: 0 0 1px rgba(0,0,0,.9), 0 0 10px rgba(0,0,0,.8);
@@ -418,8 +465,9 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   p, .body {
-    font-size: 40px;
+    font-size: 24px;
     margin-bottom: 1em;
+    color: @text-color;
   }
 
   h4 {
@@ -444,22 +492,29 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 40px;
   margin-left: -100px;
   text-shadow: none;
+  width: 100%;
   background: @light-background-color url(../images/tv-back.png) no-repeat 20px center;
   color: @dark-text-color;
   display: inline-block;
   .box-shadow(-5px 5px 3px rgba(0,0,0,.2));
   .clear-fix;
 
+  p {
+    color: @dark-text-color!important;
+  }
+
   .image {
-    width: 130px;
-    height: 130px;
+    width: 75px;
+    height: 75px;
     background-repeat: no-repeat;
     float: right;
     margin-left: 30px;
+    margin-top: 10px;
   }
 
   .title {
     margin-right: 190px;
+    color: @dark-text-color;
   }
 
   min-height: 43px;
@@ -468,6 +523,7 @@ h1, h2, h3, h4, h5, h6 {
 .mosaic {
   background: darken(@background-color, 10%);
   padding: 10px;
+  min-height: 540px;
   .clear-fix;
   .backface-hidden;
 
@@ -494,10 +550,9 @@ h1, h2, h3, h4, h5, h6 {
       position: absolute;
       width: 84px;
       height: 84px;
-      bottom: 50%;
+      top: 50px;
       left: 50%;
       margin-left: -42px;
-      margin-bottom: -42px;
       background: @background-color url(../images/tv-zoom.png) no-repeat center center;
       .border-radius(42px);
       display: none;
@@ -508,10 +563,9 @@ h1, h2, h3, h4, h5, h6 {
       position: absolute;
       width: 84px;
       height: 84px;
-      top: 50%;
+      top: 50px;
       left: 50%;
       margin-left: -42px;
-      margin-top: -42px;
       background: @background-color url(../images/tv-play.png) no-repeat center center;
       .border-radius(42px);
       display: none;
@@ -562,10 +616,14 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-#photos-detail, #videos-detail
+#vimeo-detail {
+  background-color: #F06!important;
+}
+
+#photos-detail, #videos-detail, #youtube-detail, #vimeo-detail
 {
   position: absolute;
-  z-index: 500;
+  z-index: 99;
   top: 0;
   left: 0;
   width: 100%;
@@ -588,6 +646,17 @@ h1, h2, h3, h4, h5, h6 {
     height: 100%;
     z-index: 2;
     display: none;
+
+    .spinnermessage {
+      width: 100px;
+      height: 80px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -40px;
+      margin-left: -50px;
+      background-color: #000;
+    }
   }
 
   &.loading {
@@ -613,4 +682,39 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 40px;
   margin-left: 0;
   background: @light-background-color;
+}
+
+#cards > .joshfire-wrapper > div {
+  background: darken(@background-color, 5%) url(../images/samsung-shadow-left.png) no-repeat 0 center;
+}
+
+
+#navHelper {
+  color: #eee;
+  background: #000;
+  z-index: 99;
+
+  .action {
+    background: transparent url(../images/navhelper_action.png) no-repeat left center;
+  }
+  .back {
+    background: transparent url(../images/navhelper_back.png) no-repeat left center;
+  }
+  .exit {
+    background: transparent url(../images/navhelper_exit.png) no-repeat left center;
+  }
+  .navigate {
+    background: transparent url(../images/navhelper_navigate.png) no-repeat left center;
+  }
+
+  li {
+    display: block;
+    float: right;
+    margin-right: 20px;
+    padding-left: 22px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 16px;
+    line-height: 1em;
+  }
 }

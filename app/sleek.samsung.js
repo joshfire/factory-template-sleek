@@ -3,6 +3,7 @@
 define([
   'sleek.custom',
   'joshlib!uielement',
+  'joshlib!ui/list',
   'joshlib!ui/toolbar',
   'joshlib!ui/cardpanel',
   'joshlib!ui/slidepanel',
@@ -11,28 +12,23 @@ define([
   'joshlib!ui/item',
   'joshlib!ui/factorymedia',
   'joshlib!ui/imageloader',
+  'joshlib!inputs/remote',
   'joshlib!vendor/underscore',
   'joshlib!utils/dollar'],
-function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImageLoader, _, $) {
+function(Sleek, UIElement, List, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImageLoader, Remote, _, $) {
 
   return Sleek.extend({
     initialize: function (cb) {
 
-      var self = this;
       var $win = $(window);
+      console.log("WHAT THE FUCK");
 
-      Sleek.prototype.initialize.call(this, function () {
+      Sleek.prototype.initialize.call(this);
+      // Adds a class on the body if we're on 2011 SDK
+      this.setFrameworkVersionTag();
+      // Handle remote events
+      this.handleSamsungRemote();
 
-        if (self.backgroundURL) {
-          self.setBackground(self.backgroundURL);
-        }
-
-        if (self.logoURL) {
-          self.setLogo(self.logoURL);
-        } else {
-          self.setTitle(self.title);
-        }
-      });
     },
 
 
@@ -50,12 +46,10 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
         this.colorSet = true;
         $('#color').remove();
         if(typeof sf !== 'undefined' && sf.core) {
-          console.log("COREV2 LOADCSS");
           sf.core.loadCSS('css/' + this.deviceFamily + '.' + color + '.css');
           callback();
         }
         else {
-          console.log("CUSTOM LOADCSS");
           var linkNode = document.createElement('link');
           linkNode.type = 'text/css';
           linkNode.rel = 'stylesheet';
@@ -131,6 +125,21 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
           this.offset = options.offset;
         },
 
+        show: function() {
+          ImageLoader.prototype.show.call(this);
+          $('#' + this.el.id).css({
+            display: 'block',
+            visibility: 'visible',
+            position: 'absolute',
+            width: 960,
+            height: 540,
+            zIndex: 99,
+            top: 0,
+            left: 0,
+            background: '#000'
+          });
+        },
+
         exit: function() {
           this.hide();
           window.location = '#' + self.activeSection.slug;
@@ -145,8 +154,12 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
           // Search for the previous image in the feed
           // (this may not be the item right before this one if feed includes
           // mixed content)
-          while ((newOffset !== this.offset) &&
-            (self.activeSection.collection.at(newOffset).get('@type') !== 'ImageObject')) {
+          // Samsung2011 : do not put complex instructions in the loop
+          // condition. Infinite-like effect.
+          while (newOffset !== this.offset) {
+            var newtype = self.activeSection.collection.at(newOffset).get('@type');
+            
+            if(newtype === 'ImageObject') break;
             newOffset = newOffset - 1;
             if(newOffset < 0) {
               newOffset = self.activeSection.collection.length - 1;
@@ -199,12 +212,33 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
           this.navUp = this.navDown = this.navLeft = this.navRight = this.navAction = this.exit;
         },
 
+        show: function() {
+          FactoryMedia.prototype.show.call(this);
+          $('#' + this.el.id).css({
+            display: 'block',
+            visibility: 'visible',
+            position: 'absolute',
+            width: 960,
+            height: 540,
+            zIndex: 99,
+            top: 0,
+            left: 0,
+            background: '#000'
+          });
+        },
+
+        hide: function() {
+          FactoryMedia.prototype.hide.call(this);
+          $('#' + this.el.id).css({
+            display: 'none'
+          });
+        },
+
         exit: function() {
           this.hide();
           window.location = '#' + self.activeSection.slug;
         }
       });
-
       this.videoDetail = new VideoOverlay({
         el: '#videos-detail',
         templateEl: '#template-video',
@@ -215,8 +249,45 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
           html5: true
         }
       });
-
       this.videoDetail.hide();
+
+
+
+      var YoutubeOverlay = UIElement.extend({
+        initialize: function(opt) {
+          UIElement.prototype.initialize.call(this, opt);
+          this.player = this.$(opt.playerEl)[0];
+          this.navUp = this.navDown = this.navLeft = this.navRight = this.navAction = this.exit;
+        },
+        setModel: function(model) {
+          this.model = model;
+        },
+        enhance: function() {
+          var vId = this.model.get('url').split('v=').pop();
+
+          if(this.playerReady) {
+            this.player.loadVideoById(vId);
+          }
+          else {
+            onYouTubePlayerReady = _.bind(function() {
+              this.playerReady = true;
+              this.player.loadVideoById(vId);
+            }, this);
+          }
+        },
+        setContent: function() {},
+        exit: function() {
+          this.hide();
+          this.player.stopVideo();
+          window.location = '#' + self.activeSection.slug;
+        }
+      });
+      this.youtubeDetail = new YoutubeOverlay({
+        el: '#youtube-detail',
+        playerEl: 'object'
+      });
+      this.youtubeDetail.hide();
+
 
       // We create a 'virtual' view to handle global navigation that are not
       // tied to routes.
@@ -246,7 +317,7 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
           switch(this.focused) {
             case 'list':
             this.toolbarView.navFocus(this.virtualView);
-            this.focused = 'toolbar'
+            this.focused = 'toolbar';
             break;
             case 'detail':
             window.location = '#' + this.activeSection.slug;
@@ -255,6 +326,30 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
         }, this)
       });
 
+      this.navHelper = new List({
+        el: '#navHelper',
+        itemTemplateEl: '#tpl-navhelper-item',
+        collection: new Backbone.Collection([
+          {
+            className: 'exit',
+            name: 'exit'
+          },
+          {
+            className: 'back',
+            name: 'return'
+          },
+          {
+            className: 'action',
+            name: 'action'
+          },
+          {
+            className: 'navigate',
+            name: 'navigate'
+          }
+        ])
+      });
+      this.navHelper.render();
+      
       Sleek.prototype.createAdditionalViews.call(this, views);
     },
 
@@ -332,7 +427,15 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
           detail.show();
           break;
           case 'video':
-          detail = this.videoDetail;
+          if(section.name.toLowerCase().indexOf('youtube') > -1) {
+            detail = this.youtubeDetail;
+          }
+          else if(section.name.toLowerCase().indexOf('vimeo') > -1) {
+            detail = this.vimeoDetail;
+          }
+          else {
+            detail = this.videoDetail;
+          }
           detail.offset = offset;
           detail.show();
           break;
@@ -518,6 +621,48 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
       }
 
       return Sleek.prototype.getThumbnail.call(this, item, offset);
+    },
+
+    setFrameworkVersionTag: function() {
+      if(this.is2011()) {
+        $('body').addClass('sdk2011');
+      }
+    },
+
+    handleSamsungRemote: function() {
+      if(!this.samsungKeysBound) {
+        this.remote = new Remote();
+        this.remote.bind('press:back', this.goBack);
+        console.log('TV keys should be bound');
+        this.samsungKeysBound = true;
+      }
+    },
+
+    goBack: function(e) {
+      var h = document.location.hash;
+      h = h.split('/');
+      console.log(h.length);
+      if(h.length > 1) {
+        h.pop();
+        h = h.join('/');
+        console.log('going back');
+        Backbone.history.navigate(h, true);
+      } else {
+        window.widgetAPI.sendReturnEvent();
+      }
+    },
+
+    is2011: function() {
+      var firmware = (document.getElementById('pluginObjectNNavi').GetFirmware)?document.getElementById('pluginObjectNNavi').GetFirmware():null;
+      if(typeof firmware === 'string' && firmware.indexOf('2011') > -1)
+        return true;
+      return false;
+    },
+    is2012: function() {
+      var firmware = (document.getElementById('pluginObjectNNavi').GetFirmware)?document.getElementById('pluginObjectNNavi').GetFirmware():null;
+      if(typeof firmware === 'string' && firmware.indexOf('2012') > -1)
+        return true;
+      return false;
     }
   });
 });

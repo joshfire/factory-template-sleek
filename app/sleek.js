@@ -201,7 +201,6 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
 
         views.render();
         self.router.historyStart();
-        console.log('Init done');
       });
     },
 

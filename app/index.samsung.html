@@ -11,7 +11,9 @@
     <meta name="gtv-autozoom" content="off">
 
     <link rel="stylesheet" type="text/css" href="css/samsung.layout.css">
-
+    <script type="text/javascript">
+      
+    </script>
     <style type="text/css" media="screen">
      body, html {
         padding: 0;
@@ -22,6 +24,13 @@
   </head>
 
   <body class="device-tv" ontouchmove="event.preventDefault()">
+    
+    <object id='pluginObjectAudio' border='0'
+      classid='clsid:SAMSUNG-INFOLINK-AUDIO'
+      style='display:none;opacity:0.0;background-color:#000000;width:0px;height:0px;'>
+    </object>
+    <object id="pluginObjectNNavi" style="display:none;opacity:0.0;background-color:#000000;width:0px;height:0px;" border="0" classid="clsid:SAMSUNG-INFOLINK-NNAVI" /></object>
+
     <div id="container">
 
       <div id="cards"></div>
@@ -36,6 +45,14 @@
       <div id="videos-detail"></div>
 
     </div>
+
+    <div id="youtube-detail">
+      <object class='embed' type='application/x-shockwave-flash' data='http://www.youtube.com/apiplayer?enablejsapi=1&version=2&playerapiid=ytplayer' id='ytplayer' style="width:960px; height:540px; position:absolute; top:0px; left:0px; background-color: #000000">
+        <param name="allowscriptaccess" value="always" />
+      </object>
+    </div>
+    
+    <div id="navHelper"></div>
 
     <!-- TEMPLATES SHARED BY ALL VERSIONS FOR SPOT -->
 
@@ -52,6 +69,10 @@
     </script>
 
     <!-- TEMPLATES MOSTLY SPECIFIC TO TV version -->
+
+    <script id="tpl-navhelper-item" type="text/template">
+      <li class="<%= item.className %>"><%= item.name %></li>
+    </script>
 
     <script type="text/template" id="template-nodata">
       <div class="single content nodata">
@@ -79,11 +100,11 @@
     <script type="text/template" id="template-list-view">
       <div style="" class="list-container">
         <div class="list-indicator"></div>
-        <ul style="position: absolute; left: 425px!important; margin-left: 400px!important;" class="list">
+        <ul style="position: absolute;" class="jflist">
           <%= children %>
         </ul>
       </div>
-      <div class="loader large">&nbsp;</div>
+      <div class="loader large"><p class="s2011 spinnermessage">Loading</p></div>
     </script>
 
     <script type="text/template" id="template-mosaic">
@@ -114,7 +135,7 @@
           <% if (item.name) { %>
           <div class="caption"><%= item.name %></div>
           <% } %>
-          <div class="spinner">&nbsp;</div>
+          <div class="spinner"><p class="s2011 spinnermessage">Loading</p></div>
         </div>
       </li>
     </script>
@@ -229,11 +250,12 @@
 
     <script type="text/template" id="template-photo">
       <div class="image" style="background-image: url(<%= item.contentURL %>)"></div>
-      <div class="spinner"></div>
+      <div class="spinner"><p class="s2011 spinnermessage">Loading</p></div>
     </script>
 
     <script type="text/template" id="template-video">
-      <%= media.html %>
+      
+
     </script>
 
     <script type="text/template" id="template-status">
