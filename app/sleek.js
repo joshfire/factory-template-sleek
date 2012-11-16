@@ -31,7 +31,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
   };
 
   Sleek.extend = Backbone.View.extend;
-
+  _.extend(Sleek.prototype, Backbone.Events);
   _.extend(Sleek.prototype, {
     /**
      * Device family that identifies the platform handled by a more specific class.
@@ -155,10 +155,8 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
           var name = this.tabs[index] || datasource.name || '';
           var icon = this.tabicons[index];
           var slug = index + '--' + this.slugify(name.toLowerCase());
-          var collection = new Collection([], {
-            dataSource: datasource,
-            dataSourceQuery: {}
-          });
+          
+          var collection = this.createCollection(datasource);
 
           // Main section type depends on the type of content returned by the
           // datasource. Datasources that return mixed content typically fall
@@ -202,6 +200,13 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
         views.render();
         self.router.historyStart();
       });
+    },
+
+    createCollection: function(datasource) {
+      return new Collection([], {
+                dataSource: datasource,
+                dataSourceQuery: {}
+              });
     },
 
     setupFastNavigate:function() {
@@ -456,13 +461,11 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      * @parma {Backbone.View} the section container
      */
     refreshList: function(section, container) {
-      console.log("REFRESH LIST");
       section.collection.fetch({
         dataSourceQuery: {
           nocache: true
         },
         success: _.bind(function() {
-          console.log('SHOW LIST');
           this.showList(section, container);
         }, this)
       });
@@ -476,10 +479,8 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      * @parma {Backbone.View} the section container
      */
     updateList: function(section, container) {
-      console.log("UPDATE LIST");
       section.collection.fetch({
         success: _.bind(function() {
-          console.log("SHOW LIST");
           this.showList(section, container);
         }, this)
       });

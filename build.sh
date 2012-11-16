@@ -20,8 +20,8 @@ cp app/app.tv.samsung.samsungtv.optimized.js samsung_export/
 cp app/todate.js samsung_export/
 cp app/prettystatus.js samsung_export/
 cp config.xml samsung_export/config.xml
-rm tasks/server/public/build.zip
-out="../tasks/server/public/build.zip"
+rm tasks/server/public/sleek.zip
+out="../tasks/server/public/sleek.zip"
 cd samsung_export
 zip -r $out ./*
 cd ..

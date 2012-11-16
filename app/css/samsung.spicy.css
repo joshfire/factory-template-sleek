@@ -63,12 +63,12 @@ ul{list-style:none;}
 a{font:inherit;}
 h1,h2,h3,h4,h5,h6{font-size:1em;font-weight:normal;}
 #logo{position:absolute;width:175px;text-align:center;padding:10px 0 40px 0;font-size:1.2em;max-height:80px;}#logo img{max-width:100%;max-height:200px;}
-.detail .nav-focused a{color:#af0000;font-weight:normal;font-style:normal;}
+.detail .nav-focused a{color:#ffffff;font-weight:normal;font-style:normal;}
 .s2011{display:none;}
 body.sdk2011 .s2011{display:block;}
 body.sdk2011 .spinnermessage{background:#000;color:#ffffff;width:100%;height:100%;text-align:center;line-height:5em;}
 .nodata{padding:3em 0;text-align:center;font-size:1.2em;background:#7c0000;color:#ffffff;}
-#toolbar{overflow:hidden;position:absolute;top:0;left:0;width:205px;height:510px;z-index:30;}#toolbar ul{background:#530000;width:175px;height:100%;padding-top:110px;position:absolute;top:0;left:0px;display:block;}
+#toolbar{overflow:hidden;position:absolute;top:0;left:0;width:205px;height:510px;z-index:30!important;}#toolbar ul{background:#530000;width:175px;height:400px!important;padding-top:110px;position:absolute;top:0;left:0px;display:block;z-index:30!important;border-right:3px solid #530000 !important;}
 #toolbar a{width:100%;height:100%;display:block;text-indent:-30000px;background-repeat:no-repeat;background-position:center center;}#toolbar a.photo{background-image:url(../images/tv-photo.png);}
 #toolbar a.status{background-image:url(../images/tv-status.png);}
 #toolbar a.video{background-image:url(../images/tv-video.png);}
@@ -80,7 +80,8 @@ body.sdk2011 .spinnermessage{background:#000;color:#ffffff;width:100%;height:100
 #toolbar a.product{background-image:url(../images/tv-product.png);}
 #toolbar a.other{background-image:url(../images/tv-news.png);}
 #toolbar li{width:100px;height:50px;margin:0 auto 10px;background:#860000;-webkit-border-radius:4px;-moz-border-radius:4px;-ms-border-radius:4px;-o-border-radius:4px;border-radius:4px;}#toolbar li.nav-active{background:transparent url(../images/tv-glow.png) no-repeat center center;}
-#toolbar .highlight{position:absolute;left:87.5px;top:0;bottom:0;width:87.5px;pointer-events:none;background:transparent url('../images/samsung-toolbar-highlight.png');opacity:0.12;}
+#toolbar .highlight{position:absolute;left:87.5px;top:0;bottom:0;width:90.5px;pointer-events:none;background:transparent url('../images/samsung-toolbar-highlight.png');opacity:0.12;z-index:40;}
+#toolbar .nav-active{border:solid 2px transparent;}
 #toolbar.nav-focused .nav-active{background-color:rgba(255, 255, 255, 0.1);-webkit-box-shadow:0 0 50px rgba(255, 255, 255, 0.3);-moz-box-shadow:0 0 50px rgba(255, 255, 255, 0.3);-ms-box-shadow:0 0 50px rgba(255, 255, 255, 0.3);-o-box-shadow:0 0 50px rgba(255, 255, 255, 0.3);box-shadow:0 0 50px rgba(255, 255, 255, 0.3);border:solid 3px rgba(255, 255, 255, 0.2);width:98px;height:48px;}
 #top-gradient-overlay{position:absolute;z-index:10;top:0;right:0;left:175px;height:80px;pointer-events:none;display:none;}
 #bottom-gradient-overlay{position:absolute;z-index:10;bottom:0;right:0;left:175px;height:80px;pointer-events:none;display:none;}
@@ -103,7 +104,9 @@ body.sdk2011 .spinnermessage{background:#000;color:#ffffff;width:100%;height:100
 .jflist .far-left p{color:#ffffff;padding:40px 0 20px 0;height:130px;font-size:18px;text-shadow:0 0 1px rgba(0, 0, 0, 0.9),0 0 10px rgba(0, 0, 0, 0.8);}
 .jflist .item-content{height:130px;vertical-align:middle;overflow:hidden;}
 .jflist a{display:block;height:130px;padding:20px 80px 20px 30px;font-weight:normal;font-size:1em;position:relative;word-wrap:break-word;color:#ffffff;}
-.sdk2011 .jflist .nav-active{margin-left:0;}.sdk2011 .jflist .nav-active .far-left{left:-170px;}
+.sdk2011 .list-indicator{width:600px!important;}
+.sdk2011 .jflist .nav-active{margin-left:0!important;}.sdk2011 .jflist .nav-active a{background:none!important;color:#333333 !important;}
+.sdk2011 .jflist .nav-active .far-left{left:-170px !important;}
 #cards.nav-focused-ancestor .list-indicator{filter:alpha(opacity=100);-khtml-opacity:1;-moz-opacity:1;-ms-opacity:1;-o-opacity:1;opacity:1;}
 #cards.nav-focused-ancestor .jflist .nav-active{color:#333333;background:none;margin-left:-50px;-webkit-transition:0.1s ease-in-out all 0.2s;-moz-transition:0.1s ease-in-out all 0.2s;-ms-transition:0.1s ease-in-out all 0.2s;-o-transition:0.1s ease-in-out all 0.2s;transition:0.1s ease-in-out all 0.2s;}#cards.nav-focused-ancestor .jflist .nav-active a{background:none;color:#333333;}
 #cards.nav-focused-ancestor .jflist .nav-active .far-left{left:-140px;}
@@ -118,7 +121,7 @@ body.sdk2011 .spinnermessage{background:#000;color:#ffffff;width:100%;height:100
 .head .image{width:75px;height:75px;background-repeat:no-repeat;float:right;margin-left:30px;margin-top:10px;}
 .head .title{margin-right:190px;color:#333333;}
 .mosaic{background:#490000;padding:10px;min-height:540px;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden;}.mosaic:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}
-.mosaic .photo-item,.mosaic .video-item{float:left;width:33%;}.mosaic .photo-item .caption,.mosaic .video-item .caption{display:none;padding:15px 20px;position:absolute;left:10px;right:10px;bottom:10px;background-color:rgba(124, 0, 0, 0.85);font-size:36px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.mosaic .photo-item,.mosaic .video-item{float:left;width:33%;}.mosaic .photo-item .caption,.mosaic .video-item .caption{display:none;padding:15px 20px;position:absolute;left:10px;right:10px;bottom:10px;background-color:rgba(124, 0, 0, 0.85);font-size:22px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#ffffff;}
 .mosaic .photo-item .image-link,.mosaic .video-item .image-link{display:block;position:absolute;width:84px;height:84px;top:50px;left:50%;margin-left:-42px;background:#7c0000 url(../images/tv-zoom.png) no-repeat center center;-webkit-border-radius:42px;-moz-border-radius:42px;-ms-border-radius:42px;-o-border-radius:42px;border-radius:42px;display:none;}
 .mosaic .photo-item .video-link,.mosaic .video-item .video-link{display:block;position:absolute;width:84px;height:84px;top:50px;left:50%;margin-left:-42px;background:#7c0000 url(../images/tv-play.png) no-repeat center center;-webkit-border-radius:42px;-moz-border-radius:42px;-ms-border-radius:42px;-o-border-radius:42px;border-radius:42px;display:none;}
 .mosaic .photo-item.nav-active .image-link,.mosaic .video-item.nav-active .image-link,.mosaic .photo-item.nav-active .video-link,.mosaic .video-item.nav-active .video-link,.mosaic .photo-item.nav-active .caption,.mosaic .video-item.nav-active .caption{display:block;}

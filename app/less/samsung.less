@@ -60,7 +60,7 @@ h1, h2, h3, h4, h5, h6 {
 .detail {
   .nav-focused { 
     a{
-      color: saturate(lighten(@background-color, 10%), 10%);
+      color: @text-color;
       font-weight: normal;
       font-style: normal;
     }
@@ -108,18 +108,20 @@ body.sdk2011 {
   left: 0;
   width: 205px;
   height: 510px;
-  z-index: 30;
+  z-index: 30!important;
   
   ul {
     //.vertical-gradient(@background-color, darken(@background-color, 13%));
     background: darken(@background-color, 8%);
     width: @toolbar-width;
-    height: 100%;
+    height: 400px!important;
     padding-top: 110px;
     position: absolute;
     top: 0;
     left: 0px;
     display: block;
+    z-index: 30!important;
+    border-right: 3px solid darken(@background-color, 8%)!important;
   }
 
   a {
@@ -188,11 +190,16 @@ body.sdk2011 {
     left: @toolbar-width / 2;
     top: 0;
     bottom: 0;
-    width: @toolbar-width / 2;
+    width: (@toolbar-width / 2) + 3;
     pointer-events: none;
     background: transparent url('../images/samsung-toolbar-highlight.png');
     opacity: 0.12;
+    z-index: 40;
     //.horizontal-gradient(rgba(255,255,255,.02), rgba(255,255,255,.01));
+  }
+
+  .nav-active {
+    border: solid 2px transparent;
   }
 
   &.nav-focused {
@@ -409,12 +416,20 @@ body.sdk2011 {
 }
 
 .sdk2011 {
+  .list-indicator {
+    width: 600px!important;
+  }
   .jflist {
     .nav-active {
-      margin-left: 0;
+      margin-left: 0!important;
+
+      a {
+        background: none!important;
+        color: @dark-text-color!important;
+      }
 
       .far-left {
-        left: -170px;
+        left: -170px!important;
       }
     }
   }
@@ -443,7 +458,6 @@ body.sdk2011 {
     }
   }
 }
-
 
 .detail > div > div {
   position: absolute;
@@ -539,10 +553,11 @@ body.sdk2011 {
       right: 10px;
       bottom: 10px;
       background-color: fade(@background-color, 85%);
-      font-size: 36px;
+      font-size: 22px;
       overflow : hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      color: @text-color;
     }
 
     .image-link {

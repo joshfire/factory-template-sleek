@@ -2,6 +2,7 @@
 
 define([
   'sleek.custom',
+  'joshlib!collection',
   'joshlib!uielement',
   'joshlib!ui/list',
   'joshlib!ui/toolbar',
@@ -14,14 +15,12 @@ define([
   'joshlib!ui/imageloader',
   'joshlib!inputs/remote',
   'joshlib!vendor/underscore',
-  'joshlib!utils/dollar'],
-function(Sleek, UIElement, List, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImageLoader, Remote, _, $) {
+  'joshlib!utils/dollar',
+  'collections/samsungImageObjects'],
+function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImageLoader, Remote, _, $, ImageObjectCollection) {
 
   return Sleek.extend({
     initialize: function (cb) {
-
-      var $win = $(window);
-      console.log("WHAT THE FUCK");
 
       Sleek.prototype.initialize.call(this);
       // Adds a class on the body if we're on 2011 SDK
@@ -31,6 +30,25 @@ function(Sleek, UIElement, List, Toolbar, CardPanel, SlidePanel, VerticalList, G
 
     },
 
+    // a factory method to create the collections.
+    // in the samsung case we have to create a specific one for
+    // image ds, in order to filter out heavy images
+    // (which have a tendency to brutally murder the TV firmware.)
+    createCollection: function(datasource) {
+
+      if(datasource.config.outputType === "ImageObject") {
+        return new ImageObjectCollection([], {
+          dataSource: datasource,
+          dataSourceQuery: {}
+        });
+      }
+      else {
+        return new Collection([], {
+          dataSource: datasource,
+          dataSourceQuery: {}
+        });
+      }
+    },
 
     /**
      * The code is specific to TV
@@ -117,16 +135,45 @@ function(Sleek, UIElement, List, Toolbar, CardPanel, SlidePanel, VerticalList, G
       var self = this;
 
       // Photo overlay
-      var PhotoOverlay = ImageLoader.extend({
+      var PhotoOverlay = UIElement.extend({
         initialize: function(options) {
-          ImageLoader.prototype.initialize.call(this, options);
-
+          UIElement.prototype.initialize.call(this, options);
+          this.templateEl = options.templateEl;
           this.navUp = this.navDown = this.navAction = this.exit;
           this.offset = options.offset;
         },
 
+        setModel: function(model) {
+          this.model = model;
+        },
+
+        generate: function(cb) {
+          var html = _.template($(this.templateEl).text(), {
+            item: this.model.toJSON()
+          });
+          cb(null, html);
+        },
+
+        setContent: function(html) {
+          if(window.widgetAPI)
+            window.widgetAPI.putInnerHTML(this.el, html);
+          else
+            this.el.innerHTML = html;
+        },
+
+        hide: function() {
+          UIElement.prototype.hide.call(this);
+
+          $('#' + this.el.id).css({
+            display: 'none'
+          });
+        },
+
         show: function() {
-          ImageLoader.prototype.show.call(this);
+          UIElement.prototype.show.call(this);
+
+          self.bind('back', _.bind(this.exit, this));
+
           $('#' + this.el.id).css({
             display: 'block',
             visibility: 'visible',
@@ -198,7 +245,10 @@ function(Sleek, UIElement, List, Toolbar, CardPanel, SlidePanel, VerticalList, G
         el: '#photos-detail',
         templateEl: '#template-photo',
         getImageUrl: function() {
-          return this.model.get('contentURL');
+          if(this.model.get('contentURL'))
+            return this.model.get('contentURL');
+          else
+            return self.getThumbnail(this.model.toJSON());
         }
       });
 
@@ -214,6 +264,7 @@ function(Sleek, UIElement, List, Toolbar, CardPanel, SlidePanel, VerticalList, G
 
         show: function() {
           FactoryMedia.prototype.show.call(this);
+
           $('#' + this.el.id).css({
             display: 'block',
             visibility: 'visible',
@@ -224,6 +275,9 @@ function(Sleek, UIElement, List, Toolbar, CardPanel, SlidePanel, VerticalList, G
             top: 0,
             left: 0,
             background: '#000'
+          });
+          $('object, embed', '#' + this.el.id).css({
+            display: 'block'
           });
         },
 
@@ -276,9 +330,46 @@ function(Sleek, UIElement, List, Toolbar, CardPanel, SlidePanel, VerticalList, G
           }
         },
         setContent: function() {},
+        show: function() {
+          UIElement.prototype.show.call(this);
+          
+          self.bind('back', _.bind(this.exit, this));
+          
+          $(this.el).css({
+            display: 'block',
+            visibility: 'visible',
+            position: 'absolute',
+            width: 960,
+            height: 540,
+            zIndex: 99,
+            top: 0,
+            left: 0,
+            background: '#000'
+          });
+          $('object, embed', this.el).css({
+            display: 'block'
+          });
+        },
+
+        hide: function() {
+          self.unbind('back');
+          UIElement.prototype.hide.call(this);
+          $(this.el).css({
+            display: 'none',
+            width: 0,
+            height: 0,
+            overflow: 'hidden',
+            top: 540,
+            left: 960
+          });
+          $('object, embed', this.el).css({
+            display: 'none'
+          });
+        },
         exit: function() {
           this.hide();
           this.player.stopVideo();
+          this.player.clearVideo();
           window.location = '#' + self.activeSection.slug;
         }
       });
@@ -442,6 +533,9 @@ function(Sleek, UIElement, List, Toolbar, CardPanel, SlidePanel, VerticalList, G
           default:
           if(container.view.children && container.view.children.detail) {
             detail = container.view.children.detail;
+
+            // Remove objects / videos / audio (Samsung style)
+            $('object, audio, video, embed, iframe', container.view.children.detail.el).remove();
             container.view.showChild('detail', 'right');
           }
         }
@@ -587,18 +681,8 @@ function(Sleek, UIElement, List, Toolbar, CardPanel, SlidePanel, VerticalList, G
      */
     getThumbnail: function(item, offset) {
 
-      var width = document.body.clientWidth;
-
-      switch(offset % 11) {
-        case 0:
-        case 1:
-        case 7:
-        width = width * 0.25;
-        break;
-
-        default:
-        width = width * 0.1;
-      }
+      // Arbitrary samsung width
+      var width = 240;
 
       if(item.thumbnail) {
         var thumbnails = item.thumbnail;
@@ -632,24 +716,34 @@ function(Sleek, UIElement, List, Toolbar, CardPanel, SlidePanel, VerticalList, G
     handleSamsungRemote: function() {
       if(!this.samsungKeysBound) {
         this.remote = new Remote();
-        this.remote.bind('press:back', this.goBack);
-        console.log('TV keys should be bound');
+        this.remote.unbind('press:back');
+        this.remote.bind('press:back', _.bind(this.goBack, this));
+        
         this.samsungKeysBound = true;
+
+        this.remote.bind('press:up press:down press:left press:right', function(e) {
+          var el = document.getElementById('dummysamsungdiv');
+          if(window.widgetAPI && window.widgetAPI.putInnerHTML) {
+            window.widgetAPI.putInnerHTML(el, 'samsungsucks');
+            console.log("Did put inner html");
+          }
+        });
       }
     },
 
     goBack: function(e) {
+      e.preventDefault();
+
       var h = document.location.hash;
       h = h.split('/');
-      console.log(h.length);
+      
       if(h.length > 1) {
-        h.pop();
-        h = h.join('/');
-        console.log('going back');
-        Backbone.history.navigate(h, true);
+        this.trigger('back');
       } else {
         window.widgetAPI.sendReturnEvent();
       }
+      
+      return false;
     },
 
     is2011: function() {
