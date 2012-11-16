@@ -411,8 +411,11 @@
     <script type="text/javascript">
       // if app icon, set "apple-touch-icon-precomposed" for webapps installed on mobile
       // For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: (have to be an absolute URL)
-      if(Joshfire.factory.config.app.icon) {
-        $("head").append('<link rel="apple-touch-icon-precomposed" href="'+ Joshfire.factory.config.app.icon.contentURL +'">')
+      if (Joshfire.factory.config.app.icon && document.getElementsByTagName('head')[0]) {
+        var link = document.createElement('link');
+        link.rel = "apple-touch-icon-precomposed";
+        link.href = Joshfire.factory.config.app.icon.contentURL;
+        document.getElementsByTagName('head')[0].appendChild(link);
       }
     </script>
   </body>

@@ -19,6 +19,7 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  cursor: pointer;
 }
 
 // Force all images not to exceed the size of their container
@@ -68,7 +69,7 @@ img {
 .detail {
   .article { 
     a{
-      color: saturate(lighten(@background-color, 10%), 10%);
+      color: @link-color;
       font-weight: normal;
       font-style: normal;
     }

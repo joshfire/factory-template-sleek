@@ -23,6 +23,11 @@ var colors = {
   , vegetal:  '#454f0f'
 };
 
+/* custom link colors, will be computed from background color if nothing is set */
+var linkColors = {
+  gray:     '#7397AC'
+};
+
 var colorNames = [];
 
 for(var c in colors) {
@@ -39,7 +44,9 @@ var destPath = function(file, colorName) {
 
 var compileColor = function(str, file, colorName, cb) {
   var color = colors[colorName];
-  parser.parse('@background-color: ' + color + ';\n' + str, function (e, tree) {
+  var linkColor = linkColors[colorName] || 'saturate(lighten(@background-color, 10%), 10%)';
+  // prepend to the file the generated colors
+  parser.parse('@background-color: ' + color + ';\n@link-color: ' + linkColor + ';\n' + str, function (e, tree) {
     try {
       var css = tree.toCSS({compress: compress});
       var dest = destPath(file, colorName);

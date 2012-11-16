@@ -87,7 +87,7 @@ function(Sleek, Toolbar, SlidePanel, $, _) {
           $('iframe, audio, video, object, embed', '#container').remove();
           $toolbar.find('.active').removeClass('active');
           $toolbar.find('.section-' + section.slug).addClass('active');
-          $refresh.show().unbind('click').bind('click', _.bind(function(e) {
+          $refresh.show().unbind('touchstart mousedown').bind('touchstart mousedown', _.bind(function(e) {
             self.refreshList(section, container);
             e.preventDefault();
             return false;
