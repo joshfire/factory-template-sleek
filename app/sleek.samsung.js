@@ -321,11 +321,13 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
 
           if(this.playerReady) {
             this.player.loadVideoById(vId);
+            this.player.playVideo();
           }
           else {
             onYouTubePlayerReady = _.bind(function() {
               this.playerReady = true;
               this.player.loadVideoById(vId);
+              this.player.playVideo();
             }, this);
           }
         },
@@ -509,6 +511,7 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
     showDetail: function(section, container, offset) {
       var model = section.collection.at(offset);
       var detail = null;
+      var self = this;
 
       if(section.collection.length > offset) {
         switch(section.outputType) {
@@ -521,9 +524,11 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
           if(section.name.toLowerCase().indexOf('youtube') > -1) {
             detail = this.youtubeDetail;
           }
+          /*
           else if(section.name.toLowerCase().indexOf('vimeo') > -1) {
             detail = this.vimeoDetail;
           }
+          */
           else {
             detail = this.videoDetail;
           }
@@ -533,7 +538,10 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
           default:
           if(container.view.children && container.view.children.detail) {
             detail = container.view.children.detail;
-
+            self.bind('back', function() {
+              detail.navLeft();
+              self.unbind('back');
+            });
             // Remove objects / videos / audio (Samsung style)
             $('object, audio, video, embed, iframe', container.view.children.detail.el).remove();
             container.view.showChild('detail', 'right');
