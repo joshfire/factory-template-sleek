@@ -23,8 +23,9 @@ define([
   'joshlib!vendor/backbone',
   'joshlib!vendor/underscore',
   'joshlib!utils/dollar',
+  'joshlib!utils/localize',
   'ui/imagegallery'],
-function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, FactoryMedia, ImageLoader, ImagesLoader, Router, Backbone, _, $, ImageGallery) {
+function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, FactoryMedia, ImageLoader, ImagesLoader, Router, Backbone, _, $, Localizer, ImageGallery) {
 
   var Sleek = function() {
     _.bindAll(this, 'initialize',  'setColor', 'slugify');
@@ -127,15 +128,22 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      */
     initialize: function() {
       var self = this;
+      this.localizer = new Localizer({
+        locale: Joshfire.factory.config.app.lang || 'auto'
+      });
       this.title = Joshfire.factory.config.app.name;
       this.tabs = Joshfire.factory.config.template.options.tabs || [];
       this.tabicons = Joshfire.factory.config.template.options.tabicons || [];
       this.backgroundURL = Joshfire.factory.config.template.options.backgroundimage ? Joshfire.factory.config.template.options.backgroundimage.url : Joshfire.factory.config.template.options.backgroundurl;
       this.logoURL = Joshfire.factory.config.app.logo ?
                   Joshfire.factory.config.app.logo.contentURL : null;
+      
 
       // Set the document's title to the application title
       document.title = this.title;
+
+      // Sets the global language of the app. (dates, UI text)
+      this.setLanguage();
 
       // Set the template color based on the option selected by the user
       // (this loads the CSS)
@@ -887,6 +895,22 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
         thumbnailUrl = '';
       }
       return thumbnailUrl;
+    },
+
+
+    /**
+     * Sets the global language of the app.
+     *
+     * @function
+     * @param {string} locale || auto ; should be sent by the factory
+     * @return {null}
+     */
+    setLanguage: function() {
+      // en is the default lang here, move along
+      if(this.localizer.options.locale === 'en') return;
+      window.Sid.js('lang/moment/'+this.localizer.options.locale+'.js', function() {
+        moment.lang(this.localizer.options.locale);
+      });
     },
 
 
