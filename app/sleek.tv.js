@@ -3,6 +3,7 @@
 define([
   'sleek.custom',
   'joshlib!uielement',
+  'joshlib!ui/list',
   'joshlib!ui/toolbar',
   'joshlib!ui/cardpanel',
   'joshlib!ui/slidepanel',
@@ -13,7 +14,7 @@ define([
   'joshlib!ui/imageloader',
   'joshlib!vendor/underscore',
   'joshlib!utils/dollar'],
-function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImageLoader, _, $) {
+function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImageLoader, _, $) {
 
   return Sleek.extend({
     initialize: function (cb) {
@@ -67,11 +68,39 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
      * @return {UIElement} The toolbar UI element to use
      */
     createToolbarElement: function() {
-      return new Toolbar({
+      var self = this;
+      var toolbar = new Toolbar({
         el: '#toolbar',
         templateEl: '#template-toolbar',
         itemTemplateEl: '#toolbar-item'
       });
+
+      toolbar.navFocus = function(origin, event) {
+        UIList.prototype.navFocus.call(this, origin, event);
+
+        if(!event && this.active === -1 && this.collection.length) {
+          this.activate(0);
+        }
+        self.focused = 'toolbar';
+      },
+
+      toolbar.navRight = function() {
+        if(self.activeSection && !self.activeSection.loading) {
+          var container = self.activeSection.view;
+          if(container.view) {
+            var view = container.view;
+
+            if(view.children && view.children.list) {
+              view.children.list.navFocus(self.toolbarView);
+            } else {
+              view.navFocus(self.toolbarView);
+            }
+            self.focused = 'list';
+          }
+        }
+      };
+
+      return toolbar;
     },
 
 
@@ -203,44 +232,6 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
       });
 
       this.videoDetail.hide();
-
-      // We create a 'virtual' view to handle global navigation that are not
-      // tied to routes.
-      this.virtualView = new UIElement({
-        navRight: _.bind(function() {
-          switch(this.focused) {
-            case 'toolbar':
-            if(this.activeSection && !this.activeSection.loading) {
-              var container = this.activeSection.view;
-
-              if(container.view) {
-                var view = container.view;
-
-                if(view.children && view.children.list) {
-                  view.children.list.navFocus(this.virtualView);
-                } else {
-                  view.navFocus(this.virtualView);
-                }
-
-                this.focused = 'list';
-              }
-            }
-            break;
-          }
-        }, this),
-        navLeft: _.bind(function() {
-          switch(this.focused) {
-            case 'list':
-            this.toolbarView.navFocus(this.virtualView);
-            this.focused = 'toolbar'
-            break;
-            case 'detail':
-            window.location = '#' + this.activeSection.slug;
-            break;
-          }
-        }, this)
-      });
-
       Sleek.prototype.createAdditionalViews.call(this, views);
     },
 
@@ -357,9 +348,10 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
         scroller: true,
         offsetTop: 100,
         offsetBottom: 100,
+        focusSubElements: true,
         navLeft: _.bind(function() {
           if(isSingle) {
-            this.toolbarView.navFocus(this.virtualView);
+            this.toolbarView.navFocus();
             this.focused = 'toolbar';
           } else {
             window.location = '#' + params.slug;
@@ -417,16 +409,15 @@ function(Sleek, UIElement, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, I
 
           if(toolbar.active === -1 || self.activeSection.loading) {
             toolbar.activate(self.activeSection.index);
-            toolbar.navFocus(self.virtualView);
+            toolbar.navFocus();
             self.focused = 'toolbar';
           } else if(self.focused !== 'toolbar') {
             if(container.view) {
               var view = container.view;
-
               if(view.children && view.children.list) {
-                view.children.list.navFocus(self.virtualView);
+                view.children.list.navFocus(self.toolbarView);
               } else {
-                view.navFocus(self.virtualView);
+                view.navFocus(self.toolbarView);
               }
 
               self.focused = 'list';
