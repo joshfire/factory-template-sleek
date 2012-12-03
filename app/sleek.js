@@ -23,7 +23,7 @@ define([
   'joshlib!vendor/backbone',
   'joshlib!vendor/underscore',
   'joshlib!utils/dollar',
-  'joshlib!utils/localize',
+  'joshlib!utils/i18n',
   'ui/imagegallery'],
 function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, FactoryMedia, ImageLoader, ImagesLoader, Router, Backbone, _, $, Localizer, ImageGallery) {
 
@@ -128,9 +128,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      */
     initialize: function() {
       var self = this;
-      this.localizer = new Localizer({
-        locale: Joshfire.factory.config.app.lang || 'auto'
-      });
+      this.localizer = Localizer;
       this.title = Joshfire.factory.config.app.name;
       this.tabs = Joshfire.factory.config.template.options.tabs || [];
       this.tabicons = Joshfire.factory.config.template.options.tabicons || [];
@@ -142,71 +140,80 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
       // Set the document's title to the application title
       document.title = this.title;
 
-      // Sets the global language of the app. (dates, UI text)
-      this.setLanguage();
 
-      // Set the template color based on the option selected by the user
-      // (this loads the CSS)
-      this.setColor(Joshfire.factory.config.template.options.color || 'gray', function () {
-        //
-        // Sections: one section per datasource
-        //
-        // (The way the list of datasources is retrieved actually depends
-        // on whether the code is used in Sleek or in Spot)
-        
-        var datasources = self.getDatasources();
-        var sections = new Array(datasources.length);
-        var loaded = 0;
+      // Sets the locale and loads the corresponding dictionnary.
+      // It is then defined in the html templates's scope.
+      this.localizer.setLocale({
+        locale: Joshfire.factory.config.app.lang || 'auto'
+      }, function() {
 
-        // Prepare sections
-        _.forEach(datasources, _.bind(function(datasource, index) {
-          var name = this.tabs[index] || datasource.name || '';
-          var icon = this.tabicons[index];
-          var slug = index + '--' + this.slugify(name.toLowerCase());
+        // Includes the correct dictionnary which is required by
+        // moment.js's i18n native solution.
+        self.setMomentLanguage();
+
+        // Set the template color based on the option selected by the user
+        // (this loads the CSS)
+        self.setColor(Joshfire.factory.config.template.options.color || 'gray', function () {
+          //
+          // Sections: one section per datasource
+          //
+          // (The way the list of datasources is retrieved actually depends
+          // on whether the code is used in Sleek or in Spot)
           
-          var collection = this.createCollection(datasource);
+          var datasources = self.getDatasources();
+          var sections = new Array(datasources.length);
+          var loaded = 0;
 
-          // Main section type depends on the type of content returned by the
-          // datasource. Datasources that return mixed content typically fall
-          // in the "other" category.
-          var outputType = datasource.getOutputType();
-          sections[index] = {
-            name: name,
-            slug: slug,
-            icon: icon || self.convertItemType(outputType),
-            outputType: self.convertItemType(outputType),
-            collection: collection,
-            index: index
+          // Prepare sections
+          _.forEach(datasources, _.bind(function(datasource, index) {
+            var name = this.tabs[index] || datasource.name || '';
+            var icon = this.tabicons[index];
+            var slug = index + '--' + this.slugify(name.toLowerCase());
+            
+            var collection = this.createCollection(datasource);
+
+            // Main section type depends on the type of content returned by the
+            // datasource. Datasources that return mixed content typically fall
+            // in the "other" category.
+            var outputType = datasource.getOutputType();
+            sections[index] = {
+              name: name,
+              slug: slug,
+              icon: icon || self.convertItemType(outputType),
+              outputType: self.convertItemType(outputType),
+              collection: collection,
+              index: index
+            };
+          }, self));
+
+          // Create the views once all sections have been initialized
+          var views = self.createViews(sections);
+
+          // Initialize the router and start the application
+          var controllers = self.createRoutes(sections, views);
+          self.router = Router(controllers);
+
+          self.setupFastNavigate();
+          self.init();
+          self.initialized = true;
+          // The "loaded" hook is triggered once when the router handles
+          // the first route and when the view is rendered. The hook will
+          // typically hide a possibly installed splashscreen
+          var loaded = function() {
+            if (!self.loadedHookTriggered && self.initialized) {
+              self.loadedHookTriggered = true;
+              Joshfire.factory.getAddOns('loaded').run();
+            }
           };
-        }, self));
 
-        // Create the views once all sections have been initialized
-        var views = self.createViews(sections);
+          views.bind('load', loaded);
 
-        // Initialize the router and start the application
-        var controllers = self.createRoutes(sections, views);
-        self.router = Router(controllers);
+          //failsafe if first tab fails to load for some reason
+          setTimeout(loaded, 20*1000); 
 
-        self.setupFastNavigate();
-        self.init();
-        self.initialized = true;
-        // The "loaded" hook is triggered once when the router handles
-        // the first route and when the view is rendered. The hook will
-        // typically hide a possibly installed splashscreen
-        var loaded = function() {
-          if (!self.loadedHookTriggered && self.initialized) {
-            self.loadedHookTriggered = true;
-            Joshfire.factory.getAddOns('loaded').run();
-          }
-        };
-
-        views.bind('load', loaded);
-
-        //failsafe if first tab fails to load for some reason
-        setTimeout(loaded, 20*1000); 
-
-        views.render();
-        self.router.historyStart();
+          views.render();
+          self.router.historyStart();
+        });
       });
     },
 
@@ -905,12 +912,12 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      * @param {string} locale || auto ; should be sent by the factory
      * @return {null}
      */
-    setLanguage: function() {
+    setMomentLanguage: function() {
       // en is the default lang here, move along
-      if(this.localizer.options.locale === 'en') return;
-      window.Sid.js('lang/moment/'+this.localizer.options.locale+'.js', function() {
-        moment.lang(this.localizer.options.locale);
-      });
+      if(this.localizer.getLocale() === 'en') return;
+      window.Sid.js('lang/moment/'+this.localizer.getLocale()+'.js', _.bind(function() {
+        moment.lang(this.localizer.getLocale());
+      }, this));
     },
 
 
