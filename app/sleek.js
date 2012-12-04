@@ -144,7 +144,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
       // Sets the locale and loads the corresponding dictionnary.
       // It is then defined in the html templates's scope.
       this.localizer.setLocale({
-        locale: Joshfire.factory.config.app.lang || 'auto'
+        locale: Joshfire.factory.config.app.language || 'auto'
       }, function() {
 
         // Includes the correct dictionnary which is required by
