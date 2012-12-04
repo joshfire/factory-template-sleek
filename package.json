@@ -71,6 +71,17 @@
     ],
     "options": {
       "schema": {
+        
+        "language": {
+          "title": "Language",
+          "type": "select",
+          "enum": [
+            "auto",
+            "fr",
+            "en"
+          ]
+        },
+
         "color": {
           "title": "Color",
           "type": "string",
@@ -130,6 +141,14 @@
             }
             
           ]
+        },
+        {
+          "key": "language",
+          "titleMap": {
+            "auto": "Automatic",
+            "fr": "French",
+            "en": "English"
+          }
         },
         {
           "type": "fieldset",
