@@ -161,7 +161,7 @@ div.ps-toolbar-play div.ps-toolbar-content{background-position:-88px 0;}
 #video .detail img{width:100%;height:auto;}
 #video .detail .media{background:#000;}
 #video .detail .media div,#video .detail .media iframe,#video .detail .media video{margin:0 auto;}
-#video .detail .body{background:#ffffff url(../images/phone-shadow@2x.png) no-repeat center top;background-size:640px 53px;background-size:100% auto;}
+#video .detail .body{background:#ffffff url(../images/phone-shadow@2x.png) no-repeat center top;background-size:640px 53px;}
 #video .detail .wrapper>div:first-child{overflow:hidden;padding:0 1em;min-height:100%;}
 #video .detail .wrapper p{margin-bottom:1em;}
 #video .detail h3{font-weight:normal;font-size:1em;margin-bottom:.8em;margin-top:1em;}
