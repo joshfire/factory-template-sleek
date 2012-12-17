@@ -11,7 +11,7 @@
   "joshfire": {
     "images": {
       "small": "marketing/sleek-small.jpg",
-      "big": "marketing/sleek-big.jpg"
+      "big": "marketing/sleek-big.png"
     },
     "datasources": {
       "main": {
@@ -28,7 +28,7 @@
       {
         "devices": "phone",
         "startfile": "app/index.phone.optimized.html",
-        "images": "marketing/phone.jpg",
+        "images": "marketing/small-phone.png",
         "screenshots": [
           "marketing/phone-screenshot1.jpg",
           "marketing/phone-screenshot2.jpg",
@@ -39,7 +39,7 @@
       {
         "devices": "tablet",
         "startfile": "app/index.tablet.optimized.html",
-        "images": "marketing/tablet.jpg",
+        "images": "marketing/small-tablet.png",
         "screenshots": [
           "marketing/tablet-screenshot1.jpg",
           "marketing/tablet-screenshot2.jpg"
@@ -48,7 +48,7 @@
       {
         "devices": "tv",
         "startfile": "app/index.tv.optimized.html",
-        "images": "marketing/tv.jpg",
+        "images": "marketing/small-tv.png",
         "screenshots": [
           "marketing/tv-screenshot1.jpg",
           "marketing/tv-screenshot2.jpg",
@@ -62,7 +62,7 @@
       {
         "devices": "desktop",
         "startfile": "app/index.desktop.optimized.html",
-        "images": "marketing/desktop.jpg",
+        "images": "marketing/small-desktop.png",
         "screenshots": [
           "marketing/desktop-screenshot1.jpg",
           "marketing/desktop-screenshot2.jpg"
