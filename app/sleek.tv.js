@@ -246,12 +246,17 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
      * @param {Object} section Section to render
      * @return {UIElement} The element to use. May include a detailed view.
      */
-    createListElement: function(section) {
+    createListElement: function(section, isSingle) {
+      var tplSel;
       switch (section.outputType) {
         case 'video':
+          tplSel = isSingle ? '#template-mosaic-single-video' : '#template-mosaic';
         case 'photo':
+          if(!tplSel)
+            tplSel = isSingle ? '#template-mosaic-single-photo' : '#template-mosaic';
+
           return new Grid({
-            templateEl: '#template-mosaic',
+            templateEl: tplSel,
             itemFactory: this.itemFactory(section),
             collection: section.collection,
             className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
@@ -287,6 +292,41 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
       });
 
       return view;
+    },
+
+    viewFactory: function(section) {
+      return _.bind(function(params) {
+        var collection = params.collection,
+            list,
+            detail,
+            view;
+
+        if(collection.length === 1) {
+            console.log(section);
+          if(section.outputType !== 'photo' && section.outputType !== 'video') {
+            return this.createDetailContainer(section, true);
+          }
+          else {
+            list = this.createListElement(section, true);
+            detail = this.createDetailContainer(section);
+            view = this.createListAndDetailView(list, detail);
+
+            list.$el.addClass('single');
+
+            return view;
+          }
+        }
+
+        if (section.outputType === 'photo') {
+          return this.createListElement(section);
+        }
+
+        list = this.createListElement(section);
+        detail = this.createDetailContainer(section);
+        view = this.createListAndDetailView(list, detail);
+
+        return view;
+      }, this);
     },
 
     /**

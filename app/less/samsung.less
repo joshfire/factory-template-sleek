@@ -244,6 +244,15 @@ body.sdk2011 {
   & > div {
     height: 100%;
   }
+
+  .joshfire-outer,
+  .joshfire-inner {
+    height: 100%;
+
+    & > div {
+      height: 100%;
+    }
+  }
 }
 
 .content.detail {
@@ -275,6 +284,195 @@ body.sdk2011 {
     z-index: 50;
     display: none;
     .border-radius(.5em);
+  }
+
+  &.photo.single {
+
+    width: 785px;
+    height: 510px;
+
+    ul {
+      padding: 0;
+      list-style: none;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+      min-height: auto;
+    }
+    li {
+      width: 100%;
+      height: 100%;
+    }
+
+    .container {
+      height: 100%;
+      position: relative;
+      padding: 0;
+    }
+
+    .image {
+      top: 0;
+      left: 0!important;
+      right: 0;
+      bottom: 0;
+      max-width: 785px!important;
+      width: 785px!important;
+    }
+
+    .image-link {
+      top: 200px;
+    }
+
+    .caption {
+      padding: 15px 20px 15px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  }
+
+  &.video.single {
+
+    width: 785px!important;
+    height: 510px!important;
+    
+    &.nav-focused {
+      .playbutton {
+        display: none;
+      }
+    }
+
+    .playbutton {
+      position: absolute;
+      z-index: 30;
+      left: 375px;
+      top: 315px;
+    }
+
+    ul {
+      padding: 0;
+      list-style: none;
+      margin: 0;
+      top: 165px!important;
+      left: 0;
+      height: 345px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #000;
+      min-height: auto;
+      
+      li {
+        width: 100%;
+        height: 100%;
+      }
+
+      .image {
+        background: #000 url(../images/tv-play.png) no-repeat center center!important;
+        left: 0;
+        right: 0;
+        background-size: 31px 43px!important;
+      }
+
+      .caption {
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+
+      .container {
+        padding: 0;
+        height: 345px;
+      }
+
+      .video-link {
+        top: 128px;
+        margin-left: -125px;
+        margin-top: -10px;
+      }
+
+    }
+
+    .header {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 755px!important;
+      height: 135px;
+      padding: 15px;
+      background: @background-color;
+      min-width: 755px!important;
+
+      .thumb {
+
+        position: relative;
+        height: 100%;
+        width: 25%;
+        float: left;
+        overflow: hidden;
+
+        img {
+          height: auto;
+          width: 100%;
+          float: left;
+        }
+
+        .duration {
+          position: absolute;
+          bottom: 10px;
+          right: 10px;
+          color: #FFF;
+          font-size: 0.8em;
+          background: #000;
+          background: rgba(0, 0, 0, 0.5);
+        }
+      }
+
+      .author {
+        position: absolute;
+        bottom: 15px;
+        left: 220px;
+        font-size: 0.8em;
+        color: @text-color;
+      }
+
+      .date {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        font-size: 0.8em;
+        color: @text-color;
+      }
+
+      h1 {
+        padding: 0;
+        position: absolute;
+        top: 10px;
+        left: 220px;
+        text-overflow: ellipsis;
+        display: inline-block;
+        height: 55px;
+        width: 73%;
+        overflow: hidden;
+        color: @text-color;
+        font-size: 1.8em;
+      }
+
+      .description {
+        margin-top: 0;
+        font-size: 1em;
+        overflow: hidden;
+        position: absolute;
+        top: 55px;
+        left: 220px;
+        bottom: 26px;
+        right: 15px;
+        line-height: 1.2em;
+        text-overflow: ellipsis;
+        text-align: justify;
+        color: @text-color;
+      }
+    }
   }
 }
 
@@ -616,7 +814,6 @@ body.sdk2011 {
     right: 10px;
     bottom: 10px;
     left: 10px;
-    background-size: cover;
   }
 
   .spinner {
@@ -700,8 +897,9 @@ body.sdk2011 {
   background: @light-background-color;
 }
 
-#cards > .joshfire-wrapper > div {
+#cards > .joshfire-outer > .joshfire-inner > div {
   background: darken(@background-color, 5%) url(../images/samsung-shadow-left.png) no-repeat 0 center;
+  position: relative;
 }
 
 
@@ -733,8 +931,4 @@ body.sdk2011 {
     font-size: 16px;
     line-height: 1em;
   }
-}
-
-.joshfire-wrapper > div {
-  position: relative;
 }

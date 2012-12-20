@@ -122,6 +122,41 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
       }
     },
 
+    viewFactory: function(section) {
+      return _.bind(function(params) {
+        var collection = params.collection,
+            list,
+            detail,
+            view;
+
+        if(collection.length === 1) {
+            console.log(section);
+          if(section.outputType !== 'photo' && section.outputType !== 'video') {
+            return this.createDetailContainer(section, true);
+          }
+          else {
+            list = this.createListElement(section, true);
+            detail = this.createDetailContainer(section);
+            view = this.createListAndDetailView(list, detail);
+
+            list.$el.addClass('single');
+
+            return view;
+          }
+        }
+
+        if (section.outputType === 'photo') {
+          return this.createListElement(section);
+        }
+
+        list = this.createListElement(section);
+        detail = this.createDetailContainer(section);
+        view = this.createListAndDetailView(list, detail);
+
+        return view;
+      }, this);
+    },
+
     /**
      * Creates additional views: photo and video overlays
      *
@@ -316,22 +351,21 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
         setModel: function(model) {
           this.model = model;
         },
-        enhance: function() {
+        render: function() {
           var vId = this.model.get('url').split('v=').pop();
-
+          
           if(this.playerReady) {
             this.player.loadVideoById(vId);
             this.player.playVideo();
           }
-          else {
-            onYouTubePlayerReady = _.bind(function() {
-              this.playerReady = true;
-              this.player.loadVideoById(vId);
-              this.player.playVideo();
-            }, this);
-          }
+
+          onYouTubePlayerReady = _.bind(function() {
+            console.log(vId);
+            this.playerReady = true;
+            this.player.loadVideoById(vId);
+            this.player.playVideo();
+          }, this);
         },
-        setContent: function() {},
         show: function() {
           UIElement.prototype.show.call(this);
           
@@ -348,9 +382,12 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
             left: 0,
             background: '#000'
           });
+
+          /*
           $('object, embed', this.el).css({
             display: 'block'
           });
+*/
         },
 
         hide: function() {
@@ -364,14 +401,15 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
             top: 540,
             left: 960
           });
+          /*
           $('object, embed', this.el).css({
             display: 'none'
           });
+*/
         },
         exit: function() {
           this.hide();
           this.player.stopVideo();
-          this.player.clearVideo();
           window.location = '#' + self.activeSection.slug;
         }
       });
@@ -457,12 +495,18 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
      * @param {Object} section Section to render
      * @return {UIElement} The element to use. May include a detailed view.
      */
-    createListElement: function(section) {
+    createListElement: function(section, isSingle) {
+      var tplSel;
       switch (section.outputType) {
         case 'video':
+          tplSel = isSingle ? '#template-mosaic-single-video' : '#template-mosaic';
         case 'photo':
+          if(!tplSel)
+            tplSel = isSingle ? '#template-mosaic-single-photo' : '#template-mosaic';
+
+          console.log(tplSel);
           return new Grid({
-            templateEl: '#template-mosaic',
+            templateEl: tplSel,
             itemFactory: this.itemFactory(section),
             collection: section.collection,
             className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
@@ -521,14 +565,15 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
           detail.show();
           break;
           case 'video':
-          if(section.name.toLowerCase().indexOf('youtube') > -1) {
+          var m = section.collection.at(offset);
+          var url = m.get('url');
+          if(m.get('contentURL') && m.get('contentURL')) {
+            url = m.get('contentURL')[0];
+          }
+
+          if(url.indexOf('youtube') > -1) {
             detail = this.youtubeDetail;
           }
-          /*
-          else if(section.name.toLowerCase().indexOf('vimeo') > -1) {
-            detail = this.vimeoDetail;
-          }
-          */
           else {
             detail = this.videoDetail;
           }

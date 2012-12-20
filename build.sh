@@ -15,6 +15,7 @@ cp -r app/css samsung_export
 cp -r app/images samsung_export/
 cp -r app/ui samsung_export/
 cp -r app/vendor samsung_export/
+cp -r app/lang samsung_export/
 cp app/index.samsung.optimized.html samsung_export/index.html
 cp app/app.tv.samsung.samsungtv.optimized.js samsung_export/
 cp app/todate.js samsung_export/

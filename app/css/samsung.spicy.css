@@ -86,9 +86,29 @@ body.sdk2011 .spinnermessage{background:#000;color:#ffffff;width:100%;height:100
 #top-gradient-overlay{position:absolute;z-index:10;top:0;right:0;left:175px;height:80px;pointer-events:none;display:none;}
 #bottom-gradient-overlay{position:absolute;z-index:10;bottom:0;right:0;left:175px;height:80px;pointer-events:none;display:none;}
 #cards>div{height:100%;}
+#cards .joshfire-outer,#cards .joshfire-inner{height:100%;}#cards .joshfire-outer>div,#cards .joshfire-inner>div{height:100%;}
 .content.detail{background:none;}
 .content{position:relative;height:100%;background:transparent url('../images/samsung-shadow-right.png') no-repeat 169px 0;}.content.loading .spinner{display:block;}
 .content .spinner{background:rgba(0, 0, 0, 0.9) url(../images/spinner.gif) no-repeat center center;position:absolute;top:0;bottom:0;left:50%;top:50%;width:5em;height:5em;margin-top:-2.5em;margin-left:-2.5em;z-index:50;display:none;-webkit-border-radius:0.5em;-moz-border-radius:0.5em;-ms-border-radius:0.5em;-o-border-radius:0.5em;border-radius:0.5em;}
+.content.photo.single{width:785px;height:510px;}.content.photo.single ul{padding:0;list-style:none;margin:0;height:100%;width:100%;min-height:auto;}
+.content.photo.single li{width:100%;height:100%;}
+.content.photo.single .container{height:100%;position:relative;padding:0;}
+.content.photo.single .image{top:0;left:0!important;right:0;bottom:0;max-width:785px!important;width:785px!important;}
+.content.photo.single .image-link{top:200px;}
+.content.photo.single .caption{padding:15px 20px 15px;left:0;right:0;bottom:0;}
+.content.video.single{width:785px!important;height:510px!important;}.content.video.single.nav-focused .playbutton{display:none;}
+.content.video.single .playbutton{position:absolute;z-index:30;left:375px;top:315px;}
+.content.video.single ul{padding:0;list-style:none;margin:0;top:165px!important;height:345px;bottom:0;left:0;right:0;background:#000;min-height:auto;}.content.video.single ul li{width:100%;height:100%;}
+.content.video.single ul .image{background:#000000 url(../images/tv-play.png) no-repeat center center !important;left:0;right:0;background-size:31px 43px!important;}
+.content.video.single ul .caption{left:0;right:0;bottom:0;}
+.content.video.single ul .container{padding:0;height:345px;}
+.content.video.single ul .video-link{top:128px;margin-left:-125px;margin-top:-10px;}
+.content.video.single .header{position:absolute;top:0;right:0;width:755px!important;height:135px;padding:15px;background:#7c0000;min-width:755px!important;}.content.video.single .header .thumb{position:relative;height:100%;width:25%;float:left;overflow:hidden;}.content.video.single .header .thumb img{height:auto;width:100%;float:left;}
+.content.video.single .header .thumb .duration{position:absolute;bottom:10px;right:10px;color:#FFF;font-size:0.8em;background:#000;background:rgba(0, 0, 0, 0.5);}
+.content.video.single .header .author{position:absolute;bottom:15px;left:220px;font-size:0.8em;color:#ffffff;}
+.content.video.single .header .date{position:absolute;bottom:15px;right:15px;font-size:0.8em;color:#ffffff;}
+.content.video.single .header h1{padding:0;position:absolute;top:10px;left:220px;text-overflow:ellipsis;display:inline-block;height:55px;width:73%;overflow:hidden;color:#ffffff;font-size:1.8em;}
+.content.video.single .header .description{margin-top:0;font-size:1em;overflow:hidden;position:absolute;top:55px;left:220px;bottom:26px;right:15px;line-height:1.2em;text-overflow:ellipsis;text-align:justify;color:#ffffff;}
 .slide-panel{width:100%;height:100%;-webkit-transition:0.4s ease-in-out left;-moz-transition:0.4s ease-in-out left;-ms-transition:0.4s ease-in-out left;-o-transition:0.4s ease-in-out left;transition:0.4s ease-in-out left;}.slide-panel>div{width:100%;}
 .nav-focused{height:100%;}
 .news-item .thumbnail{float:left;display:block;width:200px;height:130px;margin-right:30px;background-image:url('../images/noimage.png');background:no-repeat center center;background-size:cover;}
@@ -127,7 +147,7 @@ body.sdk2011 .spinnermessage{background:#000;color:#ffffff;width:100%;height:100
 .mosaic .photo-item.nav-active .image-link,.mosaic .video-item.nav-active .image-link,.mosaic .photo-item.nav-active .video-link,.mosaic .video-item.nav-active .video-link,.mosaic .photo-item.nav-active .caption,.mosaic .video-item.nav-active .caption{display:block;}
 .mosaic .photo-item.loading .spinner,.mosaic .video-item.loading .spinner{display:block !important;}
 .mosaic .container{width:100%;height:0;padding-top:100%;position:relative;}
-.mosaic .image{background-position:center center;background-repeat:no-repeat;background-color:#000;position:absolute;top:10px;right:10px;bottom:10px;left:10px;background-size:cover;}
+.mosaic .image{background-position:center center;background-repeat:no-repeat;background-color:#000;position:absolute;top:10px;right:10px;bottom:10px;left:10px;}
 .mosaic .spinner{background:transparent url(../images/image-spinner.gif) no-repeat center center;margin:0;position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;display:none;}
 #vimeo-detail{background-color:#F06!important;}
 #photos-detail,#videos-detail,#youtube-detail,#vimeo-detail{position:absolute;z-index:99;top:0;left:0;width:100%;height:100%;background-color:#000;}#photos-detail .image,#videos-detail .image,#youtube-detail .image,#vimeo-detail .image{height:100%;background-position:center center;background-repeat:no-repeat;}
@@ -137,10 +157,9 @@ body.sdk2011 .spinnermessage{background:#000;color:#ffffff;width:100%;height:100
 .offer:before{content:'(';}
 .offer:after{content:')';}
 .single .head{padding:20px 30px;margin-bottom:40px;margin-left:0;background:#ffffff;}
-#cards>.joshfire-wrapper>div{background:#620000 url(../images/samsung-shadow-left.png) no-repeat 0 center;}
+#cards>.joshfire-outer>.joshfire-inner>div{background:#620000 url(../images/samsung-shadow-left.png) no-repeat 0 center;position:relative;}
 #navHelper{color:#eee;background:#000;z-index:99;}#navHelper .action{background:transparent url(../images/navhelper_action.png) no-repeat left center;}
 #navHelper .back{background:transparent url(../images/navhelper_back.png) no-repeat left center;}
 #navHelper .exit{background:transparent url(../images/navhelper_exit.png) no-repeat left center;}
 #navHelper .navigate{background:transparent url(../images/navhelper_navigate.png) no-repeat left center;}
 #navHelper li{display:block;float:right;margin-right:20px;padding-left:22px;padding-top:5px;padding-bottom:5px;font-size:16px;line-height:1em;}
-.joshfire-wrapper>div{position:relative;}

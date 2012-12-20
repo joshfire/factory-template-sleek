@@ -4,6 +4,10 @@ body, html {
   overflow: hidden;
 }
 
+#youtube-detail {
+  display: none;
+}
+
 #container {
   height: 510px;
 }
