@@ -85,7 +85,7 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
       },
 
       toolbar.navRight = function() {
-        if(self.activeSection && !self.activeSection.loading) {
+        if(self.activeSection && self.activeSection.collection.length) {
           var container = self.activeSection.view;
           if(container.view) {
             var view = container.view;
@@ -341,6 +341,7 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
       var detail = null;
 
       if(section.collection.length > offset) {
+
         switch(section.outputType) {
           case 'photo':
           detail = this.photoDetail;
@@ -355,13 +356,20 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
           default:
           if(container.view.children && container.view.children.detail) {
             detail = container.view.children.detail;
+            detail.setModel(section.collection.at(offset));
+            detail.render();
+            detail.navFocus();
             container.view.showChild('detail', 'right');
           }
         }
 
         if(detail) {
           detail.setModel(section.collection.at(offset));
-          detail.render();
+          
+          if(section.outputType === 'photo' || section.outputType === 'video') {
+            detail.render();
+          }
+
           detail.navFocus();
         }
       }
@@ -447,8 +455,9 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
             self.updateList(section, container);
           }
 
-          if(toolbar.active === -1 || self.activeSection.loading) {
-            toolbar.activate(self.activeSection.index);
+          toolbar.activate(self.activeSection.index);
+          
+          if(toolbar.active === -1 || !self.activeSection.collection.length) {
             toolbar.navFocus();
             self.focused = 'toolbar';
           } else if(self.focused !== 'toolbar') {
