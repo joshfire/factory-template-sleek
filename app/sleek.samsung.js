@@ -67,7 +67,7 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
           sf.core.loadCSS('css/' + this.deviceFamily + '.' + color + '.css');
           callback();
         } else {
-          var style = doc.getElementsByTagName('style')[0];
+          var style = document.getElementsByTagName('style')[0];
           var linkNode = document.createElement('link');
           linkNode.type = 'text/css';
           linkNode.rel = 'stylesheet';
@@ -134,7 +134,6 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
             view;
 
         if(collection.length === 1) {
-            console.log(section);
           if(section.outputType !== 'photo' && section.outputType !== 'video') {
             return this.createDetailContainer(section, true);
           }
@@ -367,7 +366,6 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
           }
 
           onYouTubePlayerReady = _.bind(function() {
-            console.log(vId);
             this.playerReady = true;
             this.player.loadVideoById(vId);
             this.player.playVideo();
@@ -500,7 +498,6 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
           if(!tplSel)
             tplSel = isSingle ? '#template-mosaic-single-photo' : '#template-mosaic';
 
-          console.log(tplSel);
           return new Grid({
             templateEl: tplSel,
             itemFactory: this.itemFactory(section),
@@ -674,7 +671,6 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
           } else {
             views.showChild(section.slug);
             self.updateList(section, container);
-            console.log("prout");
           }
 
           if(toolbar.active === -1 || self.activeSection.loading) {
