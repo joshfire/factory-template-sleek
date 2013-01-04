@@ -281,7 +281,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      */
     setColor: function(color, callback) {
       $('#color').remove();
-      window.Sid.css('css/' + this.deviceFamily + '.' + color + '.css', callback);
+      window.Sid.css('css/' + this.deviceFamily + '.' + color + '.css', callback, 'afterfirststyle');
     },
 
 

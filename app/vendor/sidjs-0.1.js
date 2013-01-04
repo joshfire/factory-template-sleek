@@ -62,6 +62,7 @@ Assume all versions of IE support readystatechange
     proto = 'prototype',
     head = doc.getElementsByTagName('head')[0],
     body = doc.getElementsByTagName('body')[0],
+    style = doc.getElementsByTagName('style')[0],
     sniff = /*@cc_on!@*/1 + /(?:Gecko|AppleWebKit)\/(\S*)/.test(navigator.userAgent); // 0 - IE, 1 - O, 2 - GK/WK
 
   var createNode = function(tag, attrs) {
@@ -80,7 +81,9 @@ Assume all versions of IE support readystatechange
     }
 
     urls = (typeof urls == 'string' ? [urls] : urls);
-    scope = (scope ? (scope == 'body' ? body : head) : (type == 'js' ? body : head));
+    if (scope && scope != 'afterfirststyle') {
+      scope = (scope ? (scope == 'body' ? body : head) : (type == 'js' ? body : head));
+    }
 
     this.callback = callback || function() {};
     this.queue = [];
@@ -95,7 +98,13 @@ Assume all versions of IE support readystatechange
       else {
         node = createNode('script', { type: 'text/javascript', src: urls[i] });
       }
-      scope.appendChild(node);
+      if (style && scope == 'afterfirststyle') {
+        if (style.nextSibling) {
+          style.parentNode.insertBefore(node, style.nextSibling);
+        }
+      } else {
+        scope.appendChild(node);
+      }
 
       if (sniff) {
         if (type == 'css' && sniff == 2) {
