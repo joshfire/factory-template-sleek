@@ -358,9 +358,12 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
         render: function() {
           var vId = this.model.get('url').split('v=').pop();
           
-          if(this.playerReady) {
+          if(this.playerReady && this.player && this.player.loadVideoById) {
             this.player.loadVideoById(vId);
             this.player.playVideo();
+          }
+          else {
+            
           }
 
           onYouTubePlayerReady = _.bind(function() {
@@ -386,12 +389,6 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
             left: 0,
             background: '#000'
           });
-
-          /*
-          $('object, embed', this.el).css({
-            display: 'block'
-          });
-*/
         },
 
         hide: function() {
@@ -405,11 +402,6 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
             top: 540,
             left: 960
           });
-          /*
-          $('object, embed', this.el).css({
-            display: 'none'
-          });
-*/
         },
         exit: function() {
           this.hide();
@@ -682,6 +674,7 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
           } else {
             views.showChild(section.slug);
             self.updateList(section, container);
+            console.log("prout");
           }
 
           if(toolbar.active === -1 || self.activeSection.loading) {
