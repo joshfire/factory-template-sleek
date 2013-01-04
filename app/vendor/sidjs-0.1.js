@@ -81,8 +81,20 @@ Assume all versions of IE support readystatechange
     }
 
     urls = (typeof urls == 'string' ? [urls] : urls);
-    if (scope && scope != 'afterfirststyle') {
-      scope = (scope ? (scope == 'body' ? body : head) : (type == 'js' ? body : head));
+    if (scope) {
+      if (scope != 'afterfirststyle') {
+        if (scope == 'body') {
+          scope = body;
+        } else {
+          scope = head;
+        }
+      }
+    } else {
+      if (type == 'js') {
+        scope = body;
+      } else {
+        scope = head;
+      }
     }
 
     this.callback = callback || function() {};
