@@ -86,7 +86,7 @@ body.sdk2011 .spinnermessage{background:#000;color:#ffffff;width:100%;height:100
 #top-gradient-overlay{position:absolute;z-index:10;top:0;right:0;left:175px;height:80px;pointer-events:none;display:none;}
 #bottom-gradient-overlay{position:absolute;z-index:10;bottom:0;right:0;left:175px;height:80px;pointer-events:none;display:none;}
 #cards>div{height:100%;}
-#cards .joshfire-outer,#cards .joshfire-inner{height:100%;}#cards .joshfire-outer>div,#cards .joshfire-inner>div{height:100%;}
+#cards .joshfire-wrapper{height:100%;}#cards .joshfire-wrapper>div{height:100%;}
 .content.detail{background:none;}
 .content{position:relative;height:100%;background:transparent url('../images/samsung-shadow-right.png') no-repeat 169px 0;}.content.loading .spinner{display:block;}
 .content .spinner{background:rgba(0, 0, 0, 0.9) url(../images/spinner.gif) no-repeat center center;position:absolute;top:0;bottom:0;left:50%;top:50%;width:5em;height:5em;margin-top:-2.5em;margin-left:-2.5em;z-index:50;display:none;-webkit-border-radius:0.5em;-moz-border-radius:0.5em;-ms-border-radius:0.5em;-o-border-radius:0.5em;border-radius:0.5em;}
@@ -157,7 +157,7 @@ body.sdk2011 .spinnermessage{background:#000;color:#ffffff;width:100%;height:100
 .offer:before{content:'(';}
 .offer:after{content:')';}
 .single .head{padding:20px 30px;margin-bottom:40px;margin-left:0;background:#ffffff;}
-#cards>.joshfire-outer>.joshfire-inner>div{background:#712d0f url(../images/samsung-shadow-left.png) no-repeat 0 center;position:relative;}
+#cards>.joshfire-wrapper>div{background:#712d0f url(../images/samsung-shadow-left.png) no-repeat 0 center;position:relative;}
 #navHelper{color:#eee;background:#000;z-index:99;}#navHelper .action{background:transparent url(../images/navhelper_action.png) no-repeat left center;}
 #navHelper .back{background:transparent url(../images/navhelper_back.png) no-repeat left center;}
 #navHelper .exit{background:transparent url(../images/navhelper_exit.png) no-repeat left center;}
