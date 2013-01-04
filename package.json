@@ -16,7 +16,6 @@
     "datasources": {
       "main": {
         "title": "Main tabs",
-        "description": "Any type of datasources accepted.",
         "multiple": true,
         "maxLength": 8
       }
@@ -176,7 +175,6 @@
                     },
                     {
                       "title": "Tab data source",
-                      "description": "Any type of datasources accepted.",
                       "key": "datasources.main[]"
                     }
                   ]
