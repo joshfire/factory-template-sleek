@@ -63,16 +63,20 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
       if(!this.colorSet) {
         this.colorSet = true;
         $('#color').remove();
-        if(typeof sf !== 'undefined' && sf.core) {
+        if (typeof sf !== 'undefined' && sf.core) {
           sf.core.loadCSS('css/' + this.deviceFamily + '.' + color + '.css');
           callback();
-        }
-        else {
+        } else {
+          var style = doc.getElementsByTagName('style')[0];
           var linkNode = document.createElement('link');
           linkNode.type = 'text/css';
           linkNode.rel = 'stylesheet';
           linkNode.href = 'css/' + this.deviceFamily + '.' + color + '.css';
-          document.getElementsByTagName('body')[0].appendChild(linkNode);
+          if (style && style.nextSibling) {
+            style.parentNode.insertBefore(linkNode, style.nextSibling);
+          } else {
+            document.getElementsByTagName('body')[0].appendChild(linkNode);
+          }
           callback();
         }
       }
