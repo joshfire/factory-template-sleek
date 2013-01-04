@@ -98,6 +98,10 @@ header h1{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,A
 .mosaic-list li:last-child:nth-child(6n - 4)>div{padding-bottom:100%;}
 .mosaic-list li:last-child:nth-child(6n - 2){width:100%;}.mosaic-list li:last-child:nth-child(6n - 2)>div{padding-bottom:25%;}
 .mosaic-list li:last-child:nth-child(6n - 1)>div{padding-bottom:50%;}
+.single.mosaic-list .first{height:100%;}
+.single.mosaic-list ul{margin:0;list-style:none;position:absolute;top:0;bottom:15%;left:0;right:0;}.single.mosaic-list ul li{height:100%;}
+.single.mosaic-list ul .figure{padding-bottom:0!important;height:100%;}.single.mosaic-list ul .figure a{pointer-events:none;}
+.single.mosaic-list .meta{position:absolute;top:85%;bottom:0;display:table;left:0;right:0;height:15%;width:100%;}.single.mosaic-list .meta .cell{display:table-cell;vertical-align:middle;text-align:center;font-size:1.6em;padding:0 10px;}
 .unknown-item>div{padding:1em;}
 .status-item>div a{display:block;padding:1em;}
 .status-item>div>div{background:url(../images/phone-arrow@2x.png) no-repeat right center;background-size:9px 13px;padding-right:2em;}.status-item>div>div:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}

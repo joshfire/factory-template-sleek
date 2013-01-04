@@ -584,12 +584,14 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      */
     createListElement: function(section) {
       if (section.outputType === 'photo') {
+        var isSingle = (section.collection.length > 1) ? '' : 'single';
+        var tEl = isSingle ? '#template-single-photo' : '#template-list-view';
         return new ImageGallery({
-          templateEl: '#template-list-view',
+          templateEl: tEl,
           scroller: true,
           itemFactory: this.itemFactory(section),
           collection: section.collection,
-          className: section.outputType + ' ' + this.getClassName(section.outputType, 'list'),
+          className: isSingle + ' ' + section.outputType + ' ' + this.getClassName(section.outputType, 'list'),
           dataLoadingClass: 'dataloading',
           loadingClass: 'loading'
         });

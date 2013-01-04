@@ -73,6 +73,22 @@
       <div class="loader large">&nbsp;</div>
     </script>
 
+    <script type="text/template" id="template-single-photo">
+      <div class="first">
+        <ul class="list">
+          <%= children %>
+        </ul>
+        <div class="meta">
+          <div class="cell">
+            <% if(collection.at(0)) { %>
+            <%= collection.at(0).get('name') %>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      <div class="loader large">&nbsp;</div>
+    </script>
+    
     <script type="text/template" id="template-photo-item">
       <li class="photo-item">
         <div class="figure">
@@ -394,7 +410,7 @@
       </ul>
     </script>
 
-    <script data-joshfire-bootstrap src="http://factory.joshfire.com/bootstrap/4ffdafd83b632e0100000a83/505aeabe179fd60200000403/tablet/"></script>
+    <script data-joshfire-bootstrap src="http://preview-staging.joshfireapps.com/bootstrap/50e6b8dff1cfc8020000000f/50e5b055a8f1990200000002/phone-ios/"></script>
 
     <script>Joshfire.debug=false;</script>
     <script type="text/javascript" src="todate.js"></script>

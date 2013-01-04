@@ -464,6 +464,54 @@ header {
   }
 }
 
+.single.mosaic-list {
+
+  .first {
+    height: 100%;
+  }
+
+  ul {
+    margin: 0;
+    list-style: none;
+    position: absolute;
+    top: 0;
+    bottom: 15%;
+    left: 0;
+    right: 0;
+
+    li {
+      height: 100%;
+    }
+    
+    .figure {
+      padding-bottom: 0!important;
+      height: 100%;
+
+      a {
+        pointer-events: none;
+      }
+    }
+  }
+
+
+  .meta {
+    position: absolute;
+    top: 85%;
+    bottom: 0;
+    display: table;
+    left: 0;
+    right: 0;
+    height: 15%;
+    width: 100%;
+
+    .cell {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+    }
+  }
+}
+
 //---------------------------------------------------------------------------
 // List item types.
 //---------------------------------------------------------------------------
