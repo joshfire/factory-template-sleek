@@ -176,8 +176,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
             // datasource. Datasources that return mixed content typically fall
             // in the "other" category.
             var outputType = datasource.getOutputType();
-            if(outputType === 'Thing')
-              outputType = 'ImageObject';
+            
             sections[index] = {
               name: name,
               slug: slug,
