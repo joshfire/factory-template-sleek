@@ -27,9 +27,13 @@ define([
   'ui/imagegallery'],
 function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, FactoryMedia, ImageLoader, ImagesLoader, Router, Backbone, _, $, Localizer, ImageGallery) {
 
+  var logger = woodman.getLogger('factory_template_sleek.app.sleek');
+
   var Sleek = function() {
     _.bindAll(this, 'initialize',  'setColor', 'slugify');
+    logger.info('Sleek has been initialized with success');
   };
+
 
   Sleek.extend = Backbone.View.extend;
   _.extend(Sleek.prototype, Backbone.Events);
@@ -112,6 +116,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
           outputType = 'product';
           break;
         default:
+          logger.warn('convertItemType : default case has been called', outputType);
           outputType = 'other';
           break;
       }
@@ -140,85 +145,88 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
       // Set the document's title to the application title
       document.title = this.title;
 
+      woodman.start(function (err) {
+        // Sets the locale and loads the corresponding dictionnary.
+        // It is then defined in the html templates's scope.
+        this.localizer.setLocale({
+          locale: Joshfire.factory.config.template.options.language || 'auto'
+        }, function() {
 
-      // Sets the locale and loads the corresponding dictionnary.
-      // It is then defined in the html templates's scope.
-      this.localizer.setLocale({
-        locale: Joshfire.factory.config.template.options.language || 'auto'
-      }, function() {
+          // Includes the correct dictionnary which is required by
+          // moment.js's i18n native solution.
+          self.setMomentLanguage();
 
-        // Includes the correct dictionnary which is required by
-        // moment.js's i18n native solution.
-        self.setMomentLanguage();
-
-        // Set the template color based on the option selected by the user
-        // (this loads the CSS)
-        self.setColor(Joshfire.factory.config.template.options.color || 'gray', function () {
-          //
-          // Sections: one section per datasource
-          //
-          // (The way the list of datasources is retrieved actually depends
-          // on whether the code is used in Sleek or in Spot)
-          
-          var datasources = self.getDatasources();
-          var sections = new Array(datasources.length);
-          var loaded = 0;
-
-          // Prepare sections
-          _.forEach(datasources, _.bind(function(datasource, index) {
-            var name = this.tabs[index] || datasource.name || '';
-            var icon = this.tabicons[index];
-            var slug = index + '--' + this.slugify(name.toLowerCase());
+          // Set the template color based on the option selected by the user
+          // (this loads the CSS)
+          self.setColor(Joshfire.factory.config.template.options.color || 'gray', function () {
+            //
+            // Sections: one section per datasource
+            //
+            // (The way the list of datasources is retrieved actually depends
+            // on whether the code is used in Sleek or in Spot)
             
-            var collection = this.createCollection(datasource);
+            var datasources = self.getDatasources();
+            var sections = new Array(datasources.length);
 
-            // Main section type depends on the type of content returned by the
-            // datasource. Datasources that return mixed content typically fall
-            // in the "other" category.
-            var outputType = datasource.getOutputType();
-            
-            sections[index] = {
-              name: name,
-              slug: slug,
-              icon: icon || self.convertItemType(outputType),
-              outputType: self.convertItemType(outputType),
-              collection: collection,
-              index: index
+            // Prepare sections
+            _.forEach(datasources, _.bind(function(datasource, index) {
+              var name = this.tabs[index] || datasource.name || '';
+              var icon = this.tabicons[index];
+              var slug = index + '--' + this.slugify(name.toLowerCase());
+              
+              var collection = this.createCollection(datasource);
+
+              // Main section type depends on the type of content returned by the
+              // datasource. Datasources that return mixed content typically fall
+              // in the "other" category.
+              var outputType = datasource.getOutputType();
+              
+              sections[index] = {
+                name: name,
+                slug: slug,
+                icon: icon || self.convertItemType(outputType),
+                outputType: self.convertItemType(outputType),
+                collection: collection,
+                index: index
+              };
+            }, self));
+
+            // Create the views once all sections have been initialized
+            var views = self.createViews(sections);
+
+            // Initialize the router and start the application
+            var controllers = self.createRoutes(sections, views);
+            self.router = Router(controllers);
+
+            self.setupFastNavigate();
+            self.init();
+            self.initialized = true;
+            // The "loaded" hook is triggered once when the router handles
+            // the first route and when the view is rendered. The hook will
+            // typically hide a possibly installed splashscreen
+            var loaded = function() {
+              if (!self.loadedHookTriggered && self.initialized) {
+                logger.info('The loaded hook is triggered');
+                self.loadedHookTriggered = true;
+                Joshfire.factory.getAddOns('loaded').run();
+              }
             };
-          }, self));
 
-          // Create the views once all sections have been initialized
-          var views = self.createViews(sections);
+            views.bind('load', loaded);
 
-          // Initialize the router and start the application
-          var controllers = self.createRoutes(sections, views);
-          self.router = Router(controllers);
+            //failsafe if first tab fails to load for some reason
+            setTimeout(loaded, 20*1000); 
 
-          self.setupFastNavigate();
-          self.init();
-          self.initialized = true;
-          // The "loaded" hook is triggered once when the router handles
-          // the first route and when the view is rendered. The hook will
-          // typically hide a possibly installed splashscreen
-          var loaded = function() {
-            if (!self.loadedHookTriggered && self.initialized) {
-              self.loadedHookTriggered = true;
-              Joshfire.factory.getAddOns('loaded').run();
-            }
-          };
-
-          views.bind('load', loaded);
-
-          //failsafe if first tab fails to load for some reason
-          setTimeout(loaded, 20*1000); 
-
-          views.render();
-          self.router.historyStart();
+            views.render();
+            self.router.historyStart();
+          });
         });
       });
     },
 
     createCollection: function(datasource) {
+      datasource = datasource || {};
+      logger.info('Create Collection', datasource.name);
       return new Collection([], {
                 dataSource: datasource,
                 dataSourceQuery: {}
@@ -335,6 +343,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      * @return {UIElement} The created toolbar element
      */
     createToolbar: function(sections) {
+      logger.info('Create Toolbar');
       var sectionCollection = new Backbone.Collection();
       var section = null;
 
@@ -365,6 +374,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      * @return {Object} Views created identified by their ID
      */
     createViews: function(sections) {
+      logger.info('Create Views');
       var views = {};
       var sectionsView = null;
 
@@ -423,6 +433,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      * @return {UIElement} The toolbar UI element to use
      */
     createToolbarElement: function() {
+      logger.info('Create Toolbar Element');
       return new List({
         el: '#toolbar',
         templateEl: '#template-toolbar',
@@ -436,6 +447,9 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      * item
      */
     createSectionView: function(section) {
+      section = section || {};
+      logger.info('Create Section View', section.name);
+
       var view = new DynamicContainer({
         collection: section.collection,
         viewFactory: this.viewFactory(section)
@@ -448,6 +462,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
 
     viewFactory: function(section) {
       return _.bind(function(params) {
+        logger.info('Calling ViewFactory');
         var collection = params.collection;
 
         if (section.outputType === 'photo') {
@@ -477,12 +492,16 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      * @parma {Backbone.View} the section container
      */
     refreshList: function(section, container) {
+      logger.info('Refresh Section List');
       section.collection.fetch({
         dataSourceQuery: {
           nocache: true
         },
         success: _.bind(function() {
           this.showList(section, container);
+        }, this),
+        error: _.bind(function() {
+          logger.error('refreshList() error while looping through section collection :', section, section.collection);
         }, this)
       });
     },
@@ -498,6 +517,9 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
       section.collection.fetch({
         success: _.bind(function() {
           this.showList(section, container);
+        }, this),
+        error: _.bind(function() {
+          logger.error('updateList() error while looping through section collection :', section, section.collection);
         }, this)
       });
     },
@@ -543,6 +565,9 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
       section.collection.fetch({
         success: _.bind(function() {
           this.showDetail(section, container, offset);
+        }, this),
+        error: _.bind(function() {
+          logger.error('updateDetail() error while looping through section collection :', section.collection);
         }, this)
       });
     },
@@ -582,6 +607,8 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      * @return {UIElement} The element to use. May include a detailed view.
      */
     createListElement: function(section) {
+      section = section || {};
+      logger.info('Create List Element', section.name);
       if (section.outputType === 'photo') {
         var isSingle = (section.collection.length > 1) ? '' : 'single';
         var tEl = isSingle ? '#template-single-photo' : '#template-list-view';
@@ -625,6 +652,8 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      *  (or when the detail view is managed by dedicated code)
      */
     createDetailContainer: function(section, isSingle) {
+      section = section || {};
+      logger.info('Create Detail Container', section.name);
       var self = this;
 
       return new DynamicContainer({
@@ -652,6 +681,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      * @return {UIElement} The element to use.
      */
     createDetailElement: function(options) {
+      logger.info('Create Detail Element');
       if(!options.model) {
         return new Item({});
       }
@@ -737,6 +767,8 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
     // Creates a list item view based on the type of the item.
     //
     itemFactory: function(section) {
+      section = section || {};
+      logger.info('Create item Factory', section.name);
       var self = this;
 
       return function(model, offset) {
@@ -787,6 +819,8 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      * @return {Object} Route controllers
      */
     createRoutes: function(sections, views) {
+      views = views || {};
+      logger.info('Creating a new routes', sections[0].slug, views.cid);
       return {
         routes: {
           '': 'home'

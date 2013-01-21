@@ -8,6 +8,9 @@
     "polished",
     "smooth"
   ],
+  "dependencies": {
+    "woodman": ">=0.1.2"
+  },
   "joshfire": {
     "images": {
       "small": "marketing/sleek-small.jpg",
