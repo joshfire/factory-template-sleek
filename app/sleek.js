@@ -892,13 +892,12 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
       }
 
       if (!thumbnailUrl) {
-        // No thumbnail URL found yet, return the content of the object
-        // if it is an image, or the value of its image property if set
-        if ((item['@type'] === 'ImageObject') && item.contentURL) {
-          thumbnailUrl = item.contentURL;
-        }
-        else if (item.image && item.image.contentURL) {
+        // No thumbnail URL found yet, return the value of the image property 
+        // of the object if set. If not and if image, return its content
+        if (item.image && item.image.contentURL) {
           thumbnailUrl = item.image.contentURL;
+        } else if ((item['@type'] === 'ImageObject') && item.contentURL) {
+          thumbnailUrl = item.contentURL;
         }
       }
       if (!thumbnailUrl) {
