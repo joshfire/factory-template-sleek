@@ -62,7 +62,8 @@
                             "col": "json",
                             "query": {
                                 "filter": {
-                                    "url": "http://mwcdemo.lan/gallery.json",
+                                    "url": "/gallery.json", // http://88.120.37.14:3000/gallery.json
+                                    "keypath": "entries",
                                     "jsonParam": "callback"
                                 },
                                 "options": {}
