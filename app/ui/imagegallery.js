@@ -22,7 +22,7 @@ define([
 
       if(options.photoswipe) _.extend(this.photoswipe, options.photoswipe);
 
-      this.linkSelector = options.linkSelector || 'a[href$=".jpg"],a[href$=".jpeg"],a[href$=".png"],a[href$=".gif"]'
+      this.linkSelector = options.linkSelector || 'a.img'
 
       UIList.prototype.initialize.call(this, options);
     },
