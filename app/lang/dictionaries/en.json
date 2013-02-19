@@ -1,5 +1,5 @@
 {
   "terms": {
-    "No data": "No data"
+    "nodata": "No data feed to display.<br>Consider adding a data source."
   }
 }
