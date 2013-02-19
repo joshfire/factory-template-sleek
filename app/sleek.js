@@ -24,8 +24,9 @@ define([
   'joshlib!vendor/underscore',
   'joshlib!utils/dollar',
   'joshlib!utils/i18n',
+  'lang/config',
   'ui/imagegallery'],
-function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, FactoryMedia, ImageLoader, ImagesLoader, Router, Backbone, _, $, Localizer, ImageGallery) {
+function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, FactoryMedia, ImageLoader, ImagesLoader, Router, Backbone, _, $, Localizer, LocaleConfig, ImageGallery) {
 
   var Sleek = function() {
     _.bindAll(this, 'initialize',  'setColor', 'slugify');
@@ -144,9 +145,10 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
       // Sets the locale and loads the corresponding dictionnary.
       // It is then defined in the html templates's scope.
       this.localizer.setLocale({
-        locale: Joshfire.factory.config.template.options.language || 'auto'
+        locale: Joshfire.factory.config.template.options.language || 'auto',
+        availableLocales: LocaleConfig.AVAILABLE,
+        defaultLocale: LocaleConfig.DEFAULT
       }, function() {
-
         // Includes the correct dictionnary which is required by
         // moment.js's i18n native solution.
         self.setMomentLanguage();
