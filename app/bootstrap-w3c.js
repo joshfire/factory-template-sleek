@@ -21,7 +21,16 @@
                     "name": "5dd2b8835bece0a1d574d4611cb45c88.png",
                     "url": "/transloadit/6c42ff5139b18c289463e79bcfafe4b1"
                 },
-                "logo": null,
+                "logo": {
+                    "height": 264,
+                    "width": 771,
+                    "encodingFormat": "png",
+                    "contentSize": 7424,
+                    "contentURL": "http://static.platform.joshfire.com.s3.amazonaws.com/b4/c397dfbce15cb0879d6040fee29c70/joshfire-logo-white-on-transparent.png",
+                    "itemType": "ImageObject",
+                    "name": "joshfire-logo-white-on-transparent.png",
+                    "url": "/transloadit/b4c397dfbce15cb0879d6040fee29c70"
+                },
                 "name": "W3C Gallery",
                 "version": "1.0"
             },
@@ -30,7 +39,8 @@
                 "version": "1.2.16",
                 "options": {
                     "color": "gray",
-                    "tabs": ["Feed", "Mock", "Flickr"]
+                    "tabicons":["video","photo"],
+                    "tabs": ["Feed", "Flickr"]
                 },
                 "hooks": ["loaded"]
             }
@@ -79,31 +89,6 @@
             "outputType": "ImageObject",
             "runtime": "browser"
         }, {
-            "name": "Mock",
-            "db": "operator",
-            "col": "updatelinks",
-            "query": {
-                "filter": {
-                    "datasources": {
-                        "main": {
-                            "name": "Mock",
-                            "db": "custom",
-                            "col": "i0",
-                            "query": {
-                                "filter": {},
-                                "options": {}
-                            },
-                            "runatclient": true,
-                            "missingKeys": [],
-                            "runtime": "browser"
-                        }
-                    },
-                    "action": "addtarget"
-                }
-            },
-            "outputType": "ImageObject",
-            "runtime": "browser"
-        }, {
             "name": "Flickr",
             "db": "operator",
             "col": "updatelinks",
@@ -116,7 +101,7 @@
                             "col": "photos",
                             "query": {
                                 "filter": {
-                                    "search": "W3C"
+                                    "search": "Mobile World Congress 2013"
                                 }
                             },
                             "runatclient": true,
