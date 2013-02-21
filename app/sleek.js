@@ -185,6 +185,11 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
               collection: collection,
               index: index
             };
+
+            // if this datasource is registered to server side event,
+            if(datasource.config.sse) {
+              self.listenToSSE(sections[index], datasource.config.sse.url);
+            }
           }, self));
 
           // Create the views once all sections have been initialized
@@ -470,7 +475,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
     },
 
     /**
-     * Refreshes a section list.
+     * Refreshes a section list by forcing a fetch from server
      *
      * @function
      * @param {Object} the list section
@@ -488,7 +493,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
     },
 
     /**
-     * Updates a section list.
+     * Updates a section list (uses cache if present)
      *
      * @function
      * @param {Object} the list section
@@ -501,6 +506,36 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
         }, this)
       });
     },
+
+    /**
+     * Make this section listen to Server Side Event (SSE)
+     *
+     * @function
+     * @param section: the section that should listen to SSE
+     * @param streamURL: utl of the SSE stream
+     */
+     listenToSSE: function(section, streamURL) {
+      var source = new EventSource(streamURL);
+
+      var self = this;
+      source.addEventListener('message', function(e) {
+        console.log(e.data);
+        var data = JSON.parse(e.data);
+
+        section.collection.add(data);
+      }, false);
+
+      source.addEventListener('open', function(e) {
+        console.log("SSE opened");
+      }, false);
+
+      source.addEventListener('error', function(e) {
+        if (e.readyState == EventSource.CLOSED) {
+          console.log("SSE lost");
+        }
+      }, false);
+
+     },
 
     /**
      * Displays a section list

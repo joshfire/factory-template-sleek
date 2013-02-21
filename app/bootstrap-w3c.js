@@ -87,7 +87,8 @@
                 }
             },
             "outputType": "ImageObject",
-            "runtime": "browser"
+            "runtime": "browser",
+            "sse" : {"url": "/stream"}
         }, {
             "name": "Flickr",
             "db": "operator",
