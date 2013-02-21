@@ -448,7 +448,7 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
 
           var container = self.activeSection.view;
           if (section.collection.length) {
-            self.moveToList(container);
+            //self.moveToList(container); // don't know why this is usefull
             views.showChild(section.slug);
           } else {
             views.showChild(section.slug);
