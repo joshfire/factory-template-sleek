@@ -522,7 +522,8 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
         console.log(e.data);
         var data = JSON.parse(e.data);
 
-        section.collection.add(data);
+        section.collection.add(data, {silent: true});
+        section.view.view.update(true);
       }, false);
 
       source.addEventListener('open', function(e) {
