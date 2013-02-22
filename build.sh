@@ -28,8 +28,8 @@ cp app/prettystatus.js build/app/
 # cp config.xml build/config.xml
 cp package.json build/
 
-# Move optimized js files
-mv app/app.*.optimized.js build/app/
+# Copy optimized js files
+cp app/app.*.optimized.js build/app/
 
 # Copy marketing images
 cp -r marketing/ build/marketing/
