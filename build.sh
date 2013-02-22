@@ -1,4 +1,8 @@
-cd app/
+cd tasks/
+
+jake compile:less
+
+cd ../app/
 
 # Optimize versions
 node joshfire-framework/scripts/optimize.js ios app.phone
@@ -26,6 +30,9 @@ cp package.json build/
 
 # Move optimized js files
 mv app/app.*.optimized.js build/app/
+
+# Copy marketing images
+cp -r marketing/ build/marketing/
 
 # Pack Samsung Version
 mkdir samsung_export
