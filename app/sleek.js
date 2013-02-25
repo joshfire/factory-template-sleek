@@ -863,49 +863,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      * @return {string} Thumbnail URL that best match the viewport size
      */
     getThumbnail: function(item, offset, widthRatio) {
-      if (!item) return '';
-
-      widthRatio = widthRatio || 0.2;
-      var neededWidth = this.clientWidth * widthRatio;
-      var thumbnailWidth = 0;
-      var bestWidth = 0;
-
-      // Check the full list of thumbnails to start with
-      var thumbnails = item.thumbnail;
-      var thumbnailUrl = null;
-      var thumbnail = null;
-      var best = null;
-      if (thumbnails && (thumbnails.length > 0)) {
-        best = thumbnails[0];
-        bestWidth = best.width || 0;
-
-        for (var i=0; i < thumbnails.length; i++) {
-          thumbnail = thumbnails[i];
-          thumbnailWidth = thumbnail.width || 0;
-
-          if (((thumbnailWidth >= neededWidth) &&
-              ((thumbnailWidth < bestWidth) || (bestWidth < neededWidth))) ||
-            ((bestWidth < neededWidth) && (thumbnailWidth > bestWidth))) {
-            best = thumbnails[i];
-          }
-        }
-
-        thumbnailUrl = best.contentURL;
-      }
-
-      if (!thumbnailUrl) {
-        // No thumbnail URL found yet, return the value of the image property 
-        // of the object if set. If not and if image, return its content
-        if (item.image && item.image.contentURL) {
-          thumbnailUrl = item.image.contentURL;
-        } else if ((item['@type'] === 'ImageObject') && item.contentURL) {
-          thumbnailUrl = item.contentURL;
-        }
-      }
-      if (!thumbnailUrl) {
-        thumbnailUrl = '';
-      }
-      return thumbnailUrl;
+      return Joshfire.factory.utils.getThumbnail(item, this.clientWidth * (widthRatio || 0.2));
     },
 
 

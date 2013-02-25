@@ -523,27 +523,7 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
         width = width * 0.1;
       }
 
-      if(item.thumbnail) {
-        var thumbnails = item.thumbnail;
-        var best = thumbnails[0];
-
-        for (var i=0; i < thumbnails.length; i++) {
-          var thumbnail = thumbnails[i];
-
-          if(thumbnail.width >= width && (thumbnail.width < best.width || best.width < width) || best.width < width && thumbnail.width > best.width) {
-            best = thumbnails[i];
-          }
-        }
-
-        if (best) {
-          return best.contentURL;
-        }
-        else {
-          return '';
-        }
-      }
-
-      return Sleek.prototype.getThumbnail.call(this, item, offset);
+      return Joshfire.factory.utils.getThumbnail(item, width);
     }
   });
 });
