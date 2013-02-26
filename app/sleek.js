@@ -17,8 +17,7 @@ define([
   'joshlib!ui/cardpanel',
   'joshlib!ui/fadeinpanel',
   'joshlib!ui/factorymedia',
-  'joshlib!ui/imageloader',
-  'joshlib!ui/imagesloader',
+  'ui/imagesloader',
   'joshlib!router',
   'joshlib!vendor/backbone',
   'joshlib!vendor/underscore',
@@ -26,7 +25,7 @@ define([
   'joshlib!utils/i18n',
   'lang/config',
   'ui/imagegallery'],
-function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, FactoryMedia, ImageLoader, ImagesLoader, Router, Backbone, _, $, Localizer, LocaleConfig, ImageGallery) {
+function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, FactoryMedia, ImagesLoader, Router, Backbone, _, $, Localizer, LocaleConfig, ImageGallery) {
 
   var Sleek = function() {
     _.bindAll(this, 'initialize',  'setColor', 'slugify');
@@ -684,22 +683,18 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
             }
           });
         case 'status':
-          return new ImageLoader({
+          return new ImagesLoader({
             templateEl: '#template-' + itemType,
             scroller: true,
-            getImageUrl: function () {
-              return self.getAuthorThumbnail(options.model.toJSON());
-            }
+            imageSchema: self.getAuthorImageSchema(options.model.toJSON())
           });
         case 'photo':
         case 'product':
         case 'other':
-          return new ImageLoader({
+          return new ImagesLoader({
             templateEl: '#template-' + itemType,
             scroller: true,
-            getImageUrl: function () {
-              return self.getThumbnail(options.model.toJSON());
-            }
+            imageSchema: options.model.toJSON()
           });
         default:
           return new ImagesLoader({
@@ -757,18 +752,14 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
           case 'video':
           case 'product':
           case 'news':
-            options.getImageUrl = function () {
-              return self.getThumbnail(item, offset, 0.2);
-            };
+            options.imageSchema = options.model.toJSON();
             options.imageContainer = '.figure';
-            return new ImageLoader(options);
+            return new ImagesLoader(options);
 
           case 'status':
-            options.getImageUrl = function () {
-              return self.getAuthorThumbnail(item, offset);
-            };
+            options.imageSchema = self.getAuthorImageSchema(item);
             options.imageContainer = '.figure';
-            return new ImageLoader(options);
+            return new ImagesLoader(options);
 
           default:
             return new Item(options);
@@ -850,23 +841,6 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
       return $(activePanel).height();
     },
 
-
-    /**
-     * Returns the URL of the thumbnail of an object
-     *
-     * @function
-     * @param {object} item schema.org friendly object to parse
-     * @param {Integer} offset The offset position (only used in TV version)
-     * @param {Number} widthRatio The fraction of screen width available
-     *  for the image, e.g. 0.4 for a thumbnail that is to occupy 40% of the
-     *  screen width
-     * @return {string} Thumbnail URL that best match the viewport size
-     */
-    getThumbnail: function(item, offset, widthRatio) {
-      return Joshfire.factory.utils.getThumbnail(item, this.clientWidth * (widthRatio || 0.2));
-    },
-
-
     /**
      * Sets the global language of the app.
      *
@@ -884,26 +858,18 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
 
 
     /**
-     * Returns the URL of a thumbnail of the item's author.
+     * Returns a data schema with the image of the item's author.
      *
      * @function
      * @param {object} item schema.org friendly object to parse
      * @return {string} Thumbnail URL that best matches the viewport size
      */
-    getAuthorThumbnail: function(item, offset) {
-      if (!item) return '';
-
-      var thumbnailUrl = '';
-      if (item.author && item.author[0]) {
-        thumbnailUrl = this.getThumbnail(item.author[0], offset, 0.2);
+    getAuthorImageSchema: function(item) {
+      if (item && item.author && item.author[0]) {
+        return item.author[0];
       }
-      if (!thumbnailUrl) {
-        // Fallback to "usual" thumbnail
-        thumbnailUrl = this.getThumbnail(item, offset, 0.2);
-      }
-      return thumbnailUrl;
+      return item;
     },
-
 
     slugify: function(text) {
       text = text.replace(/[^\-a-zA-Z0-9,&\s]+/ig, '');

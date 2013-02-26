@@ -97,7 +97,7 @@
     <script type="text/template" id="template-photo-item">
       <li class="photo-item">
         <div class="figure">
-          <a class="img fadein" href="<%= item.contentURL %>" title="<%= item.name %>" style="background-image: url(<%= imageUrl %>)">&nbsp;</a>
+          <a class="img fadein" href="<%= item.contentURL %>" title="<%= item.name %>" data-joshfire-autothumb="true">&nbsp;</a>
         </div>
       </li>
     </script>
@@ -108,7 +108,7 @@
           <a href="#<%= section.slug %>/<%= offset %>">
             <% if (imageUrl) { %>
               <div class="figure">
-                <div class="img fadein" title="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" style="background-image: url(<%= imageUrl %>)"></div>
+                <div class="img fadein" title="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" data-joshfire-autothumb="true"></div>
                 <div class="loader"></div>
               </div>
             <% } %>
@@ -138,7 +138,7 @@
             <div>
               <% if (imageUrl) { %>
                 <div class="figure">
-                  <div class="img fadein" style="background-image: url(<%= imageUrl %>)"></div>
+                  <div class="img fadein" data-joshfire-autothumb="true"></div>
                   <div class="loader inv"></div> 
                 </div>
               <% } %>
@@ -175,7 +175,7 @@
             <div>
               <% if (imageUrl) { %>
                 <div class="figure">
-                  <div class="img fadein" style="background-image:url(<%= imageUrl %>)"></div>
+                  <div class="img fadein" data-joshfire-autothumb="true"></div>
                   <div class="loader inv"></div> 
                 </div>
               <% } %>
@@ -225,7 +225,7 @@
       <div class="body">
         <div class="header">
           <% if (imageUrl) { %>
-            <img src="<%= imageUrl %>" alt="" />
+            <img src="<%= thumbnail(48,48) %>" alt="" />
           <% } %>
           <% if (item.author && item.author[0] && item.author[0].name) { %>
             <h2><%= item.author[0].name %></h2>
@@ -282,7 +282,7 @@
       <div class="body">
         <h4><%= item.name %></h4>
         <% if (imageUrl) { %>
-          <div class="center"><img src="<%= imageUrl %>" alt="" /></div>
+          <div class="center"><img src="<%= thumbnail(120,90) %>" alt="" /></div>
         <% } %>
         <div class="article">
         <% if (item.articleBody) { %>
@@ -373,7 +373,7 @@
           <a href="#<%= section.slug %>/<%= offset %>">
             <div>
               <% if (imageUrl) { %>
-              <img src="<%= imageUrl %>" alt="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" />
+              <img data-joshfire-autothumb="true" alt="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" />
               <% } %>
               <h4>
                 <%= item.name %>

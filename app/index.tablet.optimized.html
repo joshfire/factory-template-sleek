@@ -91,7 +91,7 @@
     <script type="text/template" id="template-photo-item">
       <li class="photo-item">
         <div class="figure">
-          <a class="img fadein" href="<%= item.contentURL %>" title="<%= item.name %>" style="background-image: url(<%= imageUrl %>)">&nbsp;</a>
+          <a class="img fadein" data-joshfire-autothumb="true" href="<%= item.contentURL %>" title="<%= item.name %>">&nbsp;</a>
         </div>
       </li>
     </script>
@@ -102,7 +102,7 @@
           <a href="#<%= section.slug %>/<%= offset %>">
             <% if (imageUrl) { %>
               <div class="figure">
-                <div class="img fadein" title="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" style="background-image: url(<%= imageUrl %>)"></div>
+                <div class="img fadein" title="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" data-joshfire-autothumb="true"></div>
                 <div class="loader"></div>
               </div>
             <% } %>
@@ -132,7 +132,7 @@
             <div>
               <% if (imageUrl) { %>
                 <div class="figure">
-                  <div class="img fadein" style="background-image: url(<%= imageUrl %>)"></div>
+                  <div class="img fadein" data-joshfire-autothumb="true"></div>
                   <div class="loader inv"></div> 
                 </div>
               <% } %>
@@ -169,7 +169,7 @@
             <div>
               <% if (imageUrl) { %>
                 <div class="figure">
-                  <div class="img fadein" style="background-image:url(<%= imageUrl %>)"></div>
+                  <div class="img fadein" data-joshfire-autothumb="true"></div>
                   <div class="loader inv"></div> 
                 </div>
               <% } %>
