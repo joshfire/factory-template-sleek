@@ -97,13 +97,19 @@ define([
         // in Zepto 1.0rc1 (the order of parameters is not the same).
         // Use $.map for a consistent behavior between Zepto and jQuery
         var images = $.map(self.$el.find('img, .img, .image'), function (el) {
-          var e = $(el);
+          var e = $(el),
+              url;
 
           if (self.imageClass) e.addClass(self.imageClass);
 
           // If autothumb flag is true, detect width and ask for the right thumbnail size
-          if (self.imageSchema && e.data("joshfire-autothumb")) {
-            var url = Joshfire.factory.utils.getThumbnail(self.imageSchema, parseInt(e.width(), 10), parseInt(e.height(), 10));
+          if (self.imageSchema && e.data("joshfire-autothumb") && (parseInt(e.width, 10) || parseInt(e.height(),10)) ) {
+            url = Joshfire.factory.utils.getThumbnail(self.imageSchema, parseInt(e.width(), 10), parseInt(e.height(), 10));
+          } else {
+            url = self.imageSchema.contentURL || (self.imageSchema.image && self.imageSchema.image.url);
+          }
+
+          if (url) {
             if (el.tagName === "IMG") {
               e.attr('src', url);
             } else {
