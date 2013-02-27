@@ -123,7 +123,7 @@ define([
 
           return {
             el: $cnt,
-            url: e.attr('src') || e.css('backgroundImage').replace(/(^url\()|(\)$)/g,"")
+            url: url
           };
         });
 
