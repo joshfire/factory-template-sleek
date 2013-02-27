@@ -140,7 +140,6 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
       // Set the document's title to the application title
       document.title = this.title;
 
-
       // Sets the locale and loads the corresponding dictionnary.
       // It is then defined in the html templates's scope.
       this.localizer.setLocale({
@@ -201,17 +200,20 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
           // The "loaded" hook is triggered once when the router handles
           // the first route and when the view is rendered. The hook will
           // typically hide a possibly installed splashscreen
-          var loaded = function() {
+          loaded = function() {
             if (!self.loadedHookTriggered && self.initialized) {
               self.loadedHookTriggered = true;
               Joshfire.factory.getAddOns('loaded').run();
+            }
+            if (navigator && navigator.splashscreen) {
+              setTimeout(navigator.splashscreen.hide, 500);
             }
           };
 
           views.bind('load', loaded);
 
           //failsafe if first tab fails to load for some reason
-          setTimeout(loaded, 20*1000); 
+          setTimeout(loaded, 20*1000);
 
           views.render();
           self.router.historyStart();
