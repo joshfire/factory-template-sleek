@@ -696,11 +696,16 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
             scroller: true,
             imageSchema: options.model.toJSON()
           });
+
+        case 'news':
+          var body = options.model.get('articleBody').replace(/\n|\r\n/g,'<br>');
+          options.model.set('articleBody',body,{silent: true});
         default:
           return new ImagesLoader({
             templateEl: '#template-' + itemType,
             scroller: true,
             imageClass: 'fadein',
+            imageSchema: options.model.toJSON(),
             processImageEl: function (el) {
               // Prepare image container and spinner
               var loader = document.createElement('div');
