@@ -140,6 +140,16 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
       // Set the document's title to the application title
       document.title = this.title;
 
+      // Open external link in another window
+      $('body').on('click','a', function() {
+        if ($(this).is('.img, .image')) return true;
+        url = $(this).attr("href");
+        if (url.indexOf('http://') > -1) {
+          window.open(url, "_system");
+          return false;
+        }
+      });
+
       // Sets the locale and loads the corresponding dictionnary.
       // It is then defined in the html templates's scope.
       this.localizer.setLocale({
@@ -702,6 +712,12 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
         case 'news':
           var body = options.model.get('articleBody').replace(/\n|\r\n/g,'<br>');
           options.model.set('articleBody',body,{silent: true});
+          return new ImagesLoader({
+            templateEl: '#template-' + itemType,
+            scroller: true,
+            imageClass: 'fadein',
+            imageSchema: options.model.toJSON()
+          });
         default:
           return new ImagesLoader({
             templateEl: '#template-' + itemType,
