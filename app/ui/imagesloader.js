@@ -106,7 +106,7 @@ define([
           if (self.imageSchema && e.data("joshfire-autothumb") && (parseInt(e.width, 10) || parseInt(e.height(),10)) ) {
             url = Joshfire.factory.utils.getThumbnail(self.imageSchema, parseInt(e.width(), 10), parseInt(e.height(), 10));
           } else {
-            url = self.imageSchema.contentURL || (self.imageSchema.image && self.imageSchema.image.url);
+            url = self.imageSchema.contentURL || (self.imageSchema.image && self.imageSchema.image.contentURL);
           }
 
           if (url) {
