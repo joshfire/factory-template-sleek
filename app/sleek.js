@@ -141,6 +141,15 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
       // Set the document's title to the application title
       document.title = this.title;
 
+      // Open external link in another window
+      $('body').on('click','a', function() {
+        if ($(this).is('.img, .image')) return true;
+        url = $(this).attr("href");
+        if (url.indexOf('http://') > -1) {
+          window.open(url, "_system");
+          return false;
+        }
+      });
 
       // Sets the locale and loads the corresponding dictionnary.
       // It is then defined in the html templates's scope.
