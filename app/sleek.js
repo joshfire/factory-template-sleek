@@ -14,6 +14,7 @@ define([
   'joshlib!ui/dynamiccontainer',
   'joshlib!ui/item',
   'joshlib!ui/list',
+  'joshlib!ui/listitem',
   'joshlib!ui/cardpanel',
   'joshlib!ui/fadeinpanel',
   'joshlib!ui/factorymedia',
@@ -26,7 +27,7 @@ define([
   'joshlib!utils/i18n',
   'lang/config',
   'ui/imagegallery'],
-function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, FactoryMedia, ImageLoader, ImagesLoader, Router, Backbone, _, $, Localizer, LocaleConfig, ImageGallery) {
+function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInPanel, FactoryMedia, ImageLoader, ImagesLoader, Router, Backbone, _, $, Localizer, LocaleConfig, ImageGallery) {
 
   var Sleek = function() {
     _.bindAll(this, 'initialize',  'setColor', 'slugify');
@@ -600,6 +601,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
           templateEl: tEl,
           scroller: true,
           itemFactory: this.itemFactory(section),
+          listItemFactory: this.listItemFactory(section),
           collection: section.collection,
           className: isSingle + ' ' + section.outputType + ' ' + this.getClassName(section.outputType, 'list'),
           dataLoadingClass: 'dataloading',
@@ -611,6 +613,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
           templateEl: '#template-list-view',
           scroller: true,
           itemFactory: this.itemFactory(section),
+          listItemFactory: this.listItemFactory(section),
           collection: section.collection,
           className: section.outputType + ' ' +
             this.getClassName(section.outputType, 'list')
@@ -742,6 +745,22 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
             }
           });
       }
+    },
+
+    listItemFactory: function(section) {
+      return function(model, offset) {
+        var item = model.toJSON(),
+          type = section.outputType || self.convertItemType(item['@type']),
+          className = type + '-item';
+        var params = {
+          model: model,
+          offset: offset,
+          view: this.itemFactory(model, offset),
+          className: className
+        };
+
+        return new ListItem(params);
+      };
     },
 
     //
