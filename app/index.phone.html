@@ -99,7 +99,7 @@
     </script>
 
     <script type="text/template" id="template-status-item">
-      <div class="status-item">
+      <div>
         <a href="#<%= section.slug %>/<%= offset %>">
           <% if (imageUrl) { %>
             <div class="figure">
@@ -126,7 +126,7 @@
     </script>
 
     <script type="text/template" id="template-video-item">
-      <div class="video-item">
+      <div>
         <a href="#<%= section.slug %>/<%= offset %>">
           <div>
             <% if (imageUrl) { %>
@@ -144,7 +144,7 @@
     </script>
 
     <script type="text/template" id="template-event-item">
-      <div class="event-item">
+      <div>
         <a href="#<%= section.slug %>/<%= offset %>">
           <div>
             <% if (item.startDate) { %>
@@ -159,7 +159,7 @@
     </script>
 
     <script type="text/template" id="template-news-item">
-      <div class="news-item">
+      <div>
         <a href="#<%= section.slug %>/<%= offset %>">
           <div>
             <% if (imageUrl) { %>
@@ -181,7 +181,7 @@
 
 
     <script type="text/template" id="template-sound-item">
-      <div class="sound-item">
+      <div>
         <a href="#<%= section.slug %>/<%= offset %>">
           <div>
             <% if (item.byArtist && item.byArtist.name) { %>
@@ -196,15 +196,13 @@
     </script>
 
     <script type="text/template" id="template-other-item">
-      <li class="other-item">
-        <div>
-          <a href="#<%= section.slug %>/<%= offset %>">
-            <div>
-              <h4><%= item.name || item.description %></h4>
-            </div>
-          </a>
-        </div>
-      </li>
+      <div>
+        <a href="#<%= section.slug %>/<%= offset %>">
+          <div>
+            <h4><%= item.name || item.description %></h4>
+          </div>
+        </a>
+      </div>
     </script>
 
     <script type="text/template" id="template-status">
@@ -354,26 +352,24 @@
     <!-- TEMPLATES SPECIFIC TO THIS VERSION -->
 
     <script type="text/template" id="template-product-item">
-      <li class="product-item">
-        <div>
-          <a href="#<%= section.slug %>/<%= offset %>">
-            <div>
-              <% if (imageUrl) { %>
-                <div class="figure">
-                  <div class="img fadein" style="background-image: url(<%= imageUrl %>)"></div>
-                  <div class="loader"></div>
-                </div>
+      <div>
+        <a href="#<%= section.slug %>/<%= offset %>">
+          <div>
+            <% if (imageUrl) { %>
+              <div class="figure">
+                <div class="img fadein" style="background-image: url(<%= imageUrl %>)"></div>
+                <div class="loader"></div>
+              </div>
+            <% } %>
+            <h4>
+              <%= item.name %>
+              <% if (item.offers && item.offers[0] && item.offers[0].price) {  %>
+                <span class="offer"><%= (item.offers[0].priceCurrency === 'EUR') ? '€' : ((item.offers[0].priceCurrency === 'GBP') ? '₤' : '$') %><%= item.offers[0].price %></span>
               <% } %>
-              <h4>
-                <%= item.name %>
-                <% if (item.offers && item.offers[0] && item.offers[0].price) {  %>
-                  <span class="offer"><%= (item.offers[0].priceCurrency === 'EUR') ? '€' : ((item.offers[0].priceCurrency === 'GBP') ? '₤' : '$') %><%= item.offers[0].price %></span>
-                <% } %>
-              </h4>
-            </div>
-          </a>
-        </div>
-      </li>
+            </h4>
+          </div>
+        </a>
+      </div>
     </script>
 
     <script type="text/template" id="template-sound">
