@@ -136,7 +136,6 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
       this.backgroundURL = Joshfire.factory.config.template.options.backgroundimage ? Joshfire.factory.config.template.options.backgroundimage.url : Joshfire.factory.config.template.options.backgroundurl;
       this.logoURL = Joshfire.factory.config.app.logo ?
                   Joshfire.factory.config.app.logo.contentURL : null;
-      
 
       // Set the document's title to the application title
       document.title = this.title;
@@ -145,7 +144,7 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
       $('body').on('click','a', function() {
         if ($(this).is('.img, .image')) return true;
         url = $(this).attr("href");
-        if (url.indexOf('http://') > -1) {
+        if (url && url.indexOf('http://') > -1) {
           window.open(url, "_system");
           return false;
         }
