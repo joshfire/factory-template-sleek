@@ -459,7 +459,6 @@ function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInP
 
       section.view = view;
 
-      section.collection.once("change",view.render,view);
       section.collection.once("reset",view.render,view);
 
       return view;
