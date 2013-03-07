@@ -260,7 +260,8 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
             itemFactory: this.itemFactory(section),
             listItemFactory: this.listItemFactory(section),
             collection: section.collection,
-            className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
+            className: section.outputType + ' ' + this.getClassName(section.outputType, 'list'),
+            autoLoadMore: true
           });
 
         default:
@@ -271,7 +272,8 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
             itemFactory: this.itemFactory(section),
             listItemFactory: this.listItemFactory(section),
             collection: section.collection,
-            className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
+            className: section.outputType + ' ' + this.getClassName(section.outputType, 'list'),
+            autoLoadMore: true
           });
       }
     },
