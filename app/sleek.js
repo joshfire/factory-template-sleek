@@ -450,12 +450,18 @@ function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInP
      * item
      */
     createSectionView: function(section) {
-      var view = new DynamicContainer({
+      var dc = DynamicContainer.extend({
+        setCollection: function() {}
+      });
+
+      var view = new dc({
         collection: section.collection,
         viewFactory: this.viewFactory(section)
       });
 
       section.view = view;
+
+      section.collection.once("reset",view.render,view);
 
       return view;
     },
@@ -607,7 +613,8 @@ function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInP
           collection: section.collection,
           className: isSingle + ' ' + section.outputType + ' ' + this.getClassName(section.outputType, 'list'),
           dataLoadingClass: 'dataloading',
-          loadingClass: 'loading'
+          loadingClass: 'loading',
+          autoLoadMore: true
         });
       }
       else {
@@ -618,7 +625,8 @@ function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInP
           listItemFactory: this.listItemFactory(section),
           collection: section.collection,
           className: section.outputType + ' ' +
-            this.getClassName(section.outputType, 'list')
+            this.getClassName(section.outputType, 'list'),
+          autoLoadMore: true
         });
       }
     },
