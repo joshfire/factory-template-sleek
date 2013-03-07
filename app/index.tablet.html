@@ -55,12 +55,10 @@
     </script>
 
     <script type="text/template" id="toolbar-item">
-      <li>
-        <a href="<%= item.linkURL %>" class="<%= (item.name.toLowerCase() === 'contact') ? 'contact' : item.icon %> section-<%= item.slug %>">
-          <div class="indicator"><span>&nbsp;</span></div>
-          <%= item.name %><span>&nbsp;</span>
-        </a>
-      </li>
+      <a href="<%= item.linkURL %>" class="<%= (item.name.toLowerCase() === 'contact') ? 'contact' : item.icon %> section-<%= item.slug %>">
+        <div class="indicator"><span>&nbsp;</span></div>
+        <%= item.name %><span>&nbsp;</span>
+      </a>
     </script>
 
     <script type="text/template" id="template-list-view">
@@ -89,130 +87,116 @@
     </script>
 
     <script type="text/template" id="template-photo-item">
-      <li class="photo-item">
-        <div class="figure">
-          <a class="img fadein" data-joshfire-autothumb="true" href="<%= item.contentURL %>" title="<%= item.name %>">&nbsp;</a>
-        </div>
-      </li>
+      <div class="figure">
+        <a class="img fadein" href="<%= item.contentURL %>" title="<%= item.name %>" data-joshfire-autothumb="true">&nbsp;</a>
+      </div>
     </script>
 
     <script type="text/template" id="template-status-item">
-      <li class="status-item">
-        <div>
-          <a href="#<%= section.slug %>/<%= offset %>">
-            <% if (imageUrl) { %>
-              <div class="figure">
-                <div class="img fadein" title="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" data-joshfire-autothumb="true"></div>
-                <div class="loader"></div>
-              </div>
-            <% } %>
-            <div class="right">
-              <% if (item.author && item.author[0] && item.author[0].name) { %>
-              <h3>
-                <%= item.author[0].name %>
-                <% if (item.author[0]['foaf:nick']) { %>
-                  @<%= item.author[0]['foaf:nick'] %>
-                <% } %>
-              </h3>
-              <% } %>
-              <p><%= item.name %></p>
-              <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
-                <h4><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></h4>
-              <% } %>
+      <div>
+        <a href="#<%= section.slug %>/<%= offset %>">
+          <% if (imageUrl) { %>
+            <div class="figure">
+              <div class="img fadein" title="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" data-joshfire-autothumb="true"></div>
+              <div class="loader"></div>
             </div>
-          </a>
-        </div>
-      </li>
+          <% } %>
+          <div class="right">
+            <% if (item.author && item.author[0] && item.author[0].name) { %>
+            <h3>
+              <%= item.author[0].name %>
+              <% if (item.author[0]['foaf:nick']) { %>
+                @<%= item.author[0]['foaf:nick'] %>
+              <% } %>
+            </h3>
+            <% } %>
+            <p><%= item.name %></p>
+            <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+              <h4><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></h4>
+            <% } %>
+          </div>
+        </a>
+      </div>
     </script>
 
     <script type="text/template" id="template-video-item">
-      <li class="video-item">
-        <div>
-          <a href="#<%= section.slug %>/<%= offset %>">
-            <div>
-              <% if (imageUrl) { %>
-                <div class="figure">
-                  <div class="img fadein" data-joshfire-autothumb="true"></div>
-                  <div class="loader inv"></div> 
-                </div>
-              <% } %>
-              <div class="right">
-                <h3><%= item.name %></h3>
+      <div>
+        <a href="#<%= section.slug %>/<%= offset %>">
+          <div>
+            <% if (imageUrl) { %>
+              <div class="figure">
+                <div class="img fadein" data-joshfire-autothumb="true"></div>
+                <div class="loader inv"></div> 
               </div>
+            <% } %>
+            <div class="right">
+              <h3><%= item.name %></h3>
             </div>
-          </a>
-        </div>
-      </li>
+          </div>
+        </a>
+      </div>
     </script>
 
     <script type="text/template" id="template-event-item">
-      <li class="event-item">
-        <div>
-          <a href="#<%= section.slug %>/<%= offset %>">
-            <div>
-              <% if (item.startDate) { %>
-              <h3>
-                <span><%= moment(toDate(item.startDate)).calendar() %></span>
-              </h3>
-              <% } %>
-              <h4><%= item.name || item.description %></h4>
-            </div>
-          </a>
-        </div>
-      </li>
+      <div>
+        <a href="#<%= section.slug %>/<%= offset %>">
+          <div>
+            <% if (item.startDate) { %>
+            <h3>
+              <span><%= moment(toDate(item.startDate)).calendar() %></span>
+            </h3>
+            <% } %>
+            <h4><%= item.name || item.description %></h4>
+          </div>
+        </a>
+      </div>
     </script>
 
     <script type="text/template" id="template-news-item">
-      <li class="news-item">
-        <div>
-          <a href="#<%= section.slug %>/<%= offset %>">
-            <div>
-              <% if (imageUrl) { %>
-                <div class="figure">
-                  <div class="img fadein" data-joshfire-autothumb="true"></div>
-                  <div class="loader inv"></div> 
-                </div>
-              <% } %>
-              <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
-              <h3>
-                <span><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></span>
-              </h3>
-              <% } %>
-              <h4><%= item.name || item.description %></h4>
-            </div>
-          </a>
-        </div>
-      </li>
+      <div>
+        <a href="#<%= section.slug %>/<%= offset %>">
+          <div>
+            <% if (imageUrl) { %>
+              <div class="figure">
+                <div class="img fadein" data-joshfire-autothumb="true"></div>
+                <div class="loader inv"></div> 
+              </div>
+            <% } %>
+            <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+            <h3>
+              <span><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></span>
+            </h3>
+            <% } %>
+            <h4><%= item.name || item.description %></h4>
+          </div>
+        </a>
+      </div>
     </script>
 
 
     <script type="text/template" id="template-sound-item">
-      <li class="sound-item">
-        <div>
-          <a href="#<%= section.slug %>/<%= offset %>">
-            <div>
-              <% if (item.byArtist && item.byArtist.name) { %>
-                <h3><%= item.byArtist.name %></h3>
-              <% } else if (item.author && item.author.name) { %>
-                <h3><%= item.author.name %></h3>
-              <% } %>
-              <h4><%= item.name %></h4>
-            </div>
-          </a>
-        </div>
-      </li>
+      <div>
+        <a href="#<%= section.slug %>/<%= offset %>">
+          <div>
+            <% if (item.byArtist && item.byArtist.name) { %>
+              <h3><%= item.byArtist.name %></h3>
+            <% } else if (item.author && item.author.name) { %>
+              <h3><%= item.author.name %></h3>
+            <% } %>
+            <h4><%= item.name %></h4>
+          </div>
+        </a>
+      </div>
     </script>
 
     <script type="text/template" id="template-other-item">
-      <li class="other-item">
-        <div>
-          <a href="#<%= section.slug %>/<%= offset %>">
-            <div>
-              <h4><%= item.name || item.description %></h4>
-            </div>
-          </a>
-        </div>
-      </li>
+      <div>
+        <a href="#<%= section.slug %>/<%= offset %>">
+          <div>
+            <h4><%= item.name || item.description %></h4>
+          </div>
+        </a>
+      </div>
     </script>
 
     <script type="text/template" id="template-status">
@@ -362,20 +346,18 @@
     <!-- TEMPLATES SPECIFIC TO THIS VERSION -->
 
     <script type="text/template" id="template-product-item">
-      <li class="product-item">
-        <div>
-          <a href="#<%= section.slug %>/<%= offset %>">
-            <div>
-              <h4>
-                <%= item.name %>
-                <% if (item.offers && item.offers[0] && item.offers[0].price) {  %>
-                  <span class="offer"><%= (item.offers[0].priceCurrency === 'EUR') ? '€' : ((item.offers[0].priceCurrency === 'GBP') ? '₤' : '$') %><%= item.offers[0].price %></span>
-                <% } %>
-              </h4>
-            </div>
-          </a>
-        </div>
-      </li>
+      <div>
+        <a href="#<%= section.slug %>/<%= offset %>">
+          <div>
+            <h4>
+              <%= item.name %>
+              <% if (item.offers && item.offers[0] && item.offers[0].price) {  %>
+                <span class="offer"><%= (item.offers[0].priceCurrency === 'EUR') ? '€' : ((item.offers[0].priceCurrency === 'GBP') ? '₤' : '$') %><%= item.offers[0].price %></span>
+              <% } %>
+            </h4>
+          </div>
+        </a>
+      </div>
     </script>
 
     <script type="text/template" id="template-sound">
@@ -409,7 +391,7 @@
       </ul>
     </script>
 
-    <script data-joshfire-bootstrap src="http://192.168.2.129:40021/bootstrap/5121f0217a990b33b0000034/50ffc3284aa82e020000000b/phone-ios/"></script>
+    <script data-joshfire-bootstrap src="http://192.168.2.157:40021/bootstrap/5121f0217a990b33b0000034/50ffc3284aa82e020000000b/phone-ios/"></script>
 
     <script>Joshfire.debug=true;</script>
     <script type="text/javascript" src="todate.js"></script>

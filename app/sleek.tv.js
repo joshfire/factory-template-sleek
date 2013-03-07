@@ -255,6 +255,7 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
           return new Grid({
             templateEl: tplSel,
             itemFactory: this.itemFactory(section),
+            listItemFactory: this.listItemFactory(section),
             collection: section.collection,
             className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
           });
@@ -265,6 +266,7 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
             offsetTop: 40,
             offsetBottom: 40,
             itemFactory: this.itemFactory(section),
+            listItemFactory: this.listItemFactory(section),
             collection: section.collection,
             className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
           });

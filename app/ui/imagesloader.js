@@ -93,10 +93,11 @@ define([
 
       // getImages__, not getImages, otherwise View replace the function
       this.getImages__ = options.getImages || function () {
+
         // BEWARE: $.map('img', blah) is different from $('img').map(blah)
         // in Zepto 1.0rc1 (the order of parameters is not the same).
         // Use $.map for a consistent behavior between Zepto and jQuery
-        var images = $.map(self.$el.find('img, .img, .image'), function (el) {
+        var images = $.map(self.$el.find('img, .img, .image, .thumbnail'), function (el) {
           var e = $(el),
               url;
 
@@ -150,7 +151,7 @@ define([
         item: this.model ? this.model.toJSON() : {},
         imageUrl: Joshfire.factory.utils.getThumbnail(self.imageSchema, 100, 100),
         thumbnail: function(w, h) {
-          return Joshfire.factory.getThumbnail(self.imageSchema,w||100,h||100);
+          return Joshfire.factory.utils.getThumbnail(self.imageSchema,w||100,h||100);
         }
       };
 
@@ -169,7 +170,7 @@ define([
       var self = this;
 
       // We should be able to enhance here even if !imageSchema... But iScroll fails to initialize correctly then
-      if (!self.imageSchema || !this.getImages) {
+      if (!self.imageSchema || !this.getImages__) {
         UIItem.prototype.enhance.call(this);
         this.trigger('load');
         return;
