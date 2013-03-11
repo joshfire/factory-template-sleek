@@ -106,7 +106,7 @@ define([
           // If autothumb flag is true, detect width and ask for the right thumbnail size
           if (self.imageSchema && e.data("joshfire-autothumb") && (parseInt(e.width, 10) || parseInt(e.height(),10)) ) {
             url = Joshfire.factory.utils.getThumbnail(self.imageSchema, parseInt(e.width(), 10), parseInt(e.height(), 10));
-          } else {
+          } else if (!e.attr('src')) {
             url = self.imageSchema.contentURL || (self.imageSchema.image && self.imageSchema.image.contentURL);
           }
 
