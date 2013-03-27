@@ -198,3 +198,5 @@ div.ps-toolbar-play div.ps-toolbar-content{background-position:-88px 0;}
 #news .right-panel h4,#news .single h4,#product .right-panel h4,#product .single h4,#other .right-panel h4,#other .single h4{text-transform:uppercase;color:#1c3953;font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.2em;margin-bottom:1em;padding:0 .5em;}
 #news .right-panel .body,#news .single .body,#product .right-panel .body,#product .single .body,#other .right-panel .body,#other .single .body{padding:2.2em 1em 1em;}
 .single h3,.single h4{padding:0 !important;}
+li.loading-more{height:50px;background:url('../images/spinner.gif') no-repeat center center;clear:both;}
+.mosaic-list li.loading-more{width:100%;height:100px;}

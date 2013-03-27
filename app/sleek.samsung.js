@@ -726,31 +726,8 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
      * @return {string} Thumbnail URL that best match the viewport size
      */
     getThumbnail: function(item, offset) {
-
       // Arbitrary samsung width
-      var width = 240;
-
-      if(item.thumbnail) {
-        var thumbnails = item.thumbnail;
-        var best = thumbnails[0];
-
-        for (var i=0; i < thumbnails.length; i++) {
-          var thumbnail = thumbnails[i];
-
-          if(thumbnail.width >= width && (thumbnail.width < best.width || best.width < width) || best.width < width && thumbnail.width > best.width) {
-            best = thumbnails[i];
-          }
-        }
-
-        if (best) {
-          return best.contentURL;
-        }
-        else {
-          return '';
-        }
-      }
-
-      return Sleek.prototype.getThumbnail.call(this, item, offset);
+      return Joshfire.factory.utils.getThumbnail(item, 240);
     },
 
     setFrameworkVersionTag: function() {

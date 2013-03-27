@@ -14,11 +14,11 @@ define([
   'joshlib!ui/dynamiccontainer',
   'joshlib!ui/item',
   'joshlib!ui/list',
+  'joshlib!ui/listitem',
   'joshlib!ui/cardpanel',
   'joshlib!ui/fadeinpanel',
   'joshlib!ui/factorymedia',
-  'joshlib!ui/imageloader',
-  'joshlib!ui/imagesloader',
+  'ui/imagesloader',
   'joshlib!router',
   'joshlib!vendor/backbone',
   'joshlib!vendor/underscore',
@@ -26,7 +26,7 @@ define([
   'joshlib!utils/i18n',
   'lang/config',
   'ui/imagegallery'],
-function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, FactoryMedia, ImageLoader, ImagesLoader, Router, Backbone, _, $, Localizer, LocaleConfig, ImageGallery) {
+function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInPanel, FactoryMedia, ImagesLoader, Router, Backbone, _, $, Localizer, LocaleConfig, ImageGallery) {
 
   var Sleek = function() {
     _.bindAll(this, 'initialize',  'setColor', 'slugify');
@@ -210,17 +210,20 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
           // The "loaded" hook is triggered once when the router handles
           // the first route and when the view is rendered. The hook will
           // typically hide a possibly installed splashscreen
-          var loaded = function() {
+          loaded = function() {
             if (!self.loadedHookTriggered && self.initialized) {
               self.loadedHookTriggered = true;
               Joshfire.factory.getAddOns('loaded').run();
+            }
+            if (navigator && navigator.splashscreen) {
+              setTimeout(navigator.splashscreen.hide, 500);
             }
           };
 
           views.bind('load', loaded);
 
           //failsafe if first tab fails to load for some reason
-          setTimeout(loaded, 20*1000); 
+          setTimeout(loaded, 20*1000);
 
           views.render();
           self.router.historyStart();
@@ -446,12 +449,18 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
      * item
      */
     createSectionView: function(section) {
-      var view = new DynamicContainer({
+      var dc = DynamicContainer.extend({
+        setCollection: function() {}
+      });
+
+      var view = new dc({
         collection: section.collection,
         viewFactory: this.viewFactory(section)
       });
 
       section.view = view;
+
+      section.collection.once("reset",view.render,view);
 
       return view;
     },
@@ -599,10 +608,12 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
           templateEl: tEl,
           scroller: true,
           itemFactory: this.itemFactory(section),
+          listItemFactory: this.listItemFactory(section),
           collection: section.collection,
           className: isSingle + ' ' + section.outputType + ' ' + this.getClassName(section.outputType, 'list'),
           dataLoadingClass: 'dataloading',
-          loadingClass: 'loading'
+          loadingClass: 'loading',
+          autoLoadMore: true
         });
       }
       else {
@@ -610,9 +621,11 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
           templateEl: '#template-list-view',
           scroller: true,
           itemFactory: this.itemFactory(section),
+          listItemFactory: this.listItemFactory(section),
           collection: section.collection,
           className: section.outputType + ' ' +
-            this.getClassName(section.outputType, 'list')
+            this.getClassName(section.outputType, 'list'),
+          autoLoadMore: true
         });
       }
     },
@@ -692,28 +705,35 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
             }
           });
         case 'status':
-          return new ImageLoader({
+          return new ImagesLoader({
             templateEl: '#template-' + itemType,
             scroller: true,
-            getImageUrl: function () {
-              return self.getAuthorThumbnail(options.model.toJSON());
-            }
+            imageSchema: self.getAuthorImageSchema(options.model.toJSON())
           });
         case 'photo':
         case 'product':
         case 'other':
-          return new ImageLoader({
+          return new ImagesLoader({
             templateEl: '#template-' + itemType,
             scroller: true,
-            getImageUrl: function () {
-              return self.getThumbnail(options.model.toJSON());
-            }
+            imageSchema: options.model.toJSON()
+          });
+
+        case 'news':
+          var body = options.model.get('articleBody').replace(/\n|\r\n/g,'<br>');
+          options.model.set('articleBody',body,{silent: true});
+          return new ImagesLoader({
+            templateEl: '#template-' + itemType,
+            scroller: true,
+            imageClass: 'fadein',
+            imageSchema: options.model.toJSON()
           });
         default:
           return new ImagesLoader({
             templateEl: '#template-' + itemType,
             scroller: true,
             imageClass: 'fadein',
+            imageSchema: options.model.toJSON(),
             processImageEl: function (el) {
               // Prepare image container and spinner
               var loader = document.createElement('div');
@@ -743,6 +763,22 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
       }
     },
 
+    listItemFactory: function(section) {
+      return function(model, offset) {
+        var item = model.toJSON(),
+          type = section.outputType || self.convertItemType(item['@type']),
+          className = type + '-item';
+        var params = {
+          model: model,
+          offset: offset,
+          view: this.itemFactory(model, offset),
+          className: className
+        };
+
+        return new ListItem(params);
+      };
+    },
+
     //
     // Creates a list item view based on the type of the item.
     //
@@ -765,18 +801,14 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
           case 'video':
           case 'product':
           case 'news':
-            options.getImageUrl = function () {
-              return self.getThumbnail(item, offset, 0.2);
-            };
+            options.imageSchema = options.model.toJSON();
             options.imageContainer = '.figure';
-            return new ImageLoader(options);
+            return new ImagesLoader(options);
 
           case 'status':
-            options.getImageUrl = function () {
-              return self.getAuthorThumbnail(item, offset);
-            };
+            options.imageSchema = self.getAuthorImageSchema(item);
             options.imageContainer = '.figure';
-            return new ImageLoader(options);
+            return new ImagesLoader(options);
 
           default:
             return new Item(options);
@@ -858,65 +890,6 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
       return $(activePanel).height();
     },
 
-
-    /**
-     * Returns the URL of the thumbnail of an object
-     *
-     * @function
-     * @param {object} item schema.org friendly object to parse
-     * @param {Integer} offset The offset position (only used in TV version)
-     * @param {Number} widthRatio The fraction of screen width available
-     *  for the image, e.g. 0.4 for a thumbnail that is to occupy 40% of the
-     *  screen width
-     * @return {string} Thumbnail URL that best match the viewport size
-     */
-    getThumbnail: function(item, offset, widthRatio) {
-      if (!item) return '';
-
-      widthRatio = widthRatio || 0.2;
-      var neededWidth = this.clientWidth * widthRatio;
-      var thumbnailWidth = 0;
-      var bestWidth = 0;
-
-      // Check the full list of thumbnails to start with
-      var thumbnails = item.thumbnail;
-      var thumbnailUrl = null;
-      var thumbnail = null;
-      var best = null;
-      if (thumbnails && (thumbnails.length > 0)) {
-        best = thumbnails[0];
-        bestWidth = best.width || 0;
-
-        for (var i=0; i < thumbnails.length; i++) {
-          thumbnail = thumbnails[i];
-          thumbnailWidth = thumbnail.width || 0;
-
-          if (((thumbnailWidth >= neededWidth) &&
-              ((thumbnailWidth < bestWidth) || (bestWidth < neededWidth))) ||
-            ((bestWidth < neededWidth) && (thumbnailWidth > bestWidth))) {
-            best = thumbnails[i];
-          }
-        }
-
-        thumbnailUrl = best.contentURL;
-      }
-
-      if (!thumbnailUrl) {
-        // No thumbnail URL found yet, return the value of the image property 
-        // of the object if set. If not and if image, return its content
-        if (item.image && item.image.contentURL) {
-          thumbnailUrl = item.image.contentURL;
-        } else if ((item['@type'] === 'ImageObject') && item.contentURL) {
-          thumbnailUrl = item.contentURL;
-        }
-      }
-      if (!thumbnailUrl) {
-        thumbnailUrl = '';
-      }
-      return thumbnailUrl;
-    },
-
-
     /**
      * Sets the global language of the app.
      *
@@ -934,26 +907,18 @@ function (Collection, DynamicContainer, Item, List, CardPanel, FadeInPanel, Fact
 
 
     /**
-     * Returns the URL of a thumbnail of the item's author.
+     * Returns a data schema with the image of the item's author.
      *
      * @function
      * @param {object} item schema.org friendly object to parse
      * @return {string} Thumbnail URL that best matches the viewport size
      */
-    getAuthorThumbnail: function(item, offset) {
-      if (!item) return '';
-
-      var thumbnailUrl = '';
-      if (item.author && item.author[0]) {
-        thumbnailUrl = this.getThumbnail(item.author[0], offset, 0.2);
+    getAuthorImageSchema: function(item) {
+      if (item && item.author && item.author[0]) {
+        return item.author[0];
       }
-      if (!thumbnailUrl) {
-        // Fallback to "usual" thumbnail
-        thumbnailUrl = this.getThumbnail(item, offset, 0.2);
-      }
-      return thumbnailUrl;
+      return item;
     },
-
 
     slugify: function(text) {
       text = text.replace(/[^\-a-zA-Z0-9,&\s]+/ig, '');

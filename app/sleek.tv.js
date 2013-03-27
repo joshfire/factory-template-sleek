@@ -11,10 +11,10 @@ define([
   'joshlib!ui/grid',
   'joshlib!ui/item',
   'joshlib!ui/factorymedia',
-  'joshlib!ui/imageloader',
+  'ui/imagesloader',
   'joshlib!vendor/underscore',
   'joshlib!utils/dollar'],
-function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImageLoader, _, $) {
+function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImagesLoader, _, $) {
 
   return Sleek.extend({
     initialize: function (cb) {
@@ -138,9 +138,9 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
       var self = this;
 
       // Photo overlay
-      var PhotoOverlay = ImageLoader.extend({
+      var PhotoOverlay = ImagesLoader.extend({
         initialize: function(options) {
-          ImageLoader.prototype.initialize.call(this, options);
+          ImagesLoader.prototype.initialize.call(this, options);
 
           this.navUp = this.navDown = this.navAction = this.exit;
           this.offset = options.offset;
@@ -198,10 +198,7 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
 
       this.photoDetail = new PhotoOverlay({
         el: '#photos-detail',
-        templateEl: '#template-photo',
-        getImageUrl: function() {
-          return this.model.get('contentURL');
-        }
+        templateEl: '#template-photo'
       });
 
       this.photoDetail.hide();
@@ -258,8 +255,10 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
           return new Grid({
             templateEl: tplSel,
             itemFactory: this.itemFactory(section),
+            listItemFactory: this.listItemFactory(section),
             collection: section.collection,
-            className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
+            className: section.outputType + ' ' + this.getClassName(section.outputType, 'list'),
+            autoLoadMore: true
           });
 
         default:
@@ -268,8 +267,10 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
             offsetTop: 40,
             offsetBottom: 40,
             itemFactory: this.itemFactory(section),
+            listItemFactory: this.listItemFactory(section),
             collection: section.collection,
-            className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
+            className: section.outputType + ' ' + this.getClassName(section.outputType, 'list'),
+            autoLoadMore: true
           });
       }
     },
@@ -346,6 +347,11 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
           case 'photo':
           detail = this.photoDetail;
           detail.offset = offset;
+          detail.data = {
+              getImageUrl: function() {
+                return this.model.get('contentURL');
+              }
+          };
           detail.show();
           break;
           case 'video':
@@ -417,15 +423,9 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
           };
           return new FactoryMedia(options);
         case 'status':
-          options.getImageUrl = function () {
-            return self.getAuthorThumbnail(params.model.toJSON());
-          };
-          return new ImageLoader(options);
+          return new Item(options);
         default:
-          options.getImageUrl = function () {
-            return self.getThumbnail(params.model.toJSON());
-          };
-          return new ImageLoader(options);
+          return new Item(options);
       }
     },
 
@@ -496,54 +496,7 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
       });
 
       return controllers;
-    },
-
-
-    /**
-     * Returns the URL of a thumbnail of an image object.
-     *
-     * Overrides base function with TV specific rules.
-     *
-     * @function
-     * @param {object} item VideoObject to parse
-     * @return {string} Thumbnail URL that best match the viewport size
-     */
-    getThumbnail: function(item, offset) {
-
-      var width = document.body.clientWidth;
-
-      switch(offset % 11) {
-        case 0:
-        case 1:
-        case 7:
-        width = width * 0.25;
-        break;
-
-        default:
-        width = width * 0.1;
-      }
-
-      if(item.thumbnail) {
-        var thumbnails = item.thumbnail;
-        var best = thumbnails[0];
-
-        for (var i=0; i < thumbnails.length; i++) {
-          var thumbnail = thumbnails[i];
-
-          if(thumbnail.width >= width && (thumbnail.width < best.width || best.width < width) || best.width < width && thumbnail.width > best.width) {
-            best = thumbnails[i];
-          }
-        }
-
-        if (best) {
-          return best.contentURL;
-        }
-        else {
-          return '';
-        }
-      }
-
-      return Sleek.prototype.getThumbnail.call(this, item, offset);
     }
+
   });
 });
