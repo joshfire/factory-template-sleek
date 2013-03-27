@@ -7,7 +7,7 @@
  * versions.
  */
 
-/*global define, Joshfire, document*/
+/*global define, Joshfire, document, moment*/
 
 define([
   'joshlib!collection',
@@ -25,8 +25,8 @@ define([
   'joshlib!utils/dollar',
   'joshlib!utils/i18n',
   'lang/config',
-  'ui/imagegallery'],
-function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInPanel, FactoryMedia, ImagesLoader, Router, Backbone, _, $, Localizer, LocaleConfig, ImageGallery) {
+  'ui/imagegallery'
+], function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInPanel, FactoryMedia, ImagesLoader, Router, Backbone, _, $, Localizer, LocaleConfig, ImageGallery) {
 
   var Sleek = function() {
     _.bindAll(this, 'initialize',  'setColor', 'slugify');
@@ -88,33 +88,33 @@ function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInP
     convertItemType: function(type) {
       var outputType = null;
       switch (type) {
-        case 'Article/Status':
-          outputType = 'status';
-          break;
-        case 'NewsArticle':
-        case 'BlogPosting':
-        case 'Article':
-        case 'CreativeWork':
-          outputType = 'news';
-          break;
-        case 'Event':
-          outputType = 'event';
-          break;
-        case 'ImageObject':
-          outputType = 'photo';
-          break;
-        case 'VideoObject':
-          outputType = 'video';
-          break;
-        case 'MusicRecording':
-          outputType = 'sound';
-          break;
-        case 'Product':
-          outputType = 'product';
-          break;
-        default:
-          outputType = 'other';
-          break;
+      case 'Article/Status':
+        outputType = 'status';
+        break;
+      case 'NewsArticle':
+      case 'BlogPosting':
+      case 'Article':
+      case 'CreativeWork':
+        outputType = 'news';
+        break;
+      case 'Event':
+        outputType = 'event';
+        break;
+      case 'ImageObject':
+        outputType = 'photo';
+        break;
+      case 'VideoObject':
+        outputType = 'video';
+        break;
+      case 'MusicRecording':
+        outputType = 'sound';
+        break;
+      case 'Product':
+        outputType = 'product';
+        break;
+      default:
+        outputType = 'other';
+        break;
       }
       return outputType;
     },
@@ -141,11 +141,11 @@ function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInP
       document.title = this.title;
 
       // Open external link in another window
-      $('body').on('click','a', function() {
+      $('body').on('click', 'a', function () {
         if ($(this).is('.img, .image')) return true;
-        url = $(this).attr("href");
+        var url = $(this).attr('href');
         if (url && url.indexOf('http://') > -1) {
-          window.open(url, "_system");
+          window.open(url, '_system');
           return false;
         }
       });
@@ -169,7 +169,6 @@ function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInP
           //
           // (The way the list of datasources is retrieved actually depends
           // on whether the code is used in Sleek or in Spot)
-          
           var datasources = self.getDatasources();
           var sections = new Array(datasources.length);
           var loaded = 0;
@@ -179,14 +178,13 @@ function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInP
             var name = this.tabs[index] || datasource.name || '';
             var icon = this.tabicons[index];
             var slug = index + '--' + this.slugify(name.toLowerCase());
-            
             var collection = this.createCollection(datasource);
 
             // Main section type depends on the type of content returned by the
             // datasource. Datasources that return mixed content typically fall
             // in the "other" category.
             var outputType = datasource.getOutputType();
-            
+
             sections[index] = {
               name: name,
               slug: slug,
@@ -233,9 +231,9 @@ function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInP
 
     createCollection: function(datasource) {
       return new Collection([], {
-                dataSource: datasource,
-                dataSourceQuery: {}
-              });
+        dataSource: datasource,
+        dataSourceQuery: {}
+      });
     },
 
     setupFastNavigate:function() {
@@ -243,9 +241,9 @@ function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInP
       var self = this;
 
       var fastNavigate = function(evt) {
-        var href = $(evt.currentTarget).attr("href");
+        var href = $(evt.currentTarget).attr('href');
 
-        if (href.substring(0,1)=="#") {
+        if (href.substring(0,1) === '#') {
           self.router.navigate(href.substring(1),true);
           evt.preventDefault();
           evt.stopPropagation();
@@ -254,7 +252,7 @@ function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInP
         }
       };
 
-      $(this.fastNavigateSelector).live("touchstart mousedown",fastNavigate);
+      $(this.fastNavigateSelector).live('touchstart mousedown', fastNavigate);
     },
 
     /**
@@ -321,13 +319,13 @@ function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInP
     getClassName: function (itemType, context) {
       if (context === 'list') {
         switch (itemType) {
-          case 'status':
-          case 'event':
-            return 'content hashed-list';
-          case 'photo':
-            return 'content mosaic-list';
-          default:
-            return 'content simple-list';
+        case 'status':
+        case 'event':
+          return 'content hashed-list';
+        case 'photo':
+          return 'content mosaic-list';
+        default:
+          return 'content simple-list';
         }
       }
       else if(context === 'single') {
@@ -459,8 +457,7 @@ function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInP
       });
 
       section.view = view;
-
-      section.collection.once("reset",view.render,view);
+      section.collection.once('reset', view.render, view);
 
       return view;
     },
@@ -683,87 +680,89 @@ function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInP
       var self = this;
 
       switch (itemType) {
-        case 'video':
-          return new FactoryMedia({
-            templateEl: '#template-' + itemType,
-            scroller: true,
-            scrollerSelector: '.wrapper',
-            width: self.getContentWidth(),
-            height: self.getContentHeight(),
-            mediaOptions: {
-              strategy: 'html5',
-              width: '100%',
-              height: '80%',
-              adjustSize: true
-            }
-          });
-        case 'sound':
-          return new FactoryMedia({
-            templateEl: '#template-' + itemType,
-            mediaOptions: {
-              strategy: 'html5'
-            }
-          });
-        case 'status':
-          return new ImagesLoader({
-            templateEl: '#template-' + itemType,
-            scroller: true,
-            imageSchema: self.getAuthorImageSchema(options.model.toJSON())
-          });
-        case 'photo':
-        case 'product':
-        case 'other':
-          return new ImagesLoader({
-            templateEl: '#template-' + itemType,
-            scroller: true,
-            imageSchema: options.model.toJSON()
-          });
+      case 'video':
+        return new FactoryMedia({
+          templateEl: '#template-' + itemType,
+          scroller: true,
+          scrollerSelector: '.wrapper',
+          width: self.getContentWidth(),
+          height: self.getContentHeight(),
+          mediaOptions: {
+            strategy: 'html5',
+            width: '100%',
+            height: '80%',
+            adjustSize: true
+          }
+        });
+      case 'sound':
+        return new FactoryMedia({
+          templateEl: '#template-' + itemType,
+          mediaOptions: {
+            strategy: 'html5'
+          }
+        });
+      case 'status':
+        return new ImagesLoader({
+          templateEl: '#template-' + itemType,
+          scroller: true,
+          imageSchema: self.getAuthorImageSchema(options.model.toJSON())
+        });
+      case 'photo':
+      case 'product':
+      case 'other':
+        return new ImagesLoader({
+          templateEl: '#template-' + itemType,
+          scroller: true,
+          imageSchema: options.model.toJSON()
+        });
 
-        case 'news':
-          var body = options.model.get('articleBody').replace(/\n|\r\n/g,'<br>');
-          options.model.set('articleBody',body,{silent: true});
-          return new ImagesLoader({
-            templateEl: '#template-' + itemType,
-            scroller: true,
-            imageClass: 'fadein',
-            imageSchema: options.model.toJSON()
-          });
-        default:
-          return new ImagesLoader({
-            templateEl: '#template-' + itemType,
-            scroller: true,
-            imageClass: 'fadein',
-            imageSchema: options.model.toJSON(),
-            processImageEl: function (el) {
-              // Prepare image container and spinner
-              var loader = document.createElement('div');
-              loader.setAttribute('class', 'loader inv');
-              var container = document.createElement('div');
-              container.setAttribute('class', 'figure');
-              container.appendChild(loader);
+      case 'news':
+        var body = options.model.get('articleBody').replace(/\n|\r\n/g,'<br>');
+        options.model.set('articleBody',body,{silent: true});
+        return new ImagesLoader({
+          templateEl: '#template-' + itemType,
+          scroller: true,
+          imageClass: 'fadein',
+          imageSchema: options.model.toJSON()
+        });
+      default:
+        return new ImagesLoader({
+          templateEl: '#template-' + itemType,
+          scroller: true,
+          imageClass: 'fadein',
+          imageSchema: options.model.toJSON(),
+          processImageEl: function (el) {
+            // Prepare image container and spinner
+            var loader = document.createElement('div');
+            loader.setAttribute('class', 'loader inv');
+            var container = document.createElement('div');
+            container.setAttribute('class', 'figure');
+            container.appendChild(loader);
 
-              // Constrain container width to the width of the image if known
-              // so that the loader appears correctly centered on screen.
-              // (it would always appear at the center of the screen otherwise)
-              if (el.getAttribute('width')) {
-                container.setAttribute('style',
-                  'width:' + el.getAttribute('width') + 'px;max-width:100%');
-              }
-              else {
-                container.setAttribute('style',
-                  'width:' + el.getAttribute('width') + 'px;max-width:100%');
-              }
-
-              // Wrap the image in its container and return the container
-              el.parentNode.replaceChild(container, el);
-              container.appendChild(el);
-              return container;
+            // Constrain container width to the width of the image if known
+            // so that the loader appears correctly centered on screen.
+            // (it would always appear at the center of the screen otherwise)
+            if (el.getAttribute('width')) {
+              container.setAttribute('style',
+                'width:' + el.getAttribute('width') + 'px;max-width:100%');
             }
-          });
+            else {
+              container.setAttribute('style',
+                'width:' + el.getAttribute('width') + 'px;max-width:100%');
+            }
+
+            // Wrap the image in its container and return the container
+            el.parentNode.replaceChild(container, el);
+            container.appendChild(el);
+            return container;
+          }
+        });
       }
     },
 
     listItemFactory: function(section) {
+      var self = this;
+
       return function(model, offset) {
         var item = model.toJSON(),
           type = section.outputType || self.convertItemType(item['@type']),
@@ -797,21 +796,21 @@ function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInP
         };
 
         switch(type) {
-          case 'photo':
-          case 'video':
-          case 'product':
-          case 'news':
-            options.imageSchema = options.model.toJSON();
-            options.imageContainer = '.figure';
-            return new ImagesLoader(options);
+        case 'photo':
+        case 'video':
+        case 'product':
+        case 'news':
+          options.imageSchema = options.model.toJSON();
+          options.imageContainer = '.figure';
+          return new ImagesLoader(options);
 
-          case 'status':
-            options.imageSchema = self.getAuthorImageSchema(item);
-            options.imageContainer = '.figure';
-            return new ImagesLoader(options);
+        case 'status':
+          options.imageSchema = self.getAuthorImageSchema(item);
+          options.imageContainer = '.figure';
+          return new ImagesLoader(options);
 
-          default:
-            return new Item(options);
+        default:
+          return new Item(options);
         }
       };
     },
@@ -900,9 +899,11 @@ function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInP
     setMomentLanguage: function() {
       // en is the default lang here, move along
       if(this.localizer.getLocale() === 'en') return;
-      window.Sid.js('lang/moment/'+this.localizer.getLocale()+'.js', _.bind(function() {
-        moment.lang(this.localizer.getLocale());
-      }, this));
+      window.Sid.js('lang/moment/' + this.localizer.getLocale() + '.js',
+        _.bind(function() {
+          moment.lang(this.localizer.getLocale());
+        }, this)
+      );
     },
 
 
@@ -922,9 +923,9 @@ function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInP
 
     slugify: function(text) {
       text = text.replace(/[^\-a-zA-Z0-9,&\s]+/ig, '');
-      text = text.replace(/-/gi, "_");
-      text = text.replace(/\s/gi, "-");
-      text = text.replace(/&/gi, "-");
+      text = text.replace(/-/gi, '_');
+      text = text.replace(/\s/gi, '-');
+      text = text.replace(/&/gi, '-');
       return text;
     }
   });

@@ -68,6 +68,7 @@
  * images somehow, e.g. to reproduce the image loader markup mentioned above.
  * The function must return the resulting DOM element.
  */
+/*global Joshfire*/
 
 define([
   'joshlib!ui/item',
@@ -104,17 +105,23 @@ define([
           if (self.imageClass) e.addClass(self.imageClass);
 
           // If autothumb flag is true, detect width and ask for the right thumbnail size
-          if (self.imageSchema && e.data("joshfire-autothumb") && (parseInt(e.width, 10) || parseInt(e.height(),10)) ) {
-            url = Joshfire.factory.utils.getThumbnail(self.imageSchema, parseInt(e.width(), 10), parseInt(e.height(), 10));
+          if (self.imageSchema &&
+              e.data('joshfire-autothumb') &&
+              (parseInt(e.width, 10) || parseInt(e.height(), 10))) {
+            url = Joshfire.schemaio.utils.getThumbnailUrl(
+              self.imageSchema,
+              parseInt(e.width(), 10),
+              parseInt(e.height(), 10));
           } else if (!e.attr('src')) {
-            url = self.imageSchema.contentURL || (self.imageSchema.image && self.imageSchema.image.contentURL);
+            url = self.imageSchema.contentURL ||
+              (self.imageSchema.image && self.imageSchema.image.contentURL);
           }
 
           if (url) {
-            if (el.tagName === "IMG") {
+            if (el.tagName === 'IMG') {
               e.attr('src', url);
             } else {
-              e.css('backgroundImage', 'url('+ url +')');
+              e.css('backgroundImage', 'url(' + url + ')');
             }
           }
 
@@ -149,9 +156,9 @@ define([
         model: this.model,
         obj: this.model,
         item: this.model ? this.model.toJSON() : {},
-        imageUrl: Joshfire.factory.utils.getThumbnail(self.imageSchema, 100, 100),
+        imageUrl: Joshfire.schemaio.utils.getThumbnailUrl(self.imageSchema, 100, 100),
         thumbnail: function(w, h) {
-          return Joshfire.factory.utils.getThumbnail(self.imageSchema,w||100,h||100);
+          return Joshfire.schemaio.utils.getThumbnailUrl(self.imageSchema,w||100,h||100);
         }
       };
 

@@ -13,11 +13,11 @@ define([
   'joshlib!ui/factorymedia',
   'ui/imagesloader',
   'joshlib!vendor/underscore',
-  'joshlib!utils/dollar'],
-function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImagesLoader, _, $) {
+  'joshlib!utils/dollar'
+], function (Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImagesLoader, _, $) {
 
   return Sleek.extend({
-    initialize: function (cb) {
+    initialize: function () {
       var self = this;
       var $win = $(window);
 
@@ -168,7 +168,7 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
             }
           }
 
-          if (newOffset != this.offset) {
+          if (newOffset !== this.offset) {
             window.location = '#' +  self.activeSection.slug + '/' + newOffset;
           }
         },
@@ -190,7 +190,7 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
             }
           }
 
-          if (newOffset != this.offset) {
+          if (newOffset !== this.offset) {
             window.location = '#' +  self.activeSection.slug + '/' + newOffset;
           }
         }
@@ -246,32 +246,32 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
     createListElement: function(section, isSingle) {
       var tplSel;
       switch (section.outputType) {
-        case 'video':
-          tplSel = isSingle ? '#template-mosaic-single-video' : '#template-mosaic';
-        case 'photo':
-          if(!tplSel)
-            tplSel = isSingle ? '#template-mosaic-single-photo' : '#template-mosaic';
+      case 'video':
+        tplSel = isSingle ? '#template-mosaic-single-video' : '#template-mosaic';
+      case 'photo':
+        if(!tplSel)
+          tplSel = isSingle ? '#template-mosaic-single-photo' : '#template-mosaic';
 
-          return new Grid({
-            templateEl: tplSel,
-            itemFactory: this.itemFactory(section),
-            listItemFactory: this.listItemFactory(section),
-            collection: section.collection,
-            className: section.outputType + ' ' + this.getClassName(section.outputType, 'list'),
-            autoLoadMore: true
-          });
+        return new Grid({
+          templateEl: tplSel,
+          itemFactory: this.itemFactory(section),
+          listItemFactory: this.listItemFactory(section),
+          collection: section.collection,
+          className: section.outputType + ' ' + this.getClassName(section.outputType, 'list'),
+          autoLoadMore: true
+        });
 
-        default:
-          return new VerticalList({
-            templateEl: '#template-list-view',
-            offsetTop: 40,
-            offsetBottom: 40,
-            itemFactory: this.itemFactory(section),
-            listItemFactory: this.listItemFactory(section),
-            collection: section.collection,
-            className: section.outputType + ' ' + this.getClassName(section.outputType, 'list'),
-            autoLoadMore: true
-          });
+      default:
+        return new VerticalList({
+          templateEl: '#template-list-view',
+          offsetTop: 40,
+          offsetBottom: 40,
+          itemFactory: this.itemFactory(section),
+          listItemFactory: this.listItemFactory(section),
+          collection: section.collection,
+          className: section.outputType + ' ' + this.getClassName(section.outputType, 'list'),
+          autoLoadMore: true
+        });
       }
     },
 
@@ -303,7 +303,7 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
             view;
 
         if(collection.length === 1) {
-            console.log(section);
+          console.log(section);
           if(section.outputType !== 'photo' && section.outputType !== 'video') {
             return this.createDetailContainer(section, true);
           }
@@ -344,22 +344,22 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
       if(section.collection.length > offset) {
 
         switch(section.outputType) {
-          case 'photo':
+        case 'photo':
           detail = this.photoDetail;
           detail.offset = offset;
           detail.data = {
-              getImageUrl: function() {
-                return this.model.get('contentURL');
-              }
+            getImageUrl: function() {
+              return this.model.get('contentURL');
+            }
           };
           detail.show();
           break;
-          case 'video':
+        case 'video':
           detail = this.videoDetail;
           detail.offset = offset;
           detail.show();
           break;
-          default:
+        default:
           if(container.view.children && container.view.children.detail) {
             detail = container.view.children.detail;
             detail.setModel(section.collection.at(offset));
@@ -371,7 +371,7 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
 
         if(detail) {
           detail.setModel(section.collection.at(offset));
-          
+
           if(section.outputType === 'photo' || section.outputType === 'video') {
             detail.render();
           }
@@ -396,7 +396,6 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
       }
 
       var itemType = this.convertItemType(params.model.get('@type'));
-      var self = this;
       var options = {
         templateEl: '#template-' + itemType,
         scroller: true,
@@ -413,19 +412,19 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
         }, this)
       };
       switch (itemType) {
-        case 'video':
-        case 'photo':
-          return null;
-        case 'sound':
-          options.mediaOptions = {
-            strategy: 'html5',
-            autoPlay: true
-          };
-          return new FactoryMedia(options);
-        case 'status':
-          return new Item(options);
-        default:
-          return new Item(options);
+      case 'video':
+      case 'photo':
+        return null;
+      case 'sound':
+        options.mediaOptions = {
+          strategy: 'html5',
+          autoPlay: true
+        };
+        return new FactoryMedia(options);
+      case 'status':
+        return new Item(options);
+      default:
+        return new Item(options);
       }
     },
 
@@ -437,7 +436,7 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
       var self = this;
       var toolbar = this.toolbarView;
 
-      _.forEach(sections, function(section, position) {
+      _.forEach(sections, function (section) {
         controllers.routes[section.slug] = section.slug;
 
         // List route
@@ -456,7 +455,7 @@ function(Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList,
           }
 
           toolbar.activate(self.activeSection.index);
-          
+
           if(toolbar.active === -1 || !self.activeSection.collection.length) {
             toolbar.navFocus();
             self.focused = 'toolbar';

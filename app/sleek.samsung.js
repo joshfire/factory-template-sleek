@@ -1,4 +1,4 @@
-/*global define, Joshfire, document, window, Backbone*/
+/*global define, Joshfire, document, window, Backbone, sf, onYouTubePlayerReady:true*/
 
 define([
   'sleek.custom',
@@ -16,11 +16,11 @@ define([
   'joshlib!inputs/remote',
   'joshlib!vendor/underscore',
   'joshlib!utils/dollar',
-  'collections/samsungImageObjects'],
-function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImageLoader, Remote, _, $, ImageObjectCollection) {
+  'collections/samsungImageObjects'
+], function (Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImageLoader, Remote, _, $, ImageObjectCollection) {
 
   return Sleek.extend({
-    initialize: function (cb) {
+    initialize: function () {
 
       Sleek.prototype.initialize.call(this);
       // Adds a class on the body if we're on 2011 SDK
@@ -36,7 +36,7 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
     // (which have a tendency to brutally murder the TV firmware.)
     createCollection: function(datasource) {
 
-      if(datasource.config.outputType === "ImageObject") {
+      if(datasource.config.outputType === 'ImageObject') {
         return new ImageObjectCollection([], {
           dataSource: datasource,
           dataSourceQuery: {}
@@ -243,7 +243,7 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
           // condition. Infinite-like effect.
           while (newOffset !== this.offset) {
             var newtype = self.activeSection.collection.at(newOffset).get('@type');
-            
+
             if(newtype === 'ImageObject') break;
             newOffset = newOffset - 1;
             if(newOffset < 0) {
@@ -251,7 +251,7 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
             }
           }
 
-          if (newOffset != this.offset) {
+          if (newOffset !== this.offset) {
             window.location = '#' +  self.activeSection.slug + '/' + newOffset;
           }
         },
@@ -273,7 +273,7 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
             }
           }
 
-          if (newOffset != this.offset) {
+          if (newOffset !== this.offset) {
             window.location = '#' +  self.activeSection.slug + '/' + newOffset;
           }
         }
@@ -286,7 +286,7 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
           if(this.model.get('contentURL'))
             return this.model.get('contentURL');
           else
-            return self.getThumbnail(this.model.toJSON());
+            return self.getThumbnailUrl(this.model.toJSON());
         }
       });
 
@@ -356,13 +356,10 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
         },
         render: function() {
           var vId = this.model.get('url').split('v=').pop();
-          
+
           if(this.playerReady && this.player && this.player.loadVideoById) {
             this.player.loadVideoById(vId);
             this.player.playVideo();
-          }
-          else {
-            
           }
 
           onYouTubePlayerReady = _.bind(function() {
@@ -373,9 +370,9 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
         },
         show: function() {
           UIElement.prototype.show.call(this);
-          
+
           self.bind('back', _.bind(this.exit, this));
-          
+
           $(this.el).css({
             display: 'block',
             visibility: 'visible',
@@ -419,7 +416,7 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
       this.virtualView = new UIElement({
         navRight: _.bind(function() {
           switch(this.focused) {
-            case 'toolbar':
+          case 'toolbar':
             if(this.activeSection && !this.activeSection.loading) {
               var container = this.activeSection.view;
 
@@ -440,11 +437,11 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
         }, this),
         navLeft: _.bind(function() {
           switch(this.focused) {
-            case 'list':
+          case 'list':
             this.toolbarView.navFocus(this.virtualView);
             this.focused = 'toolbar';
             break;
-            case 'detail':
+          case 'detail':
             window.location = '#' + this.activeSection.slug;
             break;
           }
@@ -474,7 +471,7 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
         ])
       });
       this.navHelper.render();
-      
+
       Sleek.prototype.createAdditionalViews.call(this, views);
     },
 
@@ -492,29 +489,30 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
     createListElement: function(section, isSingle) {
       var tplSel;
       switch (section.outputType) {
-        case 'video':
-          tplSel = isSingle ? '#template-mosaic-single-video' : '#template-mosaic';
-        case 'photo':
-          if(!tplSel)
-            tplSel = isSingle ? '#template-mosaic-single-photo' : '#template-mosaic';
+      case 'video':
+        tplSel = isSingle ? '#template-mosaic-single-video' : '#template-mosaic';
+      case 'photo':
+        if (!tplSel) {
+          tplSel = isSingle ? '#template-mosaic-single-photo' : '#template-mosaic';
+        }
 
-          return new Grid({
-            templateEl: tplSel,
-            itemFactory: this.itemFactory(section),
-            collection: section.collection,
-            className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
-          });
+        return new Grid({
+          templateEl: tplSel,
+          itemFactory: this.itemFactory(section),
+          collection: section.collection,
+          className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
+        });
 
-        default:
-          return new VerticalList({
-            templateEl: '#template-list-view',
-            offsetTop: 40,
-            offsetBottom: 40,
-            itemFactory: this.itemFactory(section),
-            collection: section.collection,
-            translate3d: false,
-            className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
-          });
+      default:
+        return new VerticalList({
+          templateEl: '#template-list-view',
+          offsetTop: 40,
+          offsetBottom: 40,
+          itemFactory: this.itemFactory(section),
+          collection: section.collection,
+          translate3d: false,
+          className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
+        });
       }
     },
 
@@ -546,18 +544,17 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
      * @parma {Backbone.View} the section container
      */
     showDetail: function(section, container, offset) {
-      var model = section.collection.at(offset);
       var detail = null;
       var self = this;
 
       if(section.collection.length > offset) {
         switch(section.outputType) {
-          case 'photo':
+        case 'photo':
           detail = this.photoDetail;
           detail.offset = offset;
           detail.show();
           break;
-          case 'video':
+        case 'video':
           var m = section.collection.at(offset);
           var url = m.get('url');
           if(m.get('contentURL') && m.get('contentURL')) {
@@ -573,7 +570,7 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
           detail.offset = offset;
           detail.show();
           break;
-          default:
+        default:
           if(container.view.children && container.view.children.detail) {
             detail = container.view.children.detail;
             self.bind('back', function() {
@@ -625,25 +622,25 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
         }, this)
       };
       switch (itemType) {
-        case 'video':
-        case 'photo':
-          return null;
-        case 'sound':
-          options.mediaOptions = {
-            strategy: 'html5',
-            autoPlay: true
-          };
-          return new FactoryMedia(options);
-        case 'status':
-          options.getImageUrl = function () {
-            return self.getAuthorThumbnail(params.model.toJSON());
-          };
-          return new ImageLoader(options);
-        default:
-          options.getImageUrl = function () {
-            return self.getThumbnail(params.model.toJSON());
-          };
-          return new ImageLoader(options);
+      case 'video':
+      case 'photo':
+        return null;
+      case 'sound':
+        options.mediaOptions = {
+          strategy: 'html5',
+          autoPlay: true
+        };
+        return new FactoryMedia(options);
+      case 'status':
+        options.getImageUrl = function () {
+          return self.getAuthorThumbnail(params.model.toJSON());
+        };
+        return new ImageLoader(options);
+      default:
+        options.getImageUrl = function () {
+          return self.getThumbnailUrl(params.model.toJSON());
+        };
+        return new ImageLoader(options);
       }
     },
 
@@ -655,7 +652,7 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
       var self = this;
       var toolbar = this.toolbarView;
 
-      _.forEach(sections, function(section, position) {
+      _.forEach(sections, function (section) {
         controllers.routes[section.slug] = section.slug;
 
         // List route
@@ -725,9 +722,9 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
      * @param {object} item VideoObject to parse
      * @return {string} Thumbnail URL that best match the viewport size
      */
-    getThumbnail: function(item, offset) {
+    getThumbnailUrl: function(item, offset) {
       // Arbitrary samsung width
-      return Joshfire.factory.utils.getThumbnail(item, 240);
+      return Joshfire.schemaio.utils.getThumbnailUrl(item, 240);
     },
 
     setFrameworkVersionTag: function() {
@@ -741,14 +738,14 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
         this.remote = new Remote();
         this.remote.unbind('press:back');
         this.remote.bind('press:back', _.bind(this.goBack, this));
-        
+
         this.samsungKeysBound = true;
 
-        this.remote.bind('press:up press:down press:left press:right', function(e) {
+        this.remote.bind('press:up press:down press:left press:right', function (e) {
           var el = document.getElementById('dummysamsungdiv');
-          if(window.widgetAPI && window.widgetAPI.putInnerHTML) {
+          if (window.widgetAPI && window.widgetAPI.putInnerHTML) {
             window.widgetAPI.putInnerHTML(el, 'samsungsucks');
-            console.log("Did put inner html");
+            console.log('Did put inner html');
           }
         });
       }
@@ -759,13 +756,12 @@ function(Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, Ver
 
       var h = document.location.hash;
       h = h.split('/');
-      
       if(h.length > 1) {
         this.trigger('back');
       } else {
         window.widgetAPI.sendReturnEvent();
       }
-      
+
       return false;
     },
 

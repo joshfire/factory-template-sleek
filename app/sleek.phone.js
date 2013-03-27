@@ -1,4 +1,4 @@
-/*global define, Joshfire, document, Backbone*/
+/*global define, document*/
 
 define([
   'sleek.custom',
@@ -6,8 +6,7 @@ define([
   'joshlib!ui/slidepanel',
   'joshlib!utils/dollar',
   'joshlib!vendor/underscore'
-  ],
-function(Sleek, Toolbar, SlidePanel, $, _) {
+], function (Sleek, Toolbar, SlidePanel, $, _) {
 
   return Sleek.extend({
     /**
@@ -15,7 +14,7 @@ function(Sleek, Toolbar, SlidePanel, $, _) {
      */
     deviceFamily: 'phone',
 
-    fastNavigateSelector:"#container header a, #container #toolbar a",
+    fastNavigateSelector: '#container header a, #container #toolbar a',
 
     /**
      * Creates the toolbar UI element.

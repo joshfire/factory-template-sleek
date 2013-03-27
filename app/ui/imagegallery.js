@@ -1,8 +1,9 @@
+/*global Code*/
 define([
-  "joshlib!ui/list",
-  "vendor/klass",
-  "vendor/photoswipe",
-  "joshlib!vendor/underscore"
+  'joshlib!ui/list',
+  'vendor/klass',
+  'vendor/photoswipe',
+  'joshlib!vendor/underscore'
 ], function (UIList, Klass, Photoswipe, _) {
 
   var UIImageGallery = UIList.extend({

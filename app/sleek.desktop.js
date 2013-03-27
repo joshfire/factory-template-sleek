@@ -1,12 +1,11 @@
-/*global define, Joshfire, document, Backbone*/
+/*global define, document*/
 
 define([
   'sleek.custom',
   'joshlib!ui/layout',
   'joshlib!utils/dollar',
   'joshlib!vendor/underscore'
-  ],
-function(Sleek, Layout, $, _) {
+], function (Sleek, Layout, $, _) {
 
   return Sleek.extend({
     /**
@@ -27,13 +26,13 @@ function(Sleek, Layout, $, _) {
     getClassName: function (itemType, context) {
       if (context === 'list') {
         switch (itemType) {
-          case 'status':
-          case 'event':
-            return 'left-panel hashed-list';
-          case 'photo':
-            return 'section mosaic-list';
-          default:
-            return 'left-panel simple-list';
+        case 'status':
+        case 'event':
+          return 'left-panel hashed-list';
+        case 'photo':
+          return 'section mosaic-list';
+        default:
+          return 'left-panel simple-list';
         }
       }
       else if (context === 'single') {
