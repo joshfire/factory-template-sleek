@@ -180,6 +180,9 @@ define([
           if (section.collection.length) {
             self.moveToList(container);
             views.showChild(section.slug);
+            if (section.outputType === 'video') {
+              self.showList(section, container);
+            }
           } else {
             views.showChild(section.slug);
             self.updateList(section, container);
