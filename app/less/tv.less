@@ -802,3 +802,16 @@ h1, h2, h3, h4, h5, h6 {
   margin-left: 0;
   background: @light-background-color;
 }
+
+.no-toolbar {
+  #cards,
+  #top-gradient-overlay,
+  #bottom-gradient-overlay {
+    left:0;
+  }
+  #toolbar {
+    display: none;
+  }
+}
+
+@import 'overwrite';

@@ -1,7 +1,19 @@
 li.loading-more {
-  height: 50px;
-  background: url('../images/spinner.gif') no-repeat center center;
-  clear: both;
+	clear: both;
+	position: relative;
+	height: 6em;
+
+	& > div {
+		position: absolute;
+		background: rgba(0, 0, 0, 0.9) url(../images/spinner.gif) no-repeat center center;
+		.border-radius(.5em);
+		width: 5em;
+		height: 5em;
+		left: 50%;
+		top: 50%;
+		margin-top: -2.5em;
+		margin-left: -2.5em;
+	}
 }
 
 .mosaic-list li.loading-more {

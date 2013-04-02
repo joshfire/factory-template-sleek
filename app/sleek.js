@@ -434,7 +434,16 @@ define([
      * @return {UIElement} The toolbar UI element to use
      */
     createToolbarElement: function() {
-      return new List({
+      var Toolbar = List.extend({
+        generate: function(cb) {
+          console.log(this.items);
+          if (this.items.length < 2) {
+            $('body').addClass('no-toolbar');
+          }
+          List.prototype.generate.call(this,cb);
+        }
+      });
+      return new Toolbar({
         el: '#toolbar',
         templateEl: '#template-toolbar',
         itemTemplateEl: '#toolbar-item'

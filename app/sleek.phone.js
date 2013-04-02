@@ -37,7 +37,8 @@ define([
           bounce: false,
           disabled: true
         },
-        useWindowWidth: true
+        useWindowWidth: true,
+        minLengthToShow: 2
       });
     },
 
