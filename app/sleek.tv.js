@@ -72,7 +72,8 @@ define([
       var toolbar = new Toolbar({
         el: '#toolbar',
         templateEl: '#template-toolbar',
-        itemTemplateEl: '#toolbar-item'
+        itemTemplateEl: '#toolbar-item',
+        minLengthToShow: 2
       });
 
       toolbar.navFocus = function(origin, event) {
@@ -81,6 +82,7 @@ define([
         if(!event && this.active === -1 && this.collection.length) {
           this.activate(0);
         }
+
         self.focused = 'toolbar';
       },
 
@@ -331,6 +333,22 @@ define([
       }, this);
     },
 
+    showList: function(section, container) {
+      Sleek.prototype.showList.call(this, section, container);
+
+      if (this.toolbarView.items.length < this.toolbarView.minLengthToShow) {
+        if(container.view) {
+          var view = container.view;
+          if(view.children && view.children.list) {
+            view.children.list.navFocus();
+          } else {
+            view.navFocus();
+          }
+          this.focused = 'list';
+        }
+      }
+    },
+
     /**
      * Displays a section item detail.
      *
@@ -457,12 +475,14 @@ define([
 
           toolbar.activate(self.activeSection.index);
 
+          var view;
+
           if(toolbar.active === -1 || !self.activeSection.collection.length) {
             toolbar.navFocus();
             self.focused = 'toolbar';
           } else if(self.focused !== 'toolbar') {
             if(container.view) {
-              var view = container.view;
+              view = container.view;
               if(view.children && view.children.list) {
                 view.children.list.navFocus(self.toolbarView);
               } else {

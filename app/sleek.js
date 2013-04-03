@@ -470,7 +470,16 @@ define([
      */
     createToolbarElement: function() {
       logger.log('create toolbar element');
-      return new List({
+      var Toolbar = List.extend({
+        generate: function (cb) {
+          if (this.items.length < 2) {
+            logger.info('no toolbar element needed');
+            $('body').addClass('no-toolbar');
+          }
+          List.prototype.generate.call(this, cb);
+        }
+      });
+      return new Toolbar({
         el: '#toolbar',
         templateEl: '#template-toolbar',
         itemTemplateEl: '#toolbar-item'
