@@ -258,7 +258,8 @@ define([
           listItemFactory: this.listItemFactory(section),
           collection: section.collection,
           className: section.outputType + ' ' + this.getClassName(section.outputType, 'list'),
-          autoLoadMore: true
+          autoLoadMore: true,
+          dataLoadingMoreClass: 'dataloadingmore'
         });
 
       default:
@@ -270,7 +271,8 @@ define([
           listItemFactory: this.listItemFactory(section),
           collection: section.collection,
           className: section.outputType + ' ' + this.getClassName(section.outputType, 'list'),
-          autoLoadMore: true
+          autoLoadMore: true,
+          dataLoadingMoreClass: 'dataloadingmore'
         });
       }
     },
@@ -303,7 +305,6 @@ define([
             view;
 
         if(collection.length === 1) {
-          console.log(section);
           if(section.outputType !== 'photo' && section.outputType !== 'video') {
             return this.createDetailContainer(section, true);
           }
