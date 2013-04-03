@@ -165,6 +165,9 @@
 	background-image: -moz-linear-gradient(right center, @startColor, @endColor);
 	background-image: -ms-linear-gradient(right center, @startColor, @endColor);
 	background-image: -o-linear-gradient(right center, @startColor, @endColor);
+	@startColorIe: argb(@startColor);
+	@endColorIe: argb(@endColor);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@{startColorIe}', endColorstr='@{endColorIe}',GradientType=1 ); // IE6-9 fallback
 }
 
 //
@@ -195,6 +198,9 @@
 		@startColor @firstStop*100%,
 		@midColor @midStop*100%,
 		@endColor @lastStop*100%);
+	@startColorIe: argb(@startColor);
+	@endColorIe: argb(@endColor);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@{startColorIe}', endColorstr='@{endColorIe}',GradientType=1 ); // IE6-9 fallback
 }
 
 //
@@ -230,6 +236,9 @@
 		@secondColor @secondStop*100%,
 		@midColor @midStop*100%,
 		@endColor @lastStop*100%);
+	@startColorIe: argb(@startColor);
+	@endColorIe: argb(@endColor);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@{startColorIe}', endColorstr='@{endColorIe}',GradientType=1 ); // IE6-9 fallback
 }
 
 //
@@ -241,6 +250,9 @@
 	background-image: -moz-linear-gradient(@startColor, @endColor);
 	background-image: -ms-linear-gradient(@startColor, @endColor);
 	background-image: -o-linear-gradient(@startColor, @endColor);
+	@startColorIe: argb(@startColor);
+	@endColorIe: argb(@endColor);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@{startColorIe}', endColorstr='@{endColorIe}',GradientType=0 ); // IE6-9 fallback
 }
 
 //
@@ -252,17 +264,23 @@
 	background-image: -moz-linear-gradient(@startColor, color-stop(@midColor, @colorStop), @endColor);
 	background-image: -ms-linear-gradient(@startColor, color-stop(@midColor, @colorStop), @endColor);
 	background-image: -o-linear-gradient(@startColor, color-stop(@midColor, @colorStop), @endColor);
+	@startColorIe: argb(@startColor);
+	@endColorIe: argb(@endColor);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@{startColorIe}', endColorstr='@{endColorIe}',GradientType=0 ); // IE6-9 fallback
 }
 
 //
 // Radial
 //
 .radial-gradient(@startColor: white, @endColor: black, @posX:center, @posY:center, @shape:circle, @size:farthest-corner){
-  background-image: -webkit-radial-gradient(@posX @posY, @shape @size, @startColor, @endColor);
-  background-image: -moz-radial-gradient(@posX @posY, @shape @size, @startColor, @endColor);
-  background-image: -ms-radial-gradient(@posX @posY, @shape @size, @startColor, @endColor);
-  background-image: -o-radial-gradient(@posX @posY, @shape @size, @startColor, @endColor);
-  background-image: radial-gradient(@posX @posY, @shape @size, @startColor, @endColor);
+	background-image: -webkit-radial-gradient(@posX @posY, @shape @size, @startColor, @endColor);
+	background-image: -moz-radial-gradient(@posX @posY, @shape @size, @startColor, @endColor);
+	background-image: -ms-radial-gradient(@posX @posY, @shape @size, @startColor, @endColor);
+	background-image: -o-radial-gradient(@posX @posY, @shape @size, @startColor, @endColor);
+	background-image: radial-gradient(@posX @posY, @shape @size, @startColor, @endColor);
+	@startColorIe: argb(@startColor);
+	@endColorIe: argb(@endColor);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@{startColorIe}', endColorstr='@{endColorIe}',GradientType=1 ); // IE6-9 fallback
 }
 
 //
