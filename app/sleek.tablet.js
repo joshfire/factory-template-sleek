@@ -15,6 +15,17 @@ define([
 
     fastNavigateSelector: '#container header a',
 
+    initialize: function() {
+      if (window.plugins && window.plugins.tapToScroll) {
+        window.plugins.tapToScroll.initListener();
+        window.addEventListener('statusTap', _.bind(function() {
+          if (this.activeSection && this.activeSection.view) {
+            this.activeSection.view.scrollTop();
+          }
+        }, this));
+      }
+      Sleek.prototype.initialize.call(this);
+    },
 
     /**
      * Retrieves the classname(s) to use to flag an item in a list
@@ -170,6 +181,7 @@ define([
 
         // List route
         controllers[section.slug] = function() {
+          self.activeSection = section;
           document.body.id = section.outputType;
           self.setTitle(section.name);
           $('iframe, audio, video, object, embed', '#container').remove();
@@ -194,6 +206,7 @@ define([
           controllers.routes[section.slug + '/:offset'] = section.slug + 'Detail';
 
           controllers[section.slug + 'Detail'] = function(offset) {
+            self.activeSection = section;
             offset = parseInt(offset, 10);
             $('iframe, audio, video, object', '#container').remove();
             document.body.id = section.outputType;

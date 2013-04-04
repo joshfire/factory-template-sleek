@@ -436,7 +436,6 @@ define([
     createToolbarElement: function() {
       var Toolbar = List.extend({
         generate: function(cb) {
-          console.log(this.items);
           if (this.items.length < 2) {
             $('body').addClass('no-toolbar');
           }
