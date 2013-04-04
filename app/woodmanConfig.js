@@ -5,7 +5,7 @@ var woodmanConfig = {
       name: 'console',
       layout: {
         type: 'pattern',
-        pattern: '%5.5p [%15.15c] %m%n'
+        pattern: '%7.7r %5.5p [%15.15c] %m%n'
       }
     }
   ],

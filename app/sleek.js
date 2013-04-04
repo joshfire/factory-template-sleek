@@ -48,7 +48,7 @@ define([
 
   var logger = woodman.getLogger('sleek');
 
-  var Sleek = function() {
+  var Sleek = function () {
     _.bindAll(this, 'initialize',  'setColor', 'slugify');
   };
 
@@ -493,18 +493,13 @@ define([
      */
     createSectionView: function (section) {
       logger.log('create section view', section.name);
-      var dc = DynamicContainer.extend({
-        setCollection: function() {}
-      });
-
-      var view = new dc({
+      var view = new DynamicContainer({
         name: section.slug + '-list',
         collection: section.collection,
         viewFactory: this.viewFactory(section)
       });
 
       section.view = view;
-      section.collection.once('reset', view.render, view);
 
       return view;
     },
@@ -525,10 +520,11 @@ define([
           return this.createDetailContainer(section, true);
         }
 
+        logger.log(section.slug, 'view factory',
+          'create container with list and detail views');
         var list = this.createListElement(section);
         var detail = this.createDetailContainer(section);
         var view = this.createListAndDetailView(list, detail);
-
         return view;
       }, this);
     },
