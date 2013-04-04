@@ -260,7 +260,8 @@ define([
           listItemFactory: this.listItemFactory(section),
           collection: section.collection,
           className: section.outputType + ' ' + this.getClassName(section.outputType, 'list'),
-          autoLoadMore: true
+          autoLoadMore: true,
+          dataLoadingMoreClass: 'dataloadingmore'
         });
 
       default:
@@ -272,7 +273,8 @@ define([
           listItemFactory: this.listItemFactory(section),
           collection: section.collection,
           className: section.outputType + ' ' + this.getClassName(section.outputType, 'list'),
-          autoLoadMore: true
+          autoLoadMore: true,
+          dataLoadingMoreClass: 'dataloadingmore'
         });
       }
     },

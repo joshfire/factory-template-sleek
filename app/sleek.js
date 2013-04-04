@@ -7,7 +7,7 @@
  * versions.
  */
 
-/*global define, Joshfire, document, moment*/
+/*global define, Joshfire, document, moment, console, woodmanConfig*/
 
 define([
   'joshlib!collection',
@@ -24,9 +24,29 @@ define([
   'joshlib!vendor/underscore',
   'joshlib!utils/dollar',
   'joshlib!utils/i18n',
+  'joshlib!utils/woodman',
   'lang/config',
   'ui/imagegallery'
-], function (Collection, DynamicContainer, Item, List, ListItem, CardPanel, FadeInPanel, FactoryMedia, ImagesLoader, Router, Backbone, _, $, Localizer, LocaleConfig, ImageGallery) {
+], function (
+  Collection,
+  DynamicContainer,
+  Item,
+  List,
+  ListItem,
+  CardPanel,
+  FadeInPanel,
+  FactoryMedia,
+  ImagesLoader,
+  Router,
+  Backbone,
+  _,
+  $,
+  Localizer,
+  woodman,
+  LocaleConfig,
+  ImageGallery) {
+
+  var logger = woodman.getLogger('sleek');
 
   var Sleek = function() {
     _.bindAll(this, 'initialize',  'setColor', 'slugify');
@@ -113,6 +133,7 @@ define([
         outputType = 'product';
         break;
       default:
+        logger.warn('convert item type', 'default case called', outputType);
         outputType = 'other';
         break;
       }
@@ -140,96 +161,108 @@ define([
       // Set the document's title to the application title
       document.title = this.title;
 
-      // Open external link in another window
-      $('body').on('click', 'a', function () {
-        if ($(this).is('.img, .image')) return true;
-        var url = $(this).attr('href');
-        if (url && url.indexOf('http://') > -1) {
-          window.open(url, '_system');
-          return false;
+      var config = {};
+      if (typeof woodmanConfig !== 'undefined') {
+        config = woodmanConfig;
+      }
+      woodman.load(config, _.bind(function (err) {
+        if (err) {
+          console.error(err);
         }
-      });
 
-      // Sets the locale and loads the corresponding dictionnary.
-      // It is then defined in the html templates's scope.
-      this.localizer.setLocale({
-        locale: Joshfire.factory.config.template.options.language || 'auto',
-        availableLocales: LocaleConfig.AVAILABLE,
-        defaultLocale: LocaleConfig.DEFAULT
-      }, function() {
-        // Includes the correct dictionnary which is required by
-        // moment.js's i18n native solution.
-        self.setMomentLanguage();
-
-        // Set the template color based on the option selected by the user
-        // (this loads the CSS)
-        self.setColor(Joshfire.factory.config.template.options.color || 'gray', function () {
-          //
-          // Sections: one section per datasource
-          //
-          // (The way the list of datasources is retrieved actually depends
-          // on whether the code is used in Sleek or in Spot)
-          var datasources = self.getDatasources();
-          var sections = new Array(datasources.length);
-          var loaded = 0;
-
-          // Prepare sections
-          _.forEach(datasources, _.bind(function(datasource, index) {
-            var name = this.tabs[index] || datasource.name || '';
-            var icon = this.tabicons[index];
-            var slug = index + '--' + this.slugify(name.toLowerCase());
-            var collection = this.createCollection(datasource);
-
-            // Main section type depends on the type of content returned by the
-            // datasource. Datasources that return mixed content typically fall
-            // in the "other" category.
-            var outputType = datasource.getOutputType();
-
-            sections[index] = {
-              name: name,
-              slug: slug,
-              icon: icon || self.convertItemType(outputType),
-              outputType: self.convertItemType(outputType),
-              collection: collection,
-              index: index
-            };
-          }, self));
-
-          // Create the views once all sections have been initialized
-          var views = self.createViews(sections);
-
-          // Initialize the router and start the application
-          var controllers = self.createRoutes(sections, views);
-          self.router = Router(controllers);
-
-          self.setupFastNavigate();
-          self.init();
-          self.initialized = true;
-          // The "loaded" hook is triggered once when the router handles
-          // the first route and when the view is rendered. The hook will
-          // typically hide a possibly installed splashscreen
-          loaded = function() {
-            if (!self.loadedHookTriggered && self.initialized) {
-              self.loadedHookTriggered = true;
-              Joshfire.factory.getAddOns('loaded').run();
-            }
-            if (navigator && navigator.splashscreen) {
-              setTimeout(navigator.splashscreen.hide, 500);
-            }
-          };
-
-          views.bind('load', loaded);
-
-          //failsafe if first tab fails to load for some reason
-          setTimeout(loaded, 20*1000);
-
-          views.render();
-          self.router.historyStart();
+        // Open external link in another window
+        $('body').on('click', 'a', function () {
+          if ($(this).is('.img, .image')) return true;
+          var url = $(this).attr('href');
+          if (url && url.indexOf('http://') > -1) {
+            window.open(url, '_system');
+            return false;
+          }
         });
-      });
+
+        // Sets the locale and loads the corresponding dictionnary.
+        // It is then defined in the html templates's scope.
+        this.localizer.setLocale({
+          locale: Joshfire.factory.config.template.options.language || 'auto',
+          availableLocales: LocaleConfig.AVAILABLE,
+          defaultLocale: LocaleConfig.DEFAULT
+        }, function() {
+          // Includes the correct dictionnary which is required by
+          // moment.js's i18n native solution.
+          self.setMomentLanguage();
+
+          // Set the template color based on the option selected by the user
+          // (this loads the CSS)
+          self.setColor(Joshfire.factory.config.template.options.color || 'gray', function () {
+            //
+            // Sections: one section per datasource
+            //
+            // (The way the list of datasources is retrieved actually depends
+            // on whether the code is used in Sleek or in Spot)
+            var datasources = self.getDatasources();
+            var sections = new Array(datasources.length);
+            var loaded = 0;
+
+            // Prepare sections
+            _.forEach(datasources, _.bind(function(datasource, index) {
+              var name = this.tabs[index] || datasource.name || '';
+              var icon = this.tabicons[index];
+              var slug = index + '--' + this.slugify(name.toLowerCase());
+              var collection = this.createCollection(datasource);
+
+              // Main section type depends on the type of content returned by the
+              // datasource. Datasources that return mixed content typically fall
+              // in the "other" category.
+              var outputType = datasource.getOutputType();
+
+              sections[index] = {
+                name: name,
+                slug: slug,
+                icon: icon || self.convertItemType(outputType),
+                outputType: self.convertItemType(outputType),
+                collection: collection,
+                index: index
+              };
+            }, self));
+
+            // Create the views once all sections have been initialized
+            var views = self.createViews(sections);
+
+            // Initialize the router and start the application
+            var controllers = self.createRoutes(sections, views);
+            self.router = Router(controllers);
+
+            self.setupFastNavigate();
+            self.init();
+            self.initialized = true;
+            // The "loaded" hook is triggered once when the router handles
+            // the first route and when the view is rendered. The hook will
+            // typically hide a possibly installed splashscreen
+            loaded = function() {
+              if (!self.loadedHookTriggered && self.initialized) {
+                logger.info('trigger loaded hook');
+                self.loadedHookTriggered = true;
+                Joshfire.factory.getAddOns('loaded').run();
+              }
+              if (navigator && navigator.splashscreen) {
+                setTimeout(navigator.splashscreen.hide, 500);
+              }
+            };
+
+            views.bind('load', loaded);
+
+            //failsafe if first tab fails to load for some reason
+            setTimeout(loaded, 20*1000);
+
+            views.render();
+            self.router.historyStart();
+          });
+        });
+      }, this));
     },
 
     createCollection: function(datasource) {
+      logger.log('create collection', datasource.name);
       return new Collection([], {
         dataSource: datasource,
         dataSourceQuery: {}
@@ -346,6 +379,7 @@ define([
      * @return {UIElement} The created toolbar element
      */
     createToolbar: function(sections) {
+      logger.log('create toolbar');
       var sectionCollection = new Backbone.Collection();
       var section = null;
 
@@ -376,6 +410,7 @@ define([
      * @return {Object} Views created identified by their ID
      */
     createViews: function(sections) {
+      logger.log('create views', 'sections=' + (sections ? sections.length : 0));
       var views = {};
       var sectionsView = null;
 
@@ -434,12 +469,14 @@ define([
      * @return {UIElement} The toolbar UI element to use
      */
     createToolbarElement: function() {
+      logger.log('create toolbar element');
       var Toolbar = List.extend({
-        generate: function(cb) {
+        generate: function (cb) {
           if (this.items.length < 2) {
+            logger.info('no toolbar element needed');
             $('body').addClass('no-toolbar');
           }
-          List.prototype.generate.call(this,cb);
+          List.prototype.generate.call(this, cb);
         }
       });
       return new Toolbar({
@@ -454,12 +491,14 @@ define([
      * switch to detail view when the collection contains only one
      * item
      */
-    createSectionView: function(section) {
+    createSectionView: function (section) {
+      logger.log('create section view', section.name);
       var dc = DynamicContainer.extend({
         setCollection: function() {}
       });
 
       var view = new dc({
+        name: section.slug + '-list',
         collection: section.collection,
         viewFactory: this.viewFactory(section)
       });
@@ -475,10 +514,14 @@ define([
         var collection = params.collection;
 
         if (section.outputType === 'photo') {
+          logger.log(section.slug, 'view factory',
+            'create list element');
           return this.createListElement(section);
         }
 
-        if(collection.length === 1) {
+        if (collection.length === 1) {
+          logger.log(section.slug, 'view factory',
+            'create detail container');
           return this.createDetailContainer(section, true);
         }
 
@@ -501,13 +544,18 @@ define([
      * @parma {Backbone.View} the section container
      */
     refreshList: function(section, container) {
+      logger.log(section.slug, 'refresh list');
       section.collection.fetch({
         dataSourceQuery: {
           nocache: true
         },
         success: _.bind(function() {
           this.showList(section, container);
-        }, this)
+        }, this),
+        error: function (err) {
+          logger.error(section.slug, 'refresh list',
+            'error', err);
+        }
       });
     },
 
@@ -519,10 +567,15 @@ define([
      * @parma {Backbone.View} the section container
      */
     updateList: function(section, container) {
+      logger.log(section.slug, 'update list');
       section.collection.fetch({
         success: _.bind(function() {
           this.showList(section, container);
-        }, this)
+        }, this),
+        error: function (err) {
+          logger.error(section.slug, 'update list',
+            'error', err);
+        }
       });
     },
 
@@ -535,9 +588,12 @@ define([
      * @parma {Backbone.View} the section container
      */
     showList: function(section, container) {
-      if(container.view.children && container.view.children.list) {
+      if (container.view.children && container.view.children.list) {
+        logger.log(section.slug, 'show list', 'display list');
         container.view.showChild('list', 'left');
-      } else if(section.collection.length) {
+      }
+      else if (section.collection.length) {
+        logger.log(section.slug, 'show list', 'render list');
         container.setModel(section.collection.at(0));
         container.render();
       }
@@ -552,6 +608,7 @@ define([
      */
     moveToList: function(container) {
       if (container.view.children && container.view.children.list) {
+        logger.log('move to list');
         container.view.showChild('list', 'left');
       }
     },
@@ -564,10 +621,17 @@ define([
      * @parma {Backbone.View} the section container
      */
     updateDetail: function(section, container, offset) {
+      logger.log(section.slug, 'update detail',
+        'offset=' + offset);
       section.collection.fetch({
         success: _.bind(function() {
           this.showDetail(section, container, offset);
-        }, this)
+        }, this),
+        error: function (err) {
+          logger.error(section.slug, 'update detail',
+            'offset=' + offset,
+            'error', err);
+        }
       });
     },
 
@@ -606,10 +670,14 @@ define([
      * @return {UIElement} The element to use. May include a detailed view.
      */
     createListElement: function(section) {
+      section = section || {};
       if (section.outputType === 'photo') {
+        logger.log(section.slug, 'create list element',
+          'image gallery');
         var isSingle = (section.collection.length > 1) ? '' : 'single';
         var tEl = isSingle ? '#template-single-photo' : '#template-list-view';
         return new ImageGallery({
+          name: section.slug + '-list',
           templateEl: tEl,
           scroller: true,
           itemFactory: this.itemFactory(section),
@@ -617,12 +685,16 @@ define([
           collection: section.collection,
           className: isSingle + ' ' + section.outputType + ' ' + this.getClassName(section.outputType, 'list'),
           dataLoadingClass: 'dataloading',
+          dataLoadingMoreClass: 'dataloadingmore',
           loadingClass: 'loading',
           autoLoadMore: true
         });
       }
       else {
+        logger.log(section.slug, 'create list element',
+          'regular list');
         return new List({
+          name: section.slug + '-list',
           templateEl: '#template-list-view',
           scroller: true,
           itemFactory: this.itemFactory(section),
@@ -630,7 +702,9 @@ define([
           collection: section.collection,
           className: section.outputType + ' ' +
             this.getClassName(section.outputType, 'list'),
-          autoLoadMore: true
+          autoLoadMore: true,
+          dataLoadingClass: 'dataloading',
+          dataLoadingMoreClass: 'dataloadingmore'
         });
       }
     },
@@ -654,8 +728,12 @@ define([
      */
     createDetailContainer: function(section, isSingle) {
       var self = this;
+      section = section || {};
 
+      logger.log(section.slug, 'create detail container',
+        'isSingle=' + !!isSingle);
       return new DynamicContainer({
+        name: section.slug + '-detail',
         viewFactory: function (options) {
           // Delegate the creation to createDetailElement
           _.extend(options, { slug: section.slug });
@@ -680,13 +758,16 @@ define([
      * @return {UIElement} The element to use.
      */
     createDetailElement: function(options) {
-      if(!options.model) {
+      options = options || {};
+      if (!options.model) {
+        logger.log('create detail element', 'no model');
         return new Item({});
       }
 
       var itemType = this.convertItemType(options.model.get('@type'));
       var self = this;
 
+      logger.log('create detail element', 'itemType=' + itemType);
       switch (itemType) {
       case 'video':
         return new FactoryMedia({
@@ -789,10 +870,13 @@ define([
     //
     // Creates a list item view based on the type of the item.
     //
-    itemFactory: function(section) {
+    itemFactory: function (section) {
+      section = section || {};
+      logger.log(section.slug, 'item factory');
+
       var self = this;
 
-      return function(model, offset) {
+      return function (model, offset) {
         var item = model.toJSON();
         var type = section.outputType || self.convertItemType(item['@type']);
         var templateEl = '#template-' + type + '-item';
@@ -802,6 +886,9 @@ define([
           offset: offset,
           templateEl: templateEl
         };
+
+        logger.log(section.slug, 'item factory',
+          'type=' + type);
 
         switch(type) {
         case 'photo':
@@ -836,6 +923,7 @@ define([
      * @return {Object} Route controllers
      */
     createRoutes: function(sections, views) {
+      logger.log('create routes');
       return {
         routes: {
           '': 'home'
