@@ -19,6 +19,18 @@ define([
 
     fastNavigateSelector: '#container header a, #container #toolbar a',
 
+    initialize: function() {
+      if (window.plugins && window.plugins.tapToScroll) {
+        window.plugins.tapToScroll.initListener();
+        window.addEventListener('statusTap', _.bind(function() {
+          if (this.activeSection && this.activeSection.view) {
+            this.activeSection.view.scrollTop();
+          }
+        }, this));
+      }
+      Sleek.prototype.initialize.call(this);
+    },
+
     /**
      * Creates the toolbar UI element.
      * Overrides base function to return a Toolbar element with appropriate
@@ -91,6 +103,7 @@ define([
         logger.log(section.slug, 'create routes', 'list');
         controllers[section.slug] = function () {
           logger.log(section.slug, 'list route');
+          self.activeSection = section;
           $title.html(section.name);
           document.body.id = section.outputType;
           $('iframe, audio, video, object, embed', '#container').remove();
