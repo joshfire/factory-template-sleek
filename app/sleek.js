@@ -845,10 +845,13 @@ define([
       }
     },
 
-    listItemFactory: function(section) {
+    listItemFactory: function (section) {
       var self = this;
 
-      return function(model, offset) {
+      return function (model, offset) {
+        logger.log(this.logid, 'list item factory',
+          'offset=' + offset,
+          'section=' + section.slug);
         var item = model.toJSON(),
           type = section.outputType || self.convertItemType(item['@type']),
           className = type + '-item';
@@ -883,7 +886,9 @@ define([
           templateEl: templateEl
         };
 
-        logger.log(section.slug, 'item factory',
+        logger.log(this.logid, 'item factory',
+          'offset=' + offset,
+          'section=' + section.slug,
           'type=' + type);
 
         switch(type) {
