@@ -278,8 +278,9 @@ define([
       case 'video':
         tplSel = isSingle ? '#template-mosaic-single-video' : '#template-mosaic';
       case 'photo':
-        if(!tplSel)
+        if (!tplSel) {
           tplSel = isSingle ? '#template-mosaic-single-photo' : '#template-mosaic';
+        }
 
         return new Grid({
           templateEl: tplSel,
@@ -327,6 +328,14 @@ define([
       return view;
     },
 
+
+    /**
+     * Returns a factory method used to create the right view for a list.
+     *
+     * Depending on the number of collections, the factory method either
+     * returns an empty view, a detailed view, or a container that includes
+     * a listing view and a detailed view.
+     */
     viewFactory: function(section) {
       return _.bind(function(params) {
         var collection = params.collection;

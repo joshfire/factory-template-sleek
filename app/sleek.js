@@ -54,7 +54,7 @@ define([
   // TODO: when refactoring templates using "text!" or "tpl!" require.js
   // plugins, move the template to a separate file along with the other
   // templates.
-  var templateEmpty = '<div class="single content"><div>' +
+  var templateEmpty = '<div class="single"><div>' +
     '<div class="nodata"><%= T("empty") %></div>' +
     '<div class="loader large">&nbsp;</div>' +
     '</div></div>';
@@ -159,7 +159,7 @@ define([
      *
      * @function
      */
-    initialize: function() {
+    initialize: function (callback) {
       var self = this;
       this.localizer = Localizer;
       this.title = Joshfire.factory.config.app.name;
@@ -267,6 +267,8 @@ define([
 
             self.toolbarView.render();
             views.render();
+
+            if (callback) callback();
             self.router.historyStart();
           });
         });

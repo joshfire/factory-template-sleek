@@ -2,6 +2,7 @@
 
 define([
   'sleek.custom',
+  'sleek.tv',
   'joshlib!collection',
   'joshlib!uielement',
   'joshlib!ui/list',
@@ -16,18 +17,59 @@ define([
   'joshlib!inputs/remote',
   'joshlib!vendor/underscore',
   'joshlib!utils/dollar',
+  'joshlib!utils/woodman',
   'collections/samsungImageObjects'
-], function (Sleek, Collection, UIElement, List, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImageLoader, Remote, _, $, ImageObjectCollection) {
+], function (
+  Sleek,
+  TVSleek,
+  Collection,
+  UIElement,
+  List,
+  Toolbar,
+  CardPanel,
+  SlidePanel,
+  VerticalList,
+  Grid,
+  Item,
+  FactoryMedia,
+  ImageLoader,
+  Remote,
+  _, $,
+  woodman,
+  ImageObjectCollection) {
 
-  return Sleek.extend({
+  var logger = woodman.getLogger('sleek.samsung');
+
+  /**
+   * The Samsung TV version derives from the default TV version.
+   *
+   * IMPORTANT:
+   * Keeping the amount of specific code that is needed for the template to
+   * run on Samsung TVs to a bare minimum is good practice. Please think twice
+   * (or more!) before adding a line ot code to that file!
+   */
+  return TVSleek.extend({
     initialize: function () {
+      // Note the class extends the TV version but calls the "initialize"
+      // function of the base Sleek class, because the TV version would break
+      // the layout on Samsung TV (the zoom feature in particular)
+      var self = this;
+      Sleek.prototype.initialize.call(this, function () {
+        // Adds a class on the body if we're on 2011 SDK
+        self.setFrameworkVersionTag();
+        // Handle remote events
+        self.handleSamsungRemote();
 
-      Sleek.prototype.initialize.call(this);
-      // Adds a class on the body if we're on 2011 SDK
-      this.setFrameworkVersionTag();
-      // Handle remote events
-      this.handleSamsungRemote();
+        if (self.backgroundURL) {
+          self.setBackground(self.backgroundURL);
+        }
 
+        if (self.logoURL) {
+          self.setLogo(self.logoURL);
+        } else {
+          self.setTitle(self.title);
+        }
+      });
     },
 
     // a factory method to create the collections.
@@ -35,6 +77,8 @@ define([
     // image ds, in order to filter out heavy images
     // (which have a tendency to brutally murder the TV firmware.)
     createCollection: function(datasource) {
+      datasource = datasource || {};
+      logger.log('create collection', 'datasource=' + datasource.name);
 
       if(datasource.config.outputType === 'ImageObject') {
         return new ImageObjectCollection([], {
@@ -55,9 +99,6 @@ define([
      */
     deviceFamily: 'samsung',
 
-    setLogo: function(url) {
-      $('#logo').html('<img src="' + url + '" />');
-    },
 
     setColor: function(color, callback) {
       if(!this.colorSet) {
@@ -82,83 +123,6 @@ define([
       }
     },
 
-    setBackground: function(url) {
-      $('body').css({
-        backgroundImage: 'url(' + url + ')'
-      });
-    },
-
-
-    /**
-     * Creates the toolbar UI element.
-     * Overrides base function to return a Toolbar element.
-     *
-     * @function
-     * @return {UIElement} The toolbar UI element to use
-     */
-    createToolbarElement: function() {
-      return new Toolbar({
-        el: '#toolbar',
-        templateEl: '#template-toolbar',
-        itemTemplateEl: '#toolbar-item'
-      });
-    },
-
-
-    /**
-     * Retrieves the classname(s) to use to flag an item in a list
-     * or the detail element that represents the item.
-     *
-     * Overrides base method.
-     *
-     * @function
-     * @param {string} itemType itemType The section's output type
-     */
-    getClassName: function (itemType, context) {
-      if (context === 'list') {
-        return 'content';
-      }
-      else if(context === 'single') {
-        return 'single content detail';
-      }
-      else {
-        return 'content detail';
-      }
-    },
-
-    viewFactory: function(section) {
-      return _.bind(function(params) {
-        var collection = params.collection,
-            list,
-            detail,
-            view;
-
-        if(collection.length === 1) {
-          if(section.outputType !== 'photo' && section.outputType !== 'video') {
-            return this.createDetailContainer(section, true);
-          }
-          else {
-            list = this.createListElement(section, true);
-            detail = this.createDetailContainer(section);
-            view = this.createListAndDetailView(list, detail);
-
-            list.$el.addClass('single');
-
-            return view;
-          }
-        }
-
-        if (section.outputType === 'photo') {
-          return this.createListElement(section);
-        }
-
-        list = this.createListElement(section);
-        detail = this.createDetailContainer(section);
-        view = this.createListAndDetailView(list, detail);
-
-        return view;
-      }, this);
-    },
 
     /**
      * Creates additional views: photo and video overlays
@@ -173,42 +137,32 @@ define([
       var self = this;
 
       // Photo overlay
-      var PhotoOverlay = UIElement.extend({
+      var PhotoOverlay = Item.extend({
         initialize: function(options) {
-          UIElement.prototype.initialize.call(this, options);
-          this.templateEl = options.templateEl;
+          Item.prototype.initialize.call(this, options);
           this.navUp = this.navDown = this.navAction = this.exit;
           this.offset = options.offset;
         },
 
-        setModel: function(model) {
-          this.model = model;
-        },
-
-        generate: function(cb) {
-          var html = _.template($(this.templateEl).text(), {
-            item: this.model.toJSON()
-          });
-          cb(null, html);
-        },
-
-        setContent: function(html) {
-          if(window.widgetAPI)
+        setContent: function (html) {
+          if (window.widgetAPI) {
             window.widgetAPI.putInnerHTML(this.el, html);
-          else
+          }
+          else {
             this.el.innerHTML = html;
+          }
+          this.rendered = true;
         },
 
-        hide: function() {
-          UIElement.prototype.hide.call(this);
-
+        hide: function () {
+          Item.prototype.hide.call(this);
           $('#' + this.el.id).css({
             display: 'none'
           });
         },
 
         show: function() {
-          UIElement.prototype.show.call(this);
+          Item.prototype.show.call(this);
 
           self.bind('back', _.bind(this.exit, this));
 
@@ -280,6 +234,7 @@ define([
       });
 
       this.photoDetail = new PhotoOverlay({
+        name: 'photo-overlay',
         el: '#photos-detail',
         templateEl: '#template-photo',
         getImageUrl: function() {
@@ -290,6 +245,7 @@ define([
         }
       });
 
+      this.photoDetail.render();
       this.photoDetail.hide();
 
       // Video overlay
@@ -332,6 +288,7 @@ define([
         }
       });
       this.videoDetail = new VideoOverlay({
+        name: 'video-overlay',
         el: '#videos-detail',
         templateEl: '#template-video',
         mediaOptions: {
@@ -341,6 +298,7 @@ define([
           html5: true
         }
       });
+      this.videoDetail.render();
       this.videoDetail.hide();
 
 
@@ -351,11 +309,14 @@ define([
           this.player = this.$(opt.playerEl)[0];
           this.navUp = this.navDown = this.navLeft = this.navRight = this.navAction = this.exit;
         },
-        setModel: function(model) {
+        setModel: function(model, update) {
           this.model = model;
+          if (update) {
+            this.render();
+          }
         },
         render: function() {
-          var vId = this.model.get('url').split('v=').pop();
+          var vId = this.model ? this.model.get('url').split('v=').pop() : '';
 
           if(this.playerReady && this.player && this.player.loadVideoById) {
             this.player.loadVideoById(vId);
@@ -367,6 +328,7 @@ define([
             this.player.loadVideoById(vId);
             this.player.playVideo();
           }, this);
+          this.rendered = true;
         },
         show: function() {
           UIElement.prototype.show.call(this);
@@ -405,50 +367,15 @@ define([
         }
       });
       this.youtubeDetail = new YoutubeOverlay({
+        name: 'youtube-overlay',
         el: '#youtube-detail',
         playerEl: 'object'
       });
+      this.youtubeDetail.render();
       this.youtubeDetail.hide();
 
-
-      // We create a 'virtual' view to handle global navigation that are not
-      // tied to routes.
-      this.virtualView = new UIElement({
-        navRight: _.bind(function() {
-          switch(this.focused) {
-          case 'toolbar':
-            if(this.activeSection && !this.activeSection.loading) {
-              var container = this.activeSection.view;
-
-              if(container.view) {
-                var view = container.view;
-
-                if(view.children && view.children.list) {
-                  view.children.list.navFocus(this.virtualView);
-                } else {
-                  view.navFocus(this.virtualView);
-                }
-
-                this.focused = 'list';
-              }
-            }
-            break;
-          }
-        }, this),
-        navLeft: _.bind(function() {
-          switch(this.focused) {
-          case 'list':
-            this.toolbarView.navFocus(this.virtualView);
-            this.focused = 'toolbar';
-            break;
-          case 'detail':
-            window.location = '#' + this.activeSection.slug;
-            break;
-          }
-        }, this)
-      });
-
       this.navHelper = new List({
+        name: 'navhelper',
         el: '#navHelper',
         itemTemplateEl: '#tpl-navhelper-item',
         collection: new Backbone.Collection([
@@ -477,67 +404,6 @@ define([
 
 
     /**
-     * Creates the element to use to represent a list of items
-     * for the given section.
-     *
-     * Overrides base function with TV specific logic.
-     *
-     * @function
-     * @param {Object} section Section to render
-     * @return {UIElement} The element to use. May include a detailed view.
-     */
-    createListElement: function(section, isSingle) {
-      var tplSel;
-      switch (section.outputType) {
-      case 'video':
-        tplSel = isSingle ? '#template-mosaic-single-video' : '#template-mosaic';
-      case 'photo':
-        if (!tplSel) {
-          tplSel = isSingle ? '#template-mosaic-single-photo' : '#template-mosaic';
-        }
-
-        return new Grid({
-          templateEl: tplSel,
-          itemFactory: this.itemFactory(section),
-          collection: section.collection,
-          translate3d: false,
-          className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
-        });
-
-      default:
-        return new VerticalList({
-          templateEl: '#template-list-view',
-          offsetTop: 40,
-          offsetBottom: 40,
-          itemFactory: this.itemFactory(section),
-          collection: section.collection,
-          translate3d: false,
-          className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
-        });
-      }
-    },
-
-    /**
-     * Must create a list + detail view for a section.
-     *
-     * @param {Backbone.View} the list view
-     * @param {Backbone.View} the detail view
-     * @return {Backbone.View} the section viex
-     */
-    createListAndDetailView: function(list, detail) {
-      var view = new SlidePanel({
-        children: {
-          list: list,
-          detail: detail
-        },
-        currentChild: 'list',
-        className: 'slide-panel'
-      });
-
-      return view;
-    },
-
-    /**
      * Displays a section item detail.
      *
      * @function
@@ -546,16 +412,18 @@ define([
      */
     showDetail: function(section, container, offset) {
       var detail = null;
+      var showChild = false;
       var self = this;
 
       if(section.collection.length > offset) {
-        switch(section.outputType) {
+        switch (section.outputType) {
         case 'photo':
+          logger.log(section.slug, 'show detail', 'photo');
           detail = this.photoDetail;
           detail.offset = offset;
-          detail.show();
           break;
         case 'video':
+          logger.log(section.slug, 'show detail', 'video');
           var m = section.collection.at(offset);
           var url = m.get('url');
           if(m.get('contentURL') && m.get('contentURL')) {
@@ -569,10 +437,10 @@ define([
             detail = this.videoDetail;
           }
           detail.offset = offset;
-          detail.show();
           break;
         default:
           if(container.view.children && container.view.children.detail) {
+            logger.log(section.slug, 'show detail', 'offset=' + offset);
             detail = container.view.children.detail;
             self.bind('back', function() {
               detail.navLeft();
@@ -580,138 +448,23 @@ define([
             });
             // Remove objects / videos / audio (Samsung style)
             $('object, audio, video, embed, iframe', container.view.children.detail.el).remove();
-            container.view.showChild('detail', 'right');
+            showChild = true;
           }
         }
 
-        if(detail) {
+        if (detail) {
           detail.setModel(section.collection.at(offset), true);
           detail.navFocus();
+          if (showChild) {
+            container.view.showChild('detail', 'right');
+          }
+          else {
+            detail.show();
+          }
         }
       }
     },
 
-    /**
-     * Creates the element to use to represent an item for the given section.
-     *
-     * Overrides base function with TV specific logic.
-     *
-     * @function
-     * @param {Object} options Rendering options
-     * @return {UIElement} The element to use. May include a detailed view.
-     */
-    createDetailElement: function(params, isSingle) {
-      if(!params.model) {
-        return new Item({});
-      }
-
-      var itemType = this.convertItemType(params.model.get('@type'));
-      var self = this;
-      var options = {
-        templateEl: '#template-' + itemType,
-        scroller: true,
-        offsetTop: 100,
-        offsetBottom: 100,
-        navLeft: _.bind(function() {
-          if(isSingle) {
-            this.toolbarView.navFocus(this.virtualView);
-            this.focused = 'toolbar';
-          } else {
-            window.location = '#' + params.slug;
-          }
-        }, this)
-      };
-      switch (itemType) {
-      case 'video':
-      case 'photo':
-        return null;
-      case 'sound':
-        options.mediaOptions = {
-          strategy: 'html5',
-          autoPlay: true
-        };
-        return new FactoryMedia(options);
-      case 'status':
-        options.getImageUrl = function () {
-          return self.getAuthorThumbnail(params.model.toJSON());
-        };
-        return new ImageLoader(options);
-      default:
-        options.getImageUrl = function () {
-          return self.getThumbnailUrl(params.model.toJSON());
-        };
-        return new ImageLoader(options);
-      }
-    },
-
-    //
-    // Creates routes
-    //
-    createRoutes: function(sections, views) {
-      var controllers = Sleek.prototype.createRoutes.call(this, sections, views);
-      var self = this;
-      var toolbar = this.toolbarView;
-
-      _.forEach(sections, function (section) {
-        controllers.routes[section.slug] = section.slug;
-
-        // List route
-        controllers[section.slug] = function() {
-          self.activeSection = section;
-          document.body.id = section.outputType;
-          $('iframe, audio, video, object, embed', '#container').remove();
-
-          var container = self.activeSection.view;
-          if (section.collection.length) {
-            self.moveToList(container);
-            views.showChild(section.slug);
-          } else {
-            views.showChild(section.slug);
-            self.updateList(section, container);
-          }
-
-          if(toolbar.active === -1 || self.activeSection.loading) {
-            toolbar.activate(self.activeSection.index);
-            toolbar.navFocus(self.virtualView);
-            self.focused = 'toolbar';
-          } else if(self.focused !== 'toolbar') {
-            if(container.view) {
-              var view = container.view;
-
-              if(view.children && view.children.list) {
-                view.children.list.navFocus(self.virtualView);
-              } else {
-                view.navFocus(self.virtualView);
-              }
-
-              self.focused = 'list';
-            }
-          }
-        };
-
-        // Detail route
-        controllers.routes[section.slug + '/:offset'] = section.slug + 'Detail';
-
-        controllers[section.slug + 'Detail'] = function(offset) {
-          offset = parseInt(offset, 10);
-          self.activeSection = section;
-          document.body.id = section.outputType;
-          $('iframe, audio, video, object, embed', '#container').remove();
-
-          views.showChild(section.slug);
-          var container = self.activeSection.view;
-          if (section.collection.length) {
-            self.showDetail(section, container, offset);
-          } else {
-            self.updateDetail(section, container, offset);
-          }
-
-          self.focused = 'detail';
-        };
-      });
-
-      return controllers;
-    },
 
     /**
      * Returns the URL of a thumbnail of an image object.
