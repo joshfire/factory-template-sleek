@@ -140,12 +140,10 @@ define([
       // Render detail view
       // (of full view if there are no listing)
       if (children.detail) {
-        children.detail.setModel(section.collection.at(offset));
-        children.detail.render();
+        children.detail.setModel(section.collection.at(offset), true);
       }
       else {
-        container.setModel(section.collection.at(offset));
-        container.render();
+        container.setModel(section.collection.at(offset), true);
       }
 
       // Render listing if defined

@@ -48,6 +48,17 @@ define([
 
   var logger = woodman.getLogger('sleek');
 
+  // The "empty" template is used to display an "Empty feed" empty view when
+  // the underlying feed does not contain any item or has not yet been fetched.
+  // The template should really not be different from one version to another.
+  // TODO: when refactoring templates using "text!" or "tpl!" require.js
+  // plugins, move the template to a separate file along with the other
+  // templates.
+  var templateEmpty = '<div class="single content"><div>' +
+    '<div class="nodata"><%= T("empty") %></div>' +
+    '<div class="loader large">&nbsp;</div>' +
+    '</div></div>';
+
   var Sleek = function () {
     _.bindAll(this, 'initialize',  'setColor', 'slugify');
   };
@@ -254,6 +265,7 @@ define([
             //failsafe if first tab fails to load for some reason
             setTimeout(loaded, 20*1000);
 
+            self.toolbarView.render();
             views.render();
             self.router.historyStart();
           });
@@ -395,8 +407,7 @@ define([
       }
 
       var toolbar = this.createToolbarElement();
-      toolbar.setCollection(sectionCollection);
-      toolbar.render();
+      toolbar.setCollection(sectionCollection, true);
       return toolbar;
     },
 
@@ -422,7 +433,7 @@ define([
         sectionsView = new Item({
           el: '#cards',
           model: new Backbone.Model(),
-          templateEl: '#template-nodata'
+          template: '#template-nodata'
         });
         return sectionsView;
       }
@@ -472,7 +483,7 @@ define([
       logger.log('create toolbar element');
       var Toolbar = List.extend({
         generate: function (cb) {
-          if (this.items.length < 2) {
+          if (this.collection && (this.collection.length < 2)) {
             logger.info('no toolbar element needed');
             $('body').addClass('no-toolbar');
           }
@@ -507,6 +518,11 @@ define([
     viewFactory: function(section) {
       return _.bind(function(params) {
         var collection = params.collection;
+
+        if (!collection || collection.length === 0) {
+          logger.log(section.slug, 'view factory', 'create empty element');
+          return this.createEmptyElement(section, collection);
+        }
 
         if (section.outputType === 'photo') {
           logger.log(section.slug, 'view factory',
@@ -590,8 +606,7 @@ define([
       }
       else if (section.collection.length) {
         logger.log(section.slug, 'show list', 'render list');
-        container.setModel(section.collection.at(0));
-        container.render();
+        container.setModel(section.collection.at(0), true);
       }
     },
 
@@ -643,13 +658,47 @@ define([
         var detail = container.view.children.detail;
 
         if(section.collection.length > offset) {
-          detail.setModel(section.collection.at(offset));
-          detail.render();
+          detail.setModel(section.collection.at(offset), true);
         }
 
         container.view.showChild('detail', 'right');
       }
     },
+
+
+    /**
+     * Creates the element to use to represent an empty collection for
+     * the given section. The collection may be empty because items have
+     * not yet been fetched or because it is empty.
+     *
+     * The collection should be given as parameter to let the view render
+     * a spinner while the collection is being fetched.
+     */
+    createEmptyElement: function (section, collection) {
+      section = section || {};
+      logger.log(section.slug, 'create empty element');
+
+      var viewOptions = {
+        name: section.slug + '-empty',
+        model: new Backbone.Model(),
+        template: templateEmpty
+      };
+
+      if (collection && !collection.fetched) {
+        viewOptions.className = 'loading';
+      }
+
+      var emptyView = new Item(viewOptions);
+
+      if (collection && !collection.fetched) {
+        emptyView.listenTo(collection, 'load', function () {
+          emptyView.$el.removeClass('loading');
+        });
+      }
+
+      return emptyView;
+    },
+
 
     /**
      * Creates the element to use to represent a list of items

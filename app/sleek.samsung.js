@@ -500,6 +500,7 @@ define([
           templateEl: tplSel,
           itemFactory: this.itemFactory(section),
           collection: section.collection,
+          translate3d: false,
           className: section.outputType + ' ' + this.getClassName(section.outputType, 'list')
         });
 
@@ -584,8 +585,7 @@ define([
         }
 
         if(detail) {
-          detail.setModel(section.collection.at(offset));
-          detail.render();
+          detail.setModel(section.collection.at(offset), true);
           detail.navFocus();
         }
       }

@@ -74,9 +74,43 @@ img {
       font-style: normal;
     }
   }
-} 
+}
+
+
 //---------------------------------------------------------------------------
-// The no-data message
+// The spinner centered in image box and not rendered by default
+//---------------------------------------------------------------------------
+.loader {
+  background: transparent url(../images/image-spinner.gif) no-repeat center center;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: none;
+
+  &.inv {
+    background-image: url(../images/image-spinner-inv.gif)
+  }
+
+  &.large {
+    background-color: rgba(0, 0, 0, 0.9);
+    background-image: url(../images/spinner.gif);
+    .border-radius(.5em);
+    width: 5em;
+    height: 5em;
+    left: 50%;
+    top: 50%;
+    margin-top: -2.5em;
+    margin-left: -2.5em;
+  }
+}
+
+
+//---------------------------------------------------------------------------
+// The "No datasource" and "empty feed" messages
 //---------------------------------------------------------------------------
 .nodata {
   padding: 3em 0;
@@ -85,6 +119,17 @@ img {
   background: @light-background-color;
   color: @dark-text-color;
 }
+
+.loading {
+  .nodata {
+    display: none;
+  }
+
+  .loader {
+    display: block;
+  }
+}
+
 
 //---------------------------------------------------------------------------
 // The contents of an article
@@ -214,35 +259,6 @@ figure,
     .translate3d(0,0,0);
   }
 
-  // Center spinner in image box, not rendered by default
-  & > .loader {
-    background: transparent url(../images/image-spinner.gif) no-repeat center center;
-    margin: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-    display: none;
-
-    &.inv {
-      background-image: url(../images/image-spinner-inv.gif)
-    }
-
-    &.large {
-      background-color: rgba(0, 0, 0, 0.9);
-      background-image: url(../images/spinner.gif);
-      .border-radius(.5em);
-      width: 5em;
-      height: 5em;
-      left: 50%;
-      top: 50%;
-      margin-top: -2.5em;
-      margin-left: -2.5em;
-    }
-  }
-
   // When "loading" is there, spinner is displayed over the transparent image
   &.loading,
   &.dataloading {
@@ -256,7 +272,8 @@ figure,
       .transition(none);
     }
 
-    .no-data {
+    .no-data,
+    .nodata {
       display: none;
     }
   }

@@ -1,5 +1,6 @@
 {
   "terms": {
-    "nodata": "Pas de données à afficher.<br> Merci d'ajouter une source de données."
+    "nodata": "Pas de données à afficher.<br> Merci d'ajouter une source de données.",
+    "empty": "Le flux est vide!"
   }
 }

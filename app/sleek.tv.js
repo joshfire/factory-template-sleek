@@ -13,8 +13,24 @@ define([
   'joshlib!ui/factorymedia',
   'ui/imagesloader',
   'joshlib!vendor/underscore',
-  'joshlib!utils/dollar'
-], function (Sleek, UIElement, UIList, Toolbar, CardPanel, SlidePanel, VerticalList, Grid, Item, FactoryMedia, ImagesLoader, _, $) {
+  'joshlib!utils/dollar',
+  'joshlib!utils/woodman'
+], function (
+  Sleek,
+  UIElement,
+  UIList,
+  Toolbar,
+  CardPanel,
+  SlidePanel,
+  VerticalList,
+  Grid,
+  Item,
+  FactoryMedia,
+  ImagesLoader,
+  _, $,
+  woodman) {
+
+  var logger = woodman.getLogger('sleek.tv');
 
   return Sleek.extend({
     initialize: function () {
@@ -68,8 +84,10 @@ define([
      * @return {UIElement} The toolbar UI element to use
      */
     createToolbarElement: function() {
+      logger.log('create toolbar element');
       var self = this;
       var toolbar = new Toolbar({
+        name: 'toolbar',
         el: '#toolbar',
         templateEl: '#template-toolbar',
         itemTemplateEl: '#toolbar-item',
@@ -77,6 +95,7 @@ define([
       });
 
       toolbar.navFocus = function(origin, event) {
+        logger.log(this.logid, 'nav focus');
         UIList.prototype.navFocus.call(this, origin, event);
 
         if(!event && this.active === -1 && this.collection.length) {
@@ -87,6 +106,7 @@ define([
       },
 
       toolbar.navRight = function() {
+        logger.log(this.logid, 'nav right');
         if(self.activeSection && self.activeSection.collection.length) {
           var container = self.activeSection.view;
           if(container.view) {
@@ -203,6 +223,7 @@ define([
         templateEl: '#template-photo'
       });
 
+      this.photoDetail.render();
       this.photoDetail.hide();
 
       // Video overlay
@@ -230,6 +251,7 @@ define([
         }
       });
 
+      this.videoDetail.render();
       this.videoDetail.hide();
       Sleek.prototype.createAdditionalViews.call(this, views);
     },
@@ -246,6 +268,11 @@ define([
      * @return {UIElement} The element to use. May include a detailed view.
      */
     createListElement: function(section, isSingle) {
+      section = section || {};
+
+      logger.log(section.slug, 'create list element',
+        'type=' + section.outputType);
+
       var tplSel;
       switch (section.outputType) {
       case 'video':
@@ -287,6 +314,7 @@ define([
      * @return {Backbone.View} the section viex
      */
     createListAndDetailView: function(list, detail) {
+      logger.log('create list and detail view', 'list=' + list.logid);
       var view = new SlidePanel({
         children: {
           list: list,
@@ -301,30 +329,43 @@ define([
 
     viewFactory: function(section) {
       return _.bind(function(params) {
-        var collection = params.collection,
-            list,
-            detail,
-            view;
+        var collection = params.collection;
+        var list = null;
+        var detail = null;
+        var view = null;
 
-        if(collection.length === 1) {
-          if(section.outputType !== 'photo' && section.outputType !== 'video') {
+        if (!collection || collection.length === 0) {
+          logger.log(section.slug, 'view factory', 'create empty element');
+          return this.createEmptyElement(section, collection);
+        }
+
+        if (collection.length === 1) {
+          if ((section.outputType === 'photo') ||
+            (section.outputType === 'video')) {
+            logger.log(section.slug, 'view factory',
+              'create detail container', 'photo/video');
             return this.createDetailContainer(section, true);
           }
           else {
+            logger.log(section.slug, 'view factory',
+              'create list and detail', '1 item');
             list = this.createListElement(section, true);
             detail = this.createDetailContainer(section);
             view = this.createListAndDetailView(list, detail);
 
             list.$el.addClass('single');
-
             return view;
           }
         }
 
         if (section.outputType === 'photo') {
+          logger.log(section.slug, 'view factory',
+              'create list element', 'photo/video');
           return this.createListElement(section);
         }
 
+        logger.log(section.slug, 'view factory',
+          'create list and detail');
         list = this.createListElement(section);
         detail = this.createDetailContainer(section);
         view = this.createListAndDetailView(list, detail);
@@ -340,8 +381,10 @@ define([
         if(container.view) {
           var view = container.view;
           if(view.children && view.children.list) {
+            logger.log(section.slug, 'show list', 'focus list');
             view.children.list.navFocus();
           } else {
+            logger.log(section.slug, 'show list', 'focus view');
             view.navFocus();
           }
           this.focused = 'list';
@@ -357,13 +400,14 @@ define([
      * @parma {Backbone.View} the section container
      */
     showDetail: function(section, container, offset) {
-      var model = section.collection.at(offset);
       var detail = null;
+      var showChild = false;
 
-      if(section.collection.length > offset) {
+      if (section.collection.length > offset) {
 
         switch(section.outputType) {
         case 'photo':
+          logger.log(section.slug, 'show detail', 'photo');
           detail = this.photoDetail;
           detail.offset = offset;
           detail.data = {
@@ -371,31 +415,29 @@ define([
               return this.model.get('contentURL');
             }
           };
-          detail.show();
           break;
         case 'video':
+          logger.log(section.slug, 'show detail', 'video');
           detail = this.videoDetail;
           detail.offset = offset;
-          detail.show();
           break;
         default:
           if(container.view.children && container.view.children.detail) {
+            logger.log(section.slug, 'show detail', 'offset=' + offset);
             detail = container.view.children.detail;
-            detail.setModel(section.collection.at(offset));
-            detail.render();
-            detail.navFocus();
-            container.view.showChild('detail', 'right');
+            showChild = true;
           }
         }
 
-        if(detail) {
-          detail.setModel(section.collection.at(offset));
-
-          if(section.outputType === 'photo' || section.outputType === 'video') {
-            detail.render();
-          }
-
+        if (detail) {
+          detail.setModel(section.collection.at(offset), true);
           detail.navFocus();
+          if (showChild) {
+            container.view.showChild('detail', 'right');
+          }
+          else {
+            detail.show();
+          }
         }
       }
     },
