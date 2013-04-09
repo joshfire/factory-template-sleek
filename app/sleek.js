@@ -509,7 +509,8 @@ define([
       var view = new DynamicContainer({
         name: section.slug + '-list',
         collection: section.collection,
-        viewFactory: this.viewFactory(section)
+        viewFactory: this.viewFactory(section),
+        hidden: true
       });
 
       section.view = view;
