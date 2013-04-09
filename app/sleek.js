@@ -493,6 +493,7 @@ define([
         }
       });
       return new Toolbar({
+        name: 'toolbar',
         el: '#toolbar',
         templateEl: '#template-toolbar',
         itemTemplateEl: '#toolbar-item'
@@ -819,6 +820,7 @@ define([
       switch (itemType) {
       case 'video':
         return new FactoryMedia({
+          name: 'item-' + itemType,
           templateEl: '#template-' + itemType,
           scroller: true,
           scrollerSelector: '.wrapper',
@@ -833,6 +835,7 @@ define([
         });
       case 'sound':
         return new FactoryMedia({
+          name: 'item-' + itemType,
           templateEl: '#template-' + itemType,
           mediaOptions: {
             strategy: 'html5'
@@ -840,6 +843,7 @@ define([
         });
       case 'status':
         return new ImagesLoader({
+          name: 'item-' + itemType,
           templateEl: '#template-' + itemType,
           scroller: true,
           imageSchema: self.getAuthorImageSchema(options.model.toJSON())
@@ -848,6 +852,7 @@ define([
       case 'product':
       case 'other':
         return new ImagesLoader({
+          name: 'item-' + itemType,
           templateEl: '#template-' + itemType,
           scroller: true,
           imageSchema: options.model.toJSON()
@@ -857,6 +862,7 @@ define([
         var body = options.model.get('articleBody').replace(/\n|\r\n/g,'<br>');
         options.model.set('articleBody',body,{silent: true});
         return new ImagesLoader({
+          name: 'item-' + itemType,
           templateEl: '#template-' + itemType,
           scroller: true,
           imageClass: 'fadein',
@@ -864,6 +870,7 @@ define([
         });
       default:
         return new ImagesLoader({
+          name: 'item-' + itemType,
           templateEl: '#template-' + itemType,
           scroller: true,
           imageClass: 'fadein',
@@ -908,6 +915,7 @@ define([
           type = section.outputType || self.convertItemType(item['@type']),
           className = type + '-item';
         var params = {
+          name: 'itemwrapper-' + type,
           model: model,
           offset: offset,
           view: this.itemFactory(model, offset),
@@ -932,6 +940,7 @@ define([
         var type = section.outputType || self.convertItemType(item['@type']);
         var templateEl = '#template-' + type + '-item';
         var options = {
+          name: section.slug + '-item-' + offset + '-' + type,
           data: { section: section },
           model: model,
           offset: offset,
@@ -1006,16 +1015,7 @@ define([
      * @return {integer} The width available in CSS pixels
      */
     getContentWidth: function() {
-      // Note the app contains more than one slide panel, but only
-      // one that should be displayed at a given time
-      var panels = $('.slide-panel').get();
-      var activePanel = _.max(panels, function (panel) {
-        return $(panel).width();
-      });
-
-      // Slide panels take twice the width available
-      // (since they contain two panels)
-      return Math.floor($(activePanel).width());
+      return Math.floor($('#cards').width());
     },
 
 
@@ -1026,16 +1026,10 @@ define([
      * maximum width it may use.
      *
      * @function
-     * @return {integer} The width available in CSS pixels
+     * @return {integer} The height available in CSS pixels
      */
     getContentHeight: function() {
-      // Note the app contains more than one slide panel, but only
-      // one that should be displayed at a given time
-      var panels = $('.slide-panel').get();
-      var activePanel = _.max(panels, function (panel) {
-        return $(panel).height();
-      });
-      return $(activePanel).height();
+      return Math.floor($('#cards').height());
     },
 
     /**

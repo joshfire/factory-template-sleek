@@ -42,6 +42,7 @@ define([
     createToolbarElement: function() {
       logger.log('create toolbar element');
       return new Toolbar({
+        name: 'toolbar',
         el: '#toolbar',
         templateEl: '#template-toolbar',
         itemTemplateEl: '#toolbar-item',
@@ -68,6 +69,7 @@ define([
     createListAndDetailView: function(list, detail) {
       logger.log('create list and detail view', 'list=' + list.logid);
       var view = new SlidePanel({
+        name: 'listanddetail',
         children: {
           list: list,
           detail: detail

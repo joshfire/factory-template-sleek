@@ -65,6 +65,7 @@ define([
      */
     createListAndDetailView: function(list, detail) {
       var view = new Layout({
+        name: 'listanddetail',
         children: {
           list: list,
           detail: detail
@@ -89,31 +90,18 @@ define([
       // Note the app contains more than one right panel, but only
       // one that should be displayed at a given time
       var panels = $('.right-panel').get();
-      var activePanel = _.max(panels, function (panel) {
-        return $(panel).width();
+      var activePanel = _.find(panels, function (panel) {
+        return ($(panel).width() > 0);
       });
-      return $(activePanel).width();
+      if (activePanel) {
+        return Math.floor($(activePanel).width());
+      }
+      else {
+        // No split panel means we have the whole screen available
+        return Math.floor($('#cards').width());
+      }
     },
 
-
-    /**
-     * Returns the height that is available for detailed views.
-     *
-     * The function is used in particular to tell the media factory the
-     * maximum height it may use.
-     *
-     * @function
-     * @return {integer} The height available in CSS pixels
-     */
-    getContentHeight: function() {
-      // Note the app contains more than one right panel, but only
-      // one that should be displayed at a given time
-      var panels = $('.right-panel').get();
-      var activePanel = _.max(panels, function (panel) {
-        return $(panel).height();
-      });
-      return $(activePanel).height();
-    },
 
     /**
      * Displays a section list
@@ -179,12 +167,20 @@ define([
 
         // List route
         controllers[section.slug] = function() {
+          // Mark the section as active
           self.activeSection = section;
-          document.body.id = section.outputType;
+
+          // Update the toolbar (title and selected element)
           self.setTitle(section.name);
           $('iframe, audio, video, object, embed', '#container').remove();
           $toolbar.find('.active').removeClass('active');
           $toolbar.find('.section-' + section.slug).addClass('active');
+
+          // TODO: the ID should rather be set at the "cards" level
+          // so as not to impact the toolbar. It would better be a class name
+          // than an ID, but that second would more likely break existing apps
+          // that use custom CSS.
+          document.body.id = section.outputType;
 
           var container = views.children[section.slug];
           if (section.collection.length) {
