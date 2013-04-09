@@ -3,5 +3,7 @@ define([
   'joshlib!utils/onready'
 ], function (Sleek, onReady) {
   var sleek = new Sleek();
-  onReady(sleek.initialize);
+  onReady(function () {
+    sleek.initialize();
+  });
 });
