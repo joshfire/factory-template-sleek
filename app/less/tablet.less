@@ -11,6 +11,7 @@ body {
   .vertical-gradient(lighten(@background-color, 7%), darken(@background-color, 10%));
 }
 
+
 /****************************************************************************
 
   HEADER & TOOLBAR
@@ -22,21 +23,22 @@ body {
 //---------------------------------------------------------------------------
 header {
   background: url(../images/phone-shadow@2x.png) no-repeat center 2.2em;
-  padding-bottom: 10em;
+  height: 10em;
   background-size: 100% auto;
   width: 100%;
   position: relative;
   z-index: 2;
   pointer-events: none;
 
+  // Forces the header through the GPU to avoid flickering effect
+  // on iPad Retina devices
+  .accelerate;
+
   .container {
     .vertical-gradient(desaturate(lighten(@background-color, 5%), 5%), desaturate(darken(@background-color, 10%), 5%));
 
-    position: absolute;
-    z-index: 30;
-    left: 0;
-    top: 0;
     width: 100%;
+    height: 2.9em;
 
     // Adds a slight spotlight effect to the header bar
     > span {
@@ -46,7 +48,7 @@ header {
       left: 0;
       width: 40%;
       height: 2.7em;
-      z-index: 32;
+      z-index: 3;
       pointer-events: none;
 
       @color: saturate(lighten(@background-color, 8%), 10%);
@@ -60,12 +62,10 @@ header {
     text-transform: uppercase;
     line-height: 1em;
     padding: .5em .8em;
-    float: left;
 
     span {
       display: block;
       position: relative;
-      z-index: 50;
       text-shadow: 0 0 2px rgba(0,0,0,.4);
     }
   }
@@ -109,7 +109,6 @@ header {
 
   ul {
     list-style: none;
-    height: 100%;
 
     li {
       float: left;
@@ -246,7 +245,7 @@ header {
 
 ****************************************************************************/
 
-#cards {
+.cards-container {
   position: absolute;
   left: 0;
   top: 2.7em;
@@ -260,10 +259,6 @@ header {
 //---------------------------------------------------------------------------
 .content {
 
-
-  & > div {
-    .backface-hidden;
-  }
 
   &.loading {
     .spinner {

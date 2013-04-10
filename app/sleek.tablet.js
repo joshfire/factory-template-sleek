@@ -176,11 +176,7 @@ define([
           $toolbar.find('.active').removeClass('active');
           $toolbar.find('.section-' + section.slug).addClass('active');
 
-          // TODO: the ID should rather be set at the "cards" level
-          // so as not to impact the toolbar. It would better be a class name
-          // than an ID, but that second would more likely break existing apps
-          // that use custom CSS.
-          document.body.id = section.outputType;
+          $('.cards-container').attr('id', section.outputType);
 
           var container = views.children[section.slug];
           if (section.collection.length) {

@@ -47,14 +47,16 @@ header {
   z-index: 2;
   pointer-events: none;
 
+  // Forces the header through the GPU to avoid flickering effect
+  // on iPad Retina devices
+  .accelerate;
+
   .container {
     .vertical-gradient(desaturate(lighten(@background-color, 5%), 5%), desaturate(darken(@background-color, 10%), 5%));
     background-color: @background-color;
-    position: absolute;
-    z-index: 30;
-    left: 0;
-    top: 0;
+
     width: 100%;
+    height: 2.9em;
 
     // Adds a slight spotlight effect to the header bar
     > span {
@@ -78,12 +80,10 @@ header {
     text-transform: uppercase;
     line-height: 1em;
     padding: .5em 0;
-    float: left;
 
     span {
       display: block;
       position: relative;
-      z-index: 50;
       text-shadow: 0 0 2px rgba(0,0,0,.4);
     }
   }
