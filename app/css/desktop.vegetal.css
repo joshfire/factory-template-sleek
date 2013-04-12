@@ -83,7 +83,7 @@ header h1{font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,A
 #toolbar ul li a .indicator{display:none;}
 #toolbar ul li a.active{background-color:transparent;height:2.7em;margin:0;}#toolbar ul li a.active >span{background:transparent url(../images/phone-glow.png) no-repeat center center;height:100%;}
 .indicator{position:absolute;height:.8em;top:-0.8em;left:51%;width:2em;margin-left:-1em;overflow:hidden;}.indicator span{display:block;height:1.2em;width:1.2em;margin:.2em auto;background-color:#2b3109;-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);-o-transform:rotate(45deg);transform:rotate(45deg);}
-#cards{position:absolute;left:0;top:2.7em;bottom:0;width:100%;z-index:1;}
+#cards{position:absolute;left:0;top:0;bottom:0;width:100%;z-index:1;}
 .content >div{-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden;}
 .content.loading .spinner{display:block;}
 .content .spinner{background:rgba(0, 0, 0, 0.9) url(../images/spinner.gif) no-repeat center center;position:absolute;top:0;bottom:0;left:50%;top:50%;width:5em;height:5em;margin-top:-2.5em;margin-left:-2.5em;z-index:2;display:none;-webkit-border-radius:0.5em;-moz-border-radius:0.5em;-ms-border-radius:0.5em;-o-border-radius:0.5em;border-radius:0.5em;}
