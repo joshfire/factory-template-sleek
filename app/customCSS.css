@@ -16,7 +16,8 @@ header>span {
 #video #back {
     border-image-source: url('images/phone-ios-back-blue@2x.png');
 }
-#video #refresh {
+#video #refresh,
+#video #share {
     border-image-source: url('images/phone-ios-button-blue@2x.png');
 }
 
@@ -28,7 +29,8 @@ header>span {
 #status #back {
     border-image-source: url('images/phone-ios-back-yellow@2x.png');
 }
-#status #refresh {
+#status #refresh,
+#status #share {
     border-image-source: url('images/phone-ios-button-yellow@2x.png');
 }
  #status header h1{
@@ -102,7 +104,8 @@ background-color: rgba(0,0,0,0.05);
 #news #back {
     border-image-source: url('images/phone-ios-back-orange@2x.png');
 }
-#news #refresh {
+#news #refresh,
+#news #share {
     border-image-source: url('images/phone-ios-button-orange@2x.png');
 }
 #event header h1{
