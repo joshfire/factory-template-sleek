@@ -95,6 +95,7 @@ define([
       var $toolbar = $('#toolbar');
       var $back = $('#back');
       var $refresh = $('#refresh');
+      var $share = $('#share');
       var self = this;
 
       _.forEach(sections, function (section) {
@@ -111,12 +112,14 @@ define([
           $('iframe, audio, video, object, embed', '#container').remove();
           $toolbar.find('.active').removeClass('active');
           $toolbar.find('.section-' + section.slug).addClass('active');
+          $back.hide();
+
+          $share.hide();
           $refresh.show().unbind('touchstart mousedown').bind('touchstart mousedown', _.bind(function(e) {
             self.refreshList(section, container);
             e.preventDefault();
             return false;
           }, this));
-          $back.hide();
 
           var container = views.children[section.slug];
           if (section.collection.length) {
@@ -144,6 +147,21 @@ define([
             $toolbar.find('.active').removeClass('active');
             $toolbar.find('.section-' + section.slug).addClass('active');
             $refresh.hide();
+
+            // Display the share button
+            // TODO: in a proper implementation, the share button should only
+            // be displayed provided Joshfire.factory.getAddOns('share')
+            // returns a non empty list and provided the item to display can
+            // be shared, in other words that its "url" property is a valid
+            // absolute URL (as opposed to a simple ID)
+            $share.show()
+              .unbind('touchstart mousedown')
+              .bind('touchstart mousedown', function (e) {
+                var model = section.collection.at(0);
+                self.share(model);
+                e.preventDefault();
+                return false;
+              });
             $back.attr('href', '#' + section.slug);
             $back.css({display: 'block'});
 
@@ -161,6 +179,30 @@ define([
       });
 
       return controllers;
+    },
+
+
+    /**
+     * Shares the given model
+     *
+     * @function
+     * @private
+     * @param {Backbone.Model} model The model to share. Its "url" property
+     *  will be used
+     * @param {function} callback The callback function to call when the item
+     *  has been shared. First parameter is a potential error that may have
+     *  occurred.
+     */
+    share: function (model, callback) {
+      callback = callback || function () {};
+      if (!model) {
+        return callback('No model to share');
+      }
+
+      // TODO: in a proper implementation, this is where
+      // "Joshfire.factory.getAddOns('share').startActivity" should be called.
+      console.log('TODO: share me!', model);
+      return callback();
     }
   });
 });
