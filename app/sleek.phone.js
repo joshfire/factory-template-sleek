@@ -154,14 +154,16 @@ define([
             // returns a non empty list and provided the item to display can
             // be shared, in other words that its "url" property is a valid
             // absolute URL (as opposed to a simple ID)
-            $share.show()
-              .unbind('touchstart mousedown')
-              .bind('touchstart mousedown', function (e) {
-                var model = section.collection.at(0);
-                self.share(model);
-                e.preventDefault();
-                return false;
-              });
+            // Disabled share for the moment, while we check the presence of the share add-on
+            $share.hide();
+            // $share.show()
+            //   .unbind('touchstart mousedown')
+            //   .bind('touchstart mousedown', function (e) {
+            //     var model = section.collection.at(0);
+            //     self.share(model);
+            //     e.preventDefault();
+            //     return false;
+            //   });
             $back.attr('href', '#' + section.slug);
             $back.css({display: 'block'});
 

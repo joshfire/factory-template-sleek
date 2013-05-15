@@ -20,7 +20,9 @@ body {
 // Header
 //---------------------------------------------------------------------------
 header {
-  background: url(../images/phone-shadow@2x.png) no-repeat center 2.2em;
+  background-image: url(../images/phone-shadow@2x.png);
+  background-repeat: no-repeat;
+  background-position: center 2.2em;
   background-size: 100% 53px;
   padding-bottom: 5em;
   background-size: 100% auto;
@@ -42,7 +44,7 @@ header {
     text-transform: uppercase;
     text-align: center;
     line-height: 1em;
-    padding: .65em 0;
+    padding: .4em 0;
 
     span {
       display: block;
@@ -71,38 +73,61 @@ header {
   }
 }
 
+// iOS Style
+.device-phone-ios {
+  header>span {
+    display: none;
+  }
+
+  header h1 {
+    padding: .65em 0;
+  }
+  
+  header {
+    background-image: url(../images/phone-ios-shadow@2x.png);
+  }
+
+}
+
 // Back button
 #back {
   position: absolute;
   left: 0;
   top: 0;
-  // width: 3em;
+  width: 3em;
   height: 2.24em;
   overflow: hidden;
   z-index: 35;
   background: transparent url(../images/phone-back@2x.png) no-repeat center center;
   background-size: 18px 13px;
-  // text-indent: -30000px;
+  text-indent: -30000px;
   display: none;
   pointer-events: all;
+}
 
-  //iOS style
-  height: 2em;
-  left: .26em;
-  top: .46em;
-  box-sizing: border-box;
-  border-width: 5px 6px 5px 14px;
-  border-style: solid;
-  border-image:url('../images/phone-ios-back@2x.png') 10 11 10 26 fill stretch;
+//iOS style
+.device-phone-ios {
+  #back {
+    text-indent: 0;
+    width: auto;
 
-  .inner {
-    display: block;
-    font-size: .8em;
-    font-weight: bold;
-    height: 100%;
-    color: #FFF;
-    text-shadow: 0 -1px 0 rgba(0,0,0,.5);
-    padding: .2em 0;
+    height: 2em;
+    left: .26em;
+    top: .46em;
+    box-sizing: border-box;
+    border-width: 5px 6px 5px 14px;
+    border-style: solid;
+    border-image: @image-ios-back 10 11 10 26 fill stretch;
+
+    .inner {
+      display: block;
+      font-size: .8em;
+      font-weight: bold;
+      height: 100%;
+      color: #FFF;
+      text-shadow: 0 -1px 0 rgba(0,0,0,.5);
+      padding: .2em 0;
+    }
   }
 }
 
@@ -120,36 +145,34 @@ header {
   background-size: 20px 18px;
   text-indent: -30000px;
   pointer-events: all;
-
-  //iOS style
-  height: 2em;
-  right: .46em;
-  top: .46em;
-  box-sizing: border-box;
-  border-width: 5px 6px;
-  border-style: solid;
-  border-image:url('../images/phone-ios-button@2x.png') 10 11 fill stretch;
-
-  // right: .33em;
-  // top: .46em;
-  // height: 2em;
-  // border: 1px solid rgba(0,0,0,.3);
-  // border-radius: 5px;
-  // box-shadow:
-  //   0 1px 0 rgba(255,255,255,.5),
-  //   inset 0px -2px 3px rgba(0,0,0,.2),
-  //   inset 0px 5px 5px rgba(255,255,255,.15),
-  //   inset 0px 1px 0 rgba(255,255,255,.5);
-
-  .inner {
-    display: block;
-    height: 100%;
-    background: transparent url(../images/phone-refresh@2x.png) no-repeat center center;
-    background-size: 20px 18px;
-  }
 }
 #share .inner {
   background-image: url(../images/phone-share@2x.png);
+}
+
+//iOS style
+.device-phone-ios {
+  #refresh,
+  #share {
+    //iOS style
+    height: 2em;
+    right: .46em;
+    top: .46em;
+    box-sizing: border-box;
+    border-width: 5px 6px;
+    border-style: solid;
+    border-image: @image-ios-button 10 11 fill stretch;
+
+    .inner {
+      display: block;
+      height: 100%;
+      background: transparent url(../images/phone-refresh@2x.png) no-repeat center center;
+      background-size: 20px 18px;
+    }
+  }
+  #share .inner {
+    background-image: url(../images/phone-share@2x.png);
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -844,7 +867,6 @@ header {
   -ms-box-sizing: border-box;
   -o-box-sizing: border-box;
 }
-
 
 //---------------------------------------------------------------------------
 // Videos

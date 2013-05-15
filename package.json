@@ -36,6 +36,11 @@
         "orientation": "portrait"
       },
       {
+        "devices": "phone-ios",
+        "startfile": "app/index.phone.ios.optimized.html",
+        "orientation": "portrait"
+      },
+      {
         "devices": "tablet",
         "startfile": "app/index.tablet.optimized.html",
         "images": "marketing/small-tablet.png",

@@ -46,7 +46,11 @@ var compileColor = function(str, file, colorName, cb) {
   var color = colors[colorName];
   var linkColor = linkColors[colorName] || 'saturate(lighten(@background-color, 10%), 10%)';
   // prepend to the file the generated colors
-  parser.parse('@background-color: ' + color + ';\n@link-color: ' + linkColor + ';\n' + str, function (e, tree) {
+  parser.parse('@background-color: ' + color + ';\n' 
+    + '@link-color: ' + linkColor + ';\n' 
+    + '@image-ios-back: url("../images/phone-ios-back-' + colorName + '@2x.png");\n'
+    + '@image-ios-button: url("../images/phone-ios-button-' + colorName + '@2x.png");\n'
+    + str, function (e, tree) {
     try {
       var css = tree.toCSS({compress: compress});
       var dest = destPath(file, colorName);
