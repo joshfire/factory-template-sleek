@@ -8,6 +8,7 @@ cd ../app/
 node joshfire-framework/scripts/optimize.js ios app.phone
 node joshfire-framework/scripts/optimize.js android app.phone
 node joshfire-framework/scripts/optimize.js tv app.tv
+node joshfire-framework/scripts/optimize.js googletv app.tv.google
 node joshfire-framework/scripts/optimize.js samsungtv app.tv.samsung
 node joshfire-framework/scripts/optimize.js ios app.tablet
 node joshfire-framework/scripts/optimize.js android app.tablet
