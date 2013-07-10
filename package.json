@@ -102,6 +102,7 @@
           "title": "Background image for TV version",
           "type": "object",
           "joshfire:definedFor": [
+            "tv-samsungsmarttv",
             "tv-web"
           ]
         },
