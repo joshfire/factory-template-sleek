@@ -876,7 +876,6 @@ define([
               mentionView.el.className = 'attached-media';
               mentionView.render();
               mentionView.on('load', function() {
-                console.debug("help");
                 statusView.iScroller.refresh();
               });
               statusView.$('.attached-medias').append(mentionView.el);
