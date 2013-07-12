@@ -84,6 +84,8 @@ define([
       this.imageClass = options.imageClass;
 
       this.imageSchema = options.imageSchema;
+
+
       this.imageContainer = options.imageContainer;
 
       // Process image function
@@ -94,6 +96,7 @@ define([
 
       // getImages__, not getImages, otherwise View replace the function
       this.getImages__ = options.getImages || function () {
+
 
         // BEWARE: $.map('img', blah) is different from $('img').map(blah)
         // in Zepto 1.0rc1 (the order of parameters is not the same).
@@ -118,6 +121,7 @@ define([
           }
 
           if (url) {
+
             if (el.tagName === 'IMG') {
               e.attr('src', url);
             } else {
@@ -179,6 +183,7 @@ define([
       // We should be able to enhance here even if !imageSchema... But iScroll fails to initialize correctly then
       if (!self.imageSchema || !this.getImages__) {
         UIItem.prototype.enhance.call(this);
+        console.warn('no images to load');
         this.trigger('load');
         return;
       }
@@ -189,6 +194,7 @@ define([
       if (!images || (images.length === 0)) {
         // No image to load, we're done
         UIItem.prototype.enhance.call(this);
+        console.warn('no images to load');
         this.trigger('load');
         return;
       }
@@ -226,7 +232,10 @@ define([
       });
 
       UIItem.prototype.enhance.call(this);
+
+      this.trigger('enhanced');
     }
+
   });
 
   return UIImagesLoader;

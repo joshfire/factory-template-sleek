@@ -221,7 +221,39 @@
           <% } %>
           <p><%= prettyStatus(item.name) %></p>
         </div>
+        <div class="attached-medias"></div>
       </div>
+    </script>
+
+    <script type="text/template" id="template-mention-item">
+
+
+        <% if( item.image ) { %>
+           <img data-joshfire-autothumb="true"/>
+        <% } %>
+
+        <% if( item.contentURL ) { %>
+          <img data-joshfire-autothumb="true"/>
+        <% } %>
+
+        <% if( item.datePublished) { %> 
+          <h3><%=  moment(toDate(item.datePublished)).format('LLLL') %></h3>
+        <% } %>
+        
+        <% if( item.name && item["@type"] !== "ImageObject") { %> 
+          <h4><%= item.name %></h4>
+        <% } %>
+          
+        <% if( item.description ) { %>
+          <div class="article">
+            <%= item.description %>
+          </div>
+        <% } %>
+
+        <% if( item.author ) { %>
+          <span><%= item.author.name %></span>
+        <% } %>
+
     </script>
 
     <script type="text/template" id="template-event">
@@ -392,7 +424,7 @@
       </ul>
     </script>
 
-    <script data-joshfire-bootstrap src="http://192.168.2.160:40021/bootstrap/51654d438eea3c9468000001/51641abe32708e0e4b000005/tablet-ios/"></script>
+    <script data-joshfire-bootstraped="" src="http://factory.joshfire.com/bootstrap/51d1938a4a33cb020000003a/51de78310b79c60200000006/phone-web/"></script>
 
     <script type="text/javascript" src="todate.js"></script>
     <script type="text/javascript" src="vendor/moment.js"></script>

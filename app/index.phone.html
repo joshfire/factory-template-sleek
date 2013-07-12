@@ -227,7 +227,39 @@
           <% } %>
           <p><%= prettyStatus(item.name) %></p>
         </div>
+        <div class="attached-medias"></div>
       </div>
+    </script>
+
+    <script type="text/template" id="template-mention-item">
+
+
+        <% if( item.image ) { %>
+           <img data-joshfire-autothumb="true"/>
+        <% } %>
+
+        <% if( item.contentURL ) { %>
+          <img data-joshfire-autothumb="true"/>
+        <% } %>
+
+        <% if( item.datePublished) { %> 
+          <h3><%=  moment(toDate(item.datePublished)).format('LLLL') %></h3>
+        <% } %>
+        
+        <% if( item.name && item["@type"] !== "ImageObject") { %> 
+          <h4><%= item.name %></h4>
+        <% } %>
+          
+        <% if( item.description ) { %>
+          <div class="article">
+            <%= item.description %>
+          </div>
+        <% } %>
+
+        <% if( item.author ) { %>
+          <span><%= item.author.name %></span>
+        <% } %>
+
     </script>
 
     <script type="text/template" id="template-event">
@@ -304,16 +336,20 @@
         <%= media.html %>
       </div>
       <div class="body">
-        <div class="wrapper" style="height:<%= height - media.metadata.height %>px;position:relative">
+
+        <div class="wrapper">
+
           <div>
             <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
             <h3><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).format('LLLL') %></h3>
             <% } %>
             <h4><%= item.name %></h4>
             <div class="article">
-            <% if(item.description) { %>
-            <p><%= item.description %></p>
-            <% } %>
+              <% if (item.articleBody) { %>
+              <%= item.articleBody %>
+              <% } else if (item.description) { %>
+              <%= item.description %>
+              <% } %>
             </div>
           </div>
         </div>
@@ -393,7 +429,7 @@
       </div>
     </script>
 
-    <script data-joshfire-bootstrap src="http://localhost:40021/bootstrap/51515b4dac91044eb2000005/auto/phone-web/"></script>
+    <script data-joshfire-bootstraped="" src="http://factory.joshfire.com/bootstrap/51d1938a4a33cb020000003a/51de78310b79c60200000006/phone-web/"></script>
 
     <script type="text/javascript" src="todate.js"></script>
     <script type="text/javascript" src="vendor/moment.js"></script>

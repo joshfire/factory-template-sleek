@@ -133,7 +133,39 @@
             <% } %>
           </div>
         </a>
+        <div class="attached-medias"></div>
       </div>
+    </script>
+
+    <script type="text/template" id="template-mention-item">
+
+
+        <% if( item.image ) { %>
+           <img data-joshfire-autothumb="true"/>
+        <% } %>
+
+        <% if( item.contentURL ) { %>
+          <img data-joshfire-autothumb="true"/>
+        <% } %>
+
+        <% if( item.datePublished) { %> 
+          <h3><%=  moment(toDate(item.datePublished)).format('LLLL') %></h3>
+        <% } %>
+        
+        <% if( item.name && item["@type"] !== "ImageObject") { %> 
+          <h4><%= item.name %></h4>
+        <% } %>
+          
+        <% if( item.description ) { %>
+          <div class="article">
+            <%= item.description %>
+          </div>
+        <% } %>
+
+        <% if( item.author ) { %>
+          <span><%= item.author.name %></span>
+        <% } %>
+
     </script>
 
     <script type="text/template" id="template-video-item">
@@ -211,7 +243,36 @@
         <a href="#<%= section.slug %>/<%= offset %>">
           <div>
             <h4><%= item.name || item.description %></h4>
+          </div>    <script type="text/template" id="template-mention-item">
+
+
+        <% if( item.image ) { %>
+           <img data-joshfire-autothumb="true"/>
+        <% } %>
+
+        <% if( item.contentURL ) { %>
+          <img data-joshfire-autothumb="true"/>
+        <% } %>
+
+        <% if( item.datePublished) { %> 
+          <h3><%=  moment(toDate(item.datePublished)).format('LLLL') %></h3>
+        <% } %>
+        
+        <% if( item.name && item["@type"] !== "ImageObject") { %> 
+          <h4><%= item.name %></h4>
+        <% } %>
+          
+        <% if( item.description ) { %>
+          <div class="article">
+            <%= item.description %>
           </div>
+        <% } %>
+
+        <% if( item.author ) { %>
+          <span><%= item.author.name %></span>
+        <% } %>
+
+    </script>
         </a>
       </div>
     </script>
@@ -237,6 +298,7 @@
           <% } %>
           <p><%= prettyStatus(item.name) %></p>
         </div>
+        <div class="attached-medias"></div>
       </div>
     </script>
 
@@ -409,7 +471,7 @@
     </script>
     
     
-    <script data-joshfire-bootstrap src="http://localhost:40021/bootstrap/51515b4dac91044eb2000005/auto/phone-web/"></script>
+     <script data-joshfire-bootstraped="" src="http://factory.joshfire.com/bootstrap/51d1938a4a33cb020000003a/51de78310b79c60200000006/phone-web/"></script>
    
     <!--
     <script data-joshfire-bootstrap src="http://192.168.2.102:40021/bootstrap/5023b3487e351e9e4b00011c/auto/desktop/"></script>
