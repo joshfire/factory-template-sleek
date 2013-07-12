@@ -861,7 +861,7 @@ header {
 #video #cards{
   color: @dark-text-color;
 }
-
+.attached-media,
 #video .right-panel, #video .single {
 
   line-height: 1.2em;
@@ -1074,6 +1074,45 @@ header {
       margin: .35em 0;
       background-color: @light-background-color;
       .rotate(45deg);
+    }
+  }
+  .attached-medias {
+    position:relative;
+    padding: 0;
+
+    .media {
+      padding: 0;
+
+      iframe{
+        width:100%;
+      }
+    }
+
+  .attached-medias {
+    position:relative;
+    padding: 0;
+
+    .media {
+      padding: 0;
+
+      iframe{
+        width:100%;
+      }
+    }
+
+    .article{
+      padding-bottom:1.5em;
+    }
+
+    .attached-media {
+      padding:1.5em;
+      color:black;
+      width: auto;
+      height:100%;
+
+      img {
+        width:auto;
+      }
     }
   }
 }

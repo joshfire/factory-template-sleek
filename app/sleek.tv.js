@@ -12,6 +12,7 @@ define([
   'joshlib!ui/item',
   'joshlib!ui/factorymedia',
   'ui/imagesloader',
+  'ui/itemMention',
   'joshlib!vendor/underscore',
   'joshlib!utils/dollar',
   'joshlib!utils/woodman'
@@ -27,6 +28,7 @@ define([
   Item,
   FactoryMedia,
   ImagesLoader,
+  ItemMention,
   _, $,
   woodman) {
 
@@ -464,7 +466,7 @@ define([
       if(!params.model) {
         return new Item({});
       }
-
+      var self = this;
       var itemType = this.convertItemType(params.model.get('@type'));
       var options = {
         templateEl: '#template-' + itemType,
@@ -486,13 +488,74 @@ define([
       case 'photo':
         return null;
       case 'sound':
-        options.mediaOptions = {
+        params.mediaOptions = {
           strategy: 'html5',
           autoPlay: true
         };
-        return new FactoryMedia(options);
+        return new FactoryMedia(params);
+
       case 'status':
-        return new Item(options);
+
+        var statusView = new ItemMention(options);
+
+        mentionViews = [];
+
+        var sectionSlug = params.slug.search('twitter');
+
+        if(params.model.get('mentions') && sectionSlug === -1) {
+          _.each(params.model.get('mentions'),function(mention) {
+            var mentionView = self.createMentionView(mention);
+            if(mentionView){
+              mentionViews.push(mentionView);
+            }
+          });
+
+          window.sv = statusView;
+          statusView.on('enhanced', function() {
+
+            // Sort the mention views : videos and images
+            var typedMentions = _.groupBy(mentionViews, function(mention, i) {
+              return mention.model.get('@type') === 'ImageObject' || _.isUndefined(mention.model.get('image')) ? 'image' : 'other';
+            });
+
+            var k = 0;
+
+            _.each( mentionViews , _.bind(function(mentionView, i) {
+              mentionView.el.className = 'attached-media';
+              mentionView.render();
+
+              // If the mentionView is an Image, it will trigger a load
+              mentionView.on('load', _.bind(function() {
+                k++;
+                // We cumulate the image height
+                cumulatedHeight =+ mentionView.el.clientHeight;
+
+                // When all the images have triggered the 'load' event we run into this
+                if (typedMentions.image.length === k) {
+                  // Then we loop on the other items and add their height to the rest
+                  _.each(typedMentions.other, _.bind(function(mention, i) {
+
+                    cumulatedHeight += mention.el.clientHeight;
+                  }, this));
+
+                }
+                this.offsetTop = cumulatedHeight;
+
+              }, this));
+
+
+              statusView.$('.attached-medias').append(mentionView.el);
+
+              if(mentionView.model.get('@type') !== 'ImageObject'){
+                this.offsetTop += mentionView.el.clientHeight;
+              }
+
+            }, this));
+          });
+        }
+
+        return statusView;
+
       default:
         return new Item(options);
       }

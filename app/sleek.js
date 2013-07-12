@@ -158,6 +158,7 @@ define([
      * @function
      */
     initialize: function (callback) {
+
       var self = this;
       this.localizer = Localizer;
       this.title = Joshfire.factory.config.app.name;
@@ -218,12 +219,10 @@ define([
               var icon = this.tabicons[index];
               var slug = index + '--' + this.slugify(name.toLowerCase());
               var collection = this.createCollection(datasource);
-
               // Main section type depends on the type of content returned by the
               // datasource. Datasources that return mixed content typically fall
               // in the "other" category.
               var outputType = datasource.getOutputType();
-
               sections[index] = {
                 name: name,
                 slug: slug,
@@ -233,6 +232,7 @@ define([
                 index: index
               };
             }, self));
+
 
             // Create the views once all sections have been initialized
             var views = self.createViews(sections);
@@ -505,6 +505,7 @@ define([
      */
     createSectionView: function (section) {
       logger.log('create section view', section.name);
+
       var view = new DynamicContainer({
         name: section.slug + '-list',
         collection: section.collection,
@@ -540,9 +541,12 @@ define([
 
         logger.log(section.slug, 'view factory',
           'create container with list and detail views');
+
         var list = this.createListElement(section);
         var detail = this.createDetailContainer(section);
+        
         var view = this.createListAndDetailView(list, detail);
+
         return view;
       }, this);
     },
@@ -660,7 +664,9 @@ define([
         var detail = container.view.children.detail;
 
         if(section.collection.length > offset) {
+          
           detail.setModel(section.collection.at(offset), true);
+
         }
 
         container.view.showChild('detail', 'right');
@@ -718,6 +724,7 @@ define([
      */
     createListElement: function(section) {
       section = section || {};
+
       if (section.outputType === 'photo') {
         logger.log(section.slug, 'create list element',
           'image gallery');
@@ -805,6 +812,8 @@ define([
      * @return {UIElement} The element to use.
      */
     createDetailElement: function(options) {
+
+
       options = options || {};
       if (!options.model) {
         logger.log('create detail element', 'no model');
@@ -840,12 +849,46 @@ define([
           }
         });
       case 'status':
-        return new ImagesLoader({
+
+        var statusView = new ImagesLoader({
           name: 'item-' + itemType,
+          scrollerSelector: '.joshfire-wrapper',
           templateEl: '#template-' + itemType,
           scroller: true,
           imageSchema: self.getAuthorImageSchema(options.model.toJSON())
         });
+
+        mentionsView = [];
+
+        window.sv = statusView;
+        var sectionSlug = options.slug.search('twitter');
+
+        if(options.model.get('mentions') && sectionSlug === -1) {
+          _.each(options.model.get('mentions'),function(mention) {
+            var mentionView = self.createMentionView(mention);
+            if(mentionView){
+              mentionsView.push(mentionView);
+            }
+          });
+
+          statusView.on('enhanced', function() {
+            _.each( mentionsView , function(mentionView) {
+              mentionView.el.className = 'attached-media';
+              mentionView.render();
+              mentionView.on('load', function() {
+                console.debug("help");
+                statusView.iScroller.refresh();
+              });
+              statusView.$('.attached-medias').append(mentionView.el);
+              statusView.iScroller.refresh();
+            });
+
+          });
+        }
+
+
+        return statusView;
+
       case 'photo':
       case 'product':
       case 'other':
@@ -900,6 +943,51 @@ define([
           }
         });
       }
+    },
+
+    createMentionView: function(mention) {
+
+      var self = this;
+      var model = new Backbone.Model(mention);
+
+      switch ( mention['@type'] ) {
+        case 'ImageObject':
+          logger.log ('Create Item extended picture View');
+
+          return new ImagesLoader( {
+            model: model,
+            templateEl: '#template-mention-item',
+            imageSchema: model.toJSON()
+          } );
+
+        case 'VideoObject':
+          logger.log ('Create FactoryMedia');
+          return new FactoryMedia({
+            model: model,
+            scroller: true,
+            templateEl: '#template-video',
+            width: self.getContentWidth(),
+            height: self.getContentHeight(),
+            mediaOptions: {
+              strategy: 'html5',
+              width: '100%',
+              height: '80%',
+              adjustSize: true
+            }
+          } );
+
+        default:
+          if (mention.name && mention.description) {
+            return new ImagesLoader( {
+              model: model,
+              templateEl: '#template-mention-item',
+              imageSchema: model.toJSON()
+            } );
+          } else {
+            return false;
+          }
+      }
+
     },
 
     listItemFactory: function (section) {
@@ -1061,6 +1149,21 @@ define([
       }
       return item;
     },
+
+    /**
+     * Returns a data schema with the mention of the item's author.
+     *
+     * @function
+     * @param {object} item schema.org friendly object to parse
+     * @return {string} Thumbnail URL that best matches the viewport size
+     */
+    getAuthorMentionSchema: function(item) {
+      if (item && item.mentions && item.mentions[0]) {
+        return item.mentions;
+      }
+      return item;
+    },
+
 
     slugify: function(text) {
       text = text.replace(/[^\-a-zA-Z0-9,&\s]+/ig, '');

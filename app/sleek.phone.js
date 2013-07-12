@@ -90,7 +90,9 @@ define([
      */
     createRoutes: function(sections, views) {
       logger.log('create routes');
+
       var controllers = Sleek.prototype.createRoutes.call(this, sections, views);
+
       var $title = $('#title');
       var $toolbar = $('#toolbar');
       var $back = $('#back');
@@ -100,15 +102,20 @@ define([
 
       _.forEach(sections, function (section) {
         section = section || {};
+
         controllers.routes[section.slug] = section.slug;
 
         // List route
         logger.log(section.slug, 'create routes', 'list');
+
+
         controllers[section.slug] = function () {
+
           logger.log(section.slug, 'list route');
           self.activeSection = section;
           $title.html(section.name);
           document.body.id = section.outputType;
+
           $('iframe, audio, video, object, embed', '#container').remove();
           $toolbar.find('.active').removeClass('active');
           $toolbar.find('.section-' + section.slug).addClass('active');
@@ -125,13 +132,18 @@ define([
           if (section.collection.length) {
             logger.log(section.slug, 'list route', 'show');
             self.moveToList(container);
+            // yoyoyo
             views.showChild(section.slug);
+
           } else {
             logger.log(section.slug, 'list route', 'update');
             views.showChild(section.slug);
             self.updateList(section, container);
           }
         };
+
+
+
 
         // Detail route
         if (section.outputType !== 'photo') {

@@ -791,7 +791,7 @@ header {
       padding-right: 2em;
     }
   }
-
+  
   h3 {
     font-weight: normal;
     font-size: 1em;
@@ -880,6 +880,7 @@ header {
   color: @dark-text-color;
 }
 
+.attached-media,
 #video .detail {
 
   line-height: 1.2em;
@@ -931,7 +932,6 @@ header {
     background: white url(../images/phone-shadow@2x.png) no-repeat center top;
     background-size: 100% 53px;
   }
-
   .wrapper {
     & > div:first-child {
       // The following property creates a new rendering context that forces
@@ -949,7 +949,6 @@ header {
       margin-bottom: 1em;
     }
   }
-
   h3 {
     font-weight: normal;
     font-size: 1em;
@@ -1016,7 +1015,6 @@ header {
 //---------------------------------------------------------------------------
 // Statuses
 //---------------------------------------------------------------------------
-
 #status .detail {
 
   > div {
@@ -1044,7 +1042,7 @@ header {
   }
 
   .body {
-    height: 100%;
+    min-height: 100%;
   }
 
   .message {
@@ -1098,6 +1096,35 @@ header {
       .rotate(45deg);
     }
   }
+
+  .attached-medias {
+    position:relative;
+    padding: 0;
+
+    .media {
+      padding: 0;
+
+      iframe{
+        width:100%;
+      }
+    }
+
+    .attached-media {
+      padding:1em 1em;
+      color:black;
+      width: auto;
+
+      img {
+        width:auto;
+      }
+      
+      .wrapper>div:first-child{
+        padding:0;
+      }
+    }
+  }
+
+
 }
 
 //---------------------------------------------------------------------------

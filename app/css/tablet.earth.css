@@ -167,16 +167,16 @@ div.ps-toolbar-play div.ps-toolbar-content{background-position:-88px 0;}
 .right-panel .spinner{background:rgba(0, 0, 0, 0.9) url(../images/spinner.gif) no-repeat center center;position:absolute;top:0;bottom:0;left:50%;top:50%;width:5em;height:5em;margin-top:-2.5em;margin-left:-2.5em;z-index:2;display:none;-webkit-border-radius:0.5em;-moz-border-radius:0.5em;-ms-border-radius:0.5em;-o-border-radius:0.5em;border-radius:0.5em;}
 #video{background:#ffffff;}
 #video #cards{color:#333333;}
-#video .right-panel,#video .single{line-height:1.2em;}#video .right-panel a,#video .single a{position:relative;display:block;top:0;left:0;}
-#video .right-panel .play,#video .single .play{height:5em;width:4em;overflow:hidden;position:absolute;top:50%;left:50%;margin-top:-2.5em;-webkit-transform:scaleX(1.5);-moz-transform:scaleX(1.5);-ms-transform:scaleX(1.5);-o-transform:scaleX(1.5);transform:scaleX(1.5);}#video .right-panel .play span,#video .single .play span{display:block;height:3em;width:3em;margin-left:-1.5em;margin-top:1em;background-color:#fff;-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);-o-transform:rotate(45deg);transform:rotate(45deg);}
-#video .right-panel img,#video .single img{width:100%;height:auto;}
-#video .right-panel .media,#video .single .media{background-color:black;}
-#video .right-panel .media div,#video .single .media div,#video .right-panel .media iframe,#video .single .media iframe,#video .right-panel .media video,#video .single .media video{margin:0 auto;}
-#video .right-panel .body,#video .single .body{background:#ffffff url(../images/phone-shadow@2x.png) no-repeat center top;background-size:100% auto;}
-#video .right-panel .wrapper>div:first-child,#video .single .wrapper>div:first-child{overflow:hidden;padding:0 1em;min-height:100%;}
-#video .right-panel .wrapper p,#video .single .wrapper p{margin-bottom:1em;}
-#video .right-panel h3,#video .single h3{font-weight:normal;font-size:1em;margin-bottom:.8em;margin-top:1em;}
-#video .right-panel h4,#video .single h4{text-transform:uppercase;font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.2em;margin-bottom:1em;color:#873612;}
+.attached-media,#video .right-panel,#video .single{line-height:1.2em;}.attached-media a,#video .right-panel a,#video .single a{position:relative;display:block;top:0;left:0;}
+.attached-media .play,#video .right-panel .play,#video .single .play{height:5em;width:4em;overflow:hidden;position:absolute;top:50%;left:50%;margin-top:-2.5em;-webkit-transform:scaleX(1.5);-moz-transform:scaleX(1.5);-ms-transform:scaleX(1.5);-o-transform:scaleX(1.5);transform:scaleX(1.5);}.attached-media .play span,#video .right-panel .play span,#video .single .play span{display:block;height:3em;width:3em;margin-left:-1.5em;margin-top:1em;background-color:#fff;-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);-o-transform:rotate(45deg);transform:rotate(45deg);}
+.attached-media img,#video .right-panel img,#video .single img{width:100%;height:auto;}
+.attached-media .media,#video .right-panel .media,#video .single .media{background-color:black;}
+.attached-media .media div,#video .right-panel .media div,#video .single .media div,.attached-media .media iframe,#video .right-panel .media iframe,#video .single .media iframe,.attached-media .media video,#video .right-panel .media video,#video .single .media video{margin:0 auto;}
+.attached-media .body,#video .right-panel .body,#video .single .body{background:#ffffff url(../images/phone-shadow@2x.png) no-repeat center top;background-size:100% auto;}
+.attached-media .wrapper>div:first-child,#video .right-panel .wrapper>div:first-child,#video .single .wrapper>div:first-child{overflow:hidden;padding:0 1em;min-height:100%;}
+.attached-media .wrapper p,#video .right-panel .wrapper p,#video .single .wrapper p{margin-bottom:1em;}
+.attached-media h3,#video .right-panel h3,#video .single h3{font-weight:normal;font-size:1em;margin-bottom:.8em;margin-top:1em;}
+.attached-media h4,#video .right-panel h4,#video .single h4{text-transform:uppercase;font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.2em;margin-bottom:1em;color:#873612;}
 #sound{background:#ffffff;}
 #sound #cards{color:#333333;}
 #sound .right-panel,#sound .single{line-height:1.2em;padding:1.2em 1em 1em;margin-top:-0.5em;}#sound .right-panel img,#sound .single img{height:32px;width:auto;float:left;margin-right:.2em;}
@@ -191,6 +191,9 @@ div.ps-toolbar-play div.ps-toolbar-content{background-position:-88px 0;}
 #status .right-panel .message h4,#status .single .message h4{font-weight:normal;margin-bottom:1.3em;color:#808080;font-size:1.2em;position:relative;}
 #status .right-panel .message p,#status .single .message p{font-size:1.4em;position:relative;}#status .right-panel .message p strong,#status .single .message p strong,#status .right-panel .message p em,#status .single .message p em,#status .right-panel .message p a,#status .single .message p a{color:#be440e;font-weight:normal;font-style:normal;}
 #status .right-panel .arrow,#status .single .arrow{height:.8em;margin-left:1.8em;overflow:hidden;position:relative;z-index:2;}#status .right-panel .arrow span,#status .single .arrow span{display:block;height:1.6em;width:1.6em;margin:.35em 0;background-color:#ffffff;-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);-o-transform:rotate(45deg);transform:rotate(45deg);}
+#status .right-panel .attached-medias,#status .single .attached-medias{position:relative;padding:0;}#status .right-panel .attached-medias .media,#status .single .attached-medias .media{padding:0;}#status .right-panel .attached-medias .media iframe,#status .single .attached-medias .media iframe{width:100%;}
+#status .right-panel .attached-medias .attached-media,#status .single .attached-medias .attached-media{padding-bottom:10%;padding:1em 1em;color:black;width:auto;}#status .right-panel .attached-medias .attached-media img,#status .single .attached-medias .attached-media img{width:auto;}
+#status .right-panel .attached-medias .attached-media .wrapper>div:first-child,#status .single .attached-medias .attached-media .wrapper>div:first-child{padding:0;}
 #event .right-panel,#event .single{line-height:1.2em;background:#ffffff;color:#333333;}#event .right-panel>div,#event .single>div{padding:1em;}
 #event .right-panel h3,#event .single h3{font-weight:normal;font-size:1em;margin-bottom:.8em;margin-top:1em;}
 #event .right-panel h4,#event .single h4{text-transform:uppercase;font-family:"HelveticaNeue-CondensedBold","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.2em;margin-bottom:1em;color:#873612;}
