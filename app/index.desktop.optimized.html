@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+
+    <title></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <style type="text/css" media="screen">
+      body, html {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      body {
+        background: #000 url(data:image/gif;base64,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) no-repeat center center;
+      }
+
+      #container {
+        display: none;
+      }
+    </style>
+    <script type="text/javascript">
+      window.console = window.console || {
+        dir: function() {},
+        error: function() {},
+        group: function() {},
+        groupCollapsed: function() {},
+        groupEnd: function() {},
+        info: function() {},
+        log: function() {},
+        time: function() {},
+        timeEnd: function() {},
+        trace: function() {},
+        warn: function() {}
+      }
+    </script>
+  </head>
+
+  <body class="device-phone" ontouchmove="event.preventDefault()">
+    <div id="container">
+      <header>
+        <div class="container">
+          <div class="nine-sixty">
+            <div id="toolbar">&nbsp;</div>
+            <h1><span id="title">&nbsp;</span></h1>
+          </div>
+        </div>
+      </header>
+      <div id="cards-container">
+        <div id="cards"></div>
+      </div>
+    </div>
+
+    <!-- TEMPLATES SHARED BY PHONE/TABLET/DESKTOP versions -->
+
+    <script type="text/template" id="template-nodata">
+      <div class="single content nodata">
+        <%= T('nodata') %>
+      </div>
+    </script>
+    
+    <script type="text/template" id="template-toolbar">
+      <ul>
+        <%= children %>
+      </ul>
+    </script>
+
+    <script type="text/template" id="toolbar-item">
+      <a href="<%= item.linkURL %>" class="<%= (item.name.toLowerCase() === 'contact') ? 'contact' : item.icon %> section-<%= item.slug %>">
+        <div class="indicator"><span>&nbsp;</span></div>
+        <%= item.name %><span>&nbsp;</span>
+      </a>
+    </script>
+
+    <script type="text/template" id="template-list-view">
+      <div class="first">
+        <ul class="list">
+          <%= children %>
+        </ul>
+      </div>
+      <div class="loader large">&nbsp;</div>
+    </script>
+
+    <script type="text/template" id="template-single-photo">
+      <div class="first">
+        <ul class="list">
+          <%= children %>
+        </ul>
+        <div class="meta">
+          <div class="cell">
+            <% if(collection.at(0)) { %>
+            <%= collection.at(0).get('name') %>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      <div class="loader large">&nbsp;</div>
+    </script>
+    
+    <script type="text/template" id="template-photo-item">
+      <div class="figure">
+        <a class="img fadein" href="<%= item.contentURL %>" title="<%= item.name %>" style="background-image: url(<%= imageUrl %>)">&nbsp;</a>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-status-item">
+      <div>
+        <a href="#<%= section.slug %>/<%= offset %>">
+          <% if (imageUrl) { %>
+            <div class="figure">
+              <div class="img fadein" title="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" style="background-image: url(<%= imageUrl %>)"></div>
+              <div class="loader"></div>
+            </div>
+          <% } %>
+          <div class="right">
+            <% if (item.author && item.author[0] && item.author[0].name) { %>
+            <h3>
+              <%= item.author[0].name %>
+              <% if (item.author[0]['foaf:nick']) { %>
+                @<%= item.author[0]['foaf:nick'] %>
+              <% } %>
+            </h3>
+            <% } %>
+            <p><%= item.name %></p>
+            <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+              <h4><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></h4>
+            <% } %>
+          </div>
+        </a>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-video-item">
+      <div>
+        <a href="#<%= section.slug %>/<%= offset %>">
+          <div>
+            <% if (imageUrl) { %>
+              <div class="figure">
+                <div class="img fadein" style="background-image: url(<%= imageUrl %>)"></div>
+                <div class="loader inv"></div> 
+              </div>
+            <% } %>
+            <div class="right">
+              <h3><%= item.name %></h3>
+            </div>
+          </div>
+        </a>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-event-item">
+      <div>
+        <a href="#<%= section.slug %>/<%= offset %>">
+          <div>
+            <% if (item.startDate) { %>
+            <h3>
+              <span><%= moment(toDate(item.startDate)).calendar() %></span>
+            </h3>
+            <% } %>
+            <h4><%= item.name || item.description %></h4>
+          </div>
+        </a>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-news-item">
+      <div>
+        <a href="#<%= section.slug %>/<%= offset %>">
+          <div>
+            <% if (imageUrl) { %>
+              <div class="figure">
+                <div class="img fadein" style="background-image:url(<%= imageUrl %>)"></div>
+                <div class="loader inv"></div> 
+              </div>
+            <% } %>
+            <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+            <h3>
+              <span><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></span>
+            </h3>
+            <% } %>
+            <h4><%= item.name || item.description %></h4>
+          </div>
+        </a>
+      </div>
+    </script>
+
+
+    <script type="text/template" id="template-sound-item">
+      <div>
+        <a href="#<%= section.slug %>/<%= offset %>">
+          <div>
+            <% if (item.byArtist && item.byArtist.name) { %>
+              <h3><%= item.byArtist.name %></h3>
+            <% } else if (item.author && item.author.name) { %>
+              <h3><%= item.author.name %></h3>
+            <% } %>
+            <h4><%= item.name %></h4>
+          </div>
+        </a>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-other-item">
+      <div>
+        <a href="#<%= section.slug %>/<%= offset %>">
+          <div>
+            <h4><%= item.name || item.description %></h4>
+          </div>
+        </a>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-status">
+      <div class="body">
+        <div class="header">
+          <% if (imageUrl) { %>
+            <img src="<%= imageUrl %>" alt="" />
+          <% } %>
+          <% if (item.author && item.author[0] && item.author[0].name) { %>
+            <h2><%= item.author[0].name %></h2>
+          <% } %>
+          <% if (item.author && item.author[0] && item.author[0]['foaf:nick']) { %>
+            <h3>@<%= item.author[0]['foaf:nick'] %></h3>
+          <% } %>
+        </div>
+        <div class="arrow"><span>&nbsp;</span></div>
+        <div class="message">
+          <div class="cover">&nbsp;</div>
+          <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+          <h4><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></h4>
+          <% } %>
+          <p><%= prettyStatus(item.name) %></p>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-event">
+      <div class="body">
+        <% if (item.startDate && item.endDate && (item.startDate !== item.endDate)) { %>
+        <h3><span>From <%= moment(toDate(item.startDate)).format('LLLL') %> to <%= moment(toDate(item.endDate)).format('LLLL') %></span></h3>
+        <% } else if (item.startDate) { %>
+          <h3><span>On <%= moment(toDate(item.startDate)).format('LLLL') %></span></h3>
+        <% } %>
+        <h4><%= item.name %></h4>
+        <% if(item.description) { %>
+          <p class="description"><%= item.description %></p>
+        <% } %>
+        <% if(item.location && item.location.name) { %>
+          <p class="location"><%= item.location.name %></p>
+        <% } %>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-news">
+      <div class="body">
+        <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+        <h3><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).format('LLLL') %></h3>
+        <% } %>
+        <h4><%= item.name %></h4>
+        <div class="article">
+        <% if (item.articleBody) { %>
+        <%= item.articleBody %>
+        <% } else if (item.description) { %>
+        <%= item.description %>
+        <% } %>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-product">
+      <div class="body">
+        <h4><%= item.name %></h4>
+        <% if (imageUrl) { %>
+          <div class="center"><img src="<%= imageUrl %>" alt="" /></div>
+        <% } %>
+        <div class="article">
+        <% if (item.articleBody) { %>
+        <%= item.articleBody %>
+        <% } else if (item.description) { %>
+        <%= item.description %>
+        <% } %>
+        </div>
+
+        <% if (item.offers && item.offers[0] && item.offers[0].price) { %>
+        <div class="offer">Price: <%= (item.offers[0].priceCurrency === 'EUR') ? '€' : ((item.offers[0].priceCurrency === 'GBP') ? '₤' : '$') %><%= item.offers[0].price %></div>
+        <% } %>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-photo">
+      <div class="body">
+        <h4><%= item.name %></h4>
+        <% if (imageUrl) { %>
+          <div class="center"><img src="<%= imageUrl %>" alt="" /></div>
+        <% } %>
+        <div class="article">
+        <% if (item.articleBody) { %>
+        <%= item.articleBody %>
+        <% } else if (item.description) { %>
+        <%= item.description %>
+        <% } %>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-video">
+      <div class="media" style="height:<%= media.metadata.height %>px">
+        <%= media.html %>
+      </div>
+      <div class="body">
+        <div class="wrapper" style="height:<%= height - media.metadata.height %>px;position:relative">
+          <div>
+            <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+            <h3><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).format('LLLL') %></h3>
+            <% } %>
+            <h4><%= item.name %></h4>
+            <div class="article">
+            <% if(item.description) { %>
+            <p><%= item.description %></p>
+            <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-other">
+      <div class="body">
+        <h4><%= item.name %></h4>
+        <% if (imageUrl) { %>
+          <div class="center"><img src="<%= imageUrl %>" alt="" /></div>
+        <% } %>
+        <div class="article">
+        <% if (item.articleBody) { %>
+        <%= item.articleBody %>
+        <% } else if (item.description) { %>
+        <%= item.description %>
+        <% } %>
+        </div>
+      </div>
+    </script>
+
+    <!-- TEMPLATES SHARED BY ALL VERSIONS FOR SPOT -->
+
+    <script type="text/template" id="template-contact-index">
+      <div class="body"><%= textContent %></div>
+    </script>
+
+    <script type="text/template" id="template-contact-map">
+      <div class="google-map"></div>
+    </script>
+
+    <script type="text/template" id="template-map-overlay">
+      <p class="map-overlay"><%= address %></p>
+    </script>
+
+    <!-- TEMPLATES SPECIFIC TO THIS VERSION -->
+
+    <script type="text/template" id="template-product-item">
+        <div>
+          <a href="#<%= section.slug %>/<%= offset %>">
+            <div>
+              <h4>
+                <%= item.name %>
+                <% if (item.offers && item.offers[0] && item.offers[0].price) {  %>
+                  <span class="offer"><%= (item.offers[0].priceCurrency === 'EUR') ? '€' : ((item.offers[0].priceCurrency === 'GBP') ? '₤' : '$') %><%= item.offers[0].price %></span>
+                <% } %>
+              </h4>
+            </div>
+          </a>
+        </div>
+    </script>
+
+    <script type="text/template" id="template-sound">
+      <div>
+        <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+        <h3><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).format('LLLL') %></h3>
+        <% } %>
+        <h4>
+          <%= item.name %>
+          <% if (item.byArtist && item.byArtist.name) { %> by <%= item.byArtist.name %>
+          <% } else if (item.author && item.author.name) { %> by <%= item.author.name %><% } %>
+        </h4>
+        <% if(item.thumbnail && item.thumbnail.length) { %>
+          <img src="<%= item.thumbnail[0].contentURL %>" />
+        <% } %>
+        <div class="media"><%= media.html %></div>
+        <% if(item.description) { %>
+        <p><%= item.description %></p>
+        <% } %>
+      </div>
+    </script>
+
+    <script type="text/template" id="template-detail-view">
+      <div></div>
+      <div class="spinner">&nbsp;</div>
+    </script>
+
+    <script type="text/template" id="item-list">
+      <ul class="list">
+        <%= children %>
+      </ul>
+    </script>
+
+    <script data-joshfire-bootstrap src="http://preview-staging.joshfireapps.com/bootstrap/50e6b8dff1cfc8020000000f/50e5b055a8f1990200000002/phone-ios/"></script>
+
+    <script>Joshfire.debug=false;</script>
+    <script type="text/javascript" src="todate.js"></script>
+    <script type="text/javascript" src="vendor/moment.js"></script>
+    <script type="text/javascript" src="vendor/sidjs-0.1.js"></script>
+    <script type="text/javascript" src="prettystatus.js"></script>
+    <script type="text/javascript" src="app.desktop.ios.optimized.js"></script>
+  </body>
+</html>
