@@ -227,9 +227,41 @@
           <% } %>
           <p><%= prettyStatus(item.name) %></p>
         </div>
+        <div class="attached-medias"></div>
       </div>
     </script>
 
+    <script type="text/template" id="template-mention-item">
+
+
+        <% if( item.image ) { %>
+           <img data-joshfire-autothumb="true"/>
+        <% } %>
+
+        <% if( item.contentURL ) { %>
+          <img data-joshfire-autothumb="true"/>
+        <% } %>
+
+        <% if( item.datePublished) { %> 
+          <h3><%=  moment(toDate(item.datePublished)).format('LLLL') %></h3>
+        <% } %>
+        
+        <% if( item.name && item["@type"] !== "ImageObject") { %> 
+          <h4><%= item.name %></h4>
+        <% } %>
+          
+        <% if( item.description ) { %>
+          <div class="article">
+            <%= item.description %>
+          </div>
+        <% } %>
+
+        <% if( item.author ) { %>
+          <span><%= item.author.name %></span>
+        <% } %>
+
+    </script>
+    
     <script type="text/template" id="template-event">
       <div class="body">
         <% if (item.startDate && item.endDate && (item.startDate !== item.endDate)) { %>
