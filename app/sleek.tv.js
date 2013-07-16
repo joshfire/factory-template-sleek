@@ -12,7 +12,7 @@ define([
   'joshlib!ui/item',
   'joshlib!ui/factorymedia',
   'ui/imagesloader',
-  'ui/itemMention',
+  'ui/itemTvMention',
   'joshlib!vendor/underscore',
   'joshlib!utils/dollar',
   'joshlib!utils/woodman'
@@ -28,7 +28,7 @@ define([
   Item,
   FactoryMedia,
   ImagesLoader,
-  ItemMention,
+  ItemTvMention,
   _, $,
   woodman) {
 
@@ -492,11 +492,12 @@ define([
           strategy: 'html5',
           autoPlay: true
         };
+
         return new FactoryMedia(params);
 
       case 'status':
 
-        var statusView = new ItemMention(options);
+        var statusView;
 
         mentionViews = [];
 
@@ -509,16 +510,13 @@ define([
               mentionViews.push(mentionView);
             }
           });
+          options.videoDetail = this.videoDetail;
+          options.mentions = mentionViews;
 
-          window.sv = statusView;
+          statusView = new ItemTvMention(options);
+
           statusView.on('enhanced', function() {
 
-            // Sort the mention views : videos and images
-            var typedMentions = _.groupBy(mentionViews, function(mention, i) {
-              return mention.model.get('@type') === 'ImageObject' || _.isUndefined(mention.model.get('image')) ? 'image' : 'other';
-            });
-
-            var k = 0;
 
             _.each( mentionViews , _.bind(function(mentionView, i) {
               mentionView.el.className = 'attached-media';
@@ -526,20 +524,8 @@ define([
 
               // If the mentionView is an Image, it will trigger a load
               mentionView.on('load', _.bind(function() {
-                k++;
-                // We cumulate the image height
-                cumulatedHeight =+ mentionView.el.clientHeight;
 
-                // When all the images have triggered the 'load' event we run into this
-                if (typedMentions.image.length === k) {
-                  // Then we loop on the other items and add their height to the rest
-                  _.each(typedMentions.other, _.bind(function(mention, i) {
-
-                    cumulatedHeight += mention.el.clientHeight;
-                  }, this));
-
-                }
-                this.offsetTop = cumulatedHeight;
+                this.offsetTop=+ mentionView.el.clientHeight;
 
               }, this));
 
@@ -560,6 +546,55 @@ define([
         return new Item(options);
       }
     },
+
+    createMentionView: function(mention) {
+
+      var self = this;
+      var model = new Backbone.Model(mention);
+
+      switch ( mention['@type'] ) {
+        case 'ImageObject':
+          logger.log ('Create Item extended picture View');
+
+          return new ImagesLoader( {
+            model: model,
+            templateEl: '#template-mention-item',
+            imageSchema: model.toJSON()
+          } );
+
+        case 'VideoObject':
+          var videoImage = _.find(model.get('thumbnail'), function(image){
+            return image.width == 480;
+          });
+
+          if (videoImage) {
+
+            model.set( { "image": videoImage } );
+          } else {
+
+            model.set( { "image": _.last(model.get('thumbnail') )} );
+          }
+
+          return new ImagesLoader( {
+              model: model,
+              templateEl: '#template-mention-video',
+              imageSchema: model.toJSON()
+          } );
+
+        default:
+          if (mention.name && mention.description) {
+            return new ImagesLoader( {
+              model: model,
+              templateEl: '#template-mention-item',
+              imageSchema: model.toJSON()
+            } );
+          } else {
+            return false;
+          }
+      }
+
+    }, 
+
 
     //
     // Creates routes

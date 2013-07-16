@@ -860,7 +860,6 @@ define([
 
         mentionsView = [];
 
-        window.sv = statusView;
         var sectionSlug = options.slug.search('twitter');
 
         if(options.model.get('mentions') && sectionSlug === -1) {
@@ -951,7 +950,7 @@ define([
 
       switch ( mention['@type'] ) {
         case 'ImageObject':
-          logger.log ('Create Item extended picture View');
+          logger.log ('Create mention ImageLoader');
 
           return new ImagesLoader( {
             model: model,
@@ -960,7 +959,7 @@ define([
           } );
 
         case 'VideoObject':
-          logger.log ('Create FactoryMedia');
+          logger.log ('Create mention VideoLoader');
           return new FactoryMedia({
             model: model,
             scroller: true,

@@ -173,6 +173,7 @@
     </script>
 
     <script type="text/template" id="template-mention-item">
+      <a data-cid="<%= this.cid %>" href="#" class="mentionFocus">
 
 
         <% if( item.image ) { %>
@@ -182,6 +183,8 @@
         <% if( item.contentURL ) { %>
           <img data-joshfire-autothumb="true"/>
         <% } %>
+
+      </a>
 
         <% if( item.datePublished) { %> 
           <h3><%=  moment(toDate(item.datePublished)).format('LLLL') %></h3>
@@ -200,7 +203,32 @@
         <% if( item.author ) { %>
           <span><%= item.author.name %></span>
         <% } %>
+    </script>
 
+    <script type="text/template" id="template-mention-video">
+      <a  data-cid="<%= this.cid %>" href="f" class="mentionFocus">
+      <% if( item.image ) { %>
+          <img class="videoThumbnail" data-joshfire-autothumb="true"/>
+        <% } %></a>
+      <div class="body">
+
+        <div class="wrapper">
+
+          <div>
+            <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+            <h3><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).format('LLLL') %></h3>
+            <% } %>
+            <h4><%= item.name %></h4>
+            <div class="article">
+              <% if (item.articleBody) { %>
+              <%= item.articleBody %>
+              <% } else if (item.description) { %>
+              <%= item.description %>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
     </script>
 
     <script type="text/template" id="template-event-item">
@@ -282,7 +310,7 @@
     </script>
 
     <script type="text/template" id="template-video">
-      <%= media.html %>
+      <a href="f" class="mentionFocus"><%= media.html %></a>
       <div class="body">
 
         <div class="wrapper">
