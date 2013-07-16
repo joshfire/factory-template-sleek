@@ -572,14 +572,14 @@ define([
             model.set( { "image": videoImage } );
           } else {
 
-            model.set( { "image": _.last(model.get('thumbnail') ) } );
+            model.set( { "image": _.last(model.get('thumbnail') )} );
           }
 
           return new ImagesLoader( {
               model: model,
               templateEl: '#template-mention-video',
               imageSchema: model.toJSON()
-          });
+          } );
 
         default:
           if (mention.name && mention.description) {
@@ -592,7 +592,8 @@ define([
             return false;
           }
       }
-    },
+
+    }, 
 
 
     //
