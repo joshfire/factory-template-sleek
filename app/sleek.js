@@ -956,10 +956,10 @@ define([
             model: model,
             templateEl: '#template-mention-item',
             imageSchema: model.toJSON()
-          } );
+          });
 
         case 'VideoObject':
-          logger.log ('Create mention VideoLoader');
+          logger.log ('Create mention videoLoader');
           return new FactoryMedia({
             model: model,
             scroller: true,
@@ -972,7 +972,7 @@ define([
               height: '80%',
               adjustSize: true
             }
-          } );
+          });
 
         default:
           if (mention.name && mention.description) {
@@ -980,7 +980,7 @@ define([
               model: model,
               templateEl: '#template-mention-item',
               imageSchema: model.toJSON()
-            } );
+            });
           } else {
             return false;
           }
