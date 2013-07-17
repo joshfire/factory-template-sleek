@@ -181,6 +181,9 @@ define([
         }
 
         // Open external link in another window
+        // Not necessary anymore since we now have the in-app browser.
+        // Leaving the code here temporarily. (famous last words - 07/13)
+        /*
         $('body').on('click', 'a', function () {
           if ($(this).is('.img, .image')) return true;
           var url = $(this).attr('href');
@@ -189,6 +192,7 @@ define([
             return false;
           }
         });
+        */
 
         // Sets the locale and loads the corresponding dictionnary.
         // It is then defined in the html templates's scope.
@@ -544,7 +548,7 @@ define([
 
         var list = this.createListElement(section);
         var detail = this.createDetailContainer(section);
-        
+
         var view = this.createListAndDetailView(list, detail);
 
         return view;
@@ -664,7 +668,7 @@ define([
         var detail = container.view.children.detail;
 
         if(section.collection.length > offset) {
-          
+
           detail.setModel(section.collection.at(offset), true);
 
         }
