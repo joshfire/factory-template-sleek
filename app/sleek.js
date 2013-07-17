@@ -902,8 +902,10 @@ define([
         });
 
       case 'news':
-        var body = options.model.get('articleBody').replace(/\n|\r\n/g,'<br>');
-        options.model.set('articleBody',body,{silent: true});
+        if (options.model.get('articleBody')) {
+          var body = options.model.get('articleBody').replace(/\n|\r\n/g,'<br>');
+          options.model.set('articleBody', body, {silent: true});
+        }
         return new ImagesLoader({
           name: 'item-' + itemType,
           templateEl: '#template-' + itemType,
