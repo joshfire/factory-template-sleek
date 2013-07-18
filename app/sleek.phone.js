@@ -2,12 +2,12 @@
 
 define([
   'sleek.custom',
-  'joshlib!ui/toolbar',
+  'ui/navigateElement',
   'joshlib!ui/slidepanel',
   'joshlib!utils/dollar',
   'joshlib!utils/woodman',
   'joshlib!vendor/underscore'
-], function (Sleek, Toolbar, SlidePanel, $, woodman, _) {
+], function (Sleek, UINavigate, SlidePanel, $, woodman, _) {
 
   var logger = woodman.getLogger('sleek.phone');
 
@@ -40,8 +40,9 @@ define([
      * @return {UIElement} The toolbar UI element to use
      */
     createToolbarElement: function() {
+
       logger.log('create toolbar element');
-      return new Toolbar({
+      return new UINavigate({
         name: 'toolbar',
         el: '#toolbar',
         templateEl: '#template-toolbar',

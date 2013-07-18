@@ -1,0 +1,1091 @@
+body {
+  font-size: @base-font-size * 1px;
+}
+
+/****************************************************************************
+
+  HEADER & FOOTER
+
+****************************************************************************/
+
+//---------------------------------------------------------------------------
+// Header
+//---------------------------------------------------------------------------
+header {
+  pointer-events: none;
+  background-color:@gray-dark;
+
+  h1 {
+    color:@white;
+    span {
+      display: block;
+      position: relative;
+    }
+  }
+}
+
+
+
+
+// Refresh/Share button
+#share {
+  position: absolute;
+  right: 2.5px;
+  top: 2.5px;
+  width: 3em;
+  height: 2.24em;
+  overflow: hidden;
+  z-index: 35;
+  background: transparent url(../images/phone-share@2x.png) no-repeat center center;
+  background-size: 20px 18px;
+  text-indent: -30000px;
+  pointer-events: all;
+}
+
+
+//iOS style
+.device-phone-ios {
+  #refresh,
+  #share {
+    //iOS style
+    height: 2em;
+    right: .46em;
+    top: .46em;
+    box-sizing: border-box;
+    border-width: 5px 6px;
+    border-style: solid;
+
+
+    .inner {
+      display: block;
+      height: 100%;
+      background: transparent url(../images/phone-refresh@2x.png) no-repeat center center;
+      background-size: 20px 18px;
+    }
+  }
+  #share .inner {
+    background-image: url(../images/phone-share@2x.png);
+  }
+}
+
+
+// Arrow indicator
+.indicator {
+  position: absolute;
+  height: .8em;
+  top: -.8em;
+  left: 51%;
+  width: 2em;
+  margin-left: -1em;
+  overflow: hidden;
+
+  span {
+    display: block;
+    height: 1.2em;
+    width: 1.2em;
+    margin: .2em auto;
+    background-color: darken(@background-color, 7%);
+    .rotate(45deg);
+  }
+}
+
+//---------------------------------------------------------------------------
+// Footer // Toolbar
+//---------------------------------------------------------------------------
+
+#toolbar {
+  position: absolute;
+  background-color:@gray-darker;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  z-index: 1;
+  padding-top: .6em;
+
+  ul {
+    list-style: none;
+    width:100%;
+    background-color:red;
+
+    li {
+      display:block;
+      background-color:@gray;
+
+      a {
+        width:100%;
+        display: block;
+        position: relative;
+
+        &.photo {
+          background-image: url(../images/phone-photo@2x.png);
+          background-size: 19px 17px;
+        }
+
+        &.status {
+          background-image: url(../images/phone-status@2x.png);
+          background-size: 25px 18px;
+        }
+
+        &.video {
+          background-image: url(../images/phone-video@2x.png);
+          background-size: 24px 13px;
+        }
+
+        &.event {
+          background-image: url(../images/phone-event@2x.png);
+          background-size: 18px 18px;
+        }
+
+        &.news {
+          background-image: url(../images/phone-news@2x.png);
+          background-size: 17px 16px;
+        }
+
+        &.sound {
+          background-image: url(../images/phone-sound@2x.png);
+          background-size: 14px 20px;
+        }
+
+        &.contact {
+          background-image: url(../images/phone-contact@2x.png);
+          background-size: 22px 14px;
+        }
+
+        &.map {
+          background-image: url(../images/phone-map@2x.png);
+          background-size: 11px 20px;
+        }
+
+        &.product {
+          background-image: url(../images/phone-product@2x.png);
+          background-size: 22px 18px;
+        }
+
+        &.other {
+          background-image: url(../images/phone-news@2x.png);
+          background-size: 17px 16px;
+        }
+
+        &.next, &.prev {
+          background-image: url(../images/phone-more@2x.png);
+          background-size: 20px 6px;
+        }
+
+        & > span {
+          left: 0;
+          top: 0;
+          position: absolute;
+          display: block;
+          width: 100%;
+          height: 50%;
+
+          .vertical-gradient(rgba(255,255,255,.04), rgba(255,255,255,.03));
+        }
+
+        .indicator {
+          display: none;
+        }
+
+        &.active {
+          background-color: transparent;
+
+          & > span {
+            background: transparent url(../images/phone-glow@2x.png) no-repeat center center;
+            background-size: 75px 75px;
+            height: 100%;
+          }
+
+          /*.indicator {
+            display: block;
+          }*/
+        }
+      }
+    }
+  }
+}
+
+
+/****************************************************************************
+
+  CONTENT & PANNELS
+
+****************************************************************************/
+
+
+#viewport {
+  position: absolute;
+  left: 0;
+  top: 2.9em;
+  bottom: 3.05em;
+  width: 100%;
+  z-index: 1;
+}
+
+#cards {
+  width: 100%;
+  height: 100%;
+}
+
+.content {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  & > div {
+    .backface-hidden;
+  }
+
+  img {
+    max-width: 100%;
+    margin: 1em 0;
+  }
+}
+
+//---------------------------------------------------------------------------
+// A simple panel
+//---------------------------------------------------------------------------
+.panel {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+//---------------------------------------------------------------------------
+// A panel with a slide transition
+//---------------------------------------------------------------------------
+.slide-panel {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  .backface-hidden;
+
+  & > .content {
+    float: left;
+    position: relative;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+
+/****************************************************************************
+
+  LISTS (FOR COLLECTIONS)
+
+****************************************************************************/
+
+//---------------------------------------------------------------------------
+// List base style.
+//---------------------------------------------------------------------------
+.list {
+  list-style: none;
+  line-height: 1em;
+  padding: 0;
+  .clear-fix;
+}
+
+.no-data {
+  text-align: center;
+}
+
+.loading .no-data {
+  display: none;
+}
+
+//---------------------------------------------------------------------------
+// List types.
+//---------------------------------------------------------------------------
+
+// A plan and simple, light-colored list.
+.simple-list {
+  li {
+    border-bottom: solid 2px fade(@background-color, 15%);
+
+    .vertical-gradient(fade(@background-color,10%), fade(@light-background-color, 0%));
+
+    &:first-child {
+      padding-top: 1em;
+    }
+
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 2em;
+    }
+  }
+}
+
+// Add this to a list, and even items will be darker.
+.hashed-list {
+  li {
+    border-bottom: solid thin fade(lighten(@background-color, 10%), 20%);
+
+    &:nth-child(even) {
+      background-color: fade(darken(@background-color, 20%), 30%);
+      //.box-shadow(inset 0 4px 4px rgba(0,0,0,.1));
+    }
+
+    &:first-child {
+      padding-top: 1em;
+    }
+
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 2em;
+    }
+  }
+}
+
+// A mosaic list, used to display pictures.
+.mosaic-list {
+  background: #000;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  li {
+    width: 50%;
+    float: left;
+    padding: 0;
+
+    > div {
+      display: block;
+      height: 0;
+      overflow: hidden;
+      padding-bottom: 50%;
+      position: relative;
+
+      a {
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        border: solid thin #000;
+      }
+    }
+
+    &:nth-child(6n - 5) {
+
+      > div {
+        padding-bottom: 100%;
+      }
+    }
+
+    &:nth-child(6n - 1) {
+      float: right;
+
+      > div {
+        padding-bottom: 100%;
+      }
+    }
+
+    &:nth-child(3n + 1) {
+      clear: left;
+    }
+
+    &:last-child {
+      &:nth-child(6n - 5) {
+        width: 100%;
+
+        > div {
+          padding-bottom: 25%;
+        }
+      }
+
+      &:nth-child(6n - 4) {
+        > div {
+          padding-bottom: 100%;
+        }
+      }
+
+      &:nth-child(6n - 2) {
+        width: 100%;
+
+        > div {
+          padding-bottom: 25%;
+        }
+      }
+
+      &:nth-child(6n - 1) {
+        > div {
+          padding-bottom: 50%;
+        }
+      }
+    }
+  }
+}
+
+.single.mosaic-list {
+
+  .first {
+    height: 100%;
+  }
+
+  ul {
+    margin: 0;
+    list-style: none;
+    position: absolute;
+    top: 0;
+    bottom: 15%;
+    left: 0;
+    right: 0;
+
+    li {
+      height: 100%;
+    }
+    
+    .figure {
+      padding-bottom: 0!important;
+      height: 100%;
+
+      a {
+        pointer-events: none;
+      }
+    }
+  }
+
+
+  .meta {
+    position: absolute;
+    top: 85%;
+    bottom: 0;
+    display: table;
+    left: 0;
+    right: 0;
+    height: 15%;
+    width: 100%;
+
+    .cell {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+    }
+  }
+}
+
+//---------------------------------------------------------------------------
+// List item types.
+//---------------------------------------------------------------------------
+
+// An item of unknown type
+.unknown-item > div {
+  padding: 1em;
+}
+
+// A status item
+.status-item > div {
+  a {
+    display: block;
+    padding: 1em;
+  }
+
+  & > div {
+
+    background: url(../images/phone-arrow@2x.png) no-repeat right center;
+    background-size: 9px 13px;
+    .clear-fix;
+    padding-right: 2em;
+  }
+
+  .figure {
+    float: left;
+    width: 48px;
+    height: 48px;
+  }
+
+  .img {
+    .box-shadow(0 0 .5em rgba(0,0,0,.6));
+  }
+
+  .right {
+    margin-left: 60px;
+    padding-right: 1.5em;
+  }
+
+  h3 {
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    margin-bottom: .15em;
+  }
+
+  p {
+    color: darken(@text-color, 15%);
+  }
+
+  h4 {
+    font-size: 1em;
+    font-weight: normal;
+    color: darken(@text-color, 30%);
+    margin-top: .15em;
+  }
+}
+
+// A video item
+.video-item > div {
+  a {
+    display: block;
+    padding: .5em 1em .5em .5em;
+
+    & > div {
+      background: url(../images/phone-arrow-dark@2x.png) no-repeat right center;
+      background-size: 9px 13px;
+      padding-right: 2em;
+      .clear-fix;
+    }
+  }
+
+  .figure {
+    float: left;
+    width: 120px;
+    height: 90px;
+  }
+
+  img {
+    margin: 0;
+  }
+
+  .right {
+    margin-left: 132px;
+    padding-right: 1.5em;
+  }
+
+  h3 {
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+  }
+}
+
+.sound-item > div {
+  a {
+    display: block;
+    padding: 1em 1em 1em .5em;
+
+    & > div {
+      background: url(../images/phone-arrow-dark@2x.png) no-repeat right center;
+      background-size: 9px 13px;
+      padding-right: 2em;
+      .clear-fix;
+    }
+  }
+
+  h3 {
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    margin-bottom: .2em;
+  }
+}
+
+// A news item
+.news-item {
+  .figure {
+    float: left;
+    width: 110px;
+    height: 80px;
+    margin-right:.5em;
+  }
+
+  .img {
+    background: no-repeat center center;
+    background-size: cover;
+  }
+}
+
+.product-item {
+  .figure {
+    float: right;
+    width: 120px;
+    height: 90px;
+  }
+}
+
+// (and other types of item)
+.other-item > div,
+.news-item > div,
+.product-item > div {
+  line-height: 1.2em;
+
+  a {
+    display: block;
+    padding: .5em 1em .5em .5em;
+
+    & > div {
+      background: url(../images/phone-arrow-dark@2x.png) no-repeat right center;
+      background-size: 9px 13px;
+      padding-right: 2em;
+      .clear-fix;
+    }
+  }
+
+  .right {
+    margin-left: 132px;
+    padding-right: 1.5em;
+  }
+
+  h3 {
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: .9em;
+    color: @background-color;
+    margin-bottom: .2em;
+  }
+
+  h4 {
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    margin-bottom: .3em;
+  }
+
+  p {
+    font-size: .9em;
+  }
+
+  .offer:before {
+    content: '(';
+  }
+  .offer:after {
+    content: ')';
+  }
+}
+
+
+// An event item
+.event-item > div {
+
+  a {
+    display: block;
+    padding: 1em;
+
+    & > div {
+      background: url(../images/phone-arrow@2x.png) no-repeat right center;
+      background-size: 9px 13px;
+      .clear-fix;
+      padding-right: 2em;
+    }
+  }
+  
+  h3 {
+    font-weight: normal;
+    font-size: 1em;
+    margin-bottom: .5em;
+
+    span {
+      background: darken(@background-color, 20%);
+      padding: .1em .3em;
+    }
+  }
+
+  h4 {
+    font-weight: normal;
+    font-size: 1em;
+    padding: 0 .3em;
+  }
+}
+
+
+/****************************************************************************
+
+  MISC
+
+****************************************************************************/
+
+//---------------------------------------------------------------------------
+// A 'fake' image (using a background).
+//---------------------------------------------------------------------------
+
+.image {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+//---------------------------------------------------------------------------
+// Photoswipe.
+//---------------------------------------------------------------------------
+
+
+
+/****************************************************************************
+
+  SECTION SPECIFIC STYLING
+
+****************************************************************************/
+
+//---------------------------------------------------------------------------
+// Tweaks
+//---------------------------------------------------------------------------
+
+#photo {
+  h1 {
+    .box-shadow(0 2px 2px rgba(0,0,0,.6));
+  }
+}
+
+.detail {
+  & > div {
+    height: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -o-box-sizing: border-box;
+  }
+}
+
+.body {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+}
+
+//---------------------------------------------------------------------------
+// Videos
+//---------------------------------------------------------------------------
+
+#video {
+  background: @light-background-color;
+}
+
+#video #cards {
+  color: @dark-text-color;
+}
+
+.attached-media,
+#video .detail {
+
+  line-height: 1.2em;
+
+  a {
+    position: relative;
+    display: block;
+    top: 0;
+    left: 0;
+  }
+
+  .play {
+    height: 5em;
+    width: 4em;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -2.5em;
+    .scaleX(1.5);
+
+    span {
+      display: block;
+      height: 3em;
+      width: 3em;
+      margin-left: -1.5em;
+      margin-top: 1em;
+      background-color: #fff;
+      .rotate(45deg);
+    }
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  .media {
+    background: #000;
+  }
+
+  .media div,
+  .media iframe,
+  .media video {
+    margin: 0 auto;
+  }
+
+  .body {
+    background: white url(../images/phone-shadow@2x.png) no-repeat center top;
+    background-size: 100% 53px;
+  }
+  .wrapper {
+    & > div:first-child {
+      // The following property creates a new rendering context that forces
+      // the top margin of the first element to be included in the height of
+      // the container. In turn, it helps iScroll compute the right height
+      // for the scrolled area
+      overflow: hidden;
+      padding: 0 1em;
+
+      // Min-height avoids flickering on desktop-like screens
+      min-height: 100%;
+    }
+
+    & p {
+      margin-bottom: 1em;
+    }
+  }
+  h3 {
+    font-weight: normal;
+    font-size: 1em;
+    margin-bottom: .8em;
+    margin-top: 1em;
+  }
+
+  h4 {
+    text-transform: uppercase;
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+    color: @background-color;
+  }
+}
+
+//---------------------------------------------------------------------------
+// Sounds
+//---------------------------------------------------------------------------
+
+#sound {
+  background: @light-background-color;
+}
+
+#sound #cards {
+  color: @dark-text-color;
+}
+
+#sound .detail {
+
+  line-height: 1.2em;
+
+  img {
+    height: 32px;
+    width: auto;
+    float: left;
+    margin: 0 .2em 0 0;
+  }
+
+  .body {
+    padding: 1.2em 1em 1em;
+  }
+
+  h3 {
+    font-weight: normal;
+    font-size: 1em;
+    margin-bottom: .8em;
+    margin-top: 1em;
+  }
+
+  h4 {
+    text-transform: uppercase;
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+    color: @background-color;
+  }
+
+  .media {
+    margin: 1em 0;
+  }
+}
+
+//---------------------------------------------------------------------------
+// Statuses
+//---------------------------------------------------------------------------
+#status .detail {
+
+  > div {
+    min-height: 100%;
+    position: relative;
+  }
+
+  .header {
+    .clear-fix;
+    padding-top: 1em;
+
+    img {
+      float: left;
+      display: block;
+      width: 48px;
+      height: 48px;
+      margin: 1em;
+      .box-shadow(0 0 .5em rgba(0,0,0,.6));
+    }
+
+    h3 {
+      font-weight: normal;
+      font-size: 1.2em;
+    }
+  }
+
+  .body {
+    min-height: 100%;
+  }
+
+  .message {
+    color: @dark-text-color;
+    padding: 5% 6%;
+
+    .cover {
+      background-color: @light-background-color;
+      .box-shadow(0 -1em 4em rgba(0,0,0,.8));
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 6.8em;
+    }
+
+    h4 {
+      font-weight: normal;
+      margin-bottom: 1.3em;
+      color: lighten(@dark-text-color, 30%);
+      font-size: 1.2em;
+      position: relative;
+    }
+
+    p {
+      font-size: 1.4em;
+      position: relative;
+
+      a {
+        color: @link-color;
+        font-weight: normal;
+        font-style: normal;
+      }
+
+    }
+  }
+
+  .arrow {
+    height: .8em;
+    margin-left: 1.8em;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+
+    span {
+      display: block;
+      height: 1.6em;
+      width: 1.6em;
+      margin: .35em 0;
+      background-color: @light-background-color;
+      .rotate(45deg);
+    }
+  }
+
+  .attached-medias {
+    position:relative;
+    padding: 0;
+
+    .media {
+      padding: 0;
+
+      iframe{
+        width:100%;
+      }
+    }
+
+    .attached-media {
+      padding:1em 1em;
+      color:black;
+      width: auto;
+
+      img {
+        width:auto;
+      }
+      
+      .wrapper>div:first-child{
+        padding:0;
+      }
+    }
+  }
+
+
+}
+
+//---------------------------------------------------------------------------
+// Events
+//---------------------------------------------------------------------------
+
+#event .detail {
+
+  line-height: 1.2em;
+  background: @light-background-color;
+  color: @dark-text-color;
+
+  > div {
+    padding: 1em;
+  }
+
+  h3 {
+    font-weight: normal;
+    font-size: 1em;
+    margin-bottom: .8em;
+    margin-top: 1em;
+  }
+
+  h4 {
+    text-transform: uppercase;
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+    color: @background-color;
+  }
+
+  p {
+    margin-bottom: 1em;
+  }
+}
+
+
+//---------------------------------------------------------------------------
+// News
+//---------------------------------------------------------------------------
+
+#news,
+#product,
+#other {
+  background: @light-background-color;
+}
+
+#news #cards,
+#product #cards,
+#other #cards {
+  color: @dark-text-color;
+}
+
+#news .detail,
+#product .detail,
+#other .detail {
+
+  line-height: 1.2em;
+
+  h3 {
+    font-weight: normal;
+    font-size: .9em;
+    margin-bottom: .2em;
+    margin-top: 1em;
+  }
+
+  h4 {
+    text-transform: uppercase;
+    color: @background-color;
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+  }
+
+  .body {
+    padding: 2.2em 1em 1em;
+  }
+}
+
+.no-toolbar {
+  #viewport {
+    bottom: 0;
+  }
+
+  #toolbar {
+    visibility: hidden;
+  }
+}

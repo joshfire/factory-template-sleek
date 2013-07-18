@@ -1,0 +1,114 @@
+body {
+  font-size: @base-font-size * 1px;
+  font-family:@iphone-font-roman;
+  overflow:hidden;
+  width:100%;
+}
+
+/****************************************************************************
+
+  HEADER & FOOTER
+
+****************************************************************************/
+
+//---------------------------------------------------------------------------
+// Header
+//---------------------------------------------------------------------------
+
+header {
+    font-family:@iphone-font-medium;
+    height:44px;
+
+    h1{
+        padding: 5px 0;
+        font-size: 24px;
+        text-align: center;
+        font-weight:normal;
+        width: 100%;
+    }
+
+}
+
+// Back button
+#back {
+  position: absolute;
+  left: 13px;
+  top: 13px;
+  width: 23px;
+  height: 15px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0) url(../images/phone-back@2x.png) no-repeat center center;
+  background-size: 23px 15px;
+  display: none;
+  pointer-events: all;
+}
+
+
+
+//iOS style
+.device-phone-ios {
+  #back {
+    text-indent: 0;
+    width: auto;
+
+    height: 2em;
+    left: .26em;
+    top: .46em;
+    box-sizing: border-box;
+    border-width: 5px 6px 5px 14px;
+    border-style: solid;
+
+    .inner {
+      display: block;
+      font-size: .8em;
+      font-weight: bold;
+      height: 100%;
+      color: #FFF;
+      text-shadow: 0 -1px 0 rgba(0,0,0,.5);
+      padding: .2em 0;
+    }
+  }
+}
+
+//---------------------------------------------------------------------------
+// Footer // Toolbar
+//---------------------------------------------------------------------------
+
+#toolbar {
+  width: 274px;
+
+  ul {
+
+    li {
+      height:43px;
+      background-color:blue;
+    }
+  }
+
+}
+
+/****************************************************************************
+
+  CONTENT & PANNELS
+
+****************************************************************************/
+
+#container {
+  background-color:@white;
+  z-index:5;
+  .translate(0px, 0);
+  .transformtransition(300ms, ease-in-out);
+}
+
+#container.showToolbar{
+
+  .translate(274px, 0);
+  .transformtransition(300ms, ease-in-out);
+/*
+  transform: translate(274px);
+  -webkit-transform:translate(274px); 
+  transition: transform 5s ease-in;
+  -webkit-transition: transform, -webkit-transform 5s ease-in;
+*/
+  
+}

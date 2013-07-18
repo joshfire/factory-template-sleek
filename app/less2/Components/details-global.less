@@ -1,0 +1,232 @@
+.detail,
+.single {
+  ul, ol {
+    margin: 1em;
+  }
+  ul {
+    list-style: square;
+  }
+  ol {
+    list-style: decimal;
+  }
+
+  div {
+    max-width: 100%;
+  }
+
+  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+
+  h1 {
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.3em;
+    padding-top: 1em;
+  }
+
+  h2 {
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    padding-top: 1em;
+  }
+
+  h3 {
+    font-weight: normal;
+    font-size: 1.2em;
+  }
+}
+.detail {
+  .article { 
+    a{
+      color: @link-color;
+      font-weight: normal;
+      font-style: normal;
+    }
+  }
+}
+
+//---------------------------------------------------------------------------
+// The "No datasource" and "empty feed" messages
+//---------------------------------------------------------------------------
+.nodata {
+  padding: 3em 0;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.loading {
+  .nodata {
+    display: none;
+  }
+
+  .loader {
+    display: block;
+  }
+}
+
+//---------------------------------------------------------------------------
+// The contents of an article
+// (which may include all sorts of tags, including headers)
+//---------------------------------------------------------------------------
+.article {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  h1 {
+    font-size: 1.3em;
+    font-weight: bold;
+    padding-top: 1.2em;
+  }
+
+  h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    padding-top: 1em;
+  }
+
+  h3 {
+    font-size: 1.2em;
+    font-weight: normal;
+  }
+
+  h4 {
+    font-size: 1.1em;
+    text-decoration: underline;
+  }
+
+  h5, h6 {
+    font-size: 1em;
+    font-style: italic;
+  }
+}
+
+//---------------------------------------------------------------------------
+// Global container
+//---------------------------------------------------------------------------
+#container {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+
+.center {
+  text-align: center;
+}
+
+
+//---------------------------------------------------------------------------
+// A simple panel
+//---------------------------------------------------------------------------
+.panel {
+  width: 100%;
+  height: 100%;
+}
+
+
+//---------------------------------------------------------------------------
+// Contact & map
+//---------------------------------------------------------------------------
+
+#contact .body {
+  padding: 2em 1em;
+}
+
+#contact .body p {
+  margin-bottom: 1em;
+}
+
+#contact .body a {
+  text-decoration: underline;
+}
+
+#contact .body img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1em;
+  display: block;
+}
+
+.google-map {
+  height: 100%;
+}
+
+.google-map img {
+  max-width: none;
+}
+
+.map-overlay {
+}
+
+//---------------------------------------------------------------------------
+// An image that loads with a spinner and a fade-in transition
+// (note the image box takes the entire space available here and may need
+// to be adjusted somehow with more specific CSS properties)
+//---------------------------------------------------------------------------
+figure,
+.figure,
+.content,
+.section,
+.left-panel {
+  position: relative;
+  display: block;
+
+  & > .img {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center center;
+  }
+
+  // Fade-in transition for the underlying image
+  & > .fadein {
+    .transition(.7s ease-in-out opacity);
+    .translate3d(0,0,0);
+  }
+
+  // When "loading" is there, spinner is displayed over the transparent image
+  &.loading,
+  &.dataloading {
+    & > .loader {
+      display: block;
+    }
+
+    & > img,
+    & > .img {
+      .opacity(0);
+      .transition(none);
+    }
+
+    .no-data,
+    .nodata {
+      display: none;
+    }
+  }
+}
+
+// Simplified version when the image to load does not have a container
+// (note there is no way to display a spinner in that case)
+.figure-img {
+  &.fadein {
+    .transition(.7s ease-in-out opacity);
+    .translate3d(0,0,0);
+  }
+
+  &.loading,
+  &.dataloading {
+    .opacity(0);
+    .transition(none);    
+  }
+}
+
+.joshfire-wrapper > div {
+  height: 100%;
+}
+
+

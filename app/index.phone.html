@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
 
     <title></title>
-
+    <link type="text/css" rel="stylesheet" href="css2/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
     <style type="text/css" media="screen">
-      body, html {
+      /*body, html {
         height: 100%;
         padding: 0;
         margin: 0;
@@ -23,25 +23,23 @@
 
       #container {
         display: none;
-      }
+      }*/
     </style>
   </head>
 
   <body class="device-phone">
-    <div id="container">
+    <footer id="toolbar"><div>&nbsp;</div></footer>
+    <div id="container" >
       <header>
         <h1><span id="title">&nbsp;</span></h1>
         <span>&nbsp;</span>
-        <a id="back"><span class="inner">Back</span></a>
-        <a id="refresh"><span class="inner">Refresh</span></a>
-        <a id="share"><span class="inner">Share</span></a>
+        <a id="back"><span class="inner"></span></a>
+        <a id="share"><span class="inner"></span></a>
       </header>
 
       <div id="viewport">
         <div id="cards"></div>
       </div>
-
-      <footer id="toolbar"><div>&nbsp;</div></footer>
     </div>
 
     <!-- TEMPLATES SHARED BY PHONE/TABLET/DESKTOP versions -->
@@ -428,7 +426,6 @@
         <% } %>
       </div>
     </script>
-
     <script data-joshfire-bootstraped="" src="http://factory.joshfire.com/bootstrap/51d1938a4a33cb020000003a/51de78310b79c60200000006/phone-web/"></script>
 
     <script type="text/javascript" src="todate.js"></script>
