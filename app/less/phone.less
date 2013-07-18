@@ -82,7 +82,7 @@ header {
   header h1 {
     padding: .65em 0;
   }
-  
+
   header {
     background-image: url(../images/phone-ios-shadow@2x.png);
   }
@@ -141,13 +141,15 @@ header {
   height: 2.24em;
   overflow: hidden;
   z-index: 35;
-  background: transparent url(../images/phone-refresh@2x.png) no-repeat center center;
   background-size: 20px 18px;
   text-indent: -30000px;
   pointer-events: all;
 }
-#share .inner {
-  background-image: url(../images/phone-share@2x.png);
+#refresh {
+  background: transparent url(../images/phone-refresh@2x.png) no-repeat center center;
+}
+#share {
+  background: transparent url(../images/phone-share@2x.png) no-repeat center center;
 }
 
 //iOS style
@@ -166,12 +168,14 @@ header {
     .inner {
       display: block;
       height: 100%;
-      background: transparent url(../images/phone-refresh@2x.png) no-repeat center center;
       background-size: 20px 18px;
     }
   }
+  #refresh .inner {
+    background: transparent url(../images/phone-refresh@2x.png) no-repeat center center;
+  }
   #share .inner {
-    background-image: url(../images/phone-share@2x.png);
+    background: transparent url(../images/phone-share@2x.png) no-repeat center center;
   }
 }
 
@@ -563,7 +567,7 @@ header {
     li {
       height: 100%;
     }
-    
+
     .figure {
       padding-bottom: 0!important;
       height: 100%;
