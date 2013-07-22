@@ -69,8 +69,8 @@ header>span{display:block;position:absolute;top:0;right:0;width:40%;height:2.24e
 #back{position:absolute;left:0;top:0;width:3em;height:2.24em;overflow:hidden;z-index:35;background:transparent url(../images/phone-back@2x.png) no-repeat center center;background-size:18px 13px;text-indent:-30000px;display:none;pointer-events:all;}
 .device-phone-ios #back{text-indent:0;width:auto;height:2em;left:.26em;top:.46em;box-sizing:border-box;border-width:5px 6px 5px 14px;border-style:solid;border-image:url("../images/phone-ios-back-gray@2x.png") 10 11 10 26 fill stretch;}.device-phone-ios #back .inner{display:block;font-size:.8em;font-weight:bold;height:100%;color:#FFF;text-shadow:0 -1px 0 rgba(0, 0, 0, 0.5);padding:.2em 0;}
 #refresh,#share{position:absolute;right:0;top:0;width:3em;height:2.24em;overflow:hidden;z-index:35;background-size:20px 18px;text-indent:-30000px;pointer-events:all;}
-#refresh{background:transparent url(../images/phone-refresh@2x.png) no-repeat center center;}
-#share{background:transparent url(../images/phone-share@2x.png) no-repeat center center;}
+#refresh{background:transparent url(../images/phone-refresh@2x.png) no-repeat center center;background-size:20px 18px;}
+#share{background:transparent url(../images/phone-share@2x.png) no-repeat center center;background-size:20px 18px;}
 .device-phone-ios #refresh,.device-phone-ios #share{height:2em;right:.46em;top:.46em;box-sizing:border-box;border-width:5px 6px;border-style:solid;border-image:url("../images/phone-ios-button-gray@2x.png") 10 11 fill stretch;}.device-phone-ios #refresh .inner,.device-phone-ios #share .inner{display:block;height:100%;background-size:20px 18px;}
 .device-phone-ios #refresh .inner{background:transparent url(../images/phone-refresh@2x.png) no-repeat center center;}
 .device-phone-ios #share .inner{background:transparent url(../images/phone-share@2x.png) no-repeat center center;}
