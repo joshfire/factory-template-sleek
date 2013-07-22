@@ -168,7 +168,7 @@ define([
       this.logoURL = Joshfire.factory.config.app.logo ?
                   Joshfire.factory.config.app.logo.contentURL : null;
 
-      if (opt.templates) {
+      if (opt && opt.templates) {
         this.templates = opt.templates;
       } else {
         console.error('No templates were loaded.');
@@ -212,7 +212,6 @@ define([
           // Includes the correct dictionnary which is required by
           // moment.js's i18n native solution.
           self.setMomentLanguage();
-
           // Set the template color based on the option selected by the user
           // (this loads the CSS)
           self.setColor(Joshfire.factory.config.template.options.color || 'gray', function () {
@@ -1160,6 +1159,7 @@ define([
      */
     getAuthorImageSchema: function(item) {
       if (item && item.author && item.author[0]) {
+        console.warn(item.author[0]);
         return item.author[0];
       }
       return item;

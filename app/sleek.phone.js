@@ -29,14 +29,7 @@ define([
         }, this));
       }
 
-      if (opt.templates) {
-        this.templates = opt.templates;
-      } else {
-        console.error('No templates were loaded.');
-        throw new Error();
-      }
-
-      Sleek.prototype.initialize.call(this);
+      Sleek.prototype.initialize.call(this, opt);
     },
 
     /**
