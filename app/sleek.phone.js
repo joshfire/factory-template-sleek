@@ -19,7 +19,7 @@ define([
 
     fastNavigateSelector: '#container header a, #container #toolbar a',
 
-    initialize: function() {
+    initialize: function(opt) {
       if (window.plugins && window.plugins.tapToScroll) {
         window.plugins.tapToScroll.initListener();
         window.addEventListener('statusTap', _.bind(function() {
@@ -28,6 +28,14 @@ define([
           }
         }, this));
       }
+
+      if (opt.templates) {
+        this.templates = opt.templates;
+      } else {
+        console.error('No templates were loaded.');
+        throw new Error();
+      }
+
       Sleek.prototype.initialize.call(this);
     },
 
@@ -41,11 +49,14 @@ define([
      */
     createToolbarElement: function() {
       logger.log('create toolbar element');
+
       return new Toolbar({
         name: 'toolbar',
         el: '#toolbar',
-        templateEl: '#template-toolbar',
-        itemTemplateEl: '#toolbar-item',
+        template: this.templates.toolbar,
+        itemOptions: {
+          template: this.templates.toolbarItem
+        },
         scroller: true,
         scrollOptions: {
           vScroll: false,
@@ -132,7 +143,6 @@ define([
           if (section.collection.length) {
             logger.log(section.slug, 'list route', 'show');
             self.moveToList(container);
-            // yoyoyo
             views.showChild(section.slug);
 
           } else {

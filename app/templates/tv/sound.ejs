@@ -1,0 +1,20 @@
+<div>
+  <div class="head">
+    <% if(item.thumbnail && item.thumbnail.length) { %>
+    <div class="image" data-joshfire-autothumb></div>
+    <% } %>
+    <div class="title"><p><% if (item.byArtist && item.byArtist.name) { %> by <%= item.byArtist.name %>
+    <% } else if (item.author && item.author.name) { %> by <%= item.author.name %><% } %></p></div>
+  </div>
+
+  <div class="body">
+    <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+      <h4><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).format('LLLL') %></h4>
+    <% } %>
+
+    <div class="media"><%= media.html %></div>
+    <% if(item.description) { %>
+    <p><%= item.description %></p>
+    <% } %>
+  </div>
+</div>

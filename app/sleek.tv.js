@@ -35,7 +35,7 @@ define([
   var logger = woodman.getLogger('sleek.tv');
 
   return Sleek.extend({
-    initialize: function () {
+    initialize: function (opt) {
       var self = this;
       var $win = $(window);
 
@@ -48,7 +48,7 @@ define([
       $win.resize(resize);
       resize();
 
-      Sleek.prototype.initialize.call(this, function () {
+      Sleek.prototype.initialize.call(this, opt, function () {
         if (self.backgroundURL) {
           self.setBackground(self.backgroundURL);
         }
@@ -91,8 +91,10 @@ define([
       var toolbar = new Toolbar({
         name: 'toolbar',
         el: '#toolbar',
-        templateEl: '#template-toolbar',
-        itemTemplateEl: '#toolbar-item',
+        template: this.templates.toolbar,
+        itemOptions: {
+          template: this.templates.toolbarItem
+        },
         minLengthToShow: 2
       });
 
@@ -222,7 +224,7 @@ define([
 
       this.photoDetail = new PhotoOverlay({
         el: '#photos-detail',
-        templateEl: '#template-photo'
+        template: this.templates.photo
       });
 
       this.photoDetail.render();
@@ -244,7 +246,7 @@ define([
 
       this.videoDetail = new VideoOverlay({
         el: '#videos-detail',
-        templateEl: '#template-video',
+        template: this.templates.video,
         mediaOptions: {
           width: '100%',
           height: '100%',
@@ -275,17 +277,17 @@ define([
       logger.log(section.slug, 'create list element',
         'type=' + section.outputType);
 
-      var tplSel;
+      var tpl;
       switch (section.outputType) {
       case 'video':
-        tplSel = isSingle ? '#template-mosaic-single-video' : '#template-mosaic';
+        tpl = isSingle ? this.templates.singleVideo : this.templates.mosaic;
       case 'photo':
-        if (!tplSel) {
-          tplSel = isSingle ? '#template-mosaic-single-photo' : '#template-mosaic';
+        if (!tpl) {
+          tpl = isSingle ? this.templates.singlePhoto : this.templates.mosaic;
         }
 
         return new Grid({
-          templateEl: tplSel,
+          template: tpl,
           itemFactory: this.itemFactory(section),
           listItemFactory: this.listItemFactory(section),
           collection: section.collection,
@@ -295,8 +297,9 @@ define([
         });
 
       default:
+
         return new VerticalList({
-          templateEl: '#template-list-view',
+          template: this.templates.listView,
           offsetTop: 40,
           offsetBottom: 40,
           itemFactory: this.itemFactory(section),
@@ -468,8 +471,9 @@ define([
       }
       var self = this;
       var itemType = this.convertItemType(params.model.get('@type'));
+
       var options = {
-        templateEl: '#template-' + itemType,
+        template: this.templates[itemType+'Detail'],
         scroller: true,
         offsetTop: 100,
         offsetBottom: 100,
@@ -558,7 +562,7 @@ define([
 
           return new ImagesLoader( {
             model: model,
-            templateEl: '#template-mention-item',
+            template: this.templates.mentionItem,
             imageSchema: model.toJSON()
           } );
 
@@ -577,7 +581,7 @@ define([
 
           return new ImagesLoader( {
               model: model,
-              templateEl: '#template-mention-video',
+              template: this.templates.mentionVideo,
               imageSchema: model.toJSON()
           } );
 
@@ -585,7 +589,7 @@ define([
           if (mention.name && mention.description) {
             return new ImagesLoader( {
               model: model,
-              templateEl: '#template-mention-item',
+              template: this.templates.mentionItem,
               imageSchema: model.toJSON()
             } );
           } else {
@@ -593,7 +597,7 @@ define([
           }
       }
 
-    }, 
+    },
 
 
     //

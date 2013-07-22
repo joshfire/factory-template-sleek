@@ -1,0 +1,9 @@
+<div class="first">
+  <ul class="list">
+    <% if (typeof children != "undefined" && children.length == 0) {%>
+      <li class="no-data"><%= T("No data") %></li>
+    <%} %>
+    <%= children %>
+  </ul>
+</div>
+<div class="loader large">&nbsp;</div>

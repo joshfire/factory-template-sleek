@@ -15,7 +15,7 @@ define([
 
     fastNavigateSelector: '#container header a',
 
-    initialize: function() {
+    initialize: function(opt) {
       if (window.plugins && window.plugins.tapToScroll) {
         window.plugins.tapToScroll.initListener();
         window.addEventListener('statusTap', _.bind(function() {
@@ -23,6 +23,12 @@ define([
             this.activeSection.view.scrollTop();
           }
         }, this));
+      }
+      if (opt.templates) {
+        this.templates = opt.templates;
+      } else {
+        console.error('No templates were loaded.');
+        throw new Error();
       }
       Sleek.prototype.initialize.call(this);
     },

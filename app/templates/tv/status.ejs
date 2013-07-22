@@ -1,0 +1,17 @@
+<div class="statutContainer">
+  <div class="head">
+    <div class="image" data-joshfire-autothumb="true"></div>
+    <div class="title">
+      <p>
+      <% if (item.author && item.author[0] && item.author[0].name) { %>
+      <%= item.author[0].name %><br />
+      <% } %>
+      <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+      <%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %>
+      <% } %>
+      </p>
+    </div>
+  </div>
+  <p><%= prettyStatus(item.name) %></p>
+  <div class="attached-medias"></div>
+</div>

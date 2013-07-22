@@ -1,0 +1,13 @@
+<div class="first">
+  <ul class="list">
+    <%= children %>
+  </ul>
+  <div class="meta">
+    <div class="cell">
+      <% if(collection.at(0)) { %>
+      <%= collection.at(0).get('name') %>
+      <% } %>
+    </div>
+  </div>
+</div>
+<div class="loader large">&nbsp;</div>

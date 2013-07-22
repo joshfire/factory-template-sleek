@@ -1,0 +1,17 @@
+<div class="body">
+  <h4><%= item.name %></h4>
+  <% if (imageUrl) { %>
+    <div class="center"><img src="<%= thumbnail(120,90) %>" alt="" /></div>
+  <% } %>
+  <div class="article">
+  <% if (item.articleBody) { %>
+  <%= item.articleBody %>
+  <% } else if (item.description) { %>
+  <%= item.description %>
+  <% } %>
+  </div>
+
+  <% if (item.offers && item.offers[0] && item.offers[0].price) { %>
+  <div class="offer">Price: <%= (item.offers[0].priceCurrency === 'EUR') ? '€' : ((item.offers[0].priceCurrency === 'GBP') ? '₤' : '$') %><%= item.offers[0].price %></div>
+  <% } %>
+</div>

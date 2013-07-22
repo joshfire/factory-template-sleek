@@ -1,0 +1,14 @@
+<div class="body">
+  <% if (item.startDate && item.endDate && (item.startDate !== item.endDate)) { %>
+  <h3><span>From <%= moment(toDate(item.startDate)).format('LLLL') %> to <%= moment(toDate(item.endDate)).format('LLLL') %></span></h3>
+  <% } else if (item.startDate) { %>
+    <h3><span>On <%= moment(toDate(item.startDate)).format('LLLL') %></span></h3>
+  <% } %>
+  <h4><%= item.name %></h4>
+  <% if(item.description) { %>
+    <p class="description"><%= item.description %></p>
+  <% } %>
+  <% if(item.location && item.location.name) { %>
+    <p class="location"><%= item.location.name %></p>
+  <% } %>
+</div>

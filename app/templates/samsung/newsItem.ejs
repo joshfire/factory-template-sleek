@@ -1,0 +1,17 @@
+<div>
+  <a href="#<%= section.slug %>/<%= offset %>">
+    <div class="item-content">
+      <% if (item.image && item.image.contentURL) { %>
+        <span class="thumbnail" style="background-image:url(<%= thumbnail(200,130) %>)"></span>
+      <% } %>
+      <h3><%= item.name || item.description %></h3>
+    </div>
+    <div class="far-left">
+      <p>
+        <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+        <%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %>
+        <% } %>
+      </p>
+    </div>
+  </a>
+</div>
