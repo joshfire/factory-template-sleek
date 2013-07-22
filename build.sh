@@ -1,6 +1,6 @@
 cd tasks/
 
-jake compile:less
+./node_modules/.bin/jake compile:less
 
 cd ../app/
 
