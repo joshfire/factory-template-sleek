@@ -264,47 +264,27 @@ body {
   HEADER & FOOTER
 
 ****************************************************************************/
-header {
-  pointer-events: none;
+#navbar {
   background-color: #444444;
 }
-header h1 {
+#navbar h1 {
   color: #ffffff;
 }
-header h1 span {
+#navbar h1 span {
   display: block;
   position: relative;
 }
-#share {
+#navbar a {
   position: absolute;
-  right: 2.5px;
-  top: 2.5px;
-  width: 3em;
-  height: 2.24em;
-  overflow: hidden;
-  z-index: 35;
-  background: transparent url(../images/phone-share@2x.png) no-repeat center center;
-  background-size: 20px 18px;
-  text-indent: -30000px;
-  pointer-events: all;
+  z-index: 3;
 }
-.device-phone-ios #refresh,
-.device-phone-ios #share {
+#navbar #share {
   height: 2em;
   right: .46em;
   top: .46em;
   box-sizing: border-box;
   border-width: 5px 6px;
   border-style: solid;
-}
-.device-phone-ios #refresh .inner,
-.device-phone-ios #share .inner {
-  display: block;
-  height: 100%;
-  background: transparent url(../images/phone-refresh@2x.png) no-repeat center center;
-  background-size: 20px 18px;
-}
-.device-phone-ios #share .inner {
   background-image: url(../images/phone-share@2x.png);
 }
 .indicator {
@@ -328,8 +308,9 @@ header h1 span {
   -o-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-#toolbar {
+#sidebarPanel {
   position: absolute;
+  display: block;
   background-color: #222222;
   left: 0;
   bottom: 0;
@@ -337,92 +318,104 @@ header h1 span {
   z-index: 1;
   padding-top: .6em;
 }
-#toolbar ul {
+#sidebarPanel > div {
+  display: block;
+  background-color: #222222;
+  color: #ffffff;
+  -webkit-box-shadow: 1px 1px 5px 0px #000000;
+  -moz-box-shadow: 1px 1px 5px 0px #000000;
+  -ms-box-shadow: 1px 1px 5px 0px #000000;
+  -o-box-shadow: 1px 1px 5px 0px #000000;
+  box-shadow: 1px 1px 5px 0px #000000;
+}
+#sidebarPanel ul {
   list-style: none;
   width: 100%;
-  background-color: red;
 }
-#toolbar ul li {
+#sidebarPanel ul li {
   display: block;
   background-color: #333333;
+  color: #ffffff;
 }
-#toolbar ul li a {
+#sidebarPanel ul li a {
   width: 100%;
   display: block;
   position: relative;
+  border-top: 1px solid #4b4b4b;
+  -webkit-box-shadow: 0px 0px 5px 0px #000000;
+  -moz-box-shadow: 0px 0px 5px 0px #000000;
+  -ms-box-shadow: 0px 0px 5px 0px #000000;
+  -o-box-shadow: 0px 0px 5px 0px #000000;
+  box-shadow: 0px 0px 5px 0px #000000;
 }
-#toolbar ul li a.photo {
+#sidebarPanel ul li a.photo {
   background-image: url(../images/phone-photo@2x.png);
   background-size: 19px 17px;
 }
-#toolbar ul li a.status {
+#sidebarPanel ul li a.status {
   background-image: url(../images/phone-status@2x.png);
   background-size: 25px 18px;
 }
-#toolbar ul li a.video {
+#sidebarPanel ul li a.video {
   background-image: url(../images/phone-video@2x.png);
   background-size: 24px 13px;
 }
-#toolbar ul li a.event {
+#sidebarPanel ul li a.event {
   background-image: url(../images/phone-event@2x.png);
   background-size: 18px 18px;
 }
-#toolbar ul li a.news {
+#sidebarPanel ul li a.news {
   background-image: url(../images/phone-news@2x.png);
   background-size: 17px 16px;
 }
-#toolbar ul li a.sound {
+#sidebarPanel ul li a.sound {
   background-image: url(../images/phone-sound@2x.png);
   background-size: 14px 20px;
 }
-#toolbar ul li a.contact {
+#sidebarPanel ul li a.contact {
   background-image: url(../images/phone-contact@2x.png);
   background-size: 22px 14px;
 }
-#toolbar ul li a.map {
+#sidebarPanel ul li a.map {
   background-image: url(../images/phone-map@2x.png);
   background-size: 11px 20px;
 }
-#toolbar ul li a.product {
+#sidebarPanel ul li a.product {
   background-image: url(../images/phone-product@2x.png);
   background-size: 22px 18px;
 }
-#toolbar ul li a.other {
+#sidebarPanel ul li a.other {
   background-image: url(../images/phone-news@2x.png);
   background-size: 17px 16px;
 }
-#toolbar ul li a.next,
-#toolbar ul li a.prev {
+#sidebarPanel ul li a.next,
+#sidebarPanel ul li a.prev {
   background-image: url(../images/phone-more@2x.png);
   background-size: 20px 6px;
 }
-#toolbar ul li a > span {
+#sidebarPanel ul li a > span {
   left: 0;
   top: 0;
   position: absolute;
   display: block;
   width: 100%;
   height: 50%;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.04)), to(rgba(255, 255, 255, 0.03)));
-  background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.03));
-  background-image: -moz-linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.03));
-  background-image: -ms-linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.03));
-  background-image: -o-linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.03));
 }
-#toolbar ul li a .indicator {
+#sidebarPanel ul li a .indicator {
   display: none;
 }
-#toolbar ul li a.active {
-  background-color: transparent;
+#sidebarPanel ul li a.active {
+  background-color: #111111;
+  border-top: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
   /*.indicator {
             display: block;
           }*/
 
-}
-#toolbar ul li a.active > span {
-  background: transparent url(../images/phone-glow@2x.png) no-repeat center center;
-  background-size: 75px 75px;
-  height: 100%;
 }
 /****************************************************************************
 
@@ -436,6 +429,43 @@ header h1 span {
   bottom: 3.05em;
   width: 100%;
   z-index: 1;
+  height: 100%;
+}
+#viewport div.pixelDetect {
+  position: absolute;
+  height: 100%;
+  width: 10px;
+  background: transparent;
+  -webkit-transition: background-color 300ms linear;
+  -moz-transition: background-color 300ms linear;
+  -ms-transition: background-color 300ms linear;
+  -o-transition: background-color 300ms linear;
+  transition: background-color 300ms linear;
+  left: 0;
+  z-index: 5;
+}
+#viewport div.pixelDetect.full {
+  width: 100%;
+  -webkit-transition: background-color 300ms linear, opacity 300ms linear;
+  -moz-transition: background-color 300ms linear, opacity 300ms linear;
+  -ms-transition: background-color 300ms linear, opacity 300ms linear;
+  -o-transition: background-color 300ms linear, opacity 300ms linear;
+  transition: background-color 300ms linear, opacity 300ms linear;
+  background-color: black;
+  filter: alpha(opacity=60);
+  -khtml-opacity: 0.6;
+  -moz-opacity: 0.6;
+  -ms-opacity: 0.6;
+  -o-opacity: 0.6;
+  opacity: 0.6;
+}
+#lockCard {
+  display: none;
+  background-color: transparent;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
 }
 #cards {
   width: 100%;
@@ -1193,19 +1223,18 @@ body {
   HEADER & FOOTER
 
 ****************************************************************************/
-header {
+#navbar {
   font-family: "Avenir Medium", Helvetica, Arial, sans-serif;
   height: 44px;
 }
-header h1 {
+#navbar h1 {
   padding: 5px 0;
   font-size: 24px;
   text-align: center;
   font-weight: normal;
   width: 100%;
 }
-#back {
-  position: absolute;
+#navbar #back {
   left: 13px;
   top: 13px;
   width: 23px;
@@ -1216,31 +1245,33 @@ header h1 {
   display: none;
   pointer-events: all;
 }
-.device-phone-ios #back {
-  text-indent: 0;
-  width: auto;
-  height: 2em;
-  left: .26em;
-  top: .46em;
-  box-sizing: border-box;
-  border-width: 5px 6px 5px 14px;
-  border-style: solid;
+#navbar #sidebar-btn {
+  height: 16px;
+  width: 17px;
+  left: 0px;
+  top: 0px;
+  background: rgba(0, 0, 0, 0) url(../images/menu-iPhone@2x.png) no-repeat center center;
+  background-size: 16px 17px;
+  left: 13px;
+  top: 13px;
 }
-.device-phone-ios #back .inner {
-  display: block;
-  font-size: .8em;
-  font-weight: bold;
-  height: 100%;
-  color: #FFF;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
-  padding: .2em 0;
-}
-#toolbar {
+#sidebarPanel {
   width: 274px;
+  font-family: "Avenir Medium", Helvetica, Arial, sans-serif;
 }
-#toolbar ul li {
+#sidebarPanel > div {
+  font-size: 24px;
+  padding: 10px 22px;
+}
+#sidebarPanel ul {
+  width: 273px;
+}
+#sidebarPanel ul li {
   height: 43px;
-  background-color: blue;
+  font-size: 17px;
+}
+#sidebarPanel ul li a {
+  padding: 10px 40px 10px 40px;
 }
 /****************************************************************************
 
@@ -1261,25 +1292,27 @@ header h1 {
   -o-transition: -o-transform 300ms ease-in-out;
   transition: transform 300ms ease-in-out;
 }
+#container.notransition {
+  -webkit-transition: none!important;
+}
 #container.showToolbar {
-  -webkit-transform: translate(274px, 0);
-  -moz-transform: translate(274px, 0);
-  -ms-transform: translate(274px, 0);
-  -o-transform: translate(274px, 0);
-  transform: translate(274px, 0);
+  -webkit-transform: translate(273px, 0);
+  -moz-transform: translate(273px, 0);
+  -ms-transform: translate(273px, 0);
+  -o-transform: translate(273px, 0);
+  transform: translate(273px, 0);
   -webkit-transition: -webkit-transform 300ms ease-in-out;
   -moz-transition: -moz-transform 300ms ease-in-out;
   -ms-transition: -ms-transform 300ms ease-in-out;
   -o-transition: -o-transform 300ms ease-in-out;
   transition: transform 300ms ease-in-out;
-  /*
-  transform: translate(274px);
-  -webkit-transform:translate(274px); 
-  transition: transform 5s ease-in;
-  -webkit-transition: transform, -webkit-transform 5s ease-in;
-*/
-
 }
+/*@import 'Layout/tablet-layout.less';
+@import 'Layout/tablet-ios-layout.less';
+@import 'Layout/tablet-android-layout.less';*/
+/*@import 'Components/lists-tablet.less';
+@import 'Components/lists-tablet-ios.less';
+@import 'Components/lists-tablet-android.less';*/
 .detail ul,
 .single ul,
 .detail ol,
@@ -1533,6 +1566,10 @@ figure.dataloading .nodata,
 .joshfire-wrapper > div {
   height: 100%;
 }
+/*@import 'Components/details-tablet.less';
+@import 'Components/details-tablet-ios.less';
+@import 'Components/details-tablet-android.less';
+*/
 /*
  * photoswipe.css
  * Copyright (c) %%year%% by Code Computerlove (http://www.codecomputerlove.com)

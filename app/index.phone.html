@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
     <style type="text/css" media="screen">
-      /*body, html {
+      body, html {
         height: 100%;
         padding: 0;
         margin: 0;
@@ -21,16 +21,17 @@
         background: #000 url(images/spinner.gif) no-repeat center center;
       }
 
-      #container {
-        display: none;
-      }*/
+      #sidebarPanel{
+        display:none;
+      }
     </style>
   </head>
 
   <body class="device-phone">
-    <footer id="toolbar"><div>&nbsp;</div></footer>
+    <nav id="sidebarPanel"><div>&nbsp;</div></nav>
     <div id="container" >
-      <header>
+      <header id="navbar">
+        <a href="#" id="sidebar-btn"><span class="inner"></span></a>
         <h1><span id="title">&nbsp;</span></h1>
         <span>&nbsp;</span>
         <a id="back"><span class="inner"></span></a>
@@ -38,6 +39,7 @@
       </header>
 
       <div id="viewport">
+        <div class="pixelDetect"></div>
         <div id="cards"></div>
       </div>
     </div>
@@ -50,13 +52,17 @@
       </div>
     </script>
 
-    <script type="text/template" id="template-toolbar">
+    <script type="text/template" id="template-sidebarPanel">
+      <div>
+        <span></span>
+        <span>TEDxParis</span>
+      </div>
       <ul>
         <%= children %>
       </ul>
     </script>
 
-    <script type="text/template" id="toolbar-item">
+    <script type="text/template" id="sidebarPanel-item">
       <a href="<%= item.linkURL %>" class="<%= (item.name.toLowerCase() === 'contact') ? 'contact' : item.icon %> section-<%= item.slug %>">
         <div class="indicator"><span>&nbsp;</span></div>
         <%= item.name %><span>&nbsp;</span>

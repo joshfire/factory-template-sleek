@@ -13,75 +13,73 @@ body {
 
 //---------------------------------------------------------------------------
 // Header
-//---------------------------------------------------------------------------
+//--
 
-header {
-    font-family:@iphone-font-medium;
-    height:44px;
+#navbar {
+  font-family:@iphone-font-medium;
+  height:44px;
 
-    h1{
-        padding: 5px 0;
-        font-size: 24px;
-        text-align: center;
-        font-weight:normal;
-        width: 100%;
-    }
+  h1 {
+    padding: 5px 0;
+    font-size: 24px;
+    text-align: center;
+    font-weight:normal;
+    width: 100%;
 
-}
-
-// Back button
-#back {
-  position: absolute;
-  left: 13px;
-  top: 13px;
-  width: 23px;
-  height: 15px;
-  overflow: hidden;
-  background: rgba(0, 0, 0, 0) url(../images/phone-back@2x.png) no-repeat center center;
-  background-size: 23px 15px;
-  display: none;
-  pointer-events: all;
-}
-
-
-
-//iOS style
-.device-phone-ios {
+  }
+  // Back button
   #back {
-    text-indent: 0;
-    width: auto;
+    left: 13px;
+    top: 13px;
+    width: 23px;
+    height: 15px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0) url(../images/phone-back@2x.png) no-repeat center center;
+    background-size: 23px 15px;
+    display: none;
+    pointer-events: all;
+  }
 
-    height: 2em;
-    left: .26em;
-    top: .46em;
-    box-sizing: border-box;
-    border-width: 5px 6px 5px 14px;
-    border-style: solid;
+  #sidebar-btn {
+    height: 16px;
+    width: 17px;
+    left: 0px;
+    top: 0px;
+    background: rgba(0, 0, 0, 0) url(../images/menu-iPhone@2x.png) no-repeat center center;
+    background-size: 16px 17px;
+    left: 13px;
+    top: 13px;
 
-    .inner {
-      display: block;
-      font-size: .8em;
-      font-weight: bold;
-      height: 100%;
-      color: #FFF;
-      text-shadow: 0 -1px 0 rgba(0,0,0,.5);
-      padding: .2em 0;
-    }
   }
 }
 
+
+
 //---------------------------------------------------------------------------
-// Footer // Toolbar
+// Footer // SidebarPanel
 //---------------------------------------------------------------------------
 
-#toolbar {
+#sidebarPanel {
   width: 274px;
+  font-family:@iphone-font-medium;
+
+  > div {
+    font-size:24px;
+    padding:10px 22px;
+    
+   
+  }
 
   ul {
+    width:273px;
 
     li {
       height:43px;
-      background-color:blue;
+      font-size:17px;
+
+      a{
+          padding:10px 40px 10px 40px;
+      }
     }
   }
 
@@ -98,17 +96,16 @@ header {
   z-index:5;
   .translate(0px, 0);
   .transformtransition(300ms, ease-in-out);
+
+  &.notransition {
+    -webkit-transition: none!important;
+  }
+
 }
 
 #container.showToolbar{
 
-  .translate(274px, 0);
+  .translate(273px, 0);
   .transformtransition(300ms, ease-in-out);
-/*
-  transform: translate(274px);
-  -webkit-transform:translate(274px); 
-  transition: transform 5s ease-in;
-  -webkit-transition: transform, -webkit-transform 5s ease-in;
-*/
   
 }

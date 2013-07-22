@@ -11,62 +11,39 @@ body {
 //---------------------------------------------------------------------------
 // Header
 //---------------------------------------------------------------------------
-header {
-  pointer-events: none;
+
+
+#navbar {
   background-color:@gray-dark;
 
   h1 {
     color:@white;
+
     span {
       display: block;
       position: relative;
     }
   }
-}
 
+  a {
+    position: absolute;
+    z-index: 3;
+  }
 
-
-
-// Refresh/Share button
-#share {
-  position: absolute;
-  right: 2.5px;
-  top: 2.5px;
-  width: 3em;
-  height: 2.24em;
-  overflow: hidden;
-  z-index: 35;
-  background: transparent url(../images/phone-share@2x.png) no-repeat center center;
-  background-size: 20px 18px;
-  text-indent: -30000px;
-  pointer-events: all;
-}
-
-
-//iOS style
-.device-phone-ios {
-  #refresh,
   #share {
-    //iOS style
     height: 2em;
     right: .46em;
     top: .46em;
     box-sizing: border-box;
     border-width: 5px 6px;
     border-style: solid;
-
-
-    .inner {
-      display: block;
-      height: 100%;
-      background: transparent url(../images/phone-refresh@2x.png) no-repeat center center;
-      background-size: 20px 18px;
-    }
-  }
-  #share .inner {
     background-image: url(../images/phone-share@2x.png);
+
   }
+
 }
+
+
 
 
 // Arrow indicator
@@ -89,12 +66,15 @@ header {
   }
 }
 
+
+
 //---------------------------------------------------------------------------
-// Footer // Toolbar
+// Footer // SidebarPanel
 //---------------------------------------------------------------------------
 
-#toolbar {
+#sidebarPanel {
   position: absolute;
+  display:block;
   background-color:@gray-darker;
   left: 0;
   bottom: 0;
@@ -102,19 +82,30 @@ header {
   z-index: 1;
   padding-top: .6em;
 
+  > div {
+    display:block;
+    background-color:@gray-darker;
+    color:@white;
+    .box-shadow(1px 1px 5px 0px black);
+  }
+
   ul {
     list-style: none;
     width:100%;
-    background-color:red;
 
     li {
       display:block;
       background-color:@gray;
+      color:@white;
+      
+
 
       a {
         width:100%;
         display: block;
         position: relative;
+        border-top:1px solid #4b4b4b;
+        .box-shadow(0px 0px 5px 0px black);
 
         &.photo {
           background-image: url(../images/phone-photo@2x.png);
@@ -178,8 +169,6 @@ header {
           display: block;
           width: 100%;
           height: 50%;
-
-          .vertical-gradient(rgba(255,255,255,.04), rgba(255,255,255,.03));
         }
 
         .indicator {
@@ -187,13 +176,9 @@ header {
         }
 
         &.active {
-          background-color: transparent;
-
-          & > span {
-            background: transparent url(../images/phone-glow@2x.png) no-repeat center center;
-            background-size: 75px 75px;
-            height: 100%;
-          }
+          background-color: @light-black;
+          border-top:none;
+          .box-shadow(none);
 
           /*.indicator {
             display: block;
@@ -219,11 +204,43 @@ header {
   bottom: 3.05em;
   width: 100%;
   z-index: 1;
+  height: 100%;
+
+
+  div.pixelDetect {
+    position:absolute;
+    height:100%;
+    width:10px;
+    background:transparent;
+    .transition (background-color 300ms linear);
+    left:0;
+    z-index:5;
+
+    &.full {
+      width:100%;
+      .transition (background-color 300ms linear, opacity 300ms linear);
+      background-color:black;
+      .opacity(@opacity: 0.6)
+
+    }
+  }
+
+
+}
+
+#lockCard{
+  display:none;
+  background-color:transparent;
+  position:absolute;
+  width:100%;
+  height:100%;
+  z-index:4;
 }
 
 #cards {
   width: 100%;
   height: 100%;
+
 }
 
 .content {

@@ -2,12 +2,12 @@
 
 define([
   'sleek.custom',
-  'ui/navigateElement',
+  'ui/sideBar',
   'joshlib!ui/slidepanel',
   'joshlib!utils/dollar',
   'joshlib!utils/woodman',
   'joshlib!vendor/underscore'
-], function (Sleek, UINavigate, SlidePanel, $, woodman, _) {
+], function (Sleek, SideBar, SlidePanel, $, woodman, _) {
 
   var logger = woodman.getLogger('sleek.phone');
 
@@ -17,7 +17,7 @@ define([
      */
     deviceFamily: 'phone',
 
-    fastNavigateSelector: '#container header a, #container #toolbar a',
+    fastNavigateSelector: '#container header a, #container #sidebarPanel a',
 
     initialize: function() {
       if (window.plugins && window.plugins.tapToScroll) {
@@ -32,21 +32,20 @@ define([
     },
 
     /**
-     * Creates the toolbar UI element.
-     * Overrides base function to return a Toolbar element with appropriate
+     * Creates the sidebarPanel UI element.
+     * Overrides base function to return a sidebarPanel element with appropriate
      * scrolling options.
      *
      * @function
-     * @return {UIElement} The toolbar UI element to use
+     * @return {UIElement} The sidebarPanel UI element to use
      */
-    createToolbarElement: function() {
-
-      logger.log('create toolbar element');
-      return new UINavigate({
-        name: 'toolbar',
-        el: '#toolbar',
-        templateEl: '#template-toolbar',
-        itemTemplateEl: '#toolbar-item',
+    createSidebarElement: function() {
+      logger.log('create sidebarPanel element');
+      return new SideBar({
+        name: 'sidebarPanel',
+        el: '#sidebarPanel',
+        templateEl: '#template-sidebarPanel',
+        itemTemplateEl: '#sidebarPanel-item',
         scroller: true,
         scrollOptions: {
           vScroll: false,
@@ -93,9 +92,7 @@ define([
       logger.log('create routes');
 
       var controllers = Sleek.prototype.createRoutes.call(this, sections, views);
-
-      var $title = $('#title');
-      var $toolbar = $('#toolbar');
+      var $sidebar = $('#sidebarPanel');
       var $back = $('#back');
       var $refresh = $('#refresh');
       var $share = $('#share');
@@ -114,14 +111,15 @@ define([
 
           logger.log(section.slug, 'list route');
           self.activeSection = section;
-          $title.html(section.name);
+          self.navbar.setTitle(section.name);
           document.body.id = section.outputType;
 
           $('iframe, audio, video, object, embed', '#container').remove();
-          $toolbar.find('.active').removeClass('active');
-          $toolbar.find('.section-' + section.slug).addClass('active');
-          $back.hide();
-
+          self.navbar.hideBackButton();
+          self.navbar.showSidebarButton();
+          self.containerView.enabledSlide();
+          $sidebar.find('.active').removeClass('active');
+          $sidebar.find('.section-' + section.slug).addClass('active');
           $share.hide();
           $refresh.show().unbind('touchstart mousedown').bind('touchstart mousedown', _.bind(function(e) {
             self.refreshList(section, container);
@@ -154,11 +152,12 @@ define([
           controllers[section.slug + 'Detail'] = function (offset) {
             logger.log(section.slug, 'detail route');
             offset = parseInt(offset, 10);
-            $title.html(section.name);
+            self.navbar.hideSidebarButton();
+            self.navbar.setTitle(section.name);
             document.body.id = section.outputType;
             $('iframe, audio, video, object, embed', '#container').remove();
-            $toolbar.find('.active').removeClass('active');
-            $toolbar.find('.section-' + section.slug).addClass('active');
+            $sidebar.find('.active').removeClass('active');
+            $sidebar.find('.section-' + section.slug).addClass('active');
             $refresh.hide();
 
             // Display the share button
@@ -178,7 +177,9 @@ define([
             //     return false;
             //   });
             $back.attr('href', '#' + section.slug);
-            $back.css({display: 'block'});
+            self.containerView.disabledSlide();
+            self.navbar.showBackButton();
+            self.navbar.hideSidebarButton();
 
             var container = views.children[section.slug];
             views.showChild(section.slug);

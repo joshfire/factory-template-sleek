@@ -18,6 +18,8 @@ define([
   'joshlib!ui/fadeinpanel',
   'joshlib!ui/factorymedia',
   'ui/imagesloader',
+  'ui/navBar',
+  'ui/containerView',
   'joshlib!router',
   'joshlib!vendor/backbone',
   'joshlib!vendor/underscore',
@@ -35,6 +37,8 @@ define([
   FadeInPanel,
   FactoryMedia,
   ImagesLoader,
+  NavBar,
+  ContainerView,
   Router,
   Backbone,
   _,
@@ -42,7 +46,8 @@ define([
   Localizer,
   woodman,
   LocaleConfig,
-  ImageGallery) {
+  ImageGallery
+  ) {
 
   var logger = woodman.getLogger('sleek');
 
@@ -233,9 +238,15 @@ define([
               };
             }, self));
 
-
             // Create the views once all sections have been initialized
             var views = self.createViews(sections);
+            
+            // Create containerView
+            self.containerView = self.createContainerView();
+
+            // Create the navbar
+            self.navbar = self.createNavBarElement();
+            self.navbar.render();
 
             // Initialize the router and start the application
             var controllers = self.createRoutes(sections, views);
@@ -256,14 +267,16 @@ define([
               if (navigator && navigator.splashscreen) {
                 setTimeout(navigator.splashscreen.hide, 500);
               }
+              console.debug(this.containerView);
+              self.containerView.$el.show();
             };
 
-            views.bind('load', loaded);
+            views.bind('load',loaded);
 
             //failsafe if first tab fails to load for some reason
             setTimeout(loaded, 20*1000);
 
-            self.toolbarView.render();
+            self.sidebarView.render();
             views.render();
 
             if (callback) callback();
@@ -383,15 +396,15 @@ define([
 
 
     /**
-     * Initializes and renders the application toolbar
+     * Initializes and renders the application sidebar
      *
      * @function
      * @param {Array(Object)} sections The list of sections to include
-     *  in the toolbar
-     * @return {UIElement} The created toolbar element
+     *  in the sidebar
+     * @return {UIElement} The created sidebar element
      */
-    createToolbar: function(sections) {
-      logger.log('create toolbar');
+    createSidebar: function(sections) {
+      logger.log('create sidebar');
       var sectionCollection = new Backbone.Collection();
       var section = null;
 
@@ -406,9 +419,26 @@ define([
         });
       }
 
-      var toolbar = this.createToolbarElement();
-      toolbar.setCollection(sectionCollection, true);
-      return toolbar;
+      var sidebar = this.createSidebarElement();
+      sidebar.setCollection(sectionCollection, true);
+      return sidebar;
+    },
+
+
+    /**
+     * Initializes containerView
+     *
+     * @function
+     * @param {Array(Object)} 
+     * @return {UIElement} The created sidebar element
+     */
+    createContainerView: function() {
+      logger.log('create containerView');
+      return new ContainerView({
+        name: 'containerView',
+        el: '#container',
+        sidebarPanel:this.sidebarView
+      });
     },
 
 
@@ -438,10 +468,10 @@ define([
         return sectionsView;
       }
 
-      // Create the toolbar
+      // Create the sidebar
       // (not very clean to set it in "this", but TV version needs
-      // to put the toolbar in a horizontal layout)
-      this.toolbarView = this.createToolbar(sections);
+      // to put the sidebar in a horizontal layout)
+      this.sidebarView = this.createSidebar(sections);
 
       // Parse sections and build corresponding views
       _.forEach(sections, _.bind(function(section) {
@@ -473,28 +503,44 @@ define([
 
 
     /**
-     * Creates the toolbar UI element. Default implementation is a Toolbar,
+     * Creates the sidebar UI element. Default implementation is a sidebar,
      * but you may want to override this in derivated classes.
      *
      * @function
-     * @return {UIElement} The toolbar UI element to use
+     * @return {UIElement} The sidebar UI element to use
      */
-    createToolbarElement: function() {
-      logger.log('create toolbar element');
-      var Toolbar = List.extend({
+    createSidebarElement: function() {
+      logger.log('create sidebar element');
+      var sidebar = List.extend({
         generate: function (cb) {
           if (this.collection && (this.collection.length < 2)) {
-            logger.info('no toolbar element needed');
-            $('body').addClass('no-toolbar');
+            logger.info('no sidebar element needed');
+            $('body').addClass('no-sidebar');
           }
           List.prototype.generate.call(this, cb);
         }
       });
-      return new Toolbar({
-        name: 'toolbar',
-        el: '#toolbar',
-        templateEl: '#template-toolbar',
-        itemTemplateEl: '#toolbar-item'
+      return new sidebar({
+        name: 'sidebar',
+        el: '#sidebar',
+        templateEl: '#template-sidebar',
+        itemTemplateEl: '#sidebar-item'
+      });
+    },
+
+    /**
+     * Creates the Navbar UI element.
+     * but you may want to override this in derivated classes.
+     *
+     * @function
+     * @return {UIElement} The navBar UI element to use
+     */
+    createNavBarElement: function() {
+      logger.log('create navbar element');
+      return new NavBar({
+        'name': 'navbar',
+        'el':'#navbar',
+        'containerView':this.containerView
       });
     },
 

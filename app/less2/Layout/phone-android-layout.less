@@ -14,3 +14,108 @@ body {
   font-size: @base-font-size * 1px;
   font-family:@AndroidFontRegular;
 }
+
+/****************************************************************************
+
+  HEADER & FOOTER
+
+****************************************************************************/
+
+//---------------------------------------------------------------------------
+// Header
+//--
+
+#navbar {
+  font-family:@AndroidFontRegular;
+  height:44px;
+
+  h1 {
+    padding: 5px 0;
+    font-size: 24px;
+    text-align: center;
+    font-weight:normal;
+    width: 100%;
+
+  }
+  // Back button
+  #back {
+    left: 13px;
+    top: 13px;
+    width: 23px;
+    height: 15px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0) url(../images/phone-back@2x.png) no-repeat center center;
+    background-size: 23px 15px;
+    display: none;
+    pointer-events: all;
+  }
+
+  #sidebar-btn {
+    height: 16px;
+    width: 17px;
+    left: 0px;
+    top: 0px;
+    background: rgba(0, 0, 0, 0) url(../images/menu-iPhone@2x.png) no-repeat center center;
+    background-size: 16px 17px;
+    left: 13px;
+    top: 13px;
+
+  }
+}
+
+
+
+//---------------------------------------------------------------------------
+// Footer // SidebarPanel
+//---------------------------------------------------------------------------
+
+#sidebarPanel {
+  width: 274px;
+  font-family:@AndroidFontRegular;
+
+  > div {
+    font-size:24px;
+    padding:10px 22px;
+    
+   
+  }
+
+  ul {
+    width:273px;
+
+    li {
+      height:43px;
+      font-size:17px;
+
+      a{
+          padding:10px 40px 10px 40px;
+      }
+    }
+  }
+
+}
+
+/****************************************************************************
+
+  CONTENT & PANNELS
+
+****************************************************************************/
+
+#container {
+  background-color:@white;
+  z-index:5;
+  .translate(0px, 0);
+  .transformtransition(300ms, ease-in-out);
+
+  &.notransition {
+    -webkit-transition: none!important;
+  }
+
+}
+
+#container.showToolbar{
+
+  .translate(273px, 0);
+  .transformtransition(300ms, ease-in-out);
+  
+}
