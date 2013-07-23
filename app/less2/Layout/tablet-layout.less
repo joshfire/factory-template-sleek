@@ -1,0 +1,1141 @@
+
+body {
+  font-size: @base-font-size * 1px;
+}
+
+
+/****************************************************************************
+
+  HEADER & TOOLBAR
+
+****************************************************************************/
+
+//---------------------------------------------------------------------------
+// Header
+//---------------------------------------------------------------------------
+#navbar {
+  background-color:@gray-dark;
+
+
+  h1 {
+    color:@white;
+
+    span {
+      display: block;
+      position: relative;
+    }
+  }
+
+  a {
+    position: absolute;
+    z-index: 3;
+  }
+
+  #share {
+    height: 2em;
+    right: .46em;
+    top: .46em;
+    box-sizing: border-box;
+    border-width: 5px 6px;
+    border-style: solid;
+    background-image: url(../images/phone-share@2x.png);
+
+  }
+
+}
+
+// Arrow indicator
+.indicator {
+  position: absolute;
+  height: .8em;
+  top: -.8em;
+  left: 51%;
+  width: 2em;
+  margin-left: -1em;
+  overflow: hidden;
+
+  span {
+    display: block;
+    height: 1.2em;
+    width: 1.2em;
+    margin: .2em auto;
+    background-color: darken(@background-color, 7%);
+    .rotate(45deg);
+  }
+}
+
+//---------------------------------------------------------------------------
+// Footer // SidebarPanel
+//---------------------------------------------------------------------------
+
+#sidebarPanel {
+  position: absolute;
+  display:block;
+  background-color:@gray-darker;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  z-index: 1;
+  padding-top: .6em;
+
+  > div {
+    display:block;
+    background-color:@gray-darker;
+    color:@white;
+    .box-shadow(1px 1px 5px 0px black);
+  }
+
+  ul {
+    list-style: none;
+    width:100%;
+
+    li {
+      display:block;
+      background-color:@gray;
+      color:@white;
+      
+
+
+      a {
+        width:100%;
+        display: block;
+        position: relative;
+        border-top:1px solid #4b4b4b;
+        .box-shadow(0px 0px 5px 0px black);
+
+        &.photo {
+          background-image: url(../images/phone-photo@2x.png);
+          background-size: 19px 17px;
+        }
+
+        &.status {
+          background-image: url(../images/phone-status@2x.png);
+          background-size: 25px 18px;
+        }
+
+        &.video {
+          background-image: url(../images/phone-video@2x.png);
+          background-size: 24px 13px;
+        }
+
+        &.event {
+          background-image: url(../images/phone-event@2x.png);
+          background-size: 18px 18px;
+        }
+
+        &.news {
+          background-image: url(../images/phone-news@2x.png);
+          background-size: 17px 16px;
+        }
+
+        &.sound {
+          background-image: url(../images/phone-sound@2x.png);
+          background-size: 14px 20px;
+        }
+
+        &.contact {
+          background-image: url(../images/phone-contact@2x.png);
+          background-size: 22px 14px;
+        }
+
+        &.map {
+          background-image: url(../images/phone-map@2x.png);
+          background-size: 11px 20px;
+        }
+
+        &.product {
+          background-image: url(../images/phone-product@2x.png);
+          background-size: 22px 18px;
+        }
+
+        &.other {
+          background-image: url(../images/phone-news@2x.png);
+          background-size: 17px 16px;
+        }
+
+        &.next, &.prev {
+          background-image: url(../images/phone-more@2x.png);
+          background-size: 20px 6px;
+        }
+
+        & > span {
+          left: 0;
+          top: 0;
+          position: absolute;
+          display: block;
+          width: 100%;
+          height: 50%;
+        }
+
+        .indicator {
+          display: none;
+        }
+
+        &.active {
+          background-color: @light-black;
+          border-top:none;
+          .box-shadow(none);
+
+          /*.indicator {
+            display: block;
+          }*/
+        }
+      }
+    }
+  }
+}
+
+/****************************************************************************
+
+  CONTENT & PANNELS
+
+****************************************************************************/
+
+#container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  #cards-container{
+    background-color: @white;
+  }
+}
+
+//---------------------------------------------------------------------------
+// Content = screen - (header + footer)
+//---------------------------------------------------------------------------
+.content {
+
+
+  &.loading {
+    .spinner {
+      display: block;
+    }
+  }
+
+  .spinner {
+    background: rgba(0,0,0,.9) url(../images/spinner.gif) no-repeat center center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    top: 50%;
+    width: 5em;
+    height: 5em;
+    margin-top: -2.5em;
+    margin-left: -2.5em;
+    z-index: 2;
+    display: none;
+    .border-radius(.5em);
+  }
+}
+
+//---------------------------------------------------------------------------
+// A section
+//---------------------------------------------------------------------------
+.section {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+
+  &.loading {
+    .spinner {
+      display: block;
+    }
+  }
+
+  .spinner {
+    background: rgba(0,0,0,.9) url(../images/spinner.gif) no-repeat center center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    top: 50%;
+    width: 5em;
+    height: 5em;
+    margin-top: -2.5em;
+    margin-left: -2.5em;
+    z-index: 2;
+    display: none;
+    .border-radius(.5em);
+  }
+}
+
+
+/****************************************************************************
+
+  LISTS (FOR COLLECTIONS)
+
+****************************************************************************/
+
+//---------------------------------------------------------------------------
+// List base style.
+//---------------------------------------------------------------------------
+.list {
+  list-style: none;
+  line-height: 1em;
+  padding: 0;
+  .clear-fix;
+}
+
+//---------------------------------------------------------------------------
+// List types.
+//---------------------------------------------------------------------------
+
+// A plan and simple, light-colored list.
+.simple-list {
+  li {
+    border-bottom: solid 2px fade(@background-color, 15%);
+
+    .vertical-gradient(fade(@background-color,10%), fade(@light-background-color, 0%));
+
+    &:first-child {
+      padding-top: 1em;
+    }
+
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 2em;
+    }
+
+    &.active {
+      background: saturate(fade(@background-color, 20%), 20%);
+    }
+  }
+}
+
+// Add this to a list, and even items will be darker.
+.hashed-list {
+  li {
+    border-bottom: solid thin fade(lighten(@background-color, 10%), 20%);
+
+    &:nth-child(even) {
+      background-color: fade(darken(@background-color, 20%), 30%);
+    }
+
+    &:first-child {
+      padding-top: 1em;
+    }
+
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 2em;
+    }
+
+    &.active {
+      background-color: fade(lighten(@background-color, 20%), 50%);
+    }
+  }
+}
+
+// A mosaic list, used to display pictures.
+.mosaic-list {
+  background: #000;
+
+  li {
+    width: 50%;
+    float: left;
+    padding: 0;
+
+    > div {
+      display: block;
+      height: 0;
+      overflow: hidden;
+      padding-bottom: 50%;
+      position: relative;
+
+      a {
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        border: solid 3px #000;
+      }
+    }
+
+    &:nth-child(6n - 5) {
+
+      > div {
+        padding-bottom: 100%;
+      }
+    }
+
+    &:nth-child(6n - 1) {
+      float: right;
+
+      > div {
+        padding-bottom: 100%;
+      }
+    }
+
+    &:nth-child(3n + 1) {
+      clear: left;
+    }
+
+    &:last-child {
+      &:nth-child(6n - 5) {
+        width: 100%;
+
+        > div {
+          padding-bottom: 25%;
+        }
+      }
+
+      &:nth-child(6n - 4) {
+        > div {
+          padding-bottom: 100%;
+        }
+      }
+
+      &:nth-child(6n - 2) {
+        width: 100%;
+
+        > div {
+          padding-bottom: 25%;
+        }
+      }
+
+      &:nth-child(6n - 1) {
+        > div {
+          padding-bottom: 50%;
+        }
+      }
+    }
+  }
+}
+.single.mosaic-list {
+
+  .first {
+    height: 100%;
+  }
+
+  ul {
+    margin: 0;
+    list-style: none;
+    position: absolute;
+    top: 0;
+    bottom: 15%;
+    left: 0;
+    right: 0;
+
+    li {
+      height: 100%;
+    }
+    
+    .figure {
+      padding-bottom: 0!important;
+      height: 100%;
+
+      a {
+        pointer-events: none;
+      }
+    }
+  }
+
+
+  .meta {
+    position: absolute;
+    top: 85%;
+    bottom: 0;
+    display: table;
+    left: 0;
+    right: 0;
+    height: 15%;
+    width: 100%;
+
+    .cell {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+      font-size: 1.6em;
+      padding: 0 10px;
+    }
+  }
+}
+//---------------------------------------------------------------------------
+// List item types.
+//---------------------------------------------------------------------------
+
+// An item of unknown type
+.unknown-item > div {
+  padding: 1em;
+}
+
+// A status item
+.status-item > div {
+  a {
+    display: block;
+    padding: 1em;
+  }
+
+  & > div {
+
+    background: url(../images/phone-arrow@2x.png) no-repeat right center;
+    background-size: 9px 13px;
+    .clear-fix;
+    padding-right: 2em;
+  }
+
+  .figure {
+    float: left;
+    width: 48px;
+    height: 48px;
+  }
+
+  .img {
+    .box-shadow(0 0 .5em rgba(0,0,0,.6));
+  }
+
+  .right {
+    margin-left: 60px;
+    padding-right: 1.5em;
+  }
+
+  h3 {
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    margin-bottom: .15em;
+  }
+
+  p {
+    color: darken(@text-color, 15%);
+  }
+
+  h4 {
+    font-size: 1em;
+    font-weight: normal;
+    color: darken(@text-color, 30%);
+    margin-top: .15em;
+  }
+}
+
+// A video item
+.video-item > div {
+  a {
+    display: block;
+    padding: .5em 1em .5em .5em;
+
+    & > div {
+      background: url(../images/phone-arrow-dark@2x.png) no-repeat right center;
+      background-size: 9px 13px;
+      padding-right: 2em;
+      .clear-fix;
+    }
+  }
+
+  .figure {
+    float: left;
+    width: 120px;
+    height: 90px;
+  }
+
+  .right {
+    margin-left: 132px;
+    padding-right: 1.5em;
+    padding-top: 0.5em;
+  }
+
+  h3 {
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+  }
+}
+
+.sound-item > div {
+  a {
+    display: block;
+    padding: 1em 1em 1em .5em;
+
+    & > div {
+      background: url(../images/phone-arrow-dark@2x.png) no-repeat right center;
+      background-size: 9px 13px;
+      padding-right: 2em;
+      .clear-fix;
+    }
+  }
+
+  h3 {
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    margin-bottom: .2em;
+  }
+}
+
+// A news item
+.news-item {
+  .figure {
+    float: left;
+    width: 110px;
+    height: 80px;
+    margin-right:.5em;
+  }
+
+  .img {
+    background: no-repeat center center;
+    background-size: cover;
+  }
+}
+
+.product-item {
+  .figure {
+    float: right;
+    width: 120px;
+    height: 90px;
+  }
+}
+
+// (and other types of item)
+.other-item > div,
+.product-item > div,
+.news-item > div {
+  line-height: 1.2em;
+
+  a {
+    display: block;
+    padding: .5em 1em .5em .5em;
+
+    & > div {
+      background: url(../images/phone-arrow-dark@2x.png) no-repeat right center;
+      background-size: 9px 13px;
+      padding-right: 2em;
+      .clear-fix;
+    }
+  }
+
+  .right {
+    margin-left: 132px;
+    padding-right: 1.5em;
+    padding-top: 0.5em;
+  }
+
+  h3 {
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: .9em;
+    color: @background-color;
+    margin-bottom: .2em;
+  }
+
+  h4 {
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    margin-bottom: .3em;
+  }
+
+  p {
+    font-size: .9em;
+  }
+
+  .offer:before {
+    content: '(';
+  }
+  .offer:after {
+    content: ')';
+  }
+}
+
+// An event item
+.event-item > div {
+
+  a {
+    display: block;
+    padding: 1em;
+
+    & > div {
+      background: url(../images/phone-arrow-dark@2x.png) no-repeat right center;
+      background-size: 9px 13px;
+      .clear-fix;
+      padding-right: 2em;
+    }
+  }
+
+  h3 {
+    font-weight: normal;
+    font-size: 1em;
+    margin-bottom: .5em;
+
+    span {
+      background: darken(@background-color, 20%);
+      padding: .1em .3em;
+    }
+  }
+
+  h4 {
+    font-weight: normal;
+    font-size: 1em;
+    padding: 0 .3em;
+  }
+}
+
+/****************************************************************************
+
+  MISC
+
+****************************************************************************/
+
+//---------------------------------------------------------------------------
+// A 'fake' image (using a background).
+//---------------------------------------------------------------------------
+
+.image {
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+  .spinner {
+    background: rgba(0,0,0,.9) url(../images/image-spinner.gif) no-repeat center center;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    display: none;
+  }
+}
+
+.loading > .image .spinner {
+  display: block;
+}
+
+/****************************************************************************
+
+  SECTION SPECIFIC STYLING
+
+****************************************************************************/
+
+//---------------------------------------------------------------------------
+// Tweaks
+//---------------------------------------------------------------------------
+
+.left-panel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 350px;
+  .horizontal-three-color-gradient(0, rgba(0,0,0,0), .96, rgba(0,0,0,0), 1, rgba(0,0,0,.2));
+
+  &.loading {
+    .spinner {
+      display: block;
+    }
+  }
+
+  .spinner {
+    background: rgba(0,0,0,.9) url(../images/spinner.gif) no-repeat center center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    top: 50%;
+    width: 5em;
+    height: 5em;
+    margin-top: -2.5em;
+    margin-left: -2.5em;
+    z-index: 2;
+    display: none;
+    .border-radius(.5em);
+  }
+}
+
+.single {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  & > div {
+    height: 100%;
+  }
+}
+
+.right-panel {
+  position: absolute;
+  left: 350px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  & > div {
+    height: 100%;
+  }
+
+  &.loading {
+    .spinner {
+      display: block;
+    }
+  }
+
+  .spinner {
+    background: rgba(0,0,0,.9) url(../images/spinner.gif) no-repeat center center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    top: 50%;
+    width: 5em;
+    height: 5em;
+    margin-top: -2.5em;
+    margin-left: -2.5em;
+    z-index: 2;
+    display: none;
+    .border-radius(.5em);
+  }
+}
+
+//---------------------------------------------------------------------------
+// Videos
+//---------------------------------------------------------------------------
+
+#video {
+  background: @light-background-color;
+}
+
+#video #cards{
+  color: @dark-text-color;
+}
+.attached-media,
+#video .right-panel, #video .single {
+
+  line-height: 1.2em;
+
+  a {
+    position: relative;
+    display: block;
+    top: 0;
+    left: 0;
+  }
+
+  .play {
+    height: 5em;
+    width: 4em;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -2.5em;
+    .scaleX(1.5);
+
+    span {
+      display: block;
+      height: 3em;
+      width: 3em;
+      margin-left: -1.5em;
+      margin-top: 1em;
+      background-color: #fff;
+      .rotate(45deg);
+    }
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  .media {
+    background-color: black;
+  }
+
+  .media div,
+  .media iframe,
+  .media video {
+    margin: 0 auto;
+  }
+
+  .body {
+    background: white url(../images/phone-shadow@2x.png) no-repeat center top;
+    background-size: 100% auto;
+  }
+
+  .wrapper {
+    & > div:first-child {
+      // The following property creates a new rendering context that forces
+      // the top margin of the first element to be included in the height of
+      // the container. In turn, it helps iScroll compute the right height
+      // for the scrolled area
+      overflow: hidden;
+      padding: 0 1em;
+
+      // Min-height avoids flickering on desktop-like screens
+      min-height: 100%;
+    }
+
+    & p {
+      margin-bottom: 1em;
+    }
+  }
+
+  h3 {
+    font-weight: normal;
+    font-size: 1em;
+    margin-bottom: .8em;
+    margin-top: 1em;
+  }
+
+  h4 {
+    text-transform: uppercase;
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+    color: @background-color;
+  }
+}
+
+
+//---------------------------------------------------------------------------
+// Sounds
+//---------------------------------------------------------------------------
+
+#sound {
+  background: @light-background-color;
+}
+
+#sound #cards {
+  color: @dark-text-color;
+}
+
+#sound .right-panel, #sound .single {
+
+  line-height: 1.2em;
+
+  img {
+    height: 32px;
+    width: auto;
+    float: left;
+    margin-right: .2em;
+  }
+
+  padding: 1.2em 1em 1em;
+  margin-top: -.5em;
+
+  h3 {
+    font-weight: normal;
+    font-size: 1em;
+    margin-bottom: .8em;
+    margin-top: 1em;
+  }
+
+  h4 {
+    text-transform: uppercase;
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+    color: @background-color;
+  }
+
+  .media {
+    margin: 1em 0;
+  }
+}
+
+
+//---------------------------------------------------------------------------
+// Statuses
+//---------------------------------------------------------------------------
+
+#status .right-panel, #status .single {
+
+  > div {
+    min-height: 100%;
+    position: relative;
+  }
+
+  .header {
+    .clear-fix;
+    padding-top: 1em;
+
+    img {
+      float: left;
+      display: block;
+      width: 48px;
+      height: 48px;
+      margin: 1em;
+      .box-shadow(0 0 .5em rgba(0,0,0,.6));
+    }
+
+    h3 {
+      font-weight: normal;
+      font-size: 1.2em;
+    }
+  }
+
+  .message {
+    color: @dark-text-color;
+    padding: 5% 6%;
+
+    .cover {
+      background-color: @light-background-color;
+      .box-shadow(0 -1em 4em rgba(0,0,0,.8));
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 6.8em;
+    }
+
+    h4 {
+      font-weight: normal;
+      margin-bottom: 1.3em;
+      color: lighten(@dark-text-color, 30%);
+      font-size: 1.2em;
+      position: relative;
+    }
+
+    p {
+      font-size: 1.4em;
+      position: relative;
+
+      strong, em, a {
+        color: saturate(lighten(@background-color, 10%), 10%);
+        font-weight: normal;
+        font-style: normal;
+      }
+    }
+  }
+
+  .arrow {
+    height: .8em;
+    margin-left: 1.8em;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+
+    span {
+      display: block;
+      height: 1.6em;
+      width: 1.6em;
+      margin: .35em 0;
+      background-color: @light-background-color;
+      .rotate(45deg);
+    }
+  }
+  .attached-medias {
+    position:relative;
+    padding: 0;
+
+    .media {
+      padding: 0;
+
+      iframe{
+        width:100%;
+      }
+    }
+
+    .article{
+      padding-bottom:1.5em;
+    }
+
+    .attached-media {
+      padding:1.5em;
+      color:black;
+      width: auto;
+      height:100%;
+
+      img {
+        width:auto;
+      }
+    }
+  }
+}
+
+//---------------------------------------------------------------------------
+// Events
+//---------------------------------------------------------------------------
+
+#event .right-panel, #event .single {
+
+  line-height: 1.2em;
+  background: @light-background-color;
+  color: @dark-text-color;
+
+  > div {
+    padding: 1em;
+  }
+
+  h3 {
+    font-weight: normal;
+    font-size: 1em;
+    margin-bottom: .8em;
+    margin-top: 1em;
+  }
+
+  h4 {
+    text-transform: uppercase;
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+    color: @background-color;
+  }
+
+  p {
+    margin-bottom: 1em;
+  }
+}
+
+
+//---------------------------------------------------------------------------
+// News, Products, Other
+//---------------------------------------------------------------------------
+
+#news,
+#product,
+#other {
+  background: @light-background-color;
+}
+
+#news #cards,
+#product #cards,
+#other #cards {
+  color: @dark-text-color;
+}
+
+#news .right-panel, #news .single,
+#product .right-panel, #product .single,
+#other .right-panel, #other .single {
+
+  line-height: 1.2em;
+
+  h3 {
+    font-weight: normal;
+    font-size: .9em;
+    margin-bottom: .2em;
+    margin-top: 1em;
+    padding: 0 .5em;
+  }
+
+  h4 {
+    text-transform: uppercase;
+    color: @background-color;
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+    padding: 0 .5em;
+  }
+
+  .body {
+    padding: 2.2em 1em 1em;
+  }
+}
+
+.single {
+  h3, h4 {
+    padding: 0 !important;
+  }
+}
+
+.no-toolbar {
+  header > div.container {
+    height: 41px;
+  }
+  #toolbar {
+    visibility: hidden;
+  }
+}
