@@ -1307,12 +1307,6 @@ body {
   -o-transition: -o-transform 300ms ease-in-out;
   transition: transform 300ms ease-in-out;
 }
-/*@import 'Layout/tablet-layout.less';
-@import 'Layout/tablet-ios-layout.less';
-@import 'Layout/tablet-android-layout.less';*/
-/*@import 'Components/lists-tablet.less';
-@import 'Components/lists-tablet-ios.less';
-@import 'Components/lists-tablet-android.less';*/
 .detail ul,
 .single ul,
 .detail ol,
@@ -1566,10 +1560,6 @@ figure.dataloading .nodata,
 .joshfire-wrapper > div {
   height: 100%;
 }
-/*@import 'Components/details-tablet.less';
-@import 'Components/details-tablet-ios.less';
-@import 'Components/details-tablet-android.less';
-*/
 /*
  * photoswipe.css
  * Copyright (c) %%year%% by Code Computerlove (http://www.codecomputerlove.com)
