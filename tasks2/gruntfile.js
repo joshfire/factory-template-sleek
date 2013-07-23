@@ -16,7 +16,7 @@ module.exports = function(grunt) {
 
                 },
                 files: {
-                    "../app/css2/style.css" : "../app/less2/boostrap.less"
+                    "../app/css2/style.css" : "../app/less2/boostrap-phone.less"
                 }
             }
         },
@@ -45,7 +45,7 @@ module.exports = function(grunt) {
         },
         open: {
           server: {
-              path: 'http://localhost:<%= connect.options.port %>/index.phone.html'
+              path: 'http://localhost:<%= connect.options.port %>/index.tablet.html'
           }
         }
     });
