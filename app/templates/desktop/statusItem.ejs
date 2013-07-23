@@ -1,0 +1,25 @@
+<div>
+  <a href="#<%= section.slug %>/<%= offset %>">
+    <% if (imageUrl) { %>
+      <div class="figure">
+        <div class="img fadein" title="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" style="background-image: url(<%= imageUrl %>)"></div>
+        <div class="loader"></div>
+      </div>
+    <% } %>
+    <div class="right">
+      <% if (item.author && item.author[0] && item.author[0].name) { %>
+      <h3>
+        <%= item.author[0].name %>
+        <% if (item.author[0]['foaf:nick']) { %>
+          @<%= item.author[0]['foaf:nick'] %>
+        <% } %>
+      </h3>
+      <% } %>
+      <p><%= item.name %></p>
+      <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+        <h4><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></h4>
+      <% } %>
+    </div>
+  </a>
+  <div class="attached-medias"></div>
+</div>

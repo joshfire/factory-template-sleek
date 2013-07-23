@@ -1,0 +1,13 @@
+<div>
+  <div class="head"><%= item.name %></div>
+  <div class="body">
+    <% if (imageUrl) { %>
+      <div class="center"><img data-joshfire-autothumb="true" alt="" /></div>
+    <% } %>
+    <% if (item.articleBody) { %>
+    <%= item.articleBody %>
+    <% } else if (item.description) { %>
+    <%= item.description %>
+    <% } %>
+  </div>
+</div>

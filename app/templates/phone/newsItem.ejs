@@ -1,0 +1,18 @@
+<div>
+  <a href="#<%= section.slug %>/<%= offset %>">
+    <div>
+      <% if (imageUrl) { %>
+        <div class="figure">
+          <div class="img fadein" data-joshfire-autothumb="true"></div>
+          <div class="loader inv"></div>
+        </div>
+      <% } %>
+      <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+      <h3>
+        <span><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></span>
+      </h3>
+      <% } %>
+      <h4><%= item.name || item.description %></h4>
+    </div>
+  </a>
+</div>

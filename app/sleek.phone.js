@@ -1,4 +1,4 @@
-/*global define, document*/
+/*global define, document, Joshfire*/
 
 define([
   'sleek.custom',
@@ -19,7 +19,7 @@ define([
 
     fastNavigateSelector: '#container header a, #container #sidebarPanel a',
 
-    initialize: function() {
+    initialize: function(opt) {
       if (window.plugins && window.plugins.tapToScroll) {
         window.plugins.tapToScroll.initListener();
         window.addEventListener('statusTap', _.bind(function() {
@@ -28,9 +28,9 @@ define([
           }
         }, this));
       }
-      Sleek.prototype.initialize.call(this);
-    },
 
+      Sleek.prototype.initialize.call(this, opt);
+    },
 
     /**
      * Must create a list + detail view for a section.
@@ -104,7 +104,6 @@ define([
           if (section.collection.length) {
             logger.log(section.slug, 'list route', 'show');
             self.moveToList(container);
-            // yoyoyo
             views.showChild(section.slug);
 
           } else {
@@ -133,22 +132,22 @@ define([
             $sidebar.find('.section-' + section.slug).addClass('active');
             $refresh.hide();
 
-            // Display the share button
-            // TODO: in a proper implementation, the share button should only
-            // be displayed provided Joshfire.factory.getAddOns('share')
-            // returns a non empty list and provided the item to display can
-            // be shared, in other words that its "url" property is a valid
-            // absolute URL (as opposed to a simple ID)
-            // Disabled share for the moment, while we check the presence of the share add-on
-            $share.hide();
-            // $share.show()
-            //   .unbind('touchstart mousedown')
-            //   .bind('touchstart mousedown', function (e) {
-            //     var model = section.collection.at(0);
-            //     self.share(model);
-            //     e.preventDefault();
-            //     return false;
-            //   });
+            var urlRegExp = /^http[s]?:\/\/.+$/;
+            var shareAddOn = Joshfire.factory.getAddOns('share');
+            var model = section.collection.at(0);
+
+            if (shareAddOn.length && urlRegExp.test(model.get('url'))) {
+              $share.show()
+                .unbind('touchstart mousedown')
+                .bind('touchstart mousedown', function (e) {
+                  self.share(model);
+                  e.preventDefault();
+                  return false;
+                });
+            } else {
+              $share.hide();
+            }
+
             $back.attr('href', '#' + section.slug);
             self.containerView.disabledSlide();
             self.navbar.showBackButton();
@@ -188,9 +187,13 @@ define([
         return callback('No model to share');
       }
 
-      // TODO: in a proper implementation, this is where
-      // "Joshfire.factory.getAddOns('share').startActivity" should be called.
-      console.log('TODO: share me!', model);
+      Joshfire.factory.getAddOns('share').startActivity({
+        data : {
+          msg: 'yo, you just shared that',
+          url: model.get('url')
+        }
+      });
+
       return callback();
     }
   });

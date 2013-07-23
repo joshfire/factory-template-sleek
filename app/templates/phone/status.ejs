@@ -1,0 +1,22 @@
+<div class="body">
+  <div class="header">
+    <% if (imageUrl) { %>
+      <img src="<%= thumbnail(48,48) %>" alt="" />
+    <% } %>
+    <% if (item.author && item.author[0] && item.author[0].name) { %>
+      <h2><%= item.author[0].name %></h2>
+    <% } %>
+    <% if (item.author && item.author[0] && item.author[0]['foaf:nick']) { %>
+      <h3>@<%= item.author[0]['foaf:nick'] %></h3>
+    <% } %>
+  </div>
+  <div class="arrow"><span>&nbsp;</span></div>
+  <div class="message">
+    <div class="cover">&nbsp;</div>
+    <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+    <h4><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></h4>
+    <% } %>
+    <p><%= prettyStatus(item.name) %></p>
+  </div>
+  <div class="attached-medias"></div>
+</div>

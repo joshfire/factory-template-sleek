@@ -15,7 +15,7 @@ define([
 
     fastNavigateSelector: '#container header a',
 
-    initialize: function() {
+    initialize: function(opt) {
       if (window.plugins && window.plugins.tapToScroll) {
         window.plugins.tapToScroll.initListener();
         window.addEventListener('statusTap', _.bind(function() {
@@ -24,7 +24,8 @@ define([
           }
         }, this));
       }
-      Sleek.prototype.initialize.call(this);
+
+      Sleek.prototype.initialize.call(this, opt);
     },
 
     /**

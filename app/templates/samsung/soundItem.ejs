@@ -1,0 +1,12 @@
+<div>
+  <a href="#<%= section.slug %>/<%= offset %>">
+    <div>
+      <% if (item.byArtist && item.byArtist.name) { %>
+        <h3><%= item.byArtist.name %></h3>
+      <% } else if (item.author && item.author.name) { %>
+        <h3><%= item.author.name %></h3>
+      <% } %>
+      <h4><%= item.name || item.description %></h4>
+    </div>
+  </a>
+</div>

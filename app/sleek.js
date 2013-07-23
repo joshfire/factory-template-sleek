@@ -164,7 +164,7 @@ define([
      *
      * @function
      */
-    initialize: function (callback) {
+    initialize: function (opt, callback) {
 
       var self = this;
       this.localizer = Localizer;
@@ -175,6 +175,12 @@ define([
       this.logoURL = Joshfire.factory.config.app.logo ?
                   Joshfire.factory.config.app.logo.contentURL : null;
 
+      if (opt && opt.templates) {
+        this.templates = opt.templates;
+      } else {
+        console.error('No templates were loaded.');
+        throw new Error();
+      }
       // Set the document's title to the application title
       document.title = this.title;
 
@@ -182,12 +188,17 @@ define([
       if (typeof woodmanConfig !== 'undefined') {
         config = woodmanConfig;
       }
+
       woodman.load(config, _.bind(function (err) {
+
         if (err) {
           console.error(err);
         }
 
         // Open external link in another window
+        // Not necessary anymore since we now have the in-app browser.
+        // Leaving the code here temporarily. (famous last words - 07/13)
+        /*
         $('body').on('click', 'a', function () {
           if ($(this).is('.img, .image')) return true;
           var url = $(this).attr('href');
@@ -196,6 +207,7 @@ define([
             return false;
           }
         });
+        */
 
         // Sets the locale and loads the corresponding dictionnary.
         // It is then defined in the html templates's scope.
@@ -207,7 +219,6 @@ define([
           // Includes the correct dictionnary which is required by
           // moment.js's i18n native solution.
           self.setMomentLanguage();
-
           // Set the template color based on the option selected by the user
           // (this loads the CSS)
           self.setColor(Joshfire.factory.config.template.options.color || 'gray', function () {
@@ -516,8 +527,10 @@ define([
       return new SideBar({
         name: 'sidebarPanel',
         el: '#sidebarPanel',
-        templateEl: '#template-sidebarPanel',
-        itemTemplateEl: '#sidebarPanel-item',
+        template: this.templates.sidebar,
+        itemOptions: {
+          template: this.templates.sidebarItem
+        },
         scroller: true,
         scrollOptions: {
           vScroll: false,
@@ -593,7 +606,7 @@ define([
 
         var list = this.createListElement(section);
         var detail = this.createDetailContainer(section);
-        
+
         var view = this.createListAndDetailView(list, detail);
 
         return view;
@@ -713,7 +726,7 @@ define([
         var detail = container.view.children.detail;
 
         if(section.collection.length > offset) {
-          
+
           detail.setModel(section.collection.at(offset), true);
 
         }
@@ -778,10 +791,10 @@ define([
         logger.log(section.slug, 'create list element',
           'image gallery');
         var isSingle = (section.collection.length > 1) ? '' : 'single';
-        var tEl = isSingle ? '#template-single-photo' : '#template-list-view';
+        var t = isSingle ? this.templates.singlePhoto : this.templates.listView;
         return new ImageGallery({
           name: section.slug + '-list',
-          templateEl: tEl,
+          template: t,
           scroller: true,
           itemFactory: this.itemFactory(section),
           listItemFactory: this.listItemFactory(section),
@@ -798,7 +811,7 @@ define([
           'regular list');
         return new List({
           name: section.slug + '-list',
-          templateEl: '#template-list-view',
+          template: this.templates.listView,
           scroller: true,
           itemFactory: this.itemFactory(section),
           listItemFactory: this.listItemFactory(section),
@@ -877,7 +890,7 @@ define([
       case 'video':
         return new FactoryMedia({
           name: 'item-' + itemType,
-          templateEl: '#template-' + itemType,
+          template: this.templates.video,
           scroller: true,
           scrollerSelector: '.wrapper',
           width: self.getContentWidth(),
@@ -892,7 +905,7 @@ define([
       case 'sound':
         return new FactoryMedia({
           name: 'item-' + itemType,
-          templateEl: '#template-' + itemType,
+          template: this.templates.sound,
           mediaOptions: {
             strategy: 'html5'
           }
@@ -902,7 +915,7 @@ define([
         var statusView = new ImagesLoader({
           name: 'item-' + itemType,
           scrollerSelector: '.joshfire-wrapper',
-          templateEl: '#template-' + itemType,
+          template: this.templates.status,
           scroller: true,
           imageSchema: self.getAuthorImageSchema(options.model.toJSON())
         });
@@ -941,17 +954,19 @@ define([
       case 'other':
         return new ImagesLoader({
           name: 'item-' + itemType,
-          templateEl: '#template-' + itemType,
+          template: this.templates[itemType],
           scroller: true,
           imageSchema: options.model.toJSON()
         });
 
       case 'news':
-        var body = options.model.get('articleBody').replace(/\n|\r\n/g,'<br>');
-        options.model.set('articleBody',body,{silent: true});
+        if (options.model.get('articleBody')) {
+          var body = options.model.get('articleBody').replace(/\n|\r\n/g,'<br>');
+          options.model.set('articleBody', body, {silent: true});
+        }
         return new ImagesLoader({
           name: 'item-' + itemType,
-          templateEl: '#template-' + itemType,
+          template: this.templates.news,
           scroller: true,
           imageClass: 'fadein',
           imageSchema: options.model.toJSON()
@@ -959,7 +974,7 @@ define([
       default:
         return new ImagesLoader({
           name: 'item-' + itemType,
-          templateEl: '#template-' + itemType,
+          template: this.templates[itemType],
           scroller: true,
           imageClass: 'fadein',
           imageSchema: options.model.toJSON(),
@@ -1003,7 +1018,7 @@ define([
 
           return new ImagesLoader( {
             model: model,
-            templateEl: '#template-mention-item',
+            template: this.templates.mentionItem,
             imageSchema: model.toJSON()
           } );
 
@@ -1012,7 +1027,7 @@ define([
           return new FactoryMedia({
             model: model,
             scroller: true,
-            templateEl: '#template-video',
+            template: this.templates.video,
             width: self.getContentWidth(),
             height: self.getContentHeight(),
             mediaOptions: {
@@ -1027,7 +1042,7 @@ define([
           if (mention.name && mention.description) {
             return new ImagesLoader( {
               model: model,
-              templateEl: '#template-mention-item',
+              template: this.templates.mentionItem,
               imageSchema: model.toJSON()
             } );
           } else {
@@ -1071,13 +1086,14 @@ define([
       return function (model, offset) {
         var item = model.toJSON();
         var type = section.outputType || self.convertItemType(item['@type']);
-        var templateEl = '#template-' + type + '-item';
+        var template = self.templates[type + 'Item'];
+
         var options = {
           name: section.slug + '-item-' + offset + '-' + type,
           data: { section: section },
           model: model,
           offset: offset,
-          templateEl: templateEl
+          template: template
         };
 
         logger.log(this.logid, 'item factory',
@@ -1192,6 +1208,7 @@ define([
      */
     getAuthorImageSchema: function(item) {
       if (item && item.author && item.author[0]) {
+        console.warn(item.author[0]);
         return item.author[0];
       }
       return item;

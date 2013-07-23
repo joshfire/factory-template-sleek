@@ -1,0 +1,20 @@
+<div>
+  <a href="#<%= section.slug %>/<%= offset %>">
+    <div class="left">
+      <div class="image" style="background-image: url(<%= thumbnail(48,48) %>)"></div>
+    </div>
+    <div class="right"><div class="item-content">
+      <h3><%= item.name %></h3>
+    </div></div>
+    <div class="far-left">
+      <p>
+        <% if (item.author && item.author[0] && item.author[0].name) { %>
+          <%= item.author[0].name %><br />
+        <% } %>
+        <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+        <%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %>
+        <% } %>
+      </p>
+    </div>
+  </a>
+</div>

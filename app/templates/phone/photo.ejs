@@ -1,0 +1,13 @@
+<div class="body">
+  <h4><%= item.name %></h4>
+  <% if (imageUrl) { %>
+    <div class="center"><img src="<%= imageUrl %>" alt="" /></div>
+  <% } %>
+  <div class="article">
+  <% if (item.articleBody) { %>
+  <%= item.articleBody %>
+  <% } else if (item.description) { %>
+  <%= item.description %>
+  <% } %>
+  </div>
+</div>

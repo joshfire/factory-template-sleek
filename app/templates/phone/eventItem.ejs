@@ -1,0 +1,12 @@
+<div>
+  <a href="#<%= section.slug %>/<%= offset %>">
+    <div>
+      <% if (item.startDate) { %>
+      <h3>
+        <span><%= moment(toDate(item.startDate)).calendar() %></span>
+      </h3>
+      <% } %>
+      <h4><%= item.name || item.description %></h4>
+    </div>
+  </a>
+</div>

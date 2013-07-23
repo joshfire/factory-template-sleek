@@ -49,12 +49,12 @@ define([
    * (or more!) before adding a line ot code to that file!
    */
   return TVSleek.extend({
-    initialize: function () {
+    initialize: function (opt) {
       // Note the class extends the TV version but calls the "initialize"
       // function of the base Sleek class, because the TV version would break
       // the layout on Samsung TV (the zoom feature in particular)
       var self = this;
-      Sleek.prototype.initialize.call(this, function () {
+      Sleek.prototype.initialize.call(this, opt, function () {
         // Adds a class on the body if we're on 2011 SDK
         self.setFrameworkVersionTag();
         // Handle remote events
@@ -236,7 +236,7 @@ define([
       this.photoDetail = new PhotoOverlay({
         name: 'photo-overlay',
         el: '#photos-detail',
-        templateEl: '#template-photo',
+        template: this.templates.photo,
         getImageUrl: function() {
           if(this.model.get('contentURL'))
             return this.model.get('contentURL');
@@ -290,7 +290,7 @@ define([
       this.videoDetail = new VideoOverlay({
         name: 'video-overlay',
         el: '#videos-detail',
-        templateEl: '#template-video',
+        template: this.templates.video,
         mediaOptions: {
           width: '100%',
           height: '100%',
@@ -377,7 +377,9 @@ define([
       this.navHelper = new List({
         name: 'navhelper',
         el: '#navHelper',
-        itemTemplateEl: '#tpl-navhelper-item',
+        itemOptions: {
+          template: this.templates.navhelperItem
+        },
         collection: new Backbone.Collection([
           {
             className: 'exit',

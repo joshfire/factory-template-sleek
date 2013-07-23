@@ -1,0 +1,20 @@
+<% var m = collection.at(0).toJSON() || {} %>
+<% var pub = new moment(m.datePublished); %>
+<% var min = m.duration.split('M')[0].split('H').pop() %>
+<% var sec = m.duration.split('S')[0].split('M').pop() %>
+<ul class="mosaic">
+  <%= children %>
+</ul>
+<div class="header">
+  <% console.log(m, m.datePublished, pub, m.duration); %>
+  <div class="thumb">
+    <img data-joshfire-autothumb="true">
+    <span class="duration"><%=min%>:<%=sec%></span>
+  </div>
+  <h1><%=m.name%></h1>
+  <p class="description"><%=m.description%></p>
+  <% if(m.author && m.author.length) { %><a class="author"><%=m.author[0].name%></a> <% } %>
+  <% if(pub) { %>
+  <a class="date"><%=pub.format('DD/MM/YYYY')%></a>
+  <% } %>
+</div>

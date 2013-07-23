@@ -1,0 +1,15 @@
+<div>
+  <div class="head">
+    <%= item.name %>
+  </div>
+  <div class="body">
+    <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+    <h4><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).format('LLLL') %></h4>
+    <% } %>
+    <% if (item.articleBody) { %>
+    <%= item.articleBody %>
+    <% } else if (item.description) { %>
+    <%= item.description %>
+    <% } %>
+  </div>
+</div>

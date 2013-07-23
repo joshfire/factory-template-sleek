@@ -1,0 +1,23 @@
+<a  data-cid="<%= this.cid %>" href="f" class="mentionFocus">
+<% if( item.image ) { %>
+    <img class="videoThumbnail" data-joshfire-autothumb="true"/>
+  <% } %></a>
+<div class="body">
+
+  <div class="wrapper">
+
+    <div>
+      <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+      <h3><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).format('LLLL') %></h3>
+      <% } %>
+      <h4><%= item.name %></h4>
+      <div class="article">
+        <% if (item.articleBody) { %>
+        <%= item.articleBody %>
+        <% } else if (item.description) { %>
+        <%= item.description %>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>

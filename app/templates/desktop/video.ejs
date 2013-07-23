@@ -1,0 +1,18 @@
+<div class="media" style="height:<%= media.metadata.height %>px">
+  <%= media.html %>
+</div>
+<div class="body">
+  <div class="wrapper" style="height:<%= height - media.metadata.height %>px;position:relative">
+    <div>
+      <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+      <h3><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).format('LLLL') %></h3>
+      <% } %>
+      <h4><%= item.name %></h4>
+      <div class="article">
+      <% if(item.description) { %>
+      <p><%= item.description %></p>
+      <% } %>
+      </div>
+    </div>
+  </div>
+</div>
