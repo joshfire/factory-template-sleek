@@ -28,13 +28,12 @@
   </head>
 
   <body class="device-phone" ontouchmove="event.preventDefault()">
+    <nav id="sidebarPanel"><div>&nbsp;</div></nav>
     <div id="container">
-      <header>
-        <div class="container">
-          <span>&nbsp;</span>
-          <div id="toolbar">&nbsp;</div>
+      <header id="navbar">
+          <a href="#" id="sidebar-btn"><span class="inner"></span></a>
+          <a id="back"><span class="inner"></span></a>
           <h1><span id="title">&nbsp;</span></h1>
-        </div>
       </header>
       <div class="cards-container">
         <div id="cards"></div>
@@ -49,18 +48,22 @@
       </div>
     </script>
 
-    <script type="text/template" id="template-toolbar">
+    <script type="text/template" id="template-sidebarPanel">
+      <div>
+        <span></span>
+        <span>TEDxParis</span>
+      </div>
       <ul>
         <%= children %>
       </ul>
     </script>
 
-    <script type="text/template" id="toolbar-item">
+    <script type="text/template" id="sidebarPanel-item">
       <a href="<%= item.linkURL %>" class="<%= (item.name.toLowerCase() === 'contact') ? 'contact' : item.icon %> section-<%= item.slug %>">
         <div class="indicator"><span>&nbsp;</span></div>
         <%= item.name %><span>&nbsp;</span>
       </a>
-    </script>
+    </script>  
 
     <script type="text/template" id="template-list-view">
       <div class="first">
