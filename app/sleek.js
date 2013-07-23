@@ -15,6 +15,7 @@ define([
   'joshlib!ui/item',
   'joshlib!ui/list',
   'joshlib!ui/listitem',
+  'ui/sideBar',
   'joshlib!ui/fadeinpanel',
   'joshlib!ui/factorymedia',
   'ui/imagesloader',
@@ -34,6 +35,7 @@ define([
   Item,
   List,
   ListItem,
+  SideBar,
   FadeInPanel,
   FactoryMedia,
   ImagesLoader,
@@ -267,7 +269,6 @@ define([
               if (navigator && navigator.splashscreen) {
                 setTimeout(navigator.splashscreen.hide, 500);
               }
-              console.debug(this.containerView);
               self.containerView.$el.show();
             };
 
@@ -503,28 +504,30 @@ define([
 
 
     /**
-     * Creates the sidebar UI element. Default implementation is a sidebar,
-     * but you may want to override this in derivated classes.
+     * Creates the sidebarPanel UI element.
+     * Overrides base function to return a sidebarPanel element with appropriate
+     * scrolling options.
      *
      * @function
-     * @return {UIElement} The sidebar UI element to use
+     * @return {UIElement} The sidebarPanel UI element to use
      */
     createSidebarElement: function() {
-      logger.log('create sidebar element');
-      var sidebar = List.extend({
-        generate: function (cb) {
-          if (this.collection && (this.collection.length < 2)) {
-            logger.info('no sidebar element needed');
-            $('body').addClass('no-sidebar');
-          }
-          List.prototype.generate.call(this, cb);
-        }
-      });
-      return new sidebar({
-        name: 'sidebar',
-        el: '#sidebar',
-        templateEl: '#template-sidebar',
-        itemTemplateEl: '#sidebar-item'
+      logger.log('create sidebarPanel element');
+      return new SideBar({
+        name: 'sidebarPanel',
+        el: '#sidebarPanel',
+        templateEl: '#template-sidebarPanel',
+        itemTemplateEl: '#sidebarPanel-item',
+        scroller: true,
+        scrollOptions: {
+          vScroll: false,
+          hScrollbar: false,
+          snap: true,
+          bounce: false,
+          disabled: true
+        },
+        useWindowWidth: true,
+        minLengthToShow: 2
       });
     },
 

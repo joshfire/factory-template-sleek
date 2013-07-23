@@ -31,33 +31,6 @@ define([
       Sleek.prototype.initialize.call(this);
     },
 
-    /**
-     * Creates the sidebarPanel UI element.
-     * Overrides base function to return a sidebarPanel element with appropriate
-     * scrolling options.
-     *
-     * @function
-     * @return {UIElement} The sidebarPanel UI element to use
-     */
-    createSidebarElement: function() {
-      logger.log('create sidebarPanel element');
-      return new SideBar({
-        name: 'sidebarPanel',
-        el: '#sidebarPanel',
-        templateEl: '#template-sidebarPanel',
-        itemTemplateEl: '#sidebarPanel-item',
-        scroller: true,
-        scrollOptions: {
-          vScroll: false,
-          hScrollbar: false,
-          snap: true,
-          bounce: false,
-          disabled: true
-        },
-        useWindowWidth: true,
-        minLengthToShow: 2
-      });
-    },
 
     /**
      * Must create a list + detail view for a section.
