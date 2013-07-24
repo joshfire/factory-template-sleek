@@ -260,10 +260,11 @@ define([
             // Create the navbar
             self.navbar = self.createNavBarElement();
             self.navbar.render();
-
+          
             // Initialize the router and start the application
             var controllers = self.createRoutes(sections, views);
             self.router = Router(controllers);
+          
 
             self.setupFastNavigate();
             self.init();
@@ -275,6 +276,7 @@ define([
               if (!self.loadedHookTriggered && self.initialized) {
                 logger.info('trigger loaded hook');
                 self.loadedHookTriggered = true;
+              
                 Joshfire.factory.getAddOns('loaded').run();
               }
               if (navigator && navigator.splashscreen) {
@@ -284,13 +286,11 @@ define([
             };
 
             views.bind('load',loaded);
-
             //failsafe if first tab fails to load for some reason
             setTimeout(loaded, 20*1000);
 
             self.sidebarView.render();
             views.render();
-
             if (callback) callback();
             self.router.historyStart();
           });
@@ -523,7 +523,10 @@ define([
      * @return {UIElement} The sidebarPanel UI element to use
      */
     createSidebarElement: function() {
+
       logger.log('create sidebarPanel element');
+
+      console.debug(this.templates.sidebar);
       return new SideBar({
         name: 'sidebarPanel',
         el: '#sidebarPanel',
@@ -556,6 +559,7 @@ define([
       return new NavBar({
         'name': 'navbar',
         'el':'#navbar',
+        'template': this.templates.navbar,
         'containerView':this.containerView
       });
     },
@@ -1208,7 +1212,6 @@ define([
      */
     getAuthorImageSchema: function(item) {
       if (item && item.author && item.author[0]) {
-        console.warn(item.author[0]);
         return item.author[0];
       }
       return item;

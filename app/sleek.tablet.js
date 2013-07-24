@@ -160,9 +160,8 @@ define([
     //
     createRoutes: function(sections, views) {
       var controllers = Sleek.prototype.createRoutes.call(this, sections, views);
-      var $toolbar = $('#toolbar');
+      var $sidebar = $('#sidebarPanel');
       var self = this;
-
       _.forEach(sections, function(section) {
         controllers.routes[section.slug] = section.slug;
 
@@ -174,8 +173,9 @@ define([
           // Update the toolbar (title and selected element)
           self.setTitle(section.name);
           $('iframe, audio, video, object, embed', '#container').remove();
-          $toolbar.find('.active').removeClass('active');
-          $toolbar.find('.section-' + section.slug).addClass('active');
+          $sidebar.find('.active').removeClass('active');
+          self.navbar.showSidebarButton();
+          $sidebar.find('.section-' + section.slug).addClass('active');
 
           $('.cards-container').attr('id', section.outputType);
 
@@ -202,9 +202,7 @@ define([
             $('iframe, audio, video, object', '#container').remove();
             document.body.id = section.outputType;
             self.setTitle(section.name);
-            $toolbar.find('.active').removeClass('active');
-            $toolbar.find('.section-' + section.slug).addClass('active');
-
+      
             var container = views.children[section.slug];
             views.showChild(section.slug);
             if (section.collection.length) {
