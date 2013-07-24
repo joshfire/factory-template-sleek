@@ -277,6 +277,13 @@ body {
   position: absolute;
   z-index: 3;
 }
+#navbar span {
+  position: absolute;
+}
+#navbar #share,
+#navbar #sidebar-btn {
+  z-index: 6;
+}
 #navbar #share {
   height: 2em;
   right: .46em;
@@ -423,13 +430,41 @@ body {
 ****************************************************************************/
 #container {
   position: absolute;
+  background-color: #ffffff;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
 }
-#container #cards-container {
+#container div.cards-container {
   background-color: #ffffff;
+}
+#container div.cards-container div.pixelDetect {
+  position: absolute;
+  height: 100%;
+  width: 10px;
+  -webkit-transition: background-color 300ms linear;
+  -moz-transition: background-color 300ms linear;
+  -ms-transition: background-color 300ms linear;
+  -o-transition: background-color 300ms linear;
+  transition: background-color 300ms linear;
+  left: 0;
+  z-index: 5;
+}
+#container div.cards-container div.pixelDetect.full {
+  width: 100%;
+  -webkit-transition: background-color 300ms linear, opacity 300ms linear;
+  -moz-transition: background-color 300ms linear, opacity 300ms linear;
+  -ms-transition: background-color 300ms linear, opacity 300ms linear;
+  -o-transition: background-color 300ms linear, opacity 300ms linear;
+  transition: background-color 300ms linear, opacity 300ms linear;
+  background-color: black;
+  filter: alpha(opacity=60);
+  -khtml-opacity: 0.6;
+  -moz-opacity: 0.6;
+  -ms-opacity: 0.6;
+  -o-opacity: 0.6;
+  opacity: 0.6;
 }
 .content.loading .spinner {
   display: block;
