@@ -10,7 +10,6 @@ define([
 
 
     initialize: function (options) {
-      console.debug(options);
       UIToolbar.prototype.initialize.call(this, options);
       this.containerView = options.containerView;
     },

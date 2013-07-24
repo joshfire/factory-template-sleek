@@ -38,15 +38,12 @@ define([
 
     openContainer: function(){
       this.$el.addClass('showToolbar');
-      console.debug(this.pixelDetect);
       this.pixelDetect.addClass('full');
-      //this.$el.show();
     },
 
     closeContainer: function(){
       this.$el.removeClass('showToolbar');
       this.pixelDetect.removeClass('full');
-      //this.$el.hide();
     },
 
     startSlide: function(e){

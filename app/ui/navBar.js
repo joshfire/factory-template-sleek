@@ -7,17 +7,21 @@ define([
 
   var Navbar = UIElement.extend({
 
-    initialize: function(options){
-        this.containerView = options.containerView;
+    initialize: function(options) {
+      this.containerView = options.containerView;
+      this.template = options.template;
+      UIElement.prototype.initialize.call(this, options);
+      console.debug(this.$el.find("#sidebar-btn"));
     },
 
     events:{
-      "touchend #sidebar-btn":"sidebarAction"
+      "click #sidebar-btn":"sidebarAction",
+      "touchstart #sidebar-btn":"sidebarAction"
     },
 
     sidebarAction: function(e) {
-      this.containerView.toggleContainer();
       e.preventDefault();
+      this.containerView.toggleContainer();
       return false;
     },
 
@@ -41,7 +45,15 @@ define([
     setTitle: function(nameSection){
       this.$('#title').html(nameSection);
     },
-    setContent: function() {/*noop*/},
+
+    generate: function(cb) {
+      var html = this.template();
+      cb(null, html);
+    },
+
+    setContent: function(html) {
+      this.el.innerHTML = html;
+    },
 
     enhance: function(){
       var self = this;
