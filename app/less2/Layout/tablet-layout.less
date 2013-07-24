@@ -31,6 +31,15 @@ body {
     z-index: 3;
   }
 
+  span {
+    position: absolute;
+  }
+
+  #share,
+  #sidebar-btn {
+    z-index: 6;
+  }
+  
   #share {
     height: 2em;
     right: .46em;
@@ -193,19 +202,38 @@ body {
 
 #container {
   position: absolute;
+  background-color: @white;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
 
-  #cards-container{
+  div.cards-container{
     background-color: @white;
+
+    div.pixelDetect {
+      position:absolute;
+      height:100%;
+      width:10px;
+      .transition (background-color 300ms linear);
+      left:0;
+      z-index:5;
+
+      &.full {
+        width:100%;
+        .transition (background-color 300ms linear, opacity 300ms linear);
+        background-color:black;
+        .opacity(@opacity: 0.6)
+
+      }
+    }
   }
 }
 
 //---------------------------------------------------------------------------
 // Content = screen - (header + footer)
 //---------------------------------------------------------------------------
+
 .content {
 
 

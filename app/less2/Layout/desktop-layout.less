@@ -2,22 +2,30 @@ body {
   font-size: @base-font-size * 1px;
 }
 
+
+
 /****************************************************************************
 
-  HEADER & FOOTER
+  HEADER & TOOLBAR
 
 ****************************************************************************/
 
 //---------------------------------------------------------------------------
 // Header
 //---------------------------------------------------------------------------
-
-
 #navbar {
   background-color:@gray-dark;
+  font-family:@iphone-font-medium;
+  height:55px;
+
 
   h1 {
     color:@white;
+    padding: 15px 0;
+    font-size: 24px;
+    text-align: center;
+    font-weight:normal;
+    width: 100%;
 
     span {
       display: block;
@@ -28,6 +36,15 @@ body {
   a {
     position: absolute;
     z-index: 3;
+  }
+
+  span {
+    position: absolute;
+  }
+
+  #share,
+  #sidebar-btn {
+    z-index: 6;
   }
 
   #share {
@@ -41,10 +58,19 @@ body {
 
   }
 
+  #sidebar-btn {
+    height: 16px;
+    width: 17px;
+    left: 0px;
+    top: 0px;
+    background: rgba(0, 0, 0, 0) url(../images/menu-iPhone@2x.png) no-repeat center center;
+    background-size: 16px 17px;
+    left: 13px;
+    top: 13px;
+
+  }
+
 }
-
-
-
 
 // Arrow indicator
 .indicator {
@@ -65,9 +91,6 @@ body {
     .rotate(45deg);
   }
 }
-
-
-
 //---------------------------------------------------------------------------
 // Footer // SidebarPanel
 //---------------------------------------------------------------------------
@@ -189,6 +212,96 @@ body {
   }
 }
 
+/****************************************************************************
+
+  CONTENT & PANNELS
+
+****************************************************************************/
+
+#container{
+  position: absolute;
+  background-color: @white;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  #cards-container{
+
+    div.pixelDetect {
+      position:absolute;
+      height:100%;
+      width:10px;
+      .transition (background-color 300ms linear);
+      left:0;
+      z-index:5;
+
+      &.full {
+        width:100%;
+        .transition (background-color 300ms linear, opacity 300ms linear);
+        background-color:black;
+        .opacity(@opacity: 0.6)
+
+      }
+    }
+
+    #cards{
+      div {
+        div{
+          div.split-view{
+            position:relative
+          }
+        }
+      }
+    }
+  }
+}
+
+//---------------------------------------------------------------------------
+// Footer // SidebarPanel
+//---------------------------------------------------------------------------
+
+#sidebarPanel {
+  width: 274px;
+  font-family:@iphone-font-medium;
+  position: absolute;
+  display:block;
+  background-color:@gray-darker;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  z-index: 1;
+  padding-top: .6em;
+
+  > div {
+    font-size:24px;
+    padding:10px 22px;
+    display:block;
+    background-color:@gray-darker;
+    color:@white;
+    .box-shadow(1px 1px 5px 0px black);
+   
+  }
+
+  ul {
+    width:273px;
+    list-style: none;
+
+    li {
+      height:43px;
+      font-size:17px;
+      display:block;
+      background-color:@gray;
+      color:@white;
+
+      a{
+          padding:10px 40px 10px 40px;
+      }
+    }
+  }
+}
+
+
 
 /****************************************************************************
 
@@ -196,94 +309,94 @@ body {
 
 ****************************************************************************/
 
-
-#viewport {
+.cards-container {
   position: absolute;
   left: 0;
-  top: 2.9em;
-  bottom: 3.05em;
+  top: 55px;
+  bottom: 0;
   width: 100%;
   z-index: 1;
-  height: 100%;
+}
 
+#container {
 
-  div.pixelDetect {
-    position:absolute;
-    height:100%;
-    width:10px;
-    background:transparent;
-    .transition (background-color 300ms linear);
-    left:0;
-    z-index:5;
+  z-index:5;
+  .translate(0px, 0);
+  .transformtransition(300ms, ease-in-out);
 
-    &.full {
-      width:100%;
-      .transition (background-color 300ms linear, opacity 300ms linear);
-      background-color:black;
-      .opacity(@opacity: 0.6)
-
-    }
+  &.notransition {
+    -webkit-transition: none!important;
   }
-}
-
-#lockCard{
-  display:none;
-  background-color:transparent;
-  position:absolute;
-  width:100%;
-  height:100%;
-  z-index:4;
-}
-
-#cards {
-  width: 100%;
-  height: 100%;
 
 }
+
+#container.showToolbar{
+
+  .translate(273px, 0);
+  .transformtransition(300ms, ease-in-out);
+}
+
+
+//---------------------------------------------------------------------------
+// Content = screen - (header + footer)
+//---------------------------------------------------------------------------
 
 .content {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
 
-  & > div {
-    .backface-hidden;
+
+  &.loading {
+    .spinner {
+      display: block;
+    }
   }
 
-  img {
-    max-width: 100%;
-    margin: 1em 0;
-  }
-}
-
-//---------------------------------------------------------------------------
-// A simple panel
-//---------------------------------------------------------------------------
-.panel {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-}
-
-//---------------------------------------------------------------------------
-// A panel with a slide transition
-//---------------------------------------------------------------------------
-.slide-panel {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  .backface-hidden;
-
-  & > .content {
-    float: left;
-    position: relative;
-    left: 0;
+  .spinner {
+    background: rgba(0,0,0,.9) url(../images/spinner.gif) no-repeat center center;
+    position: absolute;
     top: 0;
-    height: 100%;
-    width: 100%;
+    bottom: 0;
+    left: 50%;
+    top: 50%;
+    width: 5em;
+    height: 5em;
+    margin-top: -2.5em;
+    margin-left: -2.5em;
+    z-index: 2;
+    display: none;
+    .border-radius(.5em);
+  }
+}
+
+//---------------------------------------------------------------------------
+// A section
+//---------------------------------------------------------------------------
+.section {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+
+  &.loading {
+    .spinner {
+      display: block;
+    }
+  }
+
+  .spinner {
+    background: rgba(0,0,0,.9) url(../images/spinner.gif) no-repeat center center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    top: 50%;
+    width: 5em;
+    height: 5em;
+    margin-top: -2.5em;
+    margin-left: -2.5em;
+    z-index: 2;
+    display: none;
+    .border-radius(.5em);
   }
 }
 
@@ -302,14 +415,10 @@ body {
   line-height: 1em;
   padding: 0;
   .clear-fix;
-}
 
-.no-data {
-  text-align: center;
-}
-
-.loading .no-data {
-  display: none;
+  li {
+    cursor: pointer;
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -331,6 +440,10 @@ body {
       border-bottom: none;
       padding-bottom: 2em;
     }
+
+    &.active {
+      background: saturate(fade(@background-color, 20%), 20%);
+    }
   }
 }
 
@@ -341,7 +454,6 @@ body {
 
     &:nth-child(even) {
       background-color: fade(darken(@background-color, 20%), 30%);
-      //.box-shadow(inset 0 4px 4px rgba(0,0,0,.1));
     }
 
     &:first-child {
@@ -352,17 +464,16 @@ body {
       border-bottom: none;
       padding-bottom: 2em;
     }
+
+    &.active {
+      background-color: fade(lighten(@background-color, 20%), 50%);
+    }
   }
 }
 
 // A mosaic list, used to display pictures.
 .mosaic-list {
   background: #000;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
 
   li {
     width: 50%;
@@ -383,7 +494,7 @@ body {
         right: 0;
         top: 0;
         bottom: 0;
-        border: solid thin #000;
+        border: solid 3px #000;
       }
     }
 
@@ -482,10 +593,11 @@ body {
       display: table-cell;
       vertical-align: middle;
       text-align: center;
+      font-size: 1.6em;
+      padding: 0 10px;
     }
   }
 }
-
 //---------------------------------------------------------------------------
 // List item types.
 //---------------------------------------------------------------------------
@@ -504,8 +616,7 @@ body {
 
   & > div {
 
-    background: url(../images/phone-arrow@2x.png) no-repeat right center;
-    background-size: 9px 13px;
+    background: url(../images/phone-arrow.png) no-repeat right center;
     .clear-fix;
     padding-right: 2em;
   }
@@ -550,8 +661,7 @@ body {
     padding: .5em 1em .5em .5em;
 
     & > div {
-      background: url(../images/phone-arrow-dark@2x.png) no-repeat right center;
-      background-size: 9px 13px;
+      background: url(../images/phone-plus-dark.png) no-repeat right center;
       padding-right: 2em;
       .clear-fix;
     }
@@ -563,13 +673,10 @@ body {
     height: 90px;
   }
 
-  img {
-    margin: 0;
-  }
-
   .right {
     margin-left: 132px;
     padding-right: 1.5em;
+    padding-top: 1em;
   }
 
   h3 {
@@ -584,8 +691,7 @@ body {
     padding: 1em 1em 1em .5em;
 
     & > div {
-      background: url(../images/phone-arrow-dark@2x.png) no-repeat right center;
-      background-size: 9px 13px;
+      background: url(../images/phone-plus-dark.png) no-repeat right center;
       padding-right: 2em;
       .clear-fix;
     }
@@ -623,8 +729,8 @@ body {
 
 // (and other types of item)
 .other-item > div,
-.news-item > div,
-.product-item > div {
+.product-item > div,
+.news-item > div {
   line-height: 1.2em;
 
   a {
@@ -632,8 +738,7 @@ body {
     padding: .5em 1em .5em .5em;
 
     & > div {
-      background: url(../images/phone-arrow-dark@2x.png) no-repeat right center;
-      background-size: 9px 13px;
+      background: url(../images/phone-plus-dark.png) no-repeat right center;
       padding-right: 2em;
       .clear-fix;
     }
@@ -642,6 +747,7 @@ body {
   .right {
     margin-left: 132px;
     padding-right: 1.5em;
+    padding-top: 1em;
   }
 
   h3 {
@@ -669,7 +775,6 @@ body {
   }
 }
 
-
 // An event item
 .event-item > div {
 
@@ -678,13 +783,12 @@ body {
     padding: 1em;
 
     & > div {
-      background: url(../images/phone-arrow@2x.png) no-repeat right center;
-      background-size: 9px 13px;
+      background: url(../images/phone-arrow.png) no-repeat right center;
       .clear-fix;
       padding-right: 2em;
     }
   }
-  
+
   h3 {
     font-weight: normal;
     font-size: 1em;
@@ -718,11 +822,24 @@ body {
   position: relative;
   height: 100%;
   width: 100%;
+
+  .spinner {
+    background: rgba(0,0,0,.9) url(../images/image-spinner.gif) no-repeat center center;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    display: none;
+  }
 }
 
-//---------------------------------------------------------------------------
-// Photoswipe.
-//---------------------------------------------------------------------------
+.loading > .image .spinner {
+  display: block;
+}
+
 
 
 
@@ -736,43 +853,97 @@ body {
 // Tweaks
 //---------------------------------------------------------------------------
 
-#photo {
-  h1 {
-    .box-shadow(0 2px 2px rgba(0,0,0,.6));
+.left-panel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 350px;
+  .horizontal-three-color-gradient(0, rgba(0,0,0,0), .96, rgba(0,0,0,0), 1, rgba(0,0,0,.2));
+
+  &.loading {
+    .spinner {
+      display: block;
+    }
+  }
+
+  .spinner {
+    background: rgba(0,0,0,.9) url(../images/spinner.gif) no-repeat center center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    top: 50%;
+    width: 5em;
+    height: 5em;
+    margin-top: -2.5em;
+    margin-left: -2.5em;
+    z-index: 2;
+    display: none;
+    .border-radius(.5em);
   }
 }
 
-.detail {
+.single {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
   & > div {
     height: 100%;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    -o-box-sizing: border-box;
   }
 }
 
-.body {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  -o-box-sizing: border-box;
+.right-panel {
+  position: absolute;
+  left: 350px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  & > div {
+    height: 100%;
+    overflow: auto;
+  }
+
+  &.loading {
+    .spinner {
+      display: block;
+    }
+  }
+
+  .spinner {
+    background: rgba(0,0,0,.9) url(../images/spinner.gif) no-repeat center center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    top: 50%;
+    width: 5em;
+    height: 5em;
+    margin-top: -2.5em;
+    margin-left: -2.5em;
+    z-index: 2;
+    display: none;
+    .border-radius(.5em);
+  }
 }
 
 //---------------------------------------------------------------------------
 // Videos
 //---------------------------------------------------------------------------
 
-#video {
+#video #cards-container {
   background: @light-background-color;
 }
 
-#video #cards {
+#video #cards{
   color: @dark-text-color;
 }
-
 .attached-media,
-#video .detail {
+#video .right-panel, #video .single {
 
   line-height: 1.2em;
 
@@ -810,7 +981,7 @@ body {
   }
 
   .media {
-    background: #000;
+    background-color: black;
   }
 
   .media div,
@@ -820,9 +991,10 @@ body {
   }
 
   .body {
-    background: white url(../images/phone-shadow@2x.png) no-repeat center top;
-    background-size: 100% 53px;
+    background: transparent url(../images/phone-shadow.png) no-repeat center top;
+    background-size: 100% auto;
   }
+
   .wrapper {
     & > div:first-child {
       // The following property creates a new rendering context that forces
@@ -840,6 +1012,7 @@ body {
       margin-bottom: 1em;
     }
   }
+
   h3 {
     font-weight: normal;
     font-size: 1em;
@@ -868,7 +1041,7 @@ body {
   color: @dark-text-color;
 }
 
-#sound .detail {
+#sound .right-panel, #sound .single {
 
   line-height: 1.2em;
 
@@ -876,12 +1049,11 @@ body {
     height: 32px;
     width: auto;
     float: left;
-    margin: 0 .2em 0 0;
+    margin-right: .2em;
   }
 
-  .body {
-    padding: 1.2em 1em 1em;
-  }
+  padding: 1.2em 1em 1em;
+  margin-top: -.5em;
 
   h3 {
     font-weight: normal;
@@ -906,7 +1078,8 @@ body {
 //---------------------------------------------------------------------------
 // Statuses
 //---------------------------------------------------------------------------
-#status .detail {
+
+#status .right-panel, #status .single {
 
   > div {
     min-height: 100%;
@@ -930,10 +1103,6 @@ body {
       font-weight: normal;
       font-size: 1.2em;
     }
-  }
-
-  .body {
-    min-height: 100%;
   }
 
   .message {
@@ -962,12 +1131,11 @@ body {
       font-size: 1.4em;
       position: relative;
 
-      a {
-        color: @link-color;
+      strong, em, a {
+        color: saturate(lighten(@background-color, 10%), 10%);
         font-weight: normal;
         font-style: normal;
       }
-
     }
   }
 
@@ -999,30 +1167,33 @@ body {
         width:100%;
       }
     }
+    
+    .article{
+      padding-bottom:1.5em;
+    }
 
     .attached-media {
-      padding:1em 1em;
+      padding:20px;
+
       color:black;
       width: auto;
+      height:100%;
 
       img {
         width:auto;
-      }
-      
-      .wrapper>div:first-child{
-        padding:0;
+        padding-bottom:40px;
+
       }
     }
   }
-
-
 }
+
 
 //---------------------------------------------------------------------------
 // Events
 //---------------------------------------------------------------------------
 
-#event .detail {
+#event .right-panel, #event .single {
 
   line-height: 1.2em;
   background: @light-background-color;
@@ -1054,24 +1225,24 @@ body {
 
 
 //---------------------------------------------------------------------------
-// News
+// News, Products, Other
 //---------------------------------------------------------------------------
 
-#news,
-#product,
-#other {
+#news #cards-container,
+#other #cards-container,
+#product #cards-container {
   background: @light-background-color;
 }
 
 #news #cards,
-#product #cards,
-#other #cards {
+#other #cards,
+#product #cards {
   color: @dark-text-color;
 }
 
-#news .detail,
-#product .detail,
-#other .detail {
+#other .right-panel, #other .single,
+#product .right-panel, #product .single,
+#news .right-panel, #news .single {
 
   line-height: 1.2em;
 
@@ -1080,6 +1251,7 @@ body {
     font-size: .9em;
     margin-bottom: .2em;
     margin-top: 1em;
+    padding: 0 .5em;
   }
 
   h4 {
@@ -1088,6 +1260,7 @@ body {
     font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1.2em;
     margin-bottom: 1em;
+    padding: 0 .5em;
   }
 
   .body {
@@ -1095,12 +1268,21 @@ body {
   }
 }
 
-.no-toolbar {
-  #viewport {
-    bottom: 0;
+.single {
+  h3, h4 {
+    padding: 0 !important;
   }
+}
 
+.no-toolbar {
+  header > div.container {
+    height: 41px;
+  }
   #toolbar {
     visibility: hidden;
   }
+}
+
+#title {
+  display: inline-block;
 }
