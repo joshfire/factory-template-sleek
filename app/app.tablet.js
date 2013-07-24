@@ -7,6 +7,7 @@ require.config({
 define([
   'sleek.tablet',
   'joshlib!utils/onready',
+  'tpl!templates/tablet/navbar.ejs',
   'tpl!templates/phone/contactIndex.ejs',
   'tpl!templates/phone/contactMap.ejs',
   'tpl!templates/phone/event.ejs',
@@ -27,14 +28,15 @@ define([
   'tpl!templates/tablet/soundItem.ejs',
   'tpl!templates/phone/status.ejs',
   'tpl!templates/phone/statusItem.ejs',
-  'tpl!templates/tablet/toolbar.ejs',
-  'tpl!templates/tablet/toolbarItem.ejs',
+  'tpl!templates/tablet/sidebar.ejs',
+  'tpl!templates/tablet/sidebarItem.ejs',
   'tpl!templates/tablet/video.ejs',
   'tpl!templates/phone/videoItem.ejs'
 ], function
 (
   Sleek,
   onReady,
+  tplNavbar,
   tplContactIndex,
   tplContactMap,
   tplEvent,
@@ -55,8 +57,8 @@ define([
   tplSoundItem,
   tplStatus,
   tplStatusItem,
-  tplToolbar,
-  tplToolbarItem,
+  tplSidebar,
+  tplSidebarItem,
   tplVideo,
   tplVideoItem
 ) {
@@ -64,6 +66,7 @@ define([
   onReady(function () {
     sleek.initialize({
       templates: {
+        navbar        : tplNavbar,
         contactIndex  : tplContactIndex,
         contactMap    : tplContactMap,
         event         : tplEvent,
@@ -84,8 +87,8 @@ define([
         soundItem     : tplSoundItem,
         status        : tplStatus,
         statusItem    : tplStatusItem,
-        toolbar       : tplToolbar,
-        toolbarItem   : tplToolbarItem,
+        sidebar       : tplSidebar,
+        sidebarItem   : tplSidebarItem,
         video         : tplVideo,
         videoItem     : tplVideoItem
       }
