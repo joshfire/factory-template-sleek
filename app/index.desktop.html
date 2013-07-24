@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
 
     <title></title>
-
+    <link type="text/css" rel="stylesheet" href="css2/style-desktop.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -21,9 +21,6 @@
         background: #000 url(images/spinner.gif) no-repeat center center;
       }
 
-      #container {
-        display: none;
-      }
     </style>
     <script type="text/javascript">
       window.console = window.console || {
@@ -43,25 +40,17 @@
   </head>
 
   <body class="device-phone" ontouchmove="event.preventDefault()">
+    <nav id="sidebarPanel"><div>&nbsp;</div></nav>
     <div id="container">
-      <header>
-        <div class="container">
-          <div class="nine-sixty">
-            <div id="toolbar">&nbsp;</div>
-            <h1><span id="title">&nbsp;</span></h1>
-          </div>
-        </div>
+      <header id="navbar">
       </header>
       <div id="cards-container">
+        <div class="pixelDetect"></div>
         <div id="cards"></div>
       </div>
     </div>
 
-     <script data-joshfire-bootstraped="" src="http://factory.joshfire.com/bootstrap/51d1938a4a33cb020000003a/51de78310b79c60200000006/phone-web/"></script>
-
-    <!--
-    <script data-joshfire-bootstrap src="http://192.168.2.102:40021/bootstrap/5023b3487e351e9e4b00011c/auto/desktop/"></script>
-    -->
+    <script data-joshfire-bootstraped="" src="http://factory.joshfire.com/bootstrap/51d1938a4a33cb020000003a/51de78310b79c60200000006/phone-web/"></script>
 
 
     <script>Joshfire.debug=false;</script>
