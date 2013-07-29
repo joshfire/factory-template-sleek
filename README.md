@@ -1,3 +1,5 @@
+Default template for the Joshfire Factory
+
 to build CSS:
 
 install jake
