@@ -165,7 +165,7 @@ define([
 
             var urlRegExp = /^http[s]?:\/\/.+$/;
             var shareAddOn = Joshfire.factory.getAddOns('share');
-            var model = section.collection.at(0);
+            var model = section.collection.at(offset);
 
             if (shareAddOn.length && urlRegExp.test(model.get('url'))) {
               $share.show()
@@ -218,7 +218,7 @@ define([
 
       Joshfire.factory.getAddOns('share').startActivity({
         data : {
-          msg: 'yo, you just shared that',
+          msg: model.get('name'),
           url: model.get('url')
         }
       });
