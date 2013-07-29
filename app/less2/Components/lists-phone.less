@@ -1,1 +1,414 @@
-@black:    #000;
+//---------------------------------------------------------------------------
+//   LISTS (FOR COLLECTIONS)
+//---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+// List base style.
+//---------------------------------------------------------------------------
+.list {
+  list-style: none;
+  line-height: 1em;
+  padding: 0;
+  .clear-fix;
+}
+
+.no-data {
+  text-align: center;
+}
+
+.loading .no-data {
+  display: none;
+}
+
+//---------------------------------------------------------------------------
+// List types.
+//---------------------------------------------------------------------------
+
+// A plan and simple, light-colored list.
+.simple-list {
+  li {
+    border-bottom: solid 2px fade(@background-color, 15%);
+
+    .vertical-gradient(fade(@background-color,10%), fade(@light-background-color, 0%));
+
+    &:first-child {
+      padding-top: 1em;
+    }
+
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 2em;
+    }
+  }
+}
+
+// Add this to a list, and even items will be darker.
+.hashed-list {
+  li {
+    border-bottom: solid thin fade(lighten(@background-color, 10%), 20%);
+
+    &:nth-child(even) {
+      background-color: fade(darken(@background-color, 20%), 30%);
+      //.box-shadow(inset 0 4px 4px rgba(0,0,0,.1));
+    }
+
+    &:first-child {
+      padding-top: 1em;
+    }
+
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 2em;
+    }
+  }
+}
+
+// A mosaic list, used to display pictures.
+.mosaic-list {
+  background: #000;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  li {
+    width: 50%;
+    float: left;
+    padding: 0;
+
+    > div {
+      display: block;
+      height: 0;
+      overflow: hidden;
+      padding-bottom: 50%;
+      position: relative;
+
+      a {
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        border: solid thin #000;
+      }
+    }
+
+    &:nth-child(6n - 5) {
+
+      > div {
+        padding-bottom: 100%;
+      }
+    }
+
+    &:nth-child(6n - 1) {
+      float: right;
+
+      > div {
+        padding-bottom: 100%;
+      }
+    }
+
+    &:nth-child(3n + 1) {
+      clear: left;
+    }
+
+    &:last-child {
+      &:nth-child(6n - 5) {
+        width: 100%;
+
+        > div {
+          padding-bottom: 25%;
+        }
+      }
+
+      &:nth-child(6n - 4) {
+        > div {
+          padding-bottom: 100%;
+        }
+      }
+
+      &:nth-child(6n - 2) {
+        width: 100%;
+
+        > div {
+          padding-bottom: 25%;
+        }
+      }
+
+      &:nth-child(6n - 1) {
+        > div {
+          padding-bottom: 50%;
+        }
+      }
+    }
+  }
+}
+
+.single.mosaic-list {
+
+  .first {
+    height: 100%;
+  }
+
+  ul {
+    margin: 0;
+    list-style: none;
+    position: absolute;
+    top: 0;
+    bottom: 15%;
+    left: 0;
+    right: 0;
+
+    li {
+      height: 100%;
+    }
+    
+    .figure {
+      padding-bottom: 0!important;
+      height: 100%;
+
+      a {
+        pointer-events: none;
+      }
+    }
+  }
+
+
+  .meta {
+    position: absolute;
+    top: 85%;
+    bottom: 0;
+    display: table;
+    left: 0;
+    right: 0;
+    height: 15%;
+    width: 100%;
+
+    .cell {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+    }
+  }
+}
+
+//---------------------------------------------------------------------------
+// List item types.
+//---------------------------------------------------------------------------
+
+// An item of unknown type
+.unknown-item > div {
+  padding: 1em;
+}
+
+// A status item
+.status-item > div {
+  a {
+    display: block;
+    padding: 1em;
+  }
+
+  & > div {
+
+    background: url(../images/phone-arrow@2x.png) no-repeat right center;
+    background-size: 9px 13px;
+    .clear-fix;
+    padding-right: 2em;
+  }
+
+  .figure {
+    float: left;
+    width: 48px;
+    height: 48px;
+  }
+
+  .img {
+    .box-shadow(0 0 .5em rgba(0,0,0,.6));
+  }
+
+  .right {
+    margin-left: 60px;
+    padding-right: 1.5em;
+  }
+
+  h3 {
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    margin-bottom: .15em;
+  }
+
+  p {
+    color: darken(@text-color, 15%);
+  }
+
+  h4 {
+    font-size: 1em;
+    font-weight: normal;
+    color: darken(@text-color, 30%);
+    margin-top: .15em;
+  }
+}
+
+// A video item
+.video-item > div {
+  a {
+    display: block;
+    padding: .5em 1em .5em .5em;
+
+
+    & > div {
+      background: url(../images/phone-arrow-dark@2x.png) no-repeat right center;
+      background-size: 9px 13px;
+      padding-right: 2em;
+      .clear-fix;
+    }
+  }
+
+  .figure {
+    float: left;
+    width: 120px;
+    height: 90px;
+  }
+
+  img {
+    margin: 0;
+  }
+
+  .right {
+    margin-left: 132px;
+    padding-right: 1.5em;
+  }
+
+  h3 {
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+  }
+}
+
+.sound-item > div {
+  a {
+    display: block;
+    padding: 1em 1em 1em .5em;
+
+    & > div {
+      background: url(../images/phone-arrow-dark@2x.png) no-repeat right center;
+      background-size: 9px 13px;
+      padding-right: 2em;
+      .clear-fix;
+    }
+  }
+
+  h3 {
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    margin-bottom: .2em;
+  }
+}
+
+// A news item
+.news-item {
+  .figure {
+    float: left;
+    width: 110px;
+    height: 80px;
+    margin-right:.5em;
+  }
+
+  .img {
+    background: no-repeat center center;
+    background-size: cover;
+  }
+}
+
+.product-item {
+  .figure {
+    float: right;
+    width: 120px;
+    height: 90px;
+  }
+}
+
+// (and other types of item)
+.other-item > div,
+.news-item > div,
+.product-item > div {
+  line-height: 1.2em;
+
+  a {
+    display: block;
+    padding: .5em 1em .5em .5em;
+
+    & > div {
+      background: url(../images/phone-arrow-dark@2x.png) no-repeat right center;
+      background-size: 9px 13px;
+      padding-right: 2em;
+      .clear-fix;
+    }
+  }
+
+  .right {
+    margin-left: 132px;
+    padding-right: 1.5em;
+  }
+
+  h3 {
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: .9em;
+    color: @background-color;
+    margin-bottom: .2em;
+  }
+
+  h4 {
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    margin-bottom: .3em;
+  }
+
+  p {
+    font-size: .9em;
+  }
+
+  .offer:before {
+    content: '(';
+  }
+  .offer:after {
+    content: ')';
+  }
+}
+
+
+// An event item
+.event-item > div {
+
+  a {
+    display: block;
+    padding: 1em;
+
+    & > div {
+      background: url(../images/phone-arrow@2x.png) no-repeat right center;
+      background-size: 9px 13px;
+      .clear-fix;
+      padding-right: 2em;
+    }
+  }
+  
+  h3 {
+    font-weight: normal;
+    font-size: 1em;
+    margin-bottom: .5em;
+
+    span {
+      background: darken(@background-color, 20%);
+      padding: .1em .3em;
+    }
+  }
+
+  h4 {
+    font-weight: normal;
+    font-size: 1em;
+    padding: 0 .3em;
+  }
+}
+
