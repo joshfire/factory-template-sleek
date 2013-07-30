@@ -299,7 +299,7 @@ define([
       var fastNavigate = function(evt) {
         var href = $(evt.currentTarget).attr('href');
 
-        if (href.substring(0,1) === '#') {
+        if (href && (href.substring(0,1) === '#')) {
           self.router.navigate(href.substring(1),true);
           evt.preventDefault();
           evt.stopPropagation();

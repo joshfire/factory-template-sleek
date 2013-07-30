@@ -138,6 +138,8 @@ define([
       // Assess that we can indeed show the requested offset
       if (section.collection.length <= offset) return;
       var children = container.view.children || {};
+      var $share = $('#share');
+      var self = this;
 
       // Render detail view
       // (of full view if there are no listing)
@@ -146,6 +148,22 @@ define([
       }
       else if (section.outputType !== 'photo') {
         container.setModel(section.collection.at(offset), true);
+      }
+
+      var urlRegExp = /^http[s]?:\/\/.+$/;
+      var shareAddOn = Joshfire.factory.getAddOns('share');
+      var model = section.collection.at(offset);
+
+      if (shareAddOn.length && urlRegExp.test(model.get('url'))) {
+        $share.show()
+          .unbind('touchstart mousedown')
+          .bind('touchstart mousedown', function (e) {
+            self.share(model);
+            e.preventDefault();
+            return false;
+          });
+      } else {
+        $share.hide();
       }
 
       // Render listing if defined
@@ -217,6 +235,34 @@ define([
       });
 
       return controllers;
+    },
+
+
+    /**
+     * Shares the given model
+     *
+     * @function
+     * @private
+     * @param {Backbone.Model} model The model to share. Its "url" property
+     *  will be used
+     * @param {function} callback The callback function to call when the item
+     *  has been shared. First parameter is a potential error that may have
+     *  occurred.
+     */
+    share: function (model, callback) {
+      callback = callback || function () {};
+      if (!model) {
+        return callback('No model to share');
+      }
+
+      Joshfire.factory.getAddOns('share').startActivity({
+        data : {
+          msg: model.get('name'),
+          url: model.get('url')
+        }
+      });
+
+      return callback();
     }
   });
 });
