@@ -16,10 +16,12 @@ define([
      * too large, because such images often result in a crash when the app
      * attempts to render them on a Samsung TV (model 2011 at least).
      */
+    /*
     sync: function (method, model, options) {
+      debugger;
       options = options || {};
       var success = options.success || function () {};
-      options.success = function (model, entries, options) {
+      options.success = function (entries) {
         // The goal of the following code is to update the "entries" array
         // in place to filter out images that are too large ("in place" as
         // in no call to concat, slice or other array methods that would
@@ -31,10 +33,12 @@ define([
         _.each(copy, function (item) {
           entries.push(item);
         });
+        console.error(model, entries);
         success(model, entries, options);
       };
       Collection.prototype.sync.call(this, method, model, options);
     }
+    */
   });
   return filteredCollection;
 });
