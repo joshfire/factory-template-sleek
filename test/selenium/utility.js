@@ -166,7 +166,8 @@ exports.getDriverFunctions = function(driver) {
     },
     exploreApp: function(toolbar) {
       return function() {
-        wraptext = '//div[@class="joshfire-wrapper"]/div[' + toolbar + ']';
+        var wraptext = '//*[@id="cards"]/div/div[' + toolbar + ']';
+        var wrapper;
         return functions.waitForEnabled(webdriver.By.id('toolbar'))
           .then(function() {
             output('click on tab')();
@@ -179,8 +180,16 @@ exports.getDriverFunctions = function(driver) {
           .then(function() {
             return driver.findElement(webdriver.By.xpath(wraptext));
           })
-          .then(function(wrapper) {
+          .then(function(wrap) {
+            wrapper = wrap;
             return wrapper.findElements(webdriver.By.css('.list li'));
+          })
+          .then(function(elements) {
+            if(!elements[0]) {
+              return driver.findElements(webdriver.By.xpath(wraptext + '//ul/li'));
+            } else {
+              return elements;
+            }
           })
           .then(function(elements) {
             if(elements.length > 30) {
@@ -203,28 +212,41 @@ exports.getDriverFunctions = function(driver) {
           .then(function(element) {
             element.click();
           })
-          .then(function() { 
-            return driver.findElement(webdriver.By.css('.mosaic-list'))
-              .addErrback(function(err) {})
-              .then(function(element) {
-                if(element) {
-                  return element.isDisplayed();
-                } else {
-                  return false;
-                }
-              })
-          })
-          .then(function(visible) {
-            if(visible) {
+          .then(function() {
+            if(toolbar == 4) {
               //images - explore the images
               var caption;
               var getCaptionText = function(compare) {
                 return function() {
                   output('get caption text')();
-                  return driver.findElement(webdriver.By.css('.ps-caption-content'))
+                  return functions.waitForExistence(webdriver.By.css('.ps-caption-content'))
                     .then(function(element) {
                       return element.getText();
                     })
+                    /*
+                      return element.isDisplayed()
+                        .then(function(visible) {
+                          if(visible) {
+                            console.log('good');
+                            return element.getText();
+                          } else {
+                            console.log('bad');
+                            return functions.waitForExistence(webdriver.By.css('.ps-carousel-item'))
+                              .then(function(element) {
+                                element.click();
+                              })
+                              .then(function() {
+                                return functions.wait(1000);
+                              })
+                              .then(function() {
+                                return functions.waitForExistence(webdriver.By.css('.ps-caption-content'))
+                                  .then(function(element) {
+                                    return element.getText();
+                                  })  
+                              })
+                          }
+                        })
+                    })*/
                     .then(function(text) {
                       if(text) {
                         console.log(text);
@@ -239,18 +261,19 @@ exports.getDriverFunctions = function(driver) {
                         }
                       } else {
                         output('click on pic')();
-                        return functions.waitForExistence(webdriver.By.css('.ps-carousel'))
+                        /*return functions.waitForExistence(webdriver.By.css('.ps-carousel-item'))
                           .then(function(element) {
                             element.click();
                           })
                           .then(getCaptionText(false))
+                      */
                       }
                     })
                 }
               }
               var clickButton = function(css) {
                 return function() {
-                  return driver.findElement(webdriver.By.css(css))
+                  return functions.waitForExistence(webdriver.By.css(css))
                     .then(function(element) {
                       element.click();
                     })
@@ -262,7 +285,7 @@ exports.getDriverFunctions = function(driver) {
                   console.log('err' + err);
                   if(err == "ElementNotVisibleError: Element is not currently visible and so may not be interacted with") {
                     output('click on pic')();
-                    return functions.waitForExistence(webdriver.By.css('.ps-carousel'))
+                    return functions.waitForExistence(webdriver.By.css('.ps-carousel-item')) //.ps-carousel
                       .then(function(element) {
                         element.click();
                       })
@@ -272,52 +295,63 @@ exports.getDriverFunctions = function(driver) {
                   }
                 }
               }
-              return driver.findElement(webdriver.By.css('.ps-carousel'))
+              return driver.findElement(webdriver.By.css('body'))
+                .then(function() {
+                  return functions.wait(2000);
+                })
+                .then(function() {
+                  return functions.isVisible(webdriver.By.xpath('//div[contains(@class,"ps-carousel")]'));
+                }) //.ps-carousel-item .ps-uilayer
+                .then(function(element) {
+                  element.click();
+                })
                 .then(getCaptionText(false))
                 .then(output('click next button'))
-                .then(clickButton('.ps-toolbar-next'), picClick('.ps-toolbar-next'))
+                .then(clickButton('.ps-toolbar-next')) //, picClick('.ps-toolbar-next')
                 .then(getCaptionText(false))
                 .then(output('click prev button'))
-                .then(clickButton('.ps-toolbar-previous'), picClick('.ps-toolbar-previous'))
+                .then(clickButton('.ps-toolbar-previous')) //, picClick('.ps-toolbar-previous')
                 .then(getCaptionText(true))
                 .then(output('click close button'))
-                .then(clickButton('.ps-toolbar-close'), picClick('.ps-toolbar-close'))
+                .then(clickButton('.ps-toolbar-close')) //, picClick('.ps-toolbar-close')
             } else {
               //split-view - check if the right panel is displaying correctly
               output('check if right panel is functioning properly')();
-              return functions.waitForExistence(webdriver.By.css('.media'))
-                .then(output('good'))
-                .then(function() {
-                  output('A: find elements')();
-                  return functions.waitForExistence(webdriver.By.css('h3'))
-                    .then(function() { 
-                      return functions.waitForExistence(webdriver.By.css('h4'));
-                    })
-                    .then(function() { 
-                      return functions.waitForExistence(webdriver.By.css('div.article'));
-                    })
-
-                },
-                function(err) {
-                  output('B: find elements')();
-                  return functions.waitForExistence(webdriver.By.css('.header'))
-                    .then(function() { 
-                      return functions.waitForExistence(webdriver.By.css('h4'));
-                    })
-                    .then(function() {
-                      return functions.waitForExistence(webdriver.By.css('.arrow'));
-                    })
-                    .then(function() {
-                      return functions.waitForExistence(webdriver.By.css('.message'));
-                    })
-                    .then(function() {
-                      return functions.waitForExistence(webdriver.By.css('.cover'));
-                    })
-                    .then(function() {
-                      return functions.waitForExistence(webdriver.By.css('p'));
-                    })
-
-                })
+              if(toolbar == 1) {
+                return functions.waitForExistence(webdriver.By.css('.media'));
+              } 
+              if(toolbar == 1 || toolbar == 5) {
+                return functions.waitForExistence(webdriver.By.css('.body'))
+                  .then(function() {
+                    return functions.waitForExistence(webdriver.By.css('h3'));
+                  })
+                  .then(function() { 
+                    return functions.waitForExistence(webdriver.By.css('h4'));
+                  })
+                  .then(function() { 
+                    return functions.waitForExistence(webdriver.By.css('div.article'));
+                  })
+              } else {
+                return functions.waitForExistence(webdriver.By.css('.header'))
+                  .then(function() { 
+                    return functions.waitForExistence(webdriver.By.css('h4'));
+                  })
+                  .then(function() {
+                    return functions.waitForExistence(webdriver.By.css('.arrow'));
+                  })
+                  .then(function() {
+                    return functions.waitForExistence(webdriver.By.css('.message'));
+                  })
+                  .then(function() {
+                    return functions.waitForExistence(webdriver.By.css('.cover'));
+                  })
+                  .then(function() {
+                    return functions.waitForExistence(webdriver.By.css('p'));
+                  })
+                  .then(function() {
+                    return functions.waitForExistence(webdriver.By.css('.attached-medias'));
+                  })
+              }
             }
           })
       }

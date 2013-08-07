@@ -7,14 +7,9 @@
  * @type {Array}
  */
 var excludedFolders = [
-  'scripts/app creation',
-  'scripts/deploy',
-  'scripts/external integrations',
-  'scripts/integrations',
-  'scripts/login:register',
-  'scripts/options',
-  'scripts/pages',
-  'scripts/templates'
+  'scripts/graph',
+  'scripts/instagram',
+  
 ];
 // example: 'scripts/integrations/dailymotion_video.js'
 /**
@@ -26,6 +21,12 @@ var excludedFolders = [
  * @type {Array}
  */
 var excludedScripts = [
+  'scripts/youtube/desktop_optimized.js',
+  'scripts/graph/desktop_optimized.js',
+  'scripts/instagram/desktop_optimized.js',
+  'scripts/tumblr/desktop_optimized.js',
+  'scripts/youtube/desktop_optimized.js',
+
 
 ];
 
@@ -92,58 +93,11 @@ var indexOf = function(item) {
     return indexOf.call(this, item);
 };
 
-/**
- * Creates a variable that will be defined in prerequisite.js
- * and passed along to the other tests
- * 
- * @type {Object}
- * @see {@link module:prerequisite#conditions|conditions}
- */
-var presetConditions = {};
-
 woodman.load('console');
 // Instantiate a Logger
 var logger = woodman.getLogger('main');
 // Start logging messages
 logger.log('Logger is functional');
-//creates a jasmine test for prerequisite.js
-describe("test", function() {
-  var result;
-  /**
-   * Launches the prerequisite.js test
-   * 
-   * @function executePrerequisite
-   * @return {Object} The conditions defined in the prerequisite test. Passed on to the other tests.
-   */
-  function executePrerequisite() {
-    var completed = false;
-    var error = null;
-    it("prerequisite script", function(done) {
-      //launches the prerequisite test
-      result = prerequisite(driver, driverFunctions);
-      result.then(function (conditions) {
-        //when the test completes, completed = true
-        presetConditions = conditions;
-        completed = true;
-        logger.log('prerequisite test complete');
-      }, function (err) {
-        error = err;
-        completed = true;
-        logger.error('prerequisite failed. aborting additional tests.');
-        throw "prerequisite failed. aborting additional tests."
-      });
-      waitsFor(function() {
-        return completed;
-      }, "timeout", 600000);
-      runs(function () {
-        //if there was an error, the test fails
-        expect(error).toBeNull();
-        done();
-      });
-    });
-  }
-  executePrerequisite();
-});
 
 describe("test", function() {
   var result;
@@ -158,7 +112,7 @@ describe("test", function() {
     var completed = false;
     var error = null;
     it(scripts[script], function(done) {
-      result = test(driver, driverFunctions, presetConditions);
+      result = test(driver, driverFunctions);
       result.then(function () {
         //when the test completes, completed = true
         completed = true;
