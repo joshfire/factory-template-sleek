@@ -238,6 +238,11 @@ define([
           this.navUp = this.navDown = this.navLeft = this.navRight = this.navAction = this.exit;
         },
 
+        hide: function () {
+          FactoryMedia.prototype.hide.call(this);
+          this.$el.html('');
+        },
+
         exit: function() {
           this.hide();
           window.location = '#' + self.activeSection.slug;
@@ -445,13 +450,13 @@ define([
 
         if (detail) {
           detail.setModel(section.collection.at(offset), true);
-          detail.navFocus();
           if (showChild) {
             container.view.showChild('detail', 'right');
           }
           else {
             detail.show();
           }
+          detail.navFocus();
         }
       }
     },
@@ -473,7 +478,7 @@ define([
       var itemType = this.convertItemType(params.model.get('@type'));
 
       var options = {
-        template: this.templates[itemType+'Detail'],
+        template: this.templates[itemType],
         scroller: true,
         offsetTop: 100,
         offsetBottom: 100,
@@ -501,13 +506,9 @@ define([
 
       case 'status':
 
-        var statusView;
-
-        mentionViews = [];
-
-        var sectionSlug = params.slug.search('twitter');
-
-        if(params.model.get('mentions') && sectionSlug === -1) {
+        var statusView = new Item(options);
+        var mentionViews = [];
+        if (params.model.get('mentions')) {
           _.each(params.model.get('mentions'),function(mention) {
             var mentionView = self.createMentionView(mention);
             if(mentionView){
@@ -520,17 +521,13 @@ define([
           statusView = new ItemTvMention(options);
 
           statusView.on('enhanced', function() {
-
-
             _.each( mentionViews , _.bind(function(mentionView, i) {
               mentionView.el.className = 'attached-media';
               mentionView.render();
 
               // If the mentionView is an Image, it will trigger a load
               mentionView.on('load', _.bind(function() {
-
-                this.offsetTop=+ mentionView.el.clientHeight;
-
+                this.offsetTop += mentionView.el.clientHeight;
               }, this));
 
 
@@ -551,54 +548,46 @@ define([
       }
     },
 
-    createMentionView: function(mention) {
-
-      var self = this;
+    createMentionView: function (mention) {
       var model = new Backbone.Model(mention);
 
       switch ( mention['@type'] ) {
-        case 'ImageObject':
-          logger.log ('Create Item extended picture View');
+      case 'ImageObject':
+        logger.log ('Create Item extended picture View');
 
-          return new ImagesLoader( {
+        return new ImagesLoader( {
+          model: model,
+          template: this.templates.mentionItem,
+          imageSchema: model.toJSON()
+        } );
+
+      case 'VideoObject':
+        var videoImage = Joshfire.schemaio.utils.getThumbnail(model.toJSON(), 480);
+        if (videoImage) {
+          model.set( {
+            image: videoImage
+          });
+        }
+
+        return new ImagesLoader({
+          model: model,
+          template: this.templates.mentionVideo,
+          imageSchema: model.toJSON()
+        });
+
+      default:
+        if (mention.name && mention.description) {
+          return new ImagesLoader({
             model: model,
             template: this.templates.mentionItem,
             imageSchema: model.toJSON()
-          } );
-
-        case 'VideoObject':
-          var videoImage = _.find(model.get('thumbnail'), function(image){
-            return image.width == 480;
           });
-
-          if (videoImage) {
-
-            model.set( { "image": videoImage } );
-          } else {
-
-            model.set( { "image": _.last(model.get('thumbnail') )} );
-          }
-
-          return new ImagesLoader( {
-              model: model,
-              template: this.templates.mentionVideo,
-              imageSchema: model.toJSON()
-          } );
-
-        default:
-          if (mention.name && mention.description) {
-            return new ImagesLoader( {
-              model: model,
-              template: this.templates.mentionItem,
-              imageSchema: model.toJSON()
-            } );
-          } else {
-            return false;
-          }
+        }
+        else {
+          return false;
+        }
       }
-
     },
-
 
     //
     // Creates routes

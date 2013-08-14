@@ -248,60 +248,6 @@ define([
       this.photoDetail.render();
       this.photoDetail.hide();
 
-      // Video overlay
-      var VideoOverlay = FactoryMedia.extend({
-        initialize: function(options) {
-          FactoryMedia.prototype.initialize.call(this, options);
-
-          this.navUp = this.navDown = this.navLeft = this.navRight = this.navAction = this.exit;
-        },
-
-        show: function() {
-          FactoryMedia.prototype.show.call(this);
-
-          $('#' + this.el.id).css({
-            display: 'block',
-            visibility: 'visible',
-            position: 'absolute',
-            width: 960,
-            height: 540,
-            zIndex: 99,
-            top: 0,
-            left: 0,
-            background: '#000'
-          });
-          $('object, embed', '#' + this.el.id).css({
-            display: 'block'
-          });
-        },
-
-        hide: function() {
-          FactoryMedia.prototype.hide.call(this);
-          $('#' + this.el.id).css({
-            display: 'none'
-          });
-        },
-
-        exit: function() {
-          this.hide();
-          window.location = '#' + self.activeSection.slug;
-        }
-      });
-      this.videoDetail = new VideoOverlay({
-        name: 'video-overlay',
-        el: '#videos-detail',
-        template: this.templates.video,
-        mediaOptions: {
-          width: '100%',
-          height: '100%',
-          autoPlay: true,
-          html5: true
-        }
-      });
-      this.videoDetail.render();
-      this.videoDetail.hide();
-
-
 
       var YoutubeOverlay = UIElement.extend({
         initialize: function(opt) {
@@ -315,7 +261,7 @@ define([
             this.render();
           }
         },
-        render: function() {
+        render: function(cb) {
           var vId = this.model ? this.model.get('url').split('v=').pop() : '';
 
           if(this.playerReady && this.player && this.player.loadVideoById) {
@@ -329,6 +275,7 @@ define([
             this.player.playVideo();
           }, this);
           this.rendered = true;
+          if (typeof cb === 'function') cb();
         },
         show: function() {
           UIElement.prototype.show.call(this);
@@ -359,20 +306,24 @@ define([
             top: 540,
             left: 960
           });
+          try {
+            this.player.stopVideo();
+          }
+          catch (err) {
+          }
         },
         exit: function() {
           this.hide();
-          this.player.stopVideo();
           window.location = '#' + self.activeSection.slug;
         }
       });
-      this.youtubeDetail = new YoutubeOverlay({
+      this.videoDetail = new YoutubeOverlay({
         name: 'youtube-overlay',
         el: '#youtube-detail',
         playerEl: 'object'
       });
-      this.youtubeDetail.render();
-      this.youtubeDetail.hide();
+      this.videoDetail.render();
+      this.videoDetail.hide();
 
       this.navHelper = new List({
         name: 'navhelper',
@@ -433,12 +384,9 @@ define([
           }
 
           if(url.indexOf('youtube') > -1) {
-            detail = this.youtubeDetail;
-          }
-          else {
             detail = this.videoDetail;
+            detail.offset = offset;
           }
-          detail.offset = offset;
           break;
         default:
           if(container.view.children && container.view.children.detail) {
@@ -456,13 +404,13 @@ define([
 
         if (detail) {
           detail.setModel(section.collection.at(offset), true);
-          detail.navFocus();
           if (showChild) {
             container.view.showChild('detail', 'right');
           }
           else {
             detail.show();
           }
+          detail.navFocus();
         }
       }
     },
