@@ -450,13 +450,13 @@ define([
 
         if (detail) {
           detail.setModel(section.collection.at(offset), true);
+          detail.navFocus();
           if (showChild) {
             container.view.showChild('detail', 'right');
           }
           else {
             detail.show();
           }
-          detail.navFocus();
         }
       }
     },

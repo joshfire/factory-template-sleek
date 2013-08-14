@@ -639,20 +639,20 @@ header {
     padding-right: 1.5em;
   }
 
+  p {
+    color: darken(@text-color, 15%);
+  }
+
   h3 {
     font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1em;
     margin-bottom: .15em;
   }
 
-  p {
-    color: darken(@text-color, 15%);
-  }
-
   h4 {
     font-size: 1em;
     font-weight: normal;
-    color: darken(@text-color, 30%);
+    // color: darken(@text-color, 30%);
     margin-top: .15em;
   }
 }
@@ -865,6 +865,7 @@ header {
     -moz-box-sizing: border-box;
     -ms-box-sizing: border-box;
     -o-box-sizing: border-box;
+    position: relative;
   }
 }
 
@@ -888,9 +889,12 @@ header {
 }
 
 .attached-media,
-#video .detail {
-
-  line-height: 1.2em;
+.detail .video {
+  &.body {
+    background: white url(../images/phone-shadow@2x.png) no-repeat center top;
+    background-size: 100% 53px;
+    line-height: 1.2em;
+  }
 
   a {
     position: relative;
@@ -925,20 +929,6 @@ header {
     height: auto;
   }
 
-  .media {
-    background: #000;
-  }
-
-  .media div,
-  .media iframe,
-  .media video {
-    margin: 0 auto;
-  }
-
-  .body {
-    background: white url(../images/phone-shadow@2x.png) no-repeat center top;
-    background-size: 100% 53px;
-  }
   .wrapper {
     & > div:first-child {
       // The following property creates a new rendering context that forces
@@ -972,6 +962,19 @@ header {
   }
 }
 
+// TODO: the "video.ejs" template should rather have a root div flagged with
+// the "video" class instead of two top-level divs that need to be singled out
+.detail .media-video {
+  background: #000;
+
+  div,
+  iframe,
+  video {
+    margin: 0 auto;
+  }
+}
+
+
 //---------------------------------------------------------------------------
 // Sounds
 //---------------------------------------------------------------------------
@@ -984,8 +987,8 @@ header {
   color: @dark-text-color;
 }
 
-#sound .detail {
-
+.detail .sound {
+  padding: 1.2em 1em 1em;
   line-height: 1.2em;
 
   img {
@@ -993,10 +996,6 @@ header {
     width: auto;
     float: left;
     margin: 0 .2em 0 0;
-  }
-
-  .body {
-    padding: 1.2em 1em 1em;
   }
 
   h3 {
@@ -1019,15 +1018,14 @@ header {
   }
 }
 
+
 //---------------------------------------------------------------------------
 // Statuses
 //---------------------------------------------------------------------------
-#status .detail {
-
-  > div {
-    min-height: 100%;
-    position: relative;
-  }
+.detail .status {
+  min-height: 100%;
+  background-color: @background-color;
+  color: @text-color;
 
   .header {
     .clear-fix;
@@ -1046,10 +1044,6 @@ header {
       font-weight: normal;
       font-size: 1.2em;
     }
-  }
-
-  .body {
-    min-height: 100%;
   }
 
   .message {
@@ -1128,6 +1122,10 @@ header {
       .wrapper>div:first-child{
         padding:0;
       }
+
+      .video.body {
+        background-image: none;
+      }
     }
   }
 
@@ -1139,14 +1137,15 @@ header {
 //---------------------------------------------------------------------------
 
 #event .detail {
-
-  line-height: 1.2em;
-  background: @light-background-color;
-  color: @dark-text-color;
-
   > div {
     padding: 1em;
   }
+}
+
+.detail .event {
+  line-height: 1.2em;
+  background: @light-background-color;
+  color: @dark-text-color;
 
   h3 {
     font-weight: normal;
@@ -1177,6 +1176,12 @@ header {
 #product,
 #other {
   background: @light-background-color;
+
+  .status-item > div {
+    p {
+      color: @dark-text-color;
+    }
+  }
 }
 
 #news #cards,
@@ -1185,10 +1190,10 @@ header {
   color: @dark-text-color;
 }
 
-#news .detail,
-#product .detail,
-#other .detail {
-
+.detail .news,
+.detail .product,
+.detail .other {
+  padding: 2.2em 1em 1em;
   line-height: 1.2em;
 
   h3 {
@@ -1204,10 +1209,6 @@ header {
     font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1.2em;
     margin-bottom: 1em;
-  }
-
-  .body {
-    padding: 2.2em 1em 1em;
   }
 }
 

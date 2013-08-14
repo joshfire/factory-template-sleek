@@ -834,6 +834,7 @@ header {
 
   & > div {
     height: 100%;
+    position: relative;
     overflow: auto;
   }
 
@@ -871,8 +872,14 @@ header {
 #video #cards{
   color: @dark-text-color;
 }
+
 .attached-media,
-#video .right-panel, #video .single {
+.right-panel .video,
+.single .video {
+  &.body {
+    background: white url(../images/phone-shadow@2x.png) no-repeat center top;
+    background-size: 100% auto;
+  }
 
   line-height: 1.2em;
 
@@ -909,21 +916,6 @@ header {
     height: auto;
   }
 
-  .media {
-    background-color: black;
-  }
-
-  .media div,
-  .media iframe,
-  .media video {
-    margin: 0 auto;
-  }
-
-  .body {
-    background: transparent url(../images/phone-shadow.png) no-repeat center top;
-    background-size: 100% auto;
-  }
-
   .wrapper {
     & > div:first-child {
       // The following property creates a new rendering context that forces
@@ -958,6 +950,17 @@ header {
   }
 }
 
+.right-panel .media-video,
+.single .media-video {
+  background-color: black;
+  
+  div,
+  iframe,
+  video {
+    margin: 0 auto;
+  }
+}
+
 //---------------------------------------------------------------------------
 // Sounds
 //---------------------------------------------------------------------------
@@ -970,8 +973,10 @@ header {
   color: @dark-text-color;
 }
 
-#sound .right-panel, #sound .single {
-
+.right-panel .sound,
+.single .sound {
+  padding: 1.2em 1em 1em;
+  margin-top: -.5em;
   line-height: 1.2em;
 
   img {
@@ -980,9 +985,6 @@ header {
     float: left;
     margin-right: .2em;
   }
-
-  padding: 1.2em 1em 1em;
-  margin-top: -.5em;
 
   h3 {
     font-weight: normal;
@@ -1008,12 +1010,11 @@ header {
 // Statuses
 //---------------------------------------------------------------------------
 
-#status .right-panel, #status .single {
-
-  > div {
-    min-height: 100%;
-    position: relative;
-  }
+.right-panel .status,
+.single .status {
+  min-height: 100%;
+  background-color: @background-color;
+  color: @text-color;
 
   .header {
     .clear-fix;
@@ -1113,6 +1114,10 @@ header {
         padding-bottom:40px;
 
       }
+
+      .video.body {
+        background-image: none;
+      }
     }
   }
 }
@@ -1121,16 +1126,19 @@ header {
 //---------------------------------------------------------------------------
 // Events
 //---------------------------------------------------------------------------
+#event .right-panel,
+#event .single {
+  > div {
+    padding: 1em;
+  }
+}
 
-#event .right-panel, #event .single {
+.right-panel .event,
+.single .event {
 
   line-height: 1.2em;
   background: @light-background-color;
   color: @dark-text-color;
-
-  > div {
-    padding: 1em;
-  }
 
   h3 {
     font-weight: normal;
@@ -1161,6 +1169,12 @@ header {
 #other #cards-container,
 #product #cards-container {
   background: @light-background-color;
+
+  .status-item > div {
+    p {
+      color: @dark-text-color;
+    }
+  }
 }
 
 #news #cards,
@@ -1169,9 +1183,15 @@ header {
   color: @dark-text-color;
 }
 
-#other .right-panel, #other .single,
-#product .right-panel, #product .single,
-#news .right-panel, #news .single {
+.right-panel .news,
+.single .news,
+.right-panel .product,
+.single .product,
+.right-panel .other,
+.single .other {
+  &.body {
+    padding: 2.2em 1em 1em;
+  }
 
   line-height: 1.2em;
 
@@ -1190,10 +1210,6 @@ header {
     font-size: 1.2em;
     margin-bottom: 1em;
     padding: 0 .5em;
-  }
-
-  .body {
-    padding: 2.2em 1em 1em;
   }
 }
 

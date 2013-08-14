@@ -1,4 +1,4 @@
-<div class="body">
+<div class="body news">
   <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
   <h3><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).format('LLLL') %></h3>
   <% } %>

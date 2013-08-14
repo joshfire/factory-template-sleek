@@ -673,13 +673,13 @@ define([
      * @parma {Backbone.View} the section container
      */
     showDetail: function(section, container, offset) {
-      if(container.view.children && container.view.children.detail) {
+      if (container.view.children && container.view.children.detail) {
         var detail = container.view.children.detail;
+        var model = null;
 
-        if(section.collection.length > offset) {
-
-          detail.setModel(section.collection.at(offset), true);
-
+        if (section.collection.length > offset) {
+          model = section.collection.at(offset);
+          detail.setModel(model, true);
         }
 
         container.view.showChild('detail', 'right');

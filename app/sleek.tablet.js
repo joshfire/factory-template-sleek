@@ -195,7 +195,7 @@ define([
           $toolbar.find('.active').removeClass('active');
           $toolbar.find('.section-' + section.slug).addClass('active');
 
-          $('.cards-container').attr('id', section.outputType);
+          document.body.id = section.outputType;
 
           var container = views.children[section.slug];
           if (section.collection.length) {

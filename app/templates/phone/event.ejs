@@ -1,4 +1,4 @@
-<div class="body">
+<div class="body event">
   <% if (item.startDate && item.endDate && (item.startDate !== item.endDate)) { %>
   <h3><span>From <%= moment(toDate(item.startDate)).format('LLLL') %> to <%= moment(toDate(item.endDate)).format('LLLL') %></span></h3>
   <% } else if (item.startDate) { %>
