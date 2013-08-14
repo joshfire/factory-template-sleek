@@ -1011,7 +1011,7 @@ define([
           'offset=' + offset,
           'section=' + section.slug);
         var item = model.toJSON(),
-          type = section.outputType || self.convertItemType(item['@type']),
+          type = self.convertItemType(item['@type']) || section.outputType,
           className = type + '-item';
         var params = {
           name: 'itemwrapper-' + type,
@@ -1036,7 +1036,7 @@ define([
 
       return function (model, offset) {
         var item = model.toJSON();
-        var type = section.outputType || self.convertItemType(item['@type']);
+        var type = self.convertItemType(item['@type']) || section.outputType;
         var template = self.templates[type + 'Item'];
 
         var options = {
