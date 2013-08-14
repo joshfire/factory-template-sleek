@@ -862,7 +862,6 @@ define([
           }
         });
       case 'status':
-
         var statusView = new ImagesLoader({
           name: 'item-' + itemType,
           scrollerSelector: '.joshfire-wrapper',
@@ -871,23 +870,20 @@ define([
           imageSchema: self.getAuthorImageSchema(options.model.toJSON())
         });
 
-        mentionsView = [];
-
-        var sectionSlug = options.slug.search('twitter');
-
-        if(options.model.get('mentions') && sectionSlug === -1) {
-          _.each(options.model.get('mentions'),function(mention) {
+        var mentionsView = [];
+        if (options.model.get('mentions')) {
+          _.each(options.model.get('mentions'), function (mention) {
             var mentionView = self.createMentionView(mention);
-            if(mentionView){
+            if (mentionView) {
               mentionsView.push(mentionView);
             }
           });
 
           statusView.on('enhanced', function() {
-            _.each( mentionsView , function(mentionView) {
+            _.each(mentionsView, function (mentionView) {
               mentionView.el.className = 'attached-media';
               mentionView.render();
-              mentionView.on('load', function() {
+              mentionView.on('load', function () {
                 statusView.iScroller.refresh();
               });
               statusView.$('.attached-medias').append(mentionView.el);
@@ -896,7 +892,6 @@ define([
 
           });
         }
-
 
         return statusView;
 
