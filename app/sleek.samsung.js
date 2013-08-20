@@ -1,4 +1,4 @@
-/*global define, Joshfire, document, window, Backbone, sf, onYouTubePlayerReady:true*/
+/*global define, Joshfire, document, window, Backbone, sf*/
 
 define([
   'sleek.custom',
@@ -18,7 +18,8 @@ define([
   'joshlib!vendor/underscore',
   'joshlib!utils/dollar',
   'joshlib!utils/woodman',
-  'collections/samsungImageObjects'
+  'collections/samsungImageObjects',
+  'ui/videoOverlay'
 ], function (
   Sleek,
   TVSleek,
@@ -36,7 +37,8 @@ define([
   Remote,
   _, $,
   woodman,
-  ImageObjectCollection) {
+  ImageObjectCollection,
+  VideoOverlay) {
 
   var logger = woodman.getLogger('sleek.samsung');
 
@@ -248,82 +250,29 @@ define([
       this.photoDetail.render();
       this.photoDetail.hide();
 
-
-      var YoutubeOverlay = UIElement.extend({
-        initialize: function(opt) {
-          UIElement.prototype.initialize.call(this, opt);
-          this.player = this.$(opt.playerEl)[0];
-          this.navUp = this.navDown = this.navLeft = this.navRight = this.navAction = this.exit;
-        },
-        setModel: function(model, update) {
-          this.model = model;
-          if (update) {
-            this.render();
-          }
-        },
-        render: function(cb) {
-          var vId = this.model ? this.model.get('url').split('v=').pop() : '';
-
-          if(this.playerReady && this.player && this.player.loadVideoById) {
-            this.player.loadVideoById(vId);
-            this.player.playVideo();
-          }
-
-          onYouTubePlayerReady = _.bind(function() {
-            this.playerReady = true;
-            this.player.loadVideoById(vId);
-            this.player.playVideo();
-          }, this);
-          this.rendered = true;
-          if (typeof cb === 'function') cb();
-        },
-        show: function() {
-          UIElement.prototype.show.call(this);
-
-          self.bind('back', _.bind(this.exit, this));
-
-          $(this.el).css({
-            display: 'block',
-            visibility: 'visible',
-            position: 'absolute',
-            width: 960,
-            height: 540,
-            zIndex: 99,
-            top: 0,
-            left: 0,
-            background: '#000'
-          });
-        },
-
-        hide: function() {
-          self.unbind('back');
-          UIElement.prototype.hide.call(this);
-          $(this.el).css({
-            display: 'none',
-            width: 0,
-            height: 0,
-            overflow: 'hidden',
-            top: 540,
-            left: 960
-          });
-          try {
-            this.player.stopVideo();
-          }
-          catch (err) {
-          }
-        },
-        exit: function() {
-          this.hide();
-          window.location = '#' + self.activeSection.slug;
-        }
-      });
-      this.videoDetail = new YoutubeOverlay({
+      // TODO: not sure why video overlay could not be integrated
+      // within mediaplayerlib and FactoryMedia. We do want to force
+      // the use of a Flash player (as opposed to, say, an iframe or HTML5
+      // player) but there is nothing truly specific to Samsung in there.
+      this.youtubeDetail = new VideoOverlay({
         name: 'youtube-overlay',
         el: '#youtube-detail',
-        playerEl: 'object'
+        playerEl: 'object',
+        onReadyFunctionName: 'onYouTubePlayerReady',
+        controller: this
       });
-      this.videoDetail.render();
-      this.videoDetail.hide();
+      this.youtubeDetail.render();
+      this.youtubeDetail.hide();
+
+      this.dailymotionDetail = new VideoOverlay({
+        name: 'dailymotion-overlay',
+        el: '#dailymotion-detail',
+        playerEl: 'object',
+        onReadyFunctionName: 'onDailymotionPlayerReady',
+        controller: this
+      });
+      this.dailymotionDetail.render();
+      this.dailymotionDetail.hide();
 
       this.navHelper = new List({
         name: 'navhelper',
@@ -379,12 +328,16 @@ define([
           logger.log(section.slug, 'show detail', 'video');
           var m = section.collection.at(offset);
           var url = m.get('url');
-          if(m.get('contentURL') && m.get('contentURL')) {
-            url = m.get('contentURL')[0];
+          if (m.get('contentURL')) {
+            url = m.get('contentURL');
           }
 
-          if(url.indexOf('youtube') > -1) {
-            detail = this.videoDetail;
+          if (url.indexOf('youtube') > -1) {
+            detail = this.youtubeDetail;
+            detail.offset = offset;
+          }
+          else if (url.indexOf('dailymotion') > -1) {
+            detail = this.dailymotionDetail;
             detail.offset = offset;
           }
           break;
@@ -404,13 +357,13 @@ define([
 
         if (detail) {
           detail.setModel(section.collection.at(offset), true);
+          detail.navFocus();
           if (showChild) {
             container.view.showChild('detail', 'right');
           }
           else {
             detail.show();
           }
-          detail.navFocus();
         }
       }
     },

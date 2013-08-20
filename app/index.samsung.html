@@ -44,11 +44,16 @@
     </div>
 
     <div id="youtube-detail">
-      <object class='embed'
-          type='application/x-shockwave-flash' id='ytplayer'
-          data='http://www.youtube.com/apiplayer?enablejsapi=1&amp;version=3&amp;playerapiid=ytplayer'
-          style="width:960px; height:540px; position:absolute; top:0px; left:0px; background-color: #000000">
+      <object class='embed' type='application/x-shockwave-flash' data='http://www.youtube.com/apiplayer?enablejsapi=1&amp;version=3&amp;controls=0' id='ytplayer' style="width:960px; height:540px; position:absolute; top:0px; left:0px; background-color: #000000">
         <param name="allowscriptaccess" value="always" />
+      </object>
+    </div>
+
+    <div id="dailymotion-detail">
+      <object class='embed' type='application/x-shockwave-flash'
+        style="width:960px; height:540px; position:absolute; top:0px; left:0px; background-color: #000000">
+        <param name="movie" value="http://www.dailymotion.com/swf?enableApi=1&amp;chromeless=1"></param>
+        <param name="allowScriptAccess" value="always"></param>
       </object>
     </div>
 

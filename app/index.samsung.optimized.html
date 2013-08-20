@@ -41,8 +41,16 @@
     </div>
 
     <div id="youtube-detail">
-      <object class='embed' type='application/x-shockwave-flash' data='http://www.youtube.com/apiplayer?enablejsapi=1&amp;version=3&amp;playerapiid=ytplayer' id='ytplayer' style="width:960px; height:540px; position:absolute; top:0px; left:0px; background-color: #000000">
+      <object class='embed' type='application/x-shockwave-flash' data='http://www.youtube.com/apiplayer?enablejsapi=1&amp;version=3&amp;controls=0' id='ytplayer' style="width:960px; height:540px; position:absolute; top:0px; left:0px; background-color: #000000">
         <param name="allowscriptaccess" value="always" />
+      </object>
+    </div>
+
+    <div id="dailymotion-detail">
+      <object class='embed' type='application/x-shockwave-flash'
+        style="width:960px; height:540px; position:absolute; top:0px; left:0px; background-color: #000000">
+        <param name="movie" value="http://www.dailymotion.com/swf?enableApi=1&amp;chromeless=1"></param>
+        <param name="allowScriptAccess" value="always"></param>
       </object>
     </div>
 
@@ -78,30 +86,36 @@
         info: function() {}
       };
 
-      // Initialize the Samsung widget API.
-      window.widgetAPI = new Common.API.Widget();
+      if (typeof Common !== 'undefined') {
+        // Initialize the Samsung widget API.
+        window.widgetAPI = new Common.API.Widget();
 
-      var launched = false;
-      // Called on body.onload
-      window.launch = function() {
-        window.onshow = window.onShow = function() {
+        var launched = false;
+        // Called on body.onload
+        window.launch = function () {
+          window.onshow = window.onShow = function () {
 
-          var pluginAPI = new Common.API.Plugin();
-          // Enable default volume keys behavior.
-          // Needed to display the volume overlay.
-          var navPlugin = document.getElementById('pluginObjectNNavi');
-          navPlugin.SetBannerState(2);
+            var pluginAPI = new Common.API.Plugin();
+            // Enable default volume keys behavior.
+            // Needed to display the volume overlay.
+            var navPlugin = document.getElementById('pluginObjectNNavi');
+            navPlugin.SetBannerState(2);
 
-          // Tell the API we don't handle the volume keys and default behavior should be used.
-          pluginAPI.unregistKey(window.VK_VOL_UP);
-          pluginAPI.unregistKey(window.VK_VOL_DOWN);
-          pluginAPI.unregistKey(window.VK_MUTE);
+            // Tell the API we don't handle the volume keys and default behavior should be used.
+            pluginAPI.unregistKey(window.VK_VOL_UP);
+            pluginAPI.unregistKey(window.VK_VOL_DOWN);
+            pluginAPI.unregistKey(window.VK_MUTE);
 
+          };
+
+          // Tell the API to display the app.
+          window.widgetAPI.sendReadyEvent();
         };
-
-        // Tell the API to display the app.
-        window.widgetAPI.sendReadyEvent();
-      };
+      }
+      else {
+        window.launch = function () {
+        }
+      }
     </script>
   </body>
 </html>
