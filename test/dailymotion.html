@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/div/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Sample Dailymotion App</title>
+    <style type='text/css'>
+      body {
+        height: 540px;
+        width: 960px;
+        background: white;
+        padding: 0;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body onload="window.launch()">
+    <object id="pluginObjectNNavi" border="0" classid="clsid:SAMSUNG-INFOLINK-NNAVI"></object>
+    <script type='text/javascript'
+      src='$MANAGER_WIDGET/Common/API/Widget.js'></script>
+    <script type='text/javascript' language='javascript' src='$MANAGER_WIDGET/Common/API/TVKeyValue.js'></script>
+    <script type="text/javascript" language="javascript" src="$MANAGER_WIDGET/Common/API/Plugin.js"></script>
+
+    <div id="videocontainer" style="display:none;position:absolute;top:0;left:0;width:960px;height:540px;">
+      <object type='application/x-shockwave-flash' id="mydmplayer" width="960" height="540">
+        <param name="movie" value="http://www.dailymotion.com/swf?enableApi=1"></param>
+        <param name="allowScriptAccess" value="always"></param>
+      </object>
+    </div>
+
+    <script type="text/javascript">
+      function onDailymotionPlayerReady(playerId) {
+        var player = document.getElementById("mydmplayer");
+        player.loadVideoById('xet13z');
+        player.playVideo();
+      }
+
+      // tell samsung we're ready to go
+      if (typeof Common !== 'undefined') {
+        window.widgetAPI = new Common.API.Widget();
+        // Called on body.onload
+        window.launch = function() {
+          window.onshow = window.onShow = function() {
+            var pluginAPI = new Common.API.Plugin();
+            // Enable default volume keys behavior.
+            // Needed to display the volume overlay.
+            var navPlugin = document.getElementById('pluginObjectNNavi');
+            navPlugin.SetBannerState(2);
+
+            // Tell the API we don't handle the volume keys and default behavior should be used.
+            pluginAPI.unregistKey(7);
+            pluginAPI.unregistKey(11);
+            pluginAPI.unregistKey(27);
+
+            var videocontainer = document.getElementById('videocontainer');
+            videocontainer.setAttribute('style',
+              'display:block;visibility:visible;position:absolute;top:0;left:0');
+          };
+
+          // Tell the API to display the app.
+          window.widgetAPI.sendReadyEvent();
+        };
+      }
+      else {
+        window.launch = function () {
+          var videocontainer = document.getElementById('videocontainer');
+          videocontainer.setAttribute('style',
+            'display:block;visibility:visible;position:absolute;top:0;left:0');
+        }
+      }
+    </script>
+  </body>
+</html>
