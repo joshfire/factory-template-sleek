@@ -17,4 +17,5 @@ app/index.desktop.html export-ignore
 app/ui export-ignore
 app/less export-ignore
 app/bootstrap.js export-ignore
+test export-ignore
 build.sh export-ignore
