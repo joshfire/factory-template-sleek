@@ -26,7 +26,7 @@
     "devices": [
       {
         "devices": "phone",
-        "startfile": "app/index.phone.optimized.html",
+        "startfile": "build/phone/index.html",
         "images": "marketing/small-phone.png",
         "screenshots": [
           "marketing/phone-screenshot1.jpg",
@@ -37,12 +37,12 @@
       },
       {
         "devices": "phone-ios",
-        "startfile": "app/index.phone.ios.optimized.html",
+        "startfile": "build/phone/index.ios.html",
         "orientation": "portrait"
       },
       {
         "devices": "tablet",
-        "startfile": "app/index.tablet.optimized.html",
+        "startfile": "build/tablet/index.html",
         "images": "marketing/small-tablet.png",
         "screenshots": [
           "marketing/tablet-screenshot1.jpg",
@@ -52,7 +52,7 @@
       },
       {
         "devices": "tv",
-        "startfile": "app/index.tv.optimized.html",
+        "startfile": "build/tv/index.html",
         "images": "marketing/small-tv.png",
         "screenshots": [
           "marketing/tv-screenshot1.jpg",
@@ -66,7 +66,7 @@
       },
       {
         "devices": "desktop",
-        "startfile": "app/index.desktop.optimized.html",
+        "startfile": "build/desktop/index.html",
         "images": "marketing/small-desktop.png",
         "screenshots": [
           "marketing/desktop-screenshot1.jpg",
