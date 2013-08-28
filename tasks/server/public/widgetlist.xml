@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rsp stat="ok">
   <list>
-    <widget id="50111b48addaea02000010b9">
-      <title>Sleek — TV</title>
-      <compression size="261594" type="zip"/>
+    <widget id="8688821d8435b00200000008">
+      <title>Sleek</title>
+      <compression size="2010923" type="zip"/>
       <description></description>
-      <download>http://192.168.2.113/sleek.zip</download>
+      <download>http://192.168.2.168/sleek.zip</download>
     </widget>
   </list>
 </rsp>

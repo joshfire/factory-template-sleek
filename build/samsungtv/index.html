@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+
+    <title></title>
+
+
+    <link rel="stylesheet" type="text/css" href="css/samsung.layout.css">
+
+    <!-- Widget API -->
+    <script type='text/javascript' language='javascript' src='$MANAGER_WIDGET/Common/API/Widget.js'></script>
+    <!-- Remote key codes -->
+    <script type='text/javascript' language='javascript' src='$MANAGER_WIDGET/Common/API/TVKeyValue.js'></script>
+    <script type="text/javascript" language="javascript" src="$MANAGER_WIDGET/Common/API/Plugin.js"></script>
+    <script type="text/javascript">
+      // Console.log hack
+      window.console = {
+        log: function() {
+          return;
+          var args = Array.prototype.slice.call(arguments);
+          var html = args.join(', ') + '<br />' + $('#console').html();
+          //alert(args.join(', '));
+          if (window.widgetAPI){
+            window.widgetAPI.putInnerHTML(document.getElementById('console'), html);
+          }
+          else{
+            $('#console').show();
+            $('#console').html(html);
+          }
+        },
+        warn: function() {},
+        error: function() {},
+        info: function() {}
+      };
+
+      if (typeof Common !== 'undefined') {
+        // Initialize the Samsung widget API.
+        window.widgetAPI = new Common.API.Widget();
+
+        // Called on body.onload
+        window.launch = function () {
+          window.onshow = window.onShow = function () {
+
+            var pluginAPI = new Common.API.Plugin();
+            // Enable default volume keys behavior.
+            // Needed to display the volume overlay.
+            var navPlugin = document.getElementById('pluginObjectNNavi');
+            navPlugin.SetBannerState(1);
+
+            // Tell the API we don't handle the volume keys and default behavior should be used.
+            pluginAPI.unregistKey(window.VK_VOL_UP);
+            pluginAPI.unregistKey(window.VK_VOL_DOWN);
+            pluginAPI.unregistKey(window.VK_MUTE);
+
+          };
+
+          // Tell the API to display the app.
+          window.widgetAPI.sendReadyEvent();
+        };
+      }
+      else {
+        window.launch = function () {
+        }
+      }
+    </script>
+  </head>
+
+  <body class="device-tv" onload="window.launch()">
+    <div id="dummysamsungdiv" style="display:none"></div>
+    <div id="container">
+
+      <div id="console"></div>
+
+      <div id="cards"></div>
+
+      <div id="top-gradient-overlay"></div>
+
+      <div id="bottom-gradient-overlay"></div>
+
+      <div id="toolbar"></div>
+
+      <div id="photos-detail"></div>
+    </div>
+
+    <div id="youtube-detail">
+      <object class='embed' type='application/x-shockwave-flash' data='http://www.youtube.com/apiplayer?enablejsapi=1&amp;version=3&amp;controls=0' id='ytplayer' style="width:960px; height:540px; position:absolute; top:0px; left:0px; background-color: #000000">
+        <param name="allowscriptaccess" value="always" />
+      </object>
+    </div>
+
+    <div id="dailymotion-detail">
+      <object class='embed' type='application/x-shockwave-flash'
+        style="width:960px; height:540px; position:absolute; top:0px; left:0px; background-color: #000000">
+        <param name="movie" value="http://www.dailymotion.com/swf?enableApi=1&amp;chromeless=1"></param>
+        <param name="allowScriptAccess" value="always"></param>
+      </object>
+    </div>
+
+    <div id="navHelper"></div>
+
+    <object id="pluginObjectTVMW" border="0" classid="clsid:SAMSUNG-INFOLINK-TVMW"></object>
+    <object id="audio-plugin" border="0" classid="clsid:SAMSUNG-INFOLINK-AUDIO"></object>
+    <object id="window-plugin" border="0" classid="clsid:SAMSUNG-INFOLINK-WINDOW"></object>
+    <object id="network-plugin" border="0" classid="clsid:SAMSUNG-INFOLINK-NETWORK"></object>
+    <!-- The id has to be exactly 'pluginObjectNNavi' -->
+    <object id="pluginObjectNNavi" border="0" classid="clsid:SAMSUNG-INFOLINK-NNAVI"></object>
+
+    <script type="text/javascript" src="vendor/json2.js"></script>
+
+    <script data-joshfire-bootstrap src="http://factory.joshfire.com/bootstrap/520a267b64c8f80200000029/auto/phone-web/"></script>
+
+    <script type="text/javascript" src="todate.js"></script>
+    <script type="text/javascript" src="vendor/moment.js"></script>
+    <script type="text/javascript" src="vendor/sidjs-0.1.js"></script>
+    <script type="text/javascript" src="prettystatus.js"></script>
+    <script src="app.tv.samsung.samsungtv.optimized.js"></script>
+  </body>
+</html>
+
