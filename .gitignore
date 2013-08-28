@@ -3,4 +3,3 @@ node_modules
 tasks/node_modules
 *.sublime-project
 *.sublime-workspace
-build

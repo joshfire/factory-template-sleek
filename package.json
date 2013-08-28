@@ -62,7 +62,7 @@
       },
       {
         "devices": "tv-samsungsmarttv",
-        "startfile": "app/index.samsung.optimized.html"
+        "startfile": "build/samsungtv/index.html"
       },
       {
         "devices": "desktop",
