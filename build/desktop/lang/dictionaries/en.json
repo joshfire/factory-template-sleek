@@ -1,0 +1,6 @@
+{
+  "terms": {
+    "nodata": "No data feed to display.<br>Consider adding a data source.",
+    "empty": "Feed is empty!"
+  }
+}
