@@ -167,18 +167,23 @@ header {
     border-width: 5px 6px;
     border-style: solid;
     border-image: @image-ios-button 10 11 fill stretch;
+    background-size: auto;
+    background-image: none;
 
     .inner {
       display: block;
       height: 100%;
+      background-color: transparent;
+      background-repeat: no-repeat;
+      background-position: center center;
       background-size: 20px 18px;
     }
   }
   #refresh .inner {
-    background: transparent url(../images/phone-refresh@2x.png) no-repeat center center;
+    background-image: url(../images/phone-refresh@2x.png);
   }
   #share .inner {
-    background: transparent url(../images/phone-share@2x.png) no-repeat center center;
+    background-image: url(../images/phone-share@2x.png);
   }
 }
 
